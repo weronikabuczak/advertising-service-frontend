@@ -1,11 +1,9 @@
 import {useContext, useRef, useState} from 'react';
-
 import classes from './AuthorizationForm.module.css';
-import {useHistory} from "react-router-dom";
 import AuthContext from "../../../store/auth-context";
 
 const AuthorizationForm = () => {
-        const history = useHistory();
+
         const emailInput = useRef();
         const passwordInput = useRef();
 
@@ -39,7 +37,6 @@ const AuthorizationForm = () => {
                 body: JSON.stringify({
                     email: enteredEmail,
                     password: enteredPassword
-                    //returnSecureToken: true,
                 }),
                 headers: {
                     'Content-Type': 'application/json',
@@ -48,9 +45,7 @@ const AuthorizationForm = () => {
                 .then((response) => {
                     setIsLoading(false);
                     if (response.ok) {
-                        ;
                         return response.json();
-                        console.log(response.token)
                     } else {
                         return response.json().then((data) => {
                             let errorMessage = 'Authentication failed!';
@@ -59,7 +54,6 @@ const AuthorizationForm = () => {
                     }
                 })
                 .then((data) => {
-                    console.log(data.token)
                     authContext.login(data.token);
                 })
                 .catch((err) => {

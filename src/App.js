@@ -23,8 +23,9 @@ function App() {
                     </Route>
                 )}
                 <Route path='/profile'>
-                    {authContext.isLoggedIn && <UserProfile/>}
-                    {!authContext.isLoggedIn && <Redirect to='/auth'/>}
+                    <UserProfile/>
+                    {/*{authContext.isLoggedIn && <UserProfile/>}*/}
+                    {/*{!authContext.isLoggedIn && <Redirect to='/auth'/>}*/}
                 </Route>
                 <Route path='/new-task'>
                     {authContext.isLoggedIn && <NewTaskPage/>}

@@ -31,7 +31,7 @@ const Navigation = () => {
             )}
             <Link to='/'>
                 <div className={classes.logo}>
-                    <img src={task} alt='task'></img>Services App
+                    <img src={task} alt='task'/>Services App
                 </div>
             </Link>
             <nav>
@@ -48,9 +48,9 @@ const Navigation = () => {
                     )}
                 </ul>
             </nav>
-            {/*<div>*/}
-            {/*    <AppSidebar toggleMenu={toggle}/>*/}
-            {/*</div>*/}
+            <div>
+                <AppSidebar toggleMenu={toggle}/>
+            </div>
         </header>
 
     );

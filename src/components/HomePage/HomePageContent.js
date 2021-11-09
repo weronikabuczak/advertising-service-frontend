@@ -4,7 +4,7 @@ import AuthorizationForm from "./Authorization/AuthorizationForm";
 const HomePageContent = () => {
     return (
         <section className={classes.starting}>
-            <AuthorizationForm/>
+            <div>Hello!</div>
         </section>
     );
 };
