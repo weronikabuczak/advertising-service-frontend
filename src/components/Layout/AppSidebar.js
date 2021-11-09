@@ -18,7 +18,7 @@ const AppSidebar = (props) => {
             onHide={() => setVisible(false)}
             vertical
             visible={props.toggleMenu}
-            width='wide'
+
         >
             <Menu.Item>
                 <Link to='/'><Icon name='home'/>Strona główna</Link>

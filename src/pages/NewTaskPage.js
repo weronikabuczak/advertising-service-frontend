@@ -1,5 +1,7 @@
+import NewTaskForm from "../components/NewTask/NewTaskForm";
+
 const NewTaskPage = () => {
-    return <div>Dodaj ogłoszenie</div>
+    return <NewTaskForm/>
 };
 
 export default NewTaskPage;

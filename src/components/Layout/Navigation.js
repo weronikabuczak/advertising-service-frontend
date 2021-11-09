@@ -25,9 +25,7 @@ const Navigation = () => {
     return (
         <header className={classes.header}>
             {isLoggedIn && (
-                <Link to='/'>
                     <button className={classes.logo} onClick={toggleMenu}>MENU</button>
-                </Link>
             )}
             {isLoggedIn && (
                 <Link to='/'>

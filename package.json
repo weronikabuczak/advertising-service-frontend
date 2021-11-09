@@ -8,6 +8,8 @@
     "@testing-library/user-event": "^12.5.0",
     "classnames": "^2.3.1",
     "react": "^17.0.1",
+    "react-city-selector": "^1.0.8",
+    "react-country-region-selector": "^3.4.0",
     "react-dom": "^17.0.1",
     "react-icons": "^4.3.1",
     "react-pro-sidebar": "^0.7.1",
@@ -40,5 +42,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "react-hook-form": "^7.19.1"
   }
 }
