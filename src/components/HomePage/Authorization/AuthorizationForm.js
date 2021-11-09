@@ -7,6 +7,10 @@ const AuthorizationForm = () => {
 
         const emailInput = useRef();
         const passwordInput = useRef();
+        const nameInput = useRef();
+        const locationInput = useRef();
+        const phoneInput = useRef();
+        const imageInput = useRef();
         const history = useHistory();
 
         const [isLogin, setIsLogin] = useState(true);
@@ -22,24 +26,40 @@ const AuthorizationForm = () => {
         const submitHandler = (event) => {
             event.preventDefault();
 
-            const enteredEmail = emailInput.current.value;
-            const enteredPassword = passwordInput.current.value;
-
             setIsLoading(true);
             let url;
+            let init;
+
             if (isLogin) {
+                const enteredEmail = emailInput.current.value;
+                const enteredPassword = passwordInput.current.value;
                 url =
                     'http://localhost:8080/api/user/auth/login';
+                init = {
+                    email: enteredEmail,
+                    password: enteredPassword
+                }
             } else {
+                const enteredEmail = emailInput.current.value;
+                const enteredPassword = passwordInput.current.value;
+                const enteredName = nameInput.current.value;
+                const enteredLocation = locationInput.current.value;
+                const enteredPhone = phoneInput.current.value;
+                const enteredImage = imageInput.current.value;
                 url =
                     'http://localhost:8080/api/user/auth/register';
+                init = {
+                    email: enteredEmail,
+                    password: enteredPassword,
+                    name: enteredName,
+                    location: enteredLocation,
+                    phoneNumber: enteredPhone,
+                    image: enteredImage
+                }
             }
             fetch(url, {
                 method: 'POST',
-                body: JSON.stringify({
-                    email: enteredEmail,
-                    password: enteredPassword
-                }),
+                body: JSON.stringify(init),
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -71,17 +91,52 @@ const AuthorizationForm = () => {
             <section className={classes.auth}>
                 <h2>{isLogin ? 'Zaloguj się' : 'Zarejestruj nowe konto'}</h2>
                 <form onSubmit={submitHandler}>
-                    <div className={classes.control}>
-                        <label htmlFor='email'>E-mail</label>
-                        <input type='email' id='email' required ref={emailInput}/>
-                    </div>
-                    <div className={classes.control}>
-                        <label htmlFor='password'>Hasło</label>
-                        <input type='password' id='password' required ref={passwordInput}/>
-                    </div>
+                    {isLogin ? (
+                            <div>
+                                <div className={classes.control}>
+                                    <label htmlFor='email'>E-mail</label>
+                                    <input type='email' id='email' required ref={emailInput}/>
+                                </div>
+                                <div className={classes.control}>
+                                    <label htmlFor='password'>Hasło</label>
+                                    <input type='password' id='password' required ref={passwordInput}/>
+                                </div>
+                            </div>
+                        )
+                        : (
+                            <div>
+                                <div className={classes.control}>
+                                    <label htmlFor='email'>E-mail</label>
+                                    <input type='email' id='email' required ref={emailInput}/>
+                                </div>
+                                <div className={classes.control}>
+                                    <label htmlFor='password'>Hasło</label>
+                                    <input type='password' id='password' required ref={passwordInput}/>
+                                </div>
+                                <div className={classes.control}>
+                                    <label htmlFor='name'>Nazwa</label>
+                                    <input type='text' id='name' required ref={nameInput}/>
+                                </div>
+                                <div className={classes.control}>
+                                    <label htmlFor='location'>Miejscowość</label>
+                                    <input type='text' id='location' required ref={locationInput}/>
+                                </div>
+                                <div className={classes.control}>
+                                    <label htmlFor='phone'>Numer telefonu</label>
+                                    <input type='number' id='phone' ref={phoneInput}/>
+                                </div>
+                                <div className={classes.control}>
+                                    <label htmlFor='image'>Zdjęcie</label>
+                                    <input type='file' id='image' ref={imageInput}/>
+                                </div>
+                            </div>
+                        )
+                    }
+
+
                     <div className={classes.actions}>
                         {!isLoading && (
-                            <button>{isLogin ? 'Zaloguj się' : 'Stwórz konto'}</button>)}
+                            <button>{isLogin ? 'Zaloguj się' : 'Utwórz konto'}</button>)}
                         {isLoading && <p>Wysyłanie żądania...</p>}
                         <button
                             type='button'
