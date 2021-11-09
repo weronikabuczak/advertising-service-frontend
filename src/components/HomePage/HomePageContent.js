@@ -1,9 +1,12 @@
+import classes from './HomePageContent.module.css';
 import AuthorizationForm from "./Authorization/AuthorizationForm";
 
-const HomepageContent = () => {
+const HomePageContent = () => {
     return (
-        <AuthorizationForm/>
+        <section className={classes.starting}>
+            <AuthorizationForm/>
+        </section>
     );
 };
 
-export default HomepageContent;
+export default HomePageContent;

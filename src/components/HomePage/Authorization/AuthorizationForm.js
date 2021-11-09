@@ -1,39 +1,101 @@
-import { useState } from 'react';
+import {useContext, useRef, useState} from 'react';
 
 import classes from './AuthorizationForm.module.css';
+import {useHistory} from "react-router-dom";
+import AuthContext from "../../../store/auth-context";
 
-const AuthForm = () => {
-    const [isLogin, setIsLogin] = useState(true);
+const AuthorizationForm = () => {
+        const history = useHistory();
+        const emailInput = useRef();
+        const passwordInput = useRef();
 
-    const switchAuthModeHandler = () => {
-        setIsLogin((prevState) => !prevState);
-    };
+        const [isLogin, setIsLogin] = useState(true);
+        const [isLoading, setIsLoading] = useState(false);
 
-    return (
-        <section className={classes.auth}>
-            <h1>{isLogin ? 'Zaloguj się' : 'Zarejestruj nowe konto'}</h1>
-            <form>
-                <div className={classes.control}>
-                    <label htmlFor='email'>E-mail</label>
-                    <input type='email' id='email' required/>
-                </div>
-                <div className={classes.control}>
-                    <label htmlFor='password'>Hasło</label>
-                    <input type='password' id='password' required />
-                </div>
-                <div className={classes.actions}>
-                    <button>{isLogin ? 'Zaloguj się' : 'Stwórz konto'}</button>
-                    <button
-                        type='button'
-                        className={classes.toggle}
-                        onClick={switchAuthModeHandler}
-                    >
-                        {isLogin ? 'Stwórz konto' : 'Masz już konto? Zaloguj się'}
-                    </button>
-                </div>
-            </form>
-        </section>
-    );
-};
+        const authContext = useContext(AuthContext);
 
-export default AuthForm;
+        const switchAuthModeHandler = () => {
+            setIsLogin((prevState) => !prevState);
+        };
+
+
+        const submitHandler = (event) => {
+            event.preventDefault();
+
+            const enteredEmail = emailInput.current.value;
+            const enteredPassword = passwordInput.current.value;
+
+            setIsLoading(true);
+            let url;
+            if (isLogin) {
+                url =
+                    'http://localhost:8080/api/user/auth/login';
+            } else {
+                url =
+                    'http://localhost:8080/api/user/auth/register';
+            }
+            fetch(url, {
+                method: 'POST',
+                body: JSON.stringify({
+                    email: enteredEmail,
+                    password: enteredPassword
+                    //returnSecureToken: true,
+                }),
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+                .then((response) => {
+                    setIsLoading(false);
+                    if (response.ok) {
+                        ;
+                        return response.json();
+                        console.log(response.token)
+                    } else {
+                        return response.json().then((data) => {
+                            let errorMessage = 'Authentication failed!';
+                            throw new Error(errorMessage);
+                        });
+                    }
+                })
+                .then((data) => {
+                    console.log(data.token)
+                    authContext.login(data.token);
+                })
+                .catch((err) => {
+                    alert(err.message);
+                });
+        };
+
+
+        return (
+            <section className={classes.auth}>
+                <h2>{isLogin ? 'Zaloguj się' : 'Zarejestruj nowe konto'}</h2>
+                <form onSubmit={submitHandler}>
+                    <div className={classes.control}>
+                        <label htmlFor='email'>E-mail</label>
+                        <input type='email' id='email' required ref={emailInput}/>
+                    </div>
+                    <div className={classes.control}>
+                        <label htmlFor='password'>Hasło</label>
+                        <input type='password' id='password' required ref={passwordInput}/>
+                    </div>
+                    <div className={classes.actions}>
+                        {!isLoading && (
+                            <button>{isLogin ? 'Zaloguj się' : 'Stwórz konto'}</button>)}
+                        {isLoading && <p>Wysyłanie żądania...</p>}
+                        <button
+                            type='button'
+                            className={classes.toggle}
+                            onClick={switchAuthModeHandler}
+                        >
+                            {isLogin ? 'Stwórz konto' : 'Masz już konto? Zaloguj się'}
+                        </button>
+                    </div>
+                </form>
+            </section>
+        );
+    }
+;
+
+export default AuthorizationForm;
