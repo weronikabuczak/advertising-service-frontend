@@ -29,11 +29,18 @@ const Navigation = () => {
                     <button className={classes.logo} onClick={toggleMenu}>MENU</button>
                 </Link>
             )}
-            <Link to='/'>
-                <div className={classes.logo}>
-                    <img src={task} alt='task'/>Services App
-                </div>
-            </Link>
+            {isLoggedIn && (
+                <Link to='/'>
+                    <div className={classes.logo}>
+                        <img src={task} alt='task'/>Services App
+                    </div>
+                </Link>
+            )}
+            {!isLoggedIn && (
+                    <div className={classes.logo}>
+                        <img src={task} alt='task'/>Services App
+                    </div>
+            )}
             <nav>
                 <ul>
                     {isLoggedIn && (

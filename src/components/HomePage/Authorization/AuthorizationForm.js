@@ -1,11 +1,13 @@
 import {useContext, useRef, useState} from 'react';
 import classes from './AuthorizationForm.module.css';
 import AuthContext from "../../../store/auth-context";
+import {useHistory} from "react-router-dom";
 
 const AuthorizationForm = () => {
 
         const emailInput = useRef();
         const passwordInput = useRef();
+        const history = useHistory();
 
         const [isLogin, setIsLogin] = useState(true);
         const [isLoading, setIsLoading] = useState(false);
@@ -55,6 +57,9 @@ const AuthorizationForm = () => {
                 })
                 .then((data) => {
                     authContext.login(data.token);
+                    //const expirationTime = data.expireTime;   //need this value from backend
+                    // authContext.login(data.token, data.expireTime);
+                    history.replace('/');
                 })
                 .catch((err) => {
                     alert(err.message);

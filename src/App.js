@@ -15,6 +15,7 @@ function App() {
         <Layout>
             <Switch>
                 <Route path='/' exact>
+                    {!authContext.isLoggedIn && <Redirect to='/auth'/>}
                     <HomePage/>
                 </Route>
                 {!authContext.isLoggedIn && (
@@ -23,9 +24,8 @@ function App() {
                     </Route>
                 )}
                 <Route path='/profile'>
-                    <UserProfile/>
-                    {/*{authContext.isLoggedIn && <UserProfile/>}*/}
-                    {/*{!authContext.isLoggedIn && <Redirect to='/auth'/>}*/}
+                    {authContext.isLoggedIn && <UserProfile/>}
+                    {!authContext.isLoggedIn && <Redirect to='/auth'/>}
                 </Route>
                 <Route path='/new-task'>
                     {authContext.isLoggedIn && <NewTaskPage/>}
