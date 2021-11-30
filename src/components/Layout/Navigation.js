@@ -22,6 +22,8 @@ const Navigation = () => {
         setToggle(!toggle);
     }
 
+    console.log(toggle)
+
     return (
         <header className={classes.header}>
             {isLoggedIn && (
@@ -54,7 +56,7 @@ const Navigation = () => {
                 </ul>
             </nav>
             <div>
-                <AppSidebar toggleMenu={toggle}/>
+                <AppSidebar toggleMenu={toggle} toggleFn={toggleMenu}/>
             </div>
         </header>
 

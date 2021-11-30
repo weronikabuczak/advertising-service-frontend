@@ -24,6 +24,8 @@ const AuthorizationForm = () => {
             setIsLogin((prevState) => !prevState);
         };
 
+        const isError = passwordInput.current.value && confirmPasswordInput.current.value
+
 
         const submitHandler = (event) => {
             event.preventDefault();
@@ -60,6 +62,8 @@ const AuthorizationForm = () => {
                     image: enteredImage
                 }
             }
+
+
             fetch(url, {
                 method: 'POST',
                 body: JSON.stringify(init),
@@ -70,20 +74,26 @@ const AuthorizationForm = () => {
                 .then((response) => {
                     setIsLoading(false);
                     if (response.ok) {
-                        return response.json();
+                        return response.json().then(data => {
+                            console.log(data)
+                            authContext.login(data.token);
+                            //const expirationTime = data.expireTime;   //need this value from backend
+                            // authContext.login(data.token, data.expireTime);
+                            history.replace('/');
+                        })
                     } else {
+
                         return response.json().then((data) => {
                             let errorMessage = 'Authentication failed!';
-                            throw new Error(errorMessage);
+                            if (data.status === 500) {
+                                console.log(data.message)
+                                alert(data.message)
+                                throw new Error(data.message);
+                            }
                         });
                     }
                 })
-                .then((data) => {
-                    authContext.login(data.token);
-                    //const expirationTime = data.expireTime;   //need this value from backend
-                    // authContext.login(data.token, data.expireTime);
-                    history.replace('/');
-                })
+
                 .catch((err) => {
                     alert(err.message);
                 });
@@ -116,10 +126,14 @@ const AuthorizationForm = () => {
                                     <label htmlFor='password'>Hasło</label>
                                     <input type='password' id='password' required minLength='8' ref={passwordInput}/>
                                 </div>
-                                {/*<div className={classes.control}>*/}
-                                {/*    <label htmlFor='confirm_password'>Powtórz hasło</label>*/}
-                                {/*    <input type='password' id='confirm_password' required ref={confirmPasswordInput}/>*/}
-                                {/*</div>*/}
+                                <div className={classes.control}>
+                                    <label htmlFor='confirm_password'>Powtórz hasło</label>
+                                    <input type='password' id='confirm_password' required ref={confirmPasswordInput}/>
+                                </div>
+
+
+                                )}
+
                                 <div className={classes.control}>
                                     <label htmlFor='name'>Nazwa</label>
                                     <input type='text' id='name' required ref={nameInput}/>

@@ -53,3 +53,7 @@
     background-color: #0eb6f9;
     color: #ffffff;
 }
+
+.menu__item__padding {
+    padding: 20px 10px
+}
