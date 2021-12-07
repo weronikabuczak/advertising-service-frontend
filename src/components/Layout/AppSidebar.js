@@ -34,7 +34,7 @@ const AppSidebar = ({toggleFn, toggleMenu}) => {
                 <Link to='/profile' className={paddingClasses}><Icon name='user'/>Moje konto</Link>
             </MenuItem>
             <MenuItem onClick={toggleFn}>
-                <Link to='/new-task' className={paddingClasses}><Icon name='add'/>Dodaj nowe ogłoszenie</Link>
+                <Link to='/newTask' className={paddingClasses}><Icon name='add'/>Dodaj nowe ogłoszenie</Link>
             </MenuItem>
         </Sidebar>
 

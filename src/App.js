@@ -7,6 +7,7 @@ import HomePage from './pages/HomePage';
 import NewTaskPage from "./pages/NewTaskPage";
 import {useContext} from "react";
 import AuthContext from "./store/auth-context";
+import TaskAdded from "./components/NewTask/TaskAdded";
 
 function App() {
     const authContext = useContext(AuthContext);
@@ -26,8 +27,12 @@ function App() {
                     {authContext.isLoggedIn && <UserProfile/>}
                     {!authContext.isLoggedIn && <Redirect to='/auth'/>}
                 </Route>
-                <Route path='/new-task'>
+                <Route path='/newTask'>
                     {authContext.isLoggedIn && <NewTaskPage/>}
+                    {!authContext.isLoggedIn && <Redirect to='/auth'/>}
+                </Route>
+                <Route path='/taskAdded'>
+                    {authContext.isLoggedIn && <TaskAdded/>}
                     {!authContext.isLoggedIn && <Redirect to='/auth'/>}
                 </Route>
                 <Route path='*'>
