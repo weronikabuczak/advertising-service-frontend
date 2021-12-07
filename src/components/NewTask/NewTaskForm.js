@@ -1,14 +1,23 @@
-import classes from "../HomePage/Authorization/AuthorizationForm.module.css";
-import {useState} from "react";
+import classes from "../NewTask/NewTaskForm.module.css";
+import {useRef, useState} from "react";
+import {useHistory} from "react-router-dom";
 
 const NewTaskForm = () => {
-    const [isLoading, setIsLoading] = useState(false);
+    //const [isLoading, setIsLoading] = useState(false);
 
+    const titleInput = useRef();
+    const contentInput = useRef();
+    const categoryInput = useRef();
+    const nameInput = useRef();
+    const locationInput = useRef();
+    const phoneInput = useRef();
+    const imageInput = useRef();
+    const history = useHistory();
     const submitHandler = (event) => {
     }
 
     return (
-        <section>
+        <section className={classes.form}>
             <h2>Dodaj nowe ogłoszenie</h2>
             <form onSubmit={submitHandler}>
                 <div>
@@ -42,11 +51,11 @@ const NewTaskForm = () => {
                     </div>
                     <div className={classes.control}>
                         <label htmlFor='image'>Zdjęcie</label>
-                        <input type='file' id='image'></input>
+                        <input type='file' id='image' className={classes.inputfile}></input>
                     </div>
                     {/*lokalizacja - longitude, latitude*/}
                 </div>
-                <div>
+                <div className={classes.actions}>
                     <button>Dodaj ogłoszenie</button>
                     {isLoading && <p>Wysyłanie żądania...</p>}
                 </div>
