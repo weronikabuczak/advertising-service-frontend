@@ -1,6 +1,8 @@
 import {useCallback, useContext, useEffect, useState} from "react";
 import AuthContext from "../../../../store/auth-context";
 import TaskItem from "./TaskItem/TaskItem";
+import {Grid} from "semantic-ui-react";
+import classes from "../TaskList/TaskList.module.css";
 
 const TaskList = () => {
     const authContext = useContext(AuthContext);

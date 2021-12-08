@@ -1,9 +1,16 @@
 import {Button, Card, Grid, Header, Icon, Image} from "semantic-ui-react";
 import profile from '../../../../../files/profile.jpg';
 import classes from "../TaskItem/TaskItem.module.css";
+import {useHistory} from "react-router-dom";
 
 
 const TaskItem = ({props}) => {
+    const history = useHistory();
+
+    const taskDetailsHandler = () => {
+
+    }
+
     return (
         <Card fluid centered className={classes.taskCard}>
             <Card.Content>
@@ -26,10 +33,10 @@ const TaskItem = ({props}) => {
                             <div className={classes.taskDetails__container}>
                                 <Grid.Column width={3}>
                                     <div className={classes.taskDetails__main__info}><Icon
-                                        name='location arrow'/> {props.address}
+                                        name='location arrow'/>{props.address}
                                     </div>
                                     <div className={classes.taskDetails__main__info}><Icon
-                                        name='calendar times'/> {props.expirationDate}</div>
+                                        name='calendar times'/>{props.expirationDate}</div>
                                 </Grid.Column>
                                 <Grid.Column width={7}>
                                     <div className={classes.taskDetails__payment__details}><Icon
@@ -46,7 +53,7 @@ const TaskItem = ({props}) => {
                         <Grid.Column width={10}>
                         </Grid.Column>
                         <Grid.Column width={6}>
-                            <Button animated='vertical' floated='right' fluid>
+                            <Button animated='vertical' floated='right' fluid onClick={taskDetailsHandler}>
                                 <Button.Content>Zobacz szczegóły</Button.Content>
                             </Button>
                         </Grid.Column>
