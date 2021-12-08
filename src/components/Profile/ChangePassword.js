@@ -11,20 +11,20 @@ const ChangePassword = ({open, setOpen, email}) => {
     const currentPasswordInput = useRef();
     const newPasswordInput = useRef();
 
-    const onClose = () => {
+    const onClose = (event) => {
+        event.preventDefault()
         setOpen(false)
     }
 
     const submitHandler = (event) => {
-        event.preventDefault();
-
-        //const enteredCurrentPassword = currentPasswordInput.current.value;
+event.preventDefault()
+        const enteredCurrentPassword = currentPasswordInput.current.value;
         const enteredNewPassword = newPasswordInput.current.value;
 
         let url = `http://localhost:8080/api/user/${email}`;
         let init = {
-            //email: enteredCurrentPassword,
-            password: enteredNewPassword
+            currentPassword: enteredCurrentPassword,
+            newPassword: enteredNewPassword
         }
 
         fetch(url, {
@@ -38,6 +38,7 @@ const ChangePassword = ({open, setOpen, email}) => {
             .then((response) => {
                 // setIsLoading(false);
                 if (response.ok) {
+                    console.log(response)
                     history.replace('/profile');
                 } else {
                     return response.json().then((data) => {
@@ -72,7 +73,7 @@ const ChangePassword = ({open, setOpen, email}) => {
                         <label>Nowe hasło</label>
                         <input type='password' required ref={newPasswordInput}/>
                     </Form.Field>
-                    <Button positive type='submit' onClick={onClose}>Zatwierdź</Button>
+                    <Button positive type='submit'>Zatwierdź</Button>
                     <Button negative onClick={onClose}>
                         Anuluj
                     </Button>

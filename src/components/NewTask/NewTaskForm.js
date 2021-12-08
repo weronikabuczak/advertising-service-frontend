@@ -15,7 +15,7 @@ const NewTaskForm = () => {
     const addressInput = useRef();
     const payInput = useRef();
     const expirationDateInput = useRef();
-    const estimatedTimeInput = useRef();
+    //const estimatedTimeInput = useRef();
     const imageInput = useRef();
     const history = useHistory();
 

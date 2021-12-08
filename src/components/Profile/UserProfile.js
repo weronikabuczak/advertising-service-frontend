@@ -30,8 +30,6 @@ const UserProfile = () => {
             let createDate = new Date(responseData.createDate);
             responseData.createDate = createDate.toLocaleDateString();
             setUserInfo(responseData);
-
-
         };
         fetchUserInfo();
     }, []);

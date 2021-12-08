@@ -4,9 +4,15 @@
     background-color: #5c51cf;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
     display: flex;
-    justify-content: space-between;
+    /*justify-content: space-between;*/
+    /*justify-content: end;*/
     align-items: center;
     padding: 0 10%;
+}
+
+ul {
+    justify-content: end;
+    float:right;
 }
 
 .logo {
@@ -54,6 +60,3 @@
     color: #ffffff;
 }
 
-.menu__item__padding {
-    padding: 20px 10px
-}

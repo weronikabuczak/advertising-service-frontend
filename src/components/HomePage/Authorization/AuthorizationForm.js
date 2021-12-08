@@ -55,7 +55,8 @@ const AuthorizationForm = () => {
                     'http://localhost:8080/api/user/register';
                 init = {
                     email: enteredEmail,
-                    password: enteredPassword,
+                    currentPassword: enteredPassword,
+                    newPassword: enteredPassword,
                     name: enteredName,
                     location: enteredLocation,
                     phoneNumber: enteredPhone,

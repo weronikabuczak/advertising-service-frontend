@@ -22,7 +22,6 @@ const Navigation = () => {
         setToggle(!toggle);
     }
 
-    console.log(toggle)
 
     return (
         <header className={classes.header}>
@@ -45,7 +44,7 @@ const Navigation = () => {
                 <ul>
                     {isLoggedIn && (
                         <li>
-                            <button onClick={logoutHandler}>Logout</button>
+                            <button onClick={logoutHandler}>Wyloguj się</button>
                         </li>
                     )}
                     {isLoggedIn && (

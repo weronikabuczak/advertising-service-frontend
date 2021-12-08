@@ -16,7 +16,8 @@ const ChangeUserData = ({open, setOpen, email}) => {
         setOpen(false)
     }
 
-    const submitHandler = (event) => {
+    const submitHandler = (event, data) => {
+        console.log(data)
         event.preventDefault();
 
         const enteredPhoneNumber = phoneNumberInput.current.value;
@@ -41,6 +42,8 @@ const ChangeUserData = ({open, setOpen, email}) => {
             },
         })
             .then((response) => {
+
+                onClose();
                 // setIsLoading(false);
                 if (response.ok) {
                     history.replace('/profile');
@@ -56,7 +59,6 @@ const ChangeUserData = ({open, setOpen, email}) => {
             .catch((err) => {
                 alert(err.message);
             });
-
     }
     return (
         <Modal
@@ -71,21 +73,21 @@ const ChangeUserData = ({open, setOpen, email}) => {
                 <Form onSubmit={submitHandler}>
                     <Form.Field>
                         <label>Nowa nazwa użytkownika</label>
-                        <input type='text' required ref={nameInput}/>
+                        <input type='text' ref={nameInput}/>
                     </Form.Field>
                     <Form.Field>
                         <label>Nowy e-mail</label>
-                        <input type='email' required ref={emailInput}/>
+                        <input type='email' ref={emailInput}/>
                     </Form.Field>
                     <Form.Field>
                         <label>Nowy numer telefonu</label>
-                        <input type='number' required ref={phoneNumberInput}/>
+                        <input type='number' ref={phoneNumberInput}/>
                     </Form.Field>
                     <Form.Field>
                         <label>Nowa miejscowość</label>
-                        <input type='text' required ref={locationInput}/>
+                        <input type='text' ref={locationInput}/>
                     </Form.Field>
-                    <Button positive type='submit' onClick={onClose}>Zatwierdź</Button>
+                    <Button positive type='submit'>Zatwierdź</Button>
                     <Button negative onClick={onClose}>
                         Anuluj
                     </Button>
