@@ -9,17 +9,18 @@ const TaskItem = ({props}) => {
             <Card.Content>
                 <Grid>
                     <Grid.Row>
-                        <Grid.Column width={4}>
+                        <Grid.Column width={5}>
                             <Image src={profile} rounded size='medium'/>
                         </Grid.Column>
-                        <Grid.Column width={12}>
+                        <Grid.Column width={11}>
+                            <Grid.Row className={classes.category__container}>
+                                <span className={classes.category__chip}>{props.category}</span>
+                            </Grid.Row>
                             <Grid.Row>
                                 <Grid.Row>
-                                    <Header as='h3' className={classes.title__break__word} content={props.title}/>
+                                    <Header as='h2' className={classes.title__break__word} content={props.title}/>
                                 </Grid.Row>
-                                <Grid.Row className={classes.category__container}>
-                                    <span className={classes.category__chip}>{props.category}</span>
-                                </Grid.Row>
+
                             </Grid.Row>
 
                             <div className={classes.taskDetails__container}>
