@@ -43,7 +43,7 @@ const UserProfile = () => {
     }
 
     return (
-        <section className={classes.profile}>
+        <section className={classes.section}>
             <ChangePassword open={modalOpenPassword} setOpen={setModalOpenPassword} email={userInfo.email}/>
             <ChangeUserData open={modalOpenUserInfo} setOpen={setModalOpenUserInfo} email={userInfo.email}/>
             <Card fluid>

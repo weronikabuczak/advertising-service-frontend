@@ -93,16 +93,15 @@ const NewTaskForm = () => {
     return (
         <section className={classes.section}>
             <h2>Dodaj nowe ogłoszenie</h2>
-
             <form onSubmit={submitHandler}>
                 <div>
                     <div className={classes.control}>
                         <label htmlFor='title'>Tytuł</label>
-                        <input type='text' id='title' minLength="10" maxLength="70" required ref={titleInput}/>
+                        <input type='text' id='title' minLength="10" maxLength="100" required ref={titleInput}/>
                     </div>
                     <div className={classes.control}>
                         <label htmlFor='content'>Opis</label>
-                        <input type='text' id='password' required minLength="20" maxLength="300"
+                        <input type='text' id='password' required minLength="20" maxLength="800"
     ref={contentInput}/>
                     </div>
                     <div className={classes.control}>

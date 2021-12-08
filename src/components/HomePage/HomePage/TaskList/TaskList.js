@@ -1,6 +1,6 @@
-import TaskItem from "./TaskItem/TaskItem";
 import {useCallback, useContext, useEffect, useState} from "react";
 import AuthContext from "../../../../store/auth-context";
+import TaskItem from "./TaskItem/TaskItem";
 
 const TaskList = () => {
     const authContext = useContext(AuthContext);
@@ -28,14 +28,14 @@ const TaskList = () => {
             const data = await response.json();
             const fetchedTasks = [];
 
-     /*       for (const id in tasks) {
-                fetchedTasks.push({
-                    id: id,
-                    title: data[id].title,
-                    content: data[id].content,
-                    pay: data[id].pay,
-                });
-            }*/
+            /*       for (const id in tasks) {
+                       fetchedTasks.push({
+                           id: id,
+                           title: data[id].title,
+                           content: data[id].content,
+                           pay: data[id].pay,
+                       });
+                   }*/
             setTasks([...data])
             // setTasks(fetchedTasks);
         } catch (error) {
@@ -48,12 +48,11 @@ const TaskList = () => {
         fetchTasks();
     }, []);
 
-    console.log(tasks)
+
     return (
         <ul>
             {tasks.map((task) => (
-                <p> {task.title}</p>
-
+                <TaskItem props={task}/>
             ))}
         </ul>
     );

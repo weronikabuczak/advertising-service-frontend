@@ -1,28 +1,21 @@
 import {Button, Card, Container, Image} from "semantic-ui-react";
+import profile from '../../../../../files/profile.jpg'
 
 const TaskItem = ({props}) => {
     return (
         <section>
-            <Card>
+            <Card fluid centered>
                 <Card.Content>
-                    <Image
-                        floated='right'
-                        size='mini'
-                        src='/images/avatar/large/steve.jpg'
-                    />
+                    <Image floated='left' size='small' src={profile} rounded spaced='left'/>
+                    <div>Utworzone przez: {props.user.email}</div>
                     <Card.Header>{props.title}</Card.Header>
-                    <Card.Meta>Friends of Elliot</Card.Meta>
-                    <Card.Description>
-                        Steve wants to add you to the group <strong>best friends</strong>
-                    </Card.Description>
+                    <Container text fluid textAlign='justified'>{props.content}
+                    </Container>
                 </Card.Content>
-                <Card.Content extra>
-                    <div className='ui two buttons'>
-                        <Button basic color='green'>
-                            Approve
-                        </Button>
-                        <Button basic color='red'>
-                            Decline
+                <Card.Content>
+                    <div>
+                        <Button>
+                            Zobacz szczegóły
                         </Button>
                     </div>
                 </Card.Content>

@@ -1,9 +1,21 @@
-.profile {
+.section {
     width: 60%;
     display: block;
     margin: 4rem auto;
 }
 
+.section:hover {
+    animation: content-hover 0.1s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+}
+
+@keyframes content-hover {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(1.01);
+    }
+}
 
 .account__header {
     display: block;

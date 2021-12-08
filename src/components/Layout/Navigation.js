@@ -31,13 +31,15 @@ const Navigation = () => {
             {isLoggedIn && (
                 <Link to='/'>
                     <div className={classes.logo}>
-                        <img src={task} alt='task'/>Services App
+                        {/*<img src={task} alt='task'/>Services App*/}
+                        Services App
                     </div>
                 </Link>
             )}
             {!isLoggedIn && (
                     <div className={classes.logo}>
-                        <img src={task} alt='task'/>Services App
+                        {/*<img src={task} alt='task'/>Services App*/}
+                        Services App
                     </div>
             )}
             <nav>

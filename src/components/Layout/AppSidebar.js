@@ -17,7 +17,7 @@ const AppSidebar = ({toggleFn, toggleMenu}) => {
     return (
         <Sidebar
             as={Menu}
-            animation='overlay'
+            animation='push'
             icon='labeled'
             className={paddingClasses}
             inverted
@@ -25,6 +25,7 @@ const AppSidebar = ({toggleFn, toggleMenu}) => {
             }}
             vertical
             visible={toggleMenu}
+            width='wide'
 
         >
             <MenuItem onClick={toggleFn} className={paddingClasses}>
