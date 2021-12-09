@@ -1,5 +1,5 @@
 .section {
-    width: 60%;
+    width: 40%;
     display: block;
     margin: 4rem auto;
 }
@@ -17,6 +17,8 @@
     }
 }
 
-.account__header {
-    display: block;
+.userInfo__container {
+    border: none;
+    padding: 1rem;
 }
+

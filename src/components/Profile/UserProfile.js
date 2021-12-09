@@ -57,10 +57,10 @@ const UserProfile = () => {
                 </Card.Content>
                 <Card.Content>
                     <Grid>
-                        <Grid.Column width={4}>
+                        <Grid.Column width={5}>
                             <Image src={profile} rounded size='medium'/>
                         </Grid.Column>
-                        <Grid.Column width={12}>
+                        <Grid.Column width={11}>
                             <Header as='h1'>
                                 <>{userInfo.name}</>
                                 <Button floated='right' onClick={changeUserInfoHandler}>
@@ -71,8 +71,8 @@ const UserProfile = () => {
                                 </Button></Header>
 
                             <Header as='h2'>{userInfo.location}</Header>
-                            <Table>
-                                <Table.Body>
+                            <Table className={classes.userInfo__container}>
+                                <Table.Body className={classes.userInfo__container}>
                                     <Table.Row>
                                         <Table.Cell>
                                             <Header as='h4' image>

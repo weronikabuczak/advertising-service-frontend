@@ -26,7 +26,7 @@ const Navigation = () => {
     return (
         <header className={classes.header}>
             {isLoggedIn && (
-                    <button className={classes.logo} onClick={toggleMenu}>MENU</button>
+                <button onClick={toggleMenu}>MENU</button>
             )}
             {isLoggedIn && (
                 <Link to='/'>
@@ -37,28 +37,22 @@ const Navigation = () => {
                 </Link>
             )}
             {!isLoggedIn && (
-                    <div className={classes.logo}>
-                        {/*<img src={task} alt='task'/>Services App*/}
-                        Services App
-                    </div>
+                <div className={classes.logo}>
+                    {/*<img src={task} alt='task'/>Services App*/}
+                    Services App
+                </div>
             )}
             <nav>
-                <ul>
                     {isLoggedIn && (
-                        <li>
-                            <button onClick={logoutHandler}>Wyloguj się</button>
-                        </li>
+                            <button className={classes.navButton} onClick={logoutHandler}>Wyloguj się</button>
                     )}
-                    {isLoggedIn && (
-                        <li>
-                            <Link to='/'><img src={flag} alt='flag'/></Link>
-                        </li>
-                    )}
-                </ul>
+                    {/*{isLoggedIn && (*/}
+                    {/*        <Link to='/'><img src={flag} alt='flag'/></Link>*/}
+                    {/*)}*/}
+
+                
             </nav>
-            <div>
                 <AppSidebar toggleMenu={toggle} toggleFn={toggleMenu}/>
-            </div>
         </header>
 
     );
