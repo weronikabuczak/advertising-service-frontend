@@ -2,6 +2,7 @@ import {useContext, useRef, useState} from 'react';
 import classes from './AuthorizationForm.module.css';
 import AuthContext from "../../../store/auth-context";
 import {useHistory} from "react-router-dom";
+import jwtDecode from "jwt-decode";
 
 const AuthorizationForm = () => {
 
@@ -76,9 +77,8 @@ const AuthorizationForm = () => {
                     setIsLoading(false);
                     if (response.ok) {
                         return response.json().then(data => {
-                            authContext.login(data.token);
-                            //const expirationTime = data.expireTime;   //need this value from backend
-                            // authContext.login(data.token, data.expireTime);
+                            const {exp} = jwtDecode(data.token);
+                            authContext.login(data.token, exp);
                             history.replace('/');
                         })
                     } else {
@@ -106,11 +106,11 @@ const AuthorizationForm = () => {
                             <div>
                                 <div className={classes.control}>
                                     <label htmlFor='email'>E-mail</label>
-                                    <input type='email' id='email' required ref={emailInput}/>
+                                    <input type='email' id='email' value='test2@test.com' required ref={emailInput}/>
                                 </div>
                                 <div className={classes.control}>
                                     <label htmlFor='password'>Hasło</label>
-                                    <input type='password' id='password' required ref={passwordInput}/>
+                                    <input type='password' id='password' value='test123456' required ref={passwordInput}/>
                                 </div>
                             </div>
                         )
