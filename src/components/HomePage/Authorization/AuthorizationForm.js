@@ -124,11 +124,6 @@ const AuthorizationForm = () => {
                                     <label htmlFor='password'>Hasło</label>
                                     <input type='password' id='password' required minLength='8' ref={passwordInput}/>
                                 </div>
-                                {/*<div className={classes.control}>*/}
-                                {/*    <label htmlFor='confirm_password'>Powtórz hasło</label>*/}
-                                {/*    <input type='password' id='confirm_password' required ref={confirmPasswordInput}/>*/}
-                                {/*</div>*/}
-
                                 <div className={classes.control}>
                                     <label htmlFor='name'>Nazwa</label>
                                     <input type='text' id='name' required ref={nameInput}/>

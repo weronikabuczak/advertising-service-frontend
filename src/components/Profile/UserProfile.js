@@ -5,8 +5,10 @@ import {useContext, useEffect, useState} from "react";
 import AuthContext from "../../store/auth-context";
 import ChangePassword from "./ChangePassword";
 import ChangeUserData from "./ChangeUserData";
+import {useHistory} from "react-router-dom";
 
 const UserProfile = () => {
+   const history = useHistory();
     const [userInfo, setUserInfo] = useState({});
     const [modalOpenPassword, setModalOpenPassword] = useState(false);
     const [modalOpenUserInfo, setModalOpenUserInfo] = useState(false);
@@ -34,6 +36,14 @@ const UserProfile = () => {
         fetchUserInfo();
     }, []);
 
+    const userInfoHandler = () => {
+        history.replace('/profile');
+    }
+
+    const userTasksHandler = () => {
+        history.replace('/userTasks');
+    }
+
 
     const changePasswordHandler = () => {
         setModalOpenPassword(true);
@@ -44,9 +54,11 @@ const UserProfile = () => {
 
     return (
         <section className={classes.section}>
+            <Button onClick={userInfoHandler}>Dane</Button>
+            <Button onClick={userTasksHandler}>Moje ogłoszenia</Button>
             <ChangePassword open={modalOpenPassword} setOpen={setModalOpenPassword} email={userInfo.email}/>
             <ChangeUserData open={modalOpenUserInfo} setOpen={setModalOpenUserInfo} email={userInfo.email}/>
-            <Card fluid>
+            <Card fluid className={classes.userCard__container}>
                 <Card.Content>
                     <Card.Header>
                         <Header as='h5' icon textAlign='center'>

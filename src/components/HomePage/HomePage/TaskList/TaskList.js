@@ -1,10 +1,9 @@
 import {useCallback, useContext, useEffect, useState} from "react";
 import AuthContext from "../../../../store/auth-context";
 import TaskItem from "./TaskItem/TaskItem";
-import {Grid} from "semantic-ui-react";
 import classes from "../TaskList/TaskList.module.css";
 
-const TaskList = () => {
+const TaskList = ({isUserTasks}) => {
     const authContext = useContext(AuthContext);
     const [tasks, setTasks] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -14,8 +13,7 @@ const TaskList = () => {
         setIsLoading(true);
         setError(null);
         try {
-            const userTasks = false;
-            const response = await fetch(`http://localhost:8080/api/task?userTasks=${userTasks}`, {
+            const response = await fetch(`http://localhost:8080/api/task?userTasks=${isUserTasks}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + authContext.token,
@@ -30,16 +28,7 @@ const TaskList = () => {
             const data = await response.json();
             const fetchedTasks = [];
 
-            /*       for (const id in tasks) {
-                       fetchedTasks.push({
-                           id: id,
-                           title: data[id].title,
-                           content: data[id].content,
-                           pay: data[id].pay,
-                       });
-                   }*/
             setTasks([...data])
-            // setTasks(fetchedTasks);
         } catch (error) {
             setError(error.message);
         }

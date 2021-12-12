@@ -7,7 +7,7 @@ const HomePageContent = () => {
     return (
         <section className={classes.starting}>
             <Container>
-                <TaskList/>
+                <TaskList isUserTasks={false}/>
             </Container>
         </section>
     );
