@@ -44,7 +44,6 @@ const UserProfile = () => {
         history.replace('/userTasks');
     }
 
-
     const changePasswordHandler = () => {
         setModalOpenPassword(true);
     }
@@ -54,8 +53,8 @@ const UserProfile = () => {
 
     return (
         <section className={classes.section}>
-            <Button onClick={userInfoHandler}>Dane</Button>
-            <Button onClick={userTasksHandler}>Moje ogłoszenia</Button>
+            <Button className={classes.button} onClick={userInfoHandler}>Dane</Button>
+            <Button className={classes.button} onClick={userTasksHandler}>Moje ogłoszenia</Button>
             <ChangePassword open={modalOpenPassword} setOpen={setModalOpenPassword} email={userInfo.email}/>
             <ChangeUserData open={modalOpenUserInfo} setOpen={setModalOpenUserInfo} email={userInfo.email}/>
             <Card fluid className={classes.userCard__container}>

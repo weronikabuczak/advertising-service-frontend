@@ -1,5 +1,5 @@
 .section {
-    width: 40%;
+    width: 45%;
     display: block;
     margin: 4rem auto;
 }
@@ -20,5 +20,9 @@
 .userInfo__container {
     border: none;
     padding: 1rem;
+}
+
+.button {
+    margin: 0 auto;
 }
 
