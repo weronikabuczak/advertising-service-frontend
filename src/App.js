@@ -5,40 +5,41 @@ import UserProfile from './components/Profile/UserProfile';
 import AuthPage from './pages/AuthorizationPage';
 import HomePage from './pages/HomePage';
 import NewTaskPage from "./pages/NewTaskPage";
-import {useContext} from "react";
-import AuthContext from "./store/auth-context";
 import TaskAdded from "./components/NewTask/TaskAdded";
 import UserTasks from "./components/Profile/UserTasks/UserTasks";
+import {useSelector} from "react-redux";
+import {isUserLoggedIn} from "./store/auth";
 
 function App() {
-    const authContext = useContext(AuthContext);
+    const isLoggedIn = useSelector(isUserLoggedIn);
+    console.log(isLoggedIn)
     return (
         <Layout>
             <Switch>
                 <Route path='/' exact>
-                    {!authContext.isLoggedIn && <Redirect to='/auth'/>}
+                    {!isLoggedIn && <Redirect to='/auth'/>}
                     <HomePage/>
                 </Route>
-                {!authContext.isLoggedIn && (
+                {!isLoggedIn && (
                     <Route path='/auth'>
                         <AuthPage/>
                     </Route>
                 )}
                 <Route path='/profile'>
-                    {authContext.isLoggedIn && <UserProfile/>}
-                    {!authContext.isLoggedIn && <Redirect to='/auth'/>}
+                    {isLoggedIn && <UserProfile/>}
+                    {!isLoggedIn && <Redirect to='/auth'/>}
                 </Route>
                 <Route path='/newTask'>
-                    {authContext.isLoggedIn && <NewTaskPage/>}
-                    {!authContext.isLoggedIn && <Redirect to='/auth'/>}
+                    {isLoggedIn && <NewTaskPage/>}
+                    {!isLoggedIn && <Redirect to='/auth'/>}
                 </Route>
                 <Route path='/taskAdded'>
-                    {authContext.isLoggedIn && <TaskAdded/>}
-                    {!authContext.isLoggedIn && <Redirect to='/auth'/>}
+                    {isLoggedIn && <TaskAdded/>}
+                    {!isLoggedIn && <Redirect to='/auth'/>}
                 </Route>
                 <Route path='/userTasks'>
-                    {authContext.isLoggedIn && <UserTasks/>}
-                    {!authContext.isLoggedIn && <Redirect to='/auth'/>}
+                    {isLoggedIn && <UserTasks/>}
+                    {!isLoggedIn && <Redirect to='/auth'/>}
                 </Route>
                 <Route path='*'>
                     <Redirect to='/'/>

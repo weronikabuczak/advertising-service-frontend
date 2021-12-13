@@ -5,14 +5,15 @@ import {useContext, useState} from "react";
 import flag from '../../files/flag.png'
 import task from '../../files/task.png'
 import AuthContext from "../../store/auth-context";
+import {useSelector} from "react-redux";
+import {isUserLoggedIn} from "../../store/auth";
 
 const Navigation = () => {
-    const authContext = useContext(AuthContext);
 
-    const isLoggedIn = authContext.isLoggedIn;
+    const isLoggedIn = useSelector(isUserLoggedIn);
 
     const logoutHandler = () => {
-        authContext.logout()
+        // authContext.logout()
         //redirect
     };
 
@@ -43,16 +44,16 @@ const Navigation = () => {
                 </div>
             )}
             <nav>
-                    {isLoggedIn && (
-                            <button className={classes.navButton} onClick={logoutHandler}>Wyloguj się</button>
-                    )}
-                    {/*{isLoggedIn && (*/}
-                    {/*        <Link to='/'><img src={flag} alt='flag'/></Link>*/}
-                    {/*)}*/}
+                {isLoggedIn && (
+                    <button className={classes.navButton} onClick={logoutHandler}>Wyloguj się</button>
+                )}
+                {/*{isLoggedIn && (*/}
+                {/*        <Link to='/'><img src={flag} alt='flag'/></Link>*/}
+                {/*)}*/}
 
 
             </nav>
-                <AppSidebar toggleMenu={toggle} toggleFn={toggleMenu}/>
+            <AppSidebar toggleMenu={toggle} toggleFn={toggleMenu}/>
         </header>
 
     );
