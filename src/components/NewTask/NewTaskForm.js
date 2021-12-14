@@ -3,7 +3,7 @@ import {useRef, useState} from "react";
 import {useHistory} from "react-router-dom";
 import {QuantityPicker} from 'react-qty-picker';
 import {useSelector} from "react-redux";
-import {getUserToken, logoutUser} from "../../store/auth";
+import {getUserToken} from "../../store/auth";
 import LocationPicker from "react-leaflet-location-picker";
 
 // const category = [
@@ -17,6 +17,7 @@ const NewTaskForm = () => {
     const [pickerValue, setPickerValue] = useState();
     const [latitude, setLatitude] = useState();
     const [longitude, setLongitude] = useState();
+    const [image, setImage] = useState();
     const token = useSelector(getUserToken);
 
     const titleInput = useRef();
@@ -25,9 +26,8 @@ const NewTaskForm = () => {
     const addressInput = useRef();
     const payInput = useRef();
     const expirationDateInput = useRef();
-    const imageInput = useRef();
+    //const imageInput = useRef();
     const history = useHistory();
-
 
 
     const submitHandler = (event) => {
@@ -44,7 +44,7 @@ const NewTaskForm = () => {
         const enteredPay = payInput.current.value;
         const enteredExpirationDate = expirationDateInput.current.value;
         const enteredEstimatedTime = pickerValue;
-        const enteredImage = imageInput.current.value;
+        const enteredImage = image;
         const enteredLongitude = longitude;
         const enteredLatitude = latitude;
 
@@ -96,10 +96,9 @@ const NewTaskForm = () => {
     }
 
 
-
-   const getPoint = (point) => {
-       setLatitude(point[0]);
-       setLongitude(point[1]);
+    const getPoint = (point) => {
+        setLatitude(point[0]);
+        setLongitude(point[1]);
     }
 
 
@@ -112,6 +111,14 @@ const NewTaskForm = () => {
                 getPoint(point)
         }
     };
+
+    const imageUploadHandler = (event) => {
+        console.log(event.target.files[0]);
+        setImage(event.target.files[0]);
+        console.log(image)
+        // const fd = new FormData();
+        // fd.append('image', image, image.name);
+    }
 
 
     return (
@@ -153,16 +160,18 @@ const NewTaskForm = () => {
                     </div>
                     <div className={classes.control}>
                         <label htmlFor='estimatedTime'>Przybliżony czas na wykonanie zlecenia</label>
-                        <QuantityPicker className={classes.picker} onChange={getPickerValue} min={1} max={24} value={1} smooth/>
+                        <QuantityPicker className={classes.picker} onChange={getPickerValue} min={1} max={24} value={1}
+                                        smooth/>
                         {/*required*/}
                     </div>
                     <div className={classes.control}>
                         <label htmlFor='image'>Zdjęcie</label>
-                        <input type='file' id='image' ref={imageInput}/>
+                        <input type='file' onChange={imageUploadHandler} id='image'/>
                     </div>
-                    {/*lokalizacja - longitude, latitude*/}
                 </div>
-                <LocationPicker startPort='default' pointMode={pointMode}/>
+                <div className={classes.control}>
+                    <LocationPicker startPort='default' pointMode={pointMode}/>
+                </div>
                 <div className={classes.actions}>
                     <button>Dodaj ogłoszenie</button>
                     {isLoading && <p>Wysyłanie żądania...</p>}
