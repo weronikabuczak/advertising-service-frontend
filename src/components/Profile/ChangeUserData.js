@@ -1,23 +1,20 @@
 import {Button, Form, Modal} from "semantic-ui-react";
-import {useContext, useRef} from "react";
-import AuthContext from "../../store/auth-context";
-import {useHistory} from "react-router-dom";
+import {useRef} from "react";
+import {useSelector} from "react-redux";
+import {getUserToken} from "../../store/auth";
 
 const ChangeUserData = ({open, setOpen, email}) => {
-    const authContext = useContext(AuthContext);
-    const history = useHistory();
-
+    const token = useSelector(getUserToken);
     const phoneNumberInput = useRef();
     const emailInput = useRef();
     const nameInput = useRef();
     const locationInput = useRef();
 
     const onClose = () => {
-        setOpen(false)
+        setOpen(false);
     }
 
     const submitHandler = (event, data) => {
-        console.log(data)
         event.preventDefault();
 
         const enteredPhoneNumber = phoneNumberInput.current.value;
@@ -38,19 +35,15 @@ const ChangeUserData = ({open, setOpen, email}) => {
             body: JSON.stringify(init),
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + authContext.token,
+                'Authorization': 'Bearer ' + token,
             },
         })
             .then((response) => {
-
-                onClose();
-                // setIsLoading(false);
                 if (response.ok) {
-                    history.replace('/profile');
+                    setOpen(false);
                 } else {
                     return response.json().then((data) => {
                         if (data.status === 500) {
-                            console.log(data.message);
                             throw new Error(data.message);
                         }
                     });

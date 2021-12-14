@@ -1,13 +1,23 @@
 import classes from "../NewTask/NewTaskForm.module.css";
-import {useContext, useRef, useState} from "react";
+import {useRef, useState} from "react";
 import {useHistory} from "react-router-dom";
-import AuthContext from "../../store/auth-context";
 import {QuantityPicker} from 'react-qty-picker';
+import {useSelector} from "react-redux";
+import {getUserToken, logoutUser} from "../../store/auth";
+import LocationPicker from "react-leaflet-location-picker";
+
+// const category = [
+//     {key: 'HOME', value: 'Dom', text: 'Dom'},
+//     {key: 'GARDEN', value: 'Ogród', text: 'Ogród'},
+//     {key: 'FIXING', value: 'Naprawa', text: 'Naprawa'},
+// ]
 
 const NewTaskForm = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [pickerValue, setPickerValue] = useState();
-    const authContext = useContext(AuthContext);
+    const [latitude, setLatitude] = useState();
+    const [longitude, setLongitude] = useState();
+    const token = useSelector(getUserToken);
 
     const titleInput = useRef();
     const contentInput = useRef();
@@ -15,9 +25,9 @@ const NewTaskForm = () => {
     const addressInput = useRef();
     const payInput = useRef();
     const expirationDateInput = useRef();
-    //const estimatedTimeInput = useRef();
     const imageInput = useRef();
     const history = useHistory();
+
 
 
     const submitHandler = (event) => {
@@ -34,44 +44,41 @@ const NewTaskForm = () => {
         const enteredPay = payInput.current.value;
         const enteredExpirationDate = expirationDateInput.current.value;
         const enteredEstimatedTime = pickerValue;
-        // const enteredEstimatedTime = estimatedTimeInput.current.value;
         const enteredImage = imageInput.current.value;
+        const enteredLongitude = longitude;
+        const enteredLatitude = latitude;
+
 
         url =
             'http://localhost:8080/api/task';
         init = {
             title: enteredTitle,
-            content: enteredContent,
-            category: enteredCategory,
+            content: enteredContent, category: enteredCategory,
             address: enteredAddress,
             pay: enteredPay,
             expirationDate: new Date(enteredExpirationDate),
             estimatedTime: enteredEstimatedTime,
-            image: enteredImage
+            image: enteredImage,
+            // longitude: longitude,
+            // latitude: latitude
         }
-
 
         fetch(url, {
             method: 'POST',
             body: JSON.stringify(init),
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + authContext.token,
+                'Authorization': 'Bearer ' + token,
             },
         })
             .then((response) => {
                 setIsLoading(false);
-                console.log(pickerValue);
-                console.log(enteredEstimatedTime);
-                console.log(typeof enteredExpirationDate);
-                console.log(expirationDateInput);
                 if (response.ok) {
                     return response.json().then(data => {
                         history.replace('/taskAdded');
                     })
                 } else {
                     return response.json().then((data) => {
-                        //let errorMessage = 'Authentication failed!';
                         if (data.status === 500) {
                             alert(data.message)
                             throw new Error(data.message);
@@ -84,11 +91,28 @@ const NewTaskForm = () => {
             });
     };
 
-    const getPickerValue = (value) =>{
-        console.log(value);
+    const getPickerValue = (value) => {
         setPickerValue(value);
-
     }
+
+
+
+   const getPoint = (point) => {
+       setLatitude(point[0]);
+       setLongitude(point[1]);
+    }
+
+
+    let pointValue = [];
+    const pointMode = {
+        banner: false,
+        control: {
+            values: pointValue,
+            onClick: point =>
+                getPoint(point)
+        }
+    };
+
 
     return (
         <section className={classes.section}>
@@ -102,16 +126,21 @@ const NewTaskForm = () => {
                     <div className={classes.control}>
                         <label htmlFor='content'>Opis</label>
                         <input type='text' id='password' required minLength="20" maxLength="800"
-    ref={contentInput}/>
+                               ref={contentInput}/>
                     </div>
                     <div className={classes.control}>
                         <label htmlFor='category'>Kategoria</label>
-                        <input type='text' id='category' required maxLength="30" ref={categoryInput}/>
-                    </div>
+                        <select ref={categoryInput}>
+                            <option value="Home">Dom</option>
+                            <option value="Garden">Ogród</option>
+                            <option value="Fixing">Naprawa</option>
+                        </select>
 
+                        {/*<Button onClick={getButtonValue.content}>kesfksdf</Button>*/}
+                    </div>
                     <div className={classes.control}>
                         <label htmlFor='address'>Adres</label>
-                        <input type='text' id='address' required minLength="20" maxLength="300"
+                        <input type='text' id='address' required minLength="5" maxLength="100"
                                ref={addressInput}/>
                     </div>
                     <div className={classes.control}>
@@ -124,8 +153,8 @@ const NewTaskForm = () => {
                     </div>
                     <div className={classes.control}>
                         <label htmlFor='estimatedTime'>Przybliżony czas na wykonanie zlecenia</label>
-                        <QuantityPicker onChange={getPickerValue} min={1} max={24} value={1} smooth/>
-                       {/*required*/}
+                        <QuantityPicker className={classes.picker} onChange={getPickerValue} min={1} max={24} value={1} smooth/>
+                        {/*required*/}
                     </div>
                     <div className={classes.control}>
                         <label htmlFor='image'>Zdjęcie</label>
@@ -133,6 +162,7 @@ const NewTaskForm = () => {
                     </div>
                     {/*lokalizacja - longitude, latitude*/}
                 </div>
+                <LocationPicker startPort='default' pointMode={pointMode}/>
                 <div className={classes.actions}>
                     <button>Dodaj ogłoszenie</button>
                     {isLoading && <p>Wysyłanie żądania...</p>}

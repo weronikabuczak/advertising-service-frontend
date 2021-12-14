@@ -1,30 +1,27 @@
 import classes from './UserProfile.module.css';
-import {Button, Card, Feed, Grid, Header, Icon, Image, Modal, Table} from "semantic-ui-react";
+import {Button, Card, Grid, Header, Icon, Image, Table} from "semantic-ui-react";
 import profile from '../../files/profile.jpg'
-import {useContext, useEffect, useState} from "react";
-import AuthContext from "../../store/auth-context";
+import {useEffect, useState} from "react";
 import ChangePassword from "./ChangePassword";
 import ChangeUserData from "./ChangeUserData";
 import {useHistory} from "react-router-dom";
+import {useSelector} from "react-redux";
+import {getUserToken} from "../../store/auth";
 
 const UserProfile = () => {
    const history = useHistory();
     const [userInfo, setUserInfo] = useState({});
     const [modalOpenPassword, setModalOpenPassword] = useState(false);
     const [modalOpenUserInfo, setModalOpenUserInfo] = useState(false);
-    //const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState(null);
+    const token = useSelector(getUserToken);
 
 
-    const authContext = useContext(AuthContext);
-
-    //GET info
     useEffect(() => {
         const fetchUserInfo = async () => {
             const response = await fetch('http://localhost:8080/api/user/me', {
                 method: 'get',
                 headers: {
-                    'Authorization': 'Bearer ' + authContext.token,
+                    'Authorization': 'Bearer ' + token,
                     'Content-Type': 'application/json'
                 }
             })

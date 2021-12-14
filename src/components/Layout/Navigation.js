@@ -1,20 +1,21 @@
-import {Link} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import classes from './Navigation.module.css';
 import AppSidebar from "./AppSidebar";
-import {useContext, useState} from "react";
-import flag from '../../files/flag.png'
-import task from '../../files/task.png'
-import AuthContext from "../../store/auth-context";
+import { useState} from "react";
+import {useAppDispatch} from "../../root";
 import {useSelector} from "react-redux";
-import {isUserLoggedIn} from "../../store/auth";
+
+import {isUserLoggedIn, loginUser, logoutUser} from "../../store/auth";
 
 const Navigation = () => {
 
+    const dispatch = useAppDispatch();
     const isLoggedIn = useSelector(isUserLoggedIn);
+    const history = useHistory();
 
-    const logoutHandler = () => {
-        // authContext.logout()
-        //redirect
+    const logoutHandler = (event) => {
+        dispatch(logoutUser({}));
+        history.push('/auth')
     };
 
     const [toggle, setToggle] = useState(false);

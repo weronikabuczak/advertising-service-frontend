@@ -1,9 +1,7 @@
-import {useContext, useEffect, useRef, useState} from 'react';
+import {useRef, useState} from 'react';
 import classes from './AuthorizationForm.module.css';
-import AuthContext from "../../../store/auth-context";
 import {Redirect, useHistory} from "react-router-dom";
-import jwtDecode from "jwt-decode";
-import {isUserLoggedIn, loginUser} from "../../../store/auth";
+import {isUserLoggedIn, loginUser, registerUser} from "../../../store/auth";
 import {useSelector} from "react-redux";
 import {useAppDispatch} from "../../../root";
 
@@ -21,7 +19,6 @@ const AuthorizationForm = () => {
         const [isLoading, setIsLoading] = useState(false);
 
         const isLoggedIn = useSelector(isUserLoggedIn);
-        console.log(isLoggedIn)
 
 
         if (isLoggedIn) {
@@ -30,12 +27,20 @@ const AuthorizationForm = () => {
 
         const brandNewHandlerForForm = (event) => {
             event.preventDefault();
-            if (!isLoggedIn) {
+            if (!isLoggedIn && isLogin) {
                 const email = emailInput.current.value;
                 const password = passwordInput.current.value;
                 dispatch(loginUser({email, password}))
                 history.push('/')
-            } else {
+            } else if (!isLogin) {
+                const email = emailInput.current.value;
+                const password = passwordInput.current.value;
+                const name = nameInput.current.value;
+                const location = locationInput.current.value;
+                const phone = phoneInput.current.value;
+                const image = imageInput.current.value;
+                dispatch(registerUser({email, password, name, location, phone, image}))
+                history.push('/')
             }
         }
 
@@ -135,7 +140,7 @@ const AuthorizationForm = () => {
                                 </div>
                                 <div className={classes.control}>
                                     <label htmlFor='password'>Hasło</label>
-                                    <input type='password' id='password' value='test123456' required ref={passwordInput}/>
+                                    <input type='password' id='password' value='test12345' required ref={passwordInput}/>
                                 </div>
                             </div>
                         )
@@ -168,7 +173,6 @@ const AuthorizationForm = () => {
                             </div>
                         )
                     }
-
 
                     <div className={classes.actions}>
                         {!isLoading && (

@@ -1,23 +1,20 @@
 import {Button, Form, Modal} from "semantic-ui-react";
-import classes from "../HomePage/Authorization/AuthorizationForm.module.css";
-import {useContext, useRef} from "react";
-import AuthContext from "../../store/auth-context";
-import {useHistory} from "react-router-dom";
+import {useRef} from "react";
+import {useSelector} from "react-redux";
+import {getUserToken} from "../../store/auth";
 
 const ChangePassword = ({open, setOpen, email}) => {
-    const authContext = useContext(AuthContext);
-    const history = useHistory();
-
+    const token = useSelector(getUserToken);
     const currentPasswordInput = useRef();
     const newPasswordInput = useRef();
 
     const onClose = (event) => {
         event.preventDefault()
-        setOpen(false)
+        setOpen(false);
     }
 
     const submitHandler = (event) => {
-event.preventDefault()
+        event.preventDefault()
         const enteredCurrentPassword = currentPasswordInput.current.value;
         const enteredNewPassword = newPasswordInput.current.value;
 
@@ -32,18 +29,15 @@ event.preventDefault()
             body: JSON.stringify(init),
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + authContext.token,
+                'Authorization': 'Bearer ' + token,
             },
         })
             .then((response) => {
-                // setIsLoading(false);
                 if (response.ok) {
-                    console.log(response)
-                    history.replace('/profile');
+                    setOpen(false);
                 } else {
                     return response.json().then((data) => {
                         if (data.status === 500) {
-                            console.log(data.message);
                             throw new Error(data.message);
                         }
                     });

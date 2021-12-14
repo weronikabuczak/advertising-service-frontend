@@ -1,12 +1,10 @@
 import {useCallback, useContext, useEffect, useState} from "react";
-import AuthContext from "../../../../store/auth-context";
 import TaskItem from "./TaskItem/TaskItem";
 import classes from "../TaskList/TaskList.module.css";
 import {useSelector} from "react-redux";
 import {getUserToken} from "../../../../store/auth";
 
 const TaskList = ({isUserTasks}) => {
-    const authContext = useContext(AuthContext);
     const [tasks, setTasks] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
