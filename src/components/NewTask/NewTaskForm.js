@@ -156,7 +156,8 @@ const NewTaskForm = () => {
                         <label htmlFor='category'>Kategoria</label>
                         <Button.Group>
                             {categories.map((category) => (
-                                <Button color={category.color} onClick={getCategory} content={category.id}>{category.label}</Button>
+                                <Button color={category.color} onClick={getCategory}
+                                        content={category.id}>{category.label}</Button>
                             ))}
                         </Button.Group>
                     </div>
@@ -175,7 +176,7 @@ const NewTaskForm = () => {
                     </div>
                     <div className={classes.control}>
                         <label htmlFor='estimatedTime'>Przybliżony czas na wykonanie zlecenia</label>
-                        <QuantityPicker className={classes.picker} onChange={getPickerValue} min={1} max={24} value={1}
+                        <QuantityPicker onChange={getPickerValue} e min={1} max={24} value={1}
                                         smooth/>
                         {/*required*/}
                     </div>
@@ -193,7 +194,8 @@ const NewTaskForm = () => {
                 </div>
             </form>
         </section>
-    );
+    )
+        ;
 }
 
 export default NewTaskForm;
