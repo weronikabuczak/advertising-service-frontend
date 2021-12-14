@@ -5,6 +5,8 @@ import {QuantityPicker} from 'react-qty-picker';
 import {useSelector} from "react-redux";
 import {getUserToken} from "../../store/auth";
 import LocationPicker from "react-leaflet-location-picker";
+import {categories} from "../../utils/taskCategory";
+import {Button, ButtonGroup} from "semantic-ui-react";
 
 // const category = [
 //     {key: 'HOME', value: 'Dom', text: 'Dom'},
@@ -17,17 +19,15 @@ const NewTaskForm = () => {
     const [pickerValue, setPickerValue] = useState();
     const [latitude, setLatitude] = useState(0);
     const [longitude, setLongitude] = useState(0);
-    const [image, setImage] = useState();
     const [imageContent, setImageContent] = useState();
+    const [category, setCategory] = useState();
     const token = useSelector(getUserToken);
 
     const titleInput = useRef();
     const contentInput = useRef();
-    const categoryInput = useRef();
     const addressInput = useRef();
     const payInput = useRef();
     const expirationDateInput = useRef();
-    //const imageInput = useRef();
     const history = useHistory();
 
 
@@ -40,26 +40,27 @@ const NewTaskForm = () => {
 
         const enteredTitle = titleInput.current.value;
         const enteredContent = contentInput.current.value;
-        const enteredCategory = categoryInput.current.value;
+        const enteredCategory = category;
         const enteredAddress = addressInput.current.value;
         const enteredPay = payInput.current.value;
         const enteredExpirationDate = expirationDateInput.current.value;
         const enteredEstimatedTime = pickerValue;
-        const enteredImage = image;
-        const enteredLongitude = longitude;
-        const enteredLatitude = latitude;
+        //const enteredImage = imageContent;
+        //const enteredLongitude = longitude;
+        //const enteredLatitude = latitude;
 
 
         url =
             'http://localhost:8080/api/task';
         init = {
             title: enteredTitle,
-            content: enteredContent, category: enteredCategory,
+            content: enteredContent,
+            category: enteredCategory,
             address: enteredAddress,
             pay: enteredPay,
             expirationDate: new Date(enteredExpirationDate),
             estimatedTime: enteredEstimatedTime,
-            image: enteredImage,
+            //image: enteredImage,
             // longitude: longitude,
             // latitude: latitude
         }
@@ -119,12 +120,11 @@ const NewTaskForm = () => {
 
     const imageUploadHandler = (event) => {
         const newImage = event.target.files[0];
-        setImage(newImage);
         newImage
             .text()
             .then(data => {
                 setImageContent(data)
-
+                console.log(data)
                 // data is file content
                 // can be added to some object that is send as imageContent
             })
@@ -132,7 +132,11 @@ const NewTaskForm = () => {
         // const fd = new FormData();
         // fd.append('image', image, image.name);
     }
-
+    const getCategory = (e, button) => {
+        e.preventDefault();
+        const {content} = button;
+        setCategory(content);
+    }
 
     return (
         <section className={classes.section}>
@@ -141,35 +145,33 @@ const NewTaskForm = () => {
                 <div>
                     <div className={classes.control}>
                         <label htmlFor='title'>Tytuł</label>
-                        <input type='text' id='title' minLength="10" maxLength="100" required ref={titleInput}/>
+                        <input type='text' id='title' minLength="10" maxLength="100" ref={titleInput}/>
                     </div>
                     <div className={classes.control}>
                         <label htmlFor='content'>Opis</label>
-                        <input type='text' id='password' required minLength="20" maxLength="800"
+                        <input type='text' id='password' minLength="20" maxLength="800"
                                ref={contentInput}/>
                     </div>
                     <div className={classes.control}>
                         <label htmlFor='category'>Kategoria</label>
-                        <select ref={categoryInput}>
-                            <option value="Home">Dom</option>
-                            <option value="Garden">Ogród</option>
-                            <option value="Fixing">Naprawa</option>
-                        </select>
-
-                        {/*<Button onClick={getButtonValue.content}>kesfksdf</Button>*/}
+                        <Button.Group>
+                            {categories.map((category) => (
+                                <Button color={category.color} onClick={getCategory} content={category.id}>{category.label}</Button>
+                            ))}
+                        </Button.Group>
                     </div>
                     <div className={classes.control}>
                         <label htmlFor='address'>Adres</label>
-                        <input type='text' id='address' required minLength="5" maxLength="100"
+                        <input type='text' id='address' minLength="5" maxLength="100"
                                ref={addressInput}/>
                     </div>
                     <div className={classes.control}>
                         <label htmlFor='pay'>Zapłata</label>
-                        <input type='number' id='pay' required maxLength="10" ref={payInput}/>
+                        <input type='number' id='pay' maxLength="10" ref={payInput}/>
                     </div>
                     <div className={classes.control}>
                         <label htmlFor='expirationDate'>Data wygaśnięcia</label>
-                        <input type='date' id='expirationDate' required ref={expirationDateInput}/>
+                        <input type='date' id='expirationDate' ref={expirationDateInput}/>
                     </div>
                     <div className={classes.control}>
                         <label htmlFor='estimatedTime'>Przybliżony czas na wykonanie zlecenia</label>
