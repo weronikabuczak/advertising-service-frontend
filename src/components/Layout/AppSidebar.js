@@ -5,13 +5,13 @@ import {
     Sidebar
 } from 'semantic-ui-react'
 import {Link} from "react-router-dom";
-import classNames from "classnames";
-
-import classes from './Navigation.module.css';
+// import classNames from "classnames";
+//
+// import classes from './Navigation.module.css';
 
 const AppSidebar = ({toggleFn, toggleMenu}) => {
 
-    const paddingClasses = classNames(classes.menu__item__padding)
+    //const paddingClasses = classNames(classes.menu__item__padding)
 
 
     return (
@@ -19,23 +19,22 @@ const AppSidebar = ({toggleFn, toggleMenu}) => {
             as={Menu}
             animation='push'
             icon='labeled'
-            className={paddingClasses}
+            // className={paddingClasses}
             inverted
-            onHide={() => {
-            }}
             vertical
             visible={toggleMenu}
             width='wide'
 
+
         >
-            <MenuItem onClick={toggleFn} className={paddingClasses}>
-                <Link to='/' className={paddingClasses}><Icon name='home'/>Strona główna</Link>
+            <MenuItem onClick={toggleFn} >
+                <Link to='/'><Icon name='home'/>Strona główna</Link>
+            </MenuItem>
+            <MenuItem onClick={toggleFn} link='true'>
+                <Link to='/profile'><Icon name='user'/>Moje konto</Link>
             </MenuItem>
             <MenuItem onClick={toggleFn}>
-                <Link to='/profile' className={paddingClasses}><Icon name='user'/>Moje konto</Link>
-            </MenuItem>
-            <MenuItem onClick={toggleFn}>
-                <Link to='/newTask' className={paddingClasses}><Icon name='add'/>Dodaj nowe ogłoszenie</Link>
+                <Link to='/newTask'><Icon name='add'/>Dodaj nowe ogłoszenie</Link>
             </MenuItem>
         </Sidebar>
 

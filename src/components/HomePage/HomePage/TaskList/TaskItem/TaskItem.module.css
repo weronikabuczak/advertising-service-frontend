@@ -43,6 +43,7 @@
 
 .taskCard:hover {
     animation: content-hover 0.1s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+    background-color: rgb(236, 247, 247);
 }
 
 ul {

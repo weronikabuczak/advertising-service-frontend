@@ -118,8 +118,8 @@ const NewTaskForm = () => {
         zoom: 5,
     }
 
-    const imageUploadHandler = (event) => {
-        const newImage = event.target.files[0];
+    const imageUploadHandler = (e) => {
+        const newImage = e.target.files[0];
         newImage
             .text()
             .then(data => {

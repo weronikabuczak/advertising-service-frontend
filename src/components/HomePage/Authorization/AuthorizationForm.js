@@ -6,17 +6,18 @@ import {useSelector} from "react-redux";
 import {useAppDispatch} from "../../../root";
 
 const AuthorizationForm = () => {
+        const history = useHistory();
         const dispatch = useAppDispatch();
         const emailInput = useRef();
         const passwordInput = useRef();
         const nameInput = useRef();
         const locationInput = useRef();
         const phoneInput = useRef();
-        const imageInput = useRef();
-        const history = useHistory();
+        const [imageContent, setImageContent] = useState();
 
         const [isLogin, setIsLogin] = useState(true);
         const [isLoading, setIsLoading] = useState(false);
+
 
         const isLoggedIn = useSelector(isUserLoggedIn);
 
@@ -38,7 +39,7 @@ const AuthorizationForm = () => {
                 const name = nameInput.current.value;
                 const location = locationInput.current.value;
                 const phone = phoneInput.current.value;
-                const image = imageInput.current.value;
+                const image = imageContent;
                 dispatch(registerUser({email, password, name, location, phone, image}))
                 history.push('/')
             }
@@ -49,6 +50,14 @@ const AuthorizationForm = () => {
             setIsLogin((prevState) => !prevState);
         };
 
+        const imageUploadHandler = (e) => {
+            const newImage = e.target.files[0];
+            newImage
+                .text()
+                .then(data => {
+                    setImageContent(data);
+                })
+        }
 
         return (
             <section className={classes.auth}>
@@ -90,7 +99,7 @@ const AuthorizationForm = () => {
                                 </div>
                                 <div className={classes.control}>
                                     <label htmlFor='image'>Zdjęcie</label>
-                                    <input type='file' id='image' ref={imageInput}/>
+                                    <input type='file' onChange={imageUploadHandler} id='image'/>
                                 </div>
                             </div>
                         )
