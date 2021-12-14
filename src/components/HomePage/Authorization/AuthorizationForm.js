@@ -44,88 +44,10 @@ const AuthorizationForm = () => {
             }
         }
 
-        //  const authContext = useContext(AuthContext);
 
         const switchAuthModeHandler = () => {
             setIsLogin((prevState) => !prevState);
         };
-
-        // const submitUserHandler = () => {
-        //     dispatch(
-        //         authUser.
-        //     )
-        // }
-
-        /*
-
-                const submitHandler = (event) => {
-                    event.preventDefault();
-                    setIsLoading(true);
-                    let url;
-                    let init;
-
-                    if (isLogin) {
-                        const enteredEmail = emailInput.current.value;
-                        const enteredPassword = passwordInput.current.value;
-                        url =
-                            'http://localhost:8080/api/user/login';
-                        init = {
-                            email: enteredEmail,
-                            password: enteredPassword
-                        }
-                    } else {
-                        const enteredEmail = emailInput.current.value;
-                        const enteredPassword = passwordInput.current.value;
-                        const enteredName = nameInput.current.value;
-                        const enteredLocation = locationInput.current.value;
-                        const enteredPhone = phoneInput.current.value;
-                        const enteredImage = imageInput.current.value;
-                        url =
-                            'http://localhost:8080/api/user/register';
-                        init = {
-                            email: enteredEmail,
-                            currentPassword: enteredPassword,
-                            newPassword: enteredPassword,
-                            name: enteredName,
-                            location: enteredLocation,
-                            phoneNumber: enteredPhone,
-                            image: enteredImage
-                        }
-                    }
-
-
-                    fetch(url, {
-                        method: 'POST',
-                        body: JSON.stringify(init),
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                    })
-                        .then((response) => {
-                            setIsLoading(false);
-                            if (response.ok) {
-                                return response.json().then(data => {
-                                    const {exp} = jwtDecode(data.token);
-                                    authContext.login(data.token, exp);
-                                    history.replace('/');
-                                })
-                            } else {
-                                return response.json().then((data) => {
-                                    let errorMessage = 'Authentication failed!';
-                                    if (data.status === 500) {
-                                        console.log(data.message)
-                                        alert(data.message)
-                                        throw new Error(data.message);
-                                    }
-                                });
-                            }
-                        })
-                        .catch((err) => {
-                            alert(err.message);
-                        });
-                };
-
-        */
 
 
         return (

@@ -3,6 +3,12 @@
   text-align: center;
 }
 
-.starting h1 {
-  font-size: 5rem;
+.section {
+  margin-bottom: 3rem;
+}
+
+h1 {
+  text-align: center;
+  padding: 2rem 0 0 0;
+  margin: 0;
 }

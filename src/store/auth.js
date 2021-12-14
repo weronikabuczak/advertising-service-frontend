@@ -55,7 +55,7 @@ export const registerUser = createAsyncThunk(`${sliceName}/register`, async ({
     }
 });
 
-export const logoutUser = createAsyncThunk(`${sliceName}/logout`, async ({}, {dispatch}) => {
+export const logoutUser = createAsyncThunk(`${sliceName}/logout`, async ({dispatch}) => {
     try {
         return {
             token: null,

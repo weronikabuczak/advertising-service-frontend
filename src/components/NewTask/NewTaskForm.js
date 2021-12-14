@@ -15,9 +15,10 @@ import LocationPicker from "react-leaflet-location-picker";
 const NewTaskForm = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [pickerValue, setPickerValue] = useState();
-    const [latitude, setLatitude] = useState();
-    const [longitude, setLongitude] = useState();
+    const [latitude, setLatitude] = useState(0);
+    const [longitude, setLongitude] = useState(0);
     const [image, setImage] = useState();
+    const [imageContent, setImageContent] = useState();
     const token = useSelector(getUserToken);
 
     const titleInput = useRef();
@@ -96,26 +97,38 @@ const NewTaskForm = () => {
     }
 
 
+    const points = [[latitude, longitude]];
+
     const getPoint = (point) => {
         setLatitude(point[0]);
         setLongitude(point[1]);
     }
 
-
-    let pointValue = [];
     const pointMode = {
         banner: false,
         control: {
-            values: pointValue,
+            values: points,
             onClick: point =>
                 getPoint(point)
         }
     };
+    const startPort = {
+        center: [52, 19],
+        zoom: 5,
+    }
 
     const imageUploadHandler = (event) => {
-        console.log(event.target.files[0]);
-        setImage(event.target.files[0]);
-        console.log(image)
+        const newImage = event.target.files[0];
+        setImage(newImage);
+        newImage
+            .text()
+            .then(data => {
+                setImageContent(data)
+
+                // data is file content
+                // can be added to some object that is send as imageContent
+            })
+
         // const fd = new FormData();
         // fd.append('image', image, image.name);
     }
@@ -170,7 +183,7 @@ const NewTaskForm = () => {
                     </div>
                 </div>
                 <div className={classes.control}>
-                    <LocationPicker startPort='default' pointMode={pointMode}/>
+                    <LocationPicker startPort={startPort} pointMode={pointMode}/>
                 </div>
                 <div className={classes.actions}>
                     <button>Dodaj ogłoszenie</button>

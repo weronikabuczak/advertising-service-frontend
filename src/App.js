@@ -9,6 +9,7 @@ import UserTasks from "./components/Profile/UserTasks/UserTasks";
 import {useSelector} from "react-redux";
 import {isUserLoggedIn} from "./store/auth";
 import ProfilePage from "./pages/ProfilePage";
+import TaskDetails from "./components/HomePage/HomePage/TaskList/TaskItem/TaskDetails/TaskDetails";
 
 function App() {
     const isLoggedIn = useSelector(isUserLoggedIn);
@@ -39,6 +40,13 @@ function App() {
                 <Route path='/userTasks'>
                     {isLoggedIn && <UserTasks/>}
                     {!isLoggedIn && <Redirect to='/auth'/>}
+                </Route>
+                {/*<Route path='/taskDetails'>*/}
+                {/*    {isLoggedIn && <TaskDetails/>}*/}
+                {/*    {!isLoggedIn && <Redirect to='/auth'/>}*/}
+                {/*</Route>*/}
+                <Route path='/taskDetails'>
+                   <TaskDetails/>
                 </Route>
                 <Route path='*'>
                     <Redirect to='/'/>
