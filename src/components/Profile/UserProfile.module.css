@@ -17,8 +17,8 @@
     }
 }
 
-.userInfo__container {
-    border: none;
+.userCard__container {
+    border: white;
     padding: 1rem;
 }
 

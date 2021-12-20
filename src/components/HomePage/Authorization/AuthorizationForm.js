@@ -39,7 +39,7 @@ const AuthorizationForm = () => {
                 const name = nameInput.current.value;
                 const location = locationInput.current.value;
                 const phone = phoneInput.current.value;
-                const image = imageContent;
+                const image = Array.from(imageContent);
                 dispatch(registerUser({email, password, name, location, phone, image}))
                 history.push('/')
             }

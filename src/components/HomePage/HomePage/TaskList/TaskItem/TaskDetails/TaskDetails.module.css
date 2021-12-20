@@ -4,3 +4,19 @@
 }
 
 
+.category__container {
+    display: flex;
+    justify-content: center;
+}
+
+.category__chip {
+    font-size: 1rem;
+    padding: 0.9rem;
+    border-radius: 5px;
+    font-weight: bold;
+    background-color: rgb(175, 171, 222);
+}
+
+.taskDetails__divider {
+    border-top: 4px;
+}
