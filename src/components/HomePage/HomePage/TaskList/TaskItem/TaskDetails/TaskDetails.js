@@ -1,6 +1,7 @@
-import {Button, Card, Container, Divider, Grid, Header, Icon, Image, Table} from "semantic-ui-react";
+import { Card, Container, Divider, Grid, Header, Icon, Image, Table} from "semantic-ui-react";
 import profile from "../../../../../../files/profile.jpg";
 import classes from './TaskDetails.module.css';
+import LocationPicker from "react-leaflet-location-picker";
 
 const TaskDetails = () => {
     return (
@@ -53,22 +54,16 @@ const TaskDetails = () => {
                             </Table>
                         </Card>
                         <Card fluid>
-                            <Card.Content className={classes.category__container}>
-                                <span className={classes.category__chip}>props.category</span></Card.Content>
-                            <Card.Content><Header as='h2'>Tytuł ogłoszenia</Header></Card.Content>
-                            <Table>
-                                <Table.Body>
-                                    <Table.Row>
-                                        <Table.Cell>
-                                            <Header as='h4'>
-                                                <Header.Content>Adres</Header.Content>
-                                            </Header>
-                                        </Table.Cell>
-                                        <Table.Cell>Rajska, Bytom</Table.Cell>
-                                    </Table.Row>
-                                   
-                                </Table.Body>
-                            </Table>
+                           <Card.Content><Header as='h2'>Wystawione przez</Header>
+                               <Grid.Row>
+                               <Grid.Column width={8}>
+                                   <Image src={profile} rounded size='tiny'/>
+                               </Grid.Column>
+                               <Grid.Column width={8}>
+                                   <p>hfghjktgtyhuj</p>
+                               </Grid.Column>
+                               </Grid.Row>
+                           </Card.Content>
                         </Card>
                     </Grid.Column>
                 </Grid.Row>
@@ -85,7 +80,11 @@ const TaskDetails = () => {
                         Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut
                         metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue.
                         Curabitur ullamcorper ultricies nisi.</Container>
-
+                </Grid.Row>
+                <Grid.Row>
+                    MAP <div className={classes.control}>
+                    <LocationPicker/>
+                </div>
                 </Grid.Row>
                 {/*<Grid.Row>*/}
                 {/*    <Grid.Column width={10}>*/}

@@ -13,7 +13,7 @@ const AuthorizationForm = () => {
         const nameInput = useRef();
         const locationInput = useRef();
         const phoneInput = useRef();
-        const [imageContent, setImageContent] = useState();
+       // const [imageContent, setImageContent] = useState();
 
         const [isLogin, setIsLogin] = useState(true);
         const [isLoading, setIsLoading] = useState(false);
@@ -35,12 +35,13 @@ const AuthorizationForm = () => {
                 history.push('/')
             } else if (!isLogin) {
                 const email = emailInput.current.value;
-                const password = passwordInput.current.value;
+                const currentPassword = passwordInput.current.value;
+                const newPassword = passwordInput.current.value;
                 const name = nameInput.current.value;
                 const location = locationInput.current.value;
                 const phone = phoneInput.current.value;
-                const image = Array.from(imageContent);
-                dispatch(registerUser({email, password, name, location, phone, image}))
+               // const image = Array.from(imageContent);
+                dispatch(registerUser({email, currentPassword, newPassword, name, location, phone}))
                 history.push('/')
             }
         }
@@ -55,7 +56,7 @@ const AuthorizationForm = () => {
             newImage
                 .text()
                 .then(data => {
-                    setImageContent(data);
+                  //  setImageContent(data);
                 })
         }
 
@@ -67,11 +68,11 @@ const AuthorizationForm = () => {
                             <div>
                                 <div className={classes.control}>
                                     <label htmlFor='email'>E-mail</label>
-                                    <input type='email' id='email' value='test2@test.com' required ref={emailInput}/>
+                                    <input type='email' id='email' value='test1@test.com' required ref={emailInput}/>
                                 </div>
                                 <div className={classes.control}>
                                     <label htmlFor='password'>Hasło</label>
-                                    <input type='password' id='password' value='test12345' required ref={passwordInput}/>
+                                    <input type='password' id='password' value='test1@test.com' required ref={passwordInput}/>
                                 </div>
                             </div>
                         )

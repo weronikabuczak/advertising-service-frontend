@@ -34,14 +34,15 @@ export const loginUser = createAsyncThunk(`${sliceName}/login`, async ({email, p
 
 export const registerUser = createAsyncThunk(`${sliceName}/register`, async ({
                                                                                  email,
-                                                                                 password,
+                                                                                 currentPassword,
+                                                                                 newPassword,
                                                                                  name,
                                                                                  location,
                                                                                  phone,
                                                                                  image
                                                                              }, {dispatch}) => {
     try {
-        const data = await registerUserApiCall({email, password, name, location, phone, image});
+        const data = await registerUserApiCall({email, currentPassword,  newPassword, name, location, phone, image});
         const {token} = data;
         return {
             token: token,
