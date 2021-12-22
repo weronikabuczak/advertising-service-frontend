@@ -1,5 +1,4 @@
 import jwtDecode from "jwt-decode";
-
 const loginUrl = 'http://localhost:8080/api/user/login';
 const registerUrl = 'http://localhost:8080/api/user/register';
 
@@ -28,6 +27,7 @@ export const loginUserApiCall = async ({email, password}) => {
         throw err;
     }
 };
+
 
 
 export const registerUserApiCall = async ({email, currentPassword, newPassword, name, location, phone, image}) => {

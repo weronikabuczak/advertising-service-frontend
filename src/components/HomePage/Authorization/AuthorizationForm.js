@@ -13,7 +13,8 @@ const AuthorizationForm = () => {
         const nameInput = useRef();
         const locationInput = useRef();
         const phoneInput = useRef();
-       // const [imageContent, setImageContent] = useState();
+        const [imageContent, setImageContent] = useState(null);
+        let image = null;
 
         const [isLogin, setIsLogin] = useState(true);
         const [isLoading, setIsLoading] = useState(false);
@@ -26,7 +27,7 @@ const AuthorizationForm = () => {
             return <Redirect to={'/'}/>
         }
 
-        const brandNewHandlerForForm = (event) => {
+        const brandNewHandlerForForm = async (event) => {
             event.preventDefault();
             if (!isLoggedIn && isLogin) {
                 const email = emailInput.current.value;
@@ -40,8 +41,8 @@ const AuthorizationForm = () => {
                 const name = nameInput.current.value;
                 const location = locationInput.current.value;
                 const phone = phoneInput.current.value;
-               // const image = Array.from(imageContent);
-                dispatch(registerUser({email, currentPassword, newPassword, name, location, phone}))
+                // const image = imageContent;
+                dispatch(registerUser({email, currentPassword, newPassword, name, location, phone, image}))
                 history.push('/')
             }
         }
@@ -51,14 +52,84 @@ const AuthorizationForm = () => {
             setIsLogin((prevState) => !prevState);
         };
 
-        const imageUploadHandler = (e) => {
-            const newImage = e.target.files[0];
-            newImage
-                .text()
-                .then(data => {
-                  //  setImageContent(data);
-                })
+
+        const handleFileInput = (e) => {
+            const file = e.target.files[0];
+            let reader = new FileReader();
+            reader.readAsDataURL(file);
+            let baseURL;
+            let newBaseURL;
+            reader.onload = () => {
+                console.log("Called", reader);
+                baseURL = reader.result;
+                newBaseURL = baseURL.split(',')[1];
+                console.log(" base url  " + newBaseURL);
+                // setImageContent(newBaseURL);
+                // console.log("imageContent" + imageContent);
+                image = newBaseURL;
+                console.log(image);
+                // resolve(baseURL);
+            };
+
+
+
+
         }
+
+
+        // const getBase64 = (file) => {
+        //     return new Promise(resolve => {
+        //         let fileInfo;
+        //         let baseURL = "";
+        //         // Make new FileReader
+        //         let reader = new FileReader();
+        //
+        //         // Convert the file to base64 text
+        //         reader.readAsDataURL(file);
+        //
+        //         // on reader load somthing...
+        //         reader.onload = () => {
+        //             // Make a fileInfo Object
+        //             console.log("Called", reader);
+        //             baseURL = reader.result;
+        //             console.log(baseURL);
+        //             resolve(baseURL);
+        //         };
+        //         console.log(fileInfo);
+        //     });
+        // };
+
+        // const handleFileInputChange = e => {
+        //     console.log(e.target.files[0]);
+        //     //let {file} = state;
+        //     let file = e.target.files[0];
+        //
+        //     getBase64(file)
+        //         .then(result => {
+        //             console.log("File Is", file);
+        //             this.setState(result);
+        //             console.log(result);
+        //             console.log(state);
+        //         })
+        //         .catch(err => {
+        //             console.log(err);
+        //         });
+        //
+        //     // this.setState({
+        //     //     file: e.target.files[0]
+        //     // });
+        // };
+
+
+        // const imageUploadHandler = (event) => {
+        //     const newImage = event.target.files[0];
+        //       newImage
+        //         .text()
+        //         .then(data => {
+        //             setImageContent(data);
+        //         })
+        // }
+
 
         return (
             <section className={classes.auth}>
@@ -100,7 +171,7 @@ const AuthorizationForm = () => {
                                 </div>
                                 <div className={classes.control}>
                                     <label htmlFor='image'>Zdjęcie</label>
-                                    <input type='file' onChange={imageUploadHandler} id='image'/>
+                                    <input type='file' onChange={handleFileInput} id='image'/>
                                 </div>
                             </div>
                         )
@@ -123,5 +194,6 @@ const AuthorizationForm = () => {
         );
     }
 ;
+
 
 export default AuthorizationForm;
