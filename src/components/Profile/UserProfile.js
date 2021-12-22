@@ -9,7 +9,7 @@ import {useSelector} from "react-redux";
 import {getUserToken} from "../../store/auth";
 
 const UserProfile = () => {
-   const history = useHistory();
+    const history = useHistory();
     const [userInfo, setUserInfo] = useState({});
     const [modalOpenPassword, setModalOpenPassword] = useState(false);
     const [modalOpenUserInfo, setModalOpenUserInfo] = useState(false);
@@ -26,9 +26,14 @@ const UserProfile = () => {
                 }
             })
             const responseData = await response.json();
-            let createDate = new Date(responseData.createDate);
-            responseData.createDate = createDate.toLocaleDateString();
+            const createDate = new Date(responseData.createDate);
+            if (responseData.image) {
+                let avatar = "data:image/jpeg;base64," + responseData.image;
+                responseData.createDate = createDate.toLocaleDateString();
+                responseData.image = avatar;
+            }
             setUserInfo(responseData);
+            console.log(userInfo);
         };
         fetchUserInfo();
     }, []);
@@ -65,10 +70,13 @@ const UserProfile = () => {
                 </Card.Content>
                 <Card.Content>
                     <Grid>
-                        <Grid.Column width={5}>
-                            <Image src={profile} rounded size='medium'/>
+                        <Grid.Column width={6}>
+                            {userInfo.image != null
+                                ? <Image src={userInfo.image} rounded size='medium'/>
+                                : <Image src={profile} rounded size='medium'/>
+                            }
                         </Grid.Column>
-                        <Grid.Column width={11}>
+                        <Grid.Column width={10}>
                             <Header as='h1'>
                                 <>{userInfo.name}</>
                                 <Button floated='right' onClick={changeUserInfoHandler}>
