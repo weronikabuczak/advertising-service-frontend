@@ -30,9 +30,9 @@ export const loginUserApiCall = async ({email, password}) => {
 
 
 
-export const registerUserApiCall = async ({email, currentPassword, newPassword, name, location, phone, image}) => {
+export const registerUserApiCall = async ({email, currentPassword, newPassword, name, location, phoneNumber, image}) => {
     try {
-        const body = JSON.stringify({email, currentPassword, newPassword, name, location, phone, image});
+        const body = JSON.stringify({email, currentPassword, newPassword, name, location, phoneNumber, image});
         return fetch(registerUrl, {
             method: 'POST',
             body: body,

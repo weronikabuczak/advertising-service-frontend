@@ -39,8 +39,8 @@ const AuthorizationForm = () => {
                 const newPassword = passwordInput.current.value;
                 const name = nameInput.current.value;
                 const location = locationInput.current.value;
-                const phone = phoneInput.current.value;
-                dispatch(registerUser({email, currentPassword, newPassword, name, location, phone, image}))
+                const phoneNumber = phoneInput.current.value;
+                dispatch(registerUser({email, currentPassword, newPassword, name, location, phoneNumber, image}))
                 history.push('/')
             }
         }
@@ -127,7 +127,7 @@ const AuthorizationForm = () => {
                             <div>
                                 <div className={classes.control}>
                                     <label htmlFor='email'>E-mail</label>
-                                    <input type='email' id='email' value='test1@test.com' required ref={emailInput}/>
+                                    <input type='email' id='email' value='test5@test.com' required ref={emailInput}/>
                                 </div>
                                 <div className={classes.control}>
                                     <label htmlFor='password'>Hasło</label>
