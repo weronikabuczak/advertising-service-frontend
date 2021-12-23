@@ -2,10 +2,20 @@ import {Button, Card, Grid, Header, Icon, Image} from "semantic-ui-react";
 import profile from '../../../../../files/profile.jpg';
 import classes from "../TaskItem/TaskItem.module.css";
 import {formatDate} from "../../../../../utils/functions";
+import {useHistory} from "react-router-dom";
+import {useSelector} from "react-redux";
+import {getTaskId, setCurrentTaskId} from "../../../../../store/task";
+import {useAppDispatch} from "../../../../../root";
 
 
 const TaskItem = ({props}) => {
+    const history = useHistory();
+    const dispatch = useAppDispatch()
 
+    const taskDetailsHandler = () => {
+        dispatch(setCurrentTaskId(props.id))
+        history.replace(`/taskDetails/${props.id}`);
+    }
 
     return (
         <Card fluid centered className={classes.taskCard}>
@@ -52,7 +62,7 @@ const TaskItem = ({props}) => {
                         <Grid.Column width={10}>
                         </Grid.Column>
                         <Grid.Column width={6}>
-                            <Button animated='vertical' floated='right' fluid >
+                            <Button animated='vertical' floated='right' fluid onClick={taskDetailsHandler}>
                                 <Button.Content>Zobacz szczegóły</Button.Content>
                             </Button>
                         </Grid.Column>

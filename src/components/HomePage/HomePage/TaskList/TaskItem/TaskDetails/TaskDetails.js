@@ -2,114 +2,124 @@ import {Card, Container, Divider, Grid, Header, Icon, Image, Table} from "semant
 import profile from "../../../../../../files/profile.jpg";
 import classes from './TaskDetails.module.css';
 import {MapContainer, TileLayer, Marker, Popup} from 'react-leaflet'
+import {useSelector} from "react-redux";
+import {getCurrentTask} from "../../../../../../store/task";
 
 const TaskDetails = () => {
+    const task = useSelector(getCurrentTask);
+    let avatar = null;
 
-    const position = [52, 19]
+    const position = [52, 19];
+
+    if (task.user.image) {
+        avatar = "data:image/jpeg;base64," + task.user.image;
+    }
 
 
-    return (
-        <Container className={classes.task__container}>
-            <Grid>
-                <Grid.Row>
-                    <Grid.Column width={10}>
-                        <Image src={profile} rounded size='large'/>
-                    </Grid.Column>
-                    <Grid.Column width={6}>
-                        <Card fluid>
-                            <Card.Content className={classes.category__container}>
-                                <span className={classes.category__chip}>props.category</span></Card.Content>
-                            <Card.Content><Header as='h2'>Tytuł ogłoszenia</Header></Card.Content>
-                            <Table>
-                                <Table.Body>
-                                    <Table.Row>
-                                        <Table.Cell>
-                                            <Header as='h4'>
-                                                <Header.Content>Adres</Header.Content>
-                                            </Header>
-                                        </Table.Cell>
-                                        <Table.Cell>Rajska, Bytom</Table.Cell>
-                                    </Table.Row>
-                                    <Table.Row>
-                                        <Table.Cell>
-                                            <Header as='h4'>
-                                                <Header.Content>Zapłata</Header.Content>
-                                            </Header>
-                                        </Table.Cell>
-                                        <Table.Cell>300 zł</Table.Cell>
-                                    </Table.Row>
-                                    <Table.Row>
-                                        <Table.Cell>
-                                            <Header as='h4'>
-                                                <Header.Content>Przewidywany czas wykonania</Header.Content>
-                                            </Header>
-                                        </Table.Cell>
-                                        <Table.Cell>5 h</Table.Cell>
-                                    </Table.Row>
-                                    <Table.Row>
-                                        <Table.Cell>
-                                            <Header as='h4'>
-                                                <Header.Content>Data wygaśnięcia</Header.Content>
-                                            </Header>
-                                        </Table.Cell>
-                                        <Table.Cell>20.10.2021</Table.Cell>
-                                    </Table.Row>
-                                </Table.Body>
-                            </Table>
-                        </Card>
-                        <Card fluid>
-                            <Card.Content><Header as='h2'>Wystawione przez</Header>
-                                <Grid.Row>
-                                    <Grid.Column width={8}>
-                                        <Image src={profile} rounded size='tiny'/>
-                                    </Grid.Column>
-                                    <Grid.Column width={8}>
-                                        <p>hfghjktgtyhuj</p>
-                                    </Grid.Column>
-                                </Grid.Row>
-                            </Card.Content>
-                        </Card>
-                    </Grid.Column>
-                </Grid.Row>
-                <Divider className={classes.taskDetails__divider}/>
-                <Grid.Row>
-                    <Container textAlign='justified'>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
-                        commodo ligula eget
-                        dolor. Aenean massa strong. Cum sociis natoque penatibus et magnis dis parturient montes,
-                        nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.
-                        Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget,
-                        arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu
-                        pede link mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean
-                        vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim.
-                        Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut
-                        metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue.
-                        Curabitur ullamcorper ultricies nisi.</Container>
-                </Grid.Row>
-                <Grid.Row>
-                    <MapContainer className={classes.taskMap__container} center={position} zoom={12} scrollWheelZoom={false}>
-                        <TileLayer
-                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        />
-                        <Marker position={position}>
-                            <Popup>
-                                Miejsce wykonania zlecenia
-                            </Popup>
-                        </Marker>
-                    </MapContainer>
-                </Grid.Row>
-                {/*<Grid.Row>*/}
-                {/*    <Grid.Column width={10}>*/}
-                {/*    </Grid.Column>*/}
-                {/*    <Grid.Column width={6}>*/}
-                {/*        <Button animated='vertical' floated='right' fluid>*/}
-                {/*            <Button.Content>Zobacz szczegóły</Button.Content>*/}
-                {/*        </Button>*/}
-                {/*    </Grid.Column>*/}
-                {/*</Grid.Row>*/}
-            </Grid>
-        </Container>
-    )
+    return (<Container className={classes.task__container}>
+        <Grid>
+            <Grid.Row>
+                <Grid.Column width={10}>
+                    <Image src={profile} rounded size='large'/>
+                </Grid.Column>
+                <Grid.Column width={6}>
+                    <Card fluid>
+                        <Card.Content className={classes.category__container}>
+                            <span className={classes.category__chip}>{task.category}</span></Card.Content>
+                        <Card.Content><Header as='h2'>{task.title}</Header></Card.Content>
+                        <Table>
+                            <Table.Body>
+                                <Table.Row>
+                                    <Table.Cell>
+                                        <Header as='h4'>
+                                            <Header.Content>Adres</Header.Content>
+                                        </Header>
+                                    </Table.Cell>
+                                    <Table.Cell>{task.address}</Table.Cell>
+                                </Table.Row>
+                                <Table.Row>
+                                    <Table.Cell>
+                                        <Header as='h4'>
+                                            <Header.Content>Zapłata</Header.Content>
+                                        </Header>
+                                    </Table.Cell>
+                                    <Table.Cell>{task.pay} zł</Table.Cell>
+                                </Table.Row>
+                                <Table.Row>
+                                    <Table.Cell>
+                                        <Header as='h4'>
+                                            <Header.Content>Przewidywany czas wykonania</Header.Content>
+                                        </Header>
+                                    </Table.Cell>
+                                    <Table.Cell>{task.estimatedTime} h</Table.Cell>
+                                </Table.Row>
+                                <Table.Row>
+                                    <Table.Cell>
+                                        <Header as='h4'>
+                                            <Header.Content>Data wygaśnięcia</Header.Content>
+                                        </Header>
+                                    </Table.Cell>
+                                    <Table.Cell>{task.expirationDate}</Table.Cell>
+                                </Table.Row>
+                            </Table.Body>
+                        </Table>
+                    </Card>
+                    <Card fluid>
+                        <Card.Content>
+                            {avatar != null
+                                ? <Image src={avatar} rounded size='tiny' floated='right'/>
+                                : <Image src={profile} rounded size='tiny' floated='right'/>
+                            }
+                            <Card.Header>Osoba zlecająca</Card.Header>
+                            <Card.Content>{task.user.name}</Card.Content>
+                            <Card.Content><Icon name='home'/>{task.user.location}</Card.Content>
+                            <Card.Content><Icon name='phone'/>{task.user.phoneNumber}</Card.Content>
+                            <Card.Content><Icon name='mail'/>{task.user.email}</Card.Content>
+                        </Card.Content>
+                    </Card>
+                </Grid.Column>
+            </Grid.Row>
+            <Divider className={classes.taskDetails__divider}/>
+            <Grid.Row>
+                <Container textAlign='justified'>
+                    <Header>Szczegóły</Header>
+                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
+                    commodo ligula eget
+                    dolor. Aenean massa strong. Cum sociis natoque penatibus et magnis dis parturient montes,
+                    nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.
+                    Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget,
+                    arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu
+                    pede link mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean
+                    vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim.
+                    Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut
+                    metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue.
+                    Curabitur ullamcorper ultricies nisi.</Container>
+            </Grid.Row>
+            <Grid.Row>
+                <MapContainer className={classes.taskMap__container} center={position} zoom={12}
+                              scrollWheelZoom={false}>
+                    <TileLayer
+                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    />
+                    <Marker position={position}>
+                        <Popup>
+                            Miejsce wykonania zlecenia
+                        </Popup>
+                    </Marker>
+                </MapContainer>
+            </Grid.Row>
+            {/*<Grid.Row>*/}
+            {/*    <Grid.Column width={10}>*/}
+            {/*    </Grid.Column>*/}
+            {/*    <Grid.Column width={6}>*/}
+            {/*        <Button animated='vertical' floated='right' fluid>*/}
+            {/*            <Button.Content>Zobacz szczegóły</Button.Content>*/}
+            {/*        </Button>*/}
+            {/*    </Grid.Column>*/}
+            {/*</Grid.Row>*/}
+        </Grid>
+    </Container>)
 }
 
 export default TaskDetails;

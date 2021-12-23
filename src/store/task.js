@@ -5,6 +5,7 @@ export const sliceName = 'task';
 
 export const initialState = {
     tasks: [],
+    currentTaskId: '',
     isLoading: false,
 };
 
@@ -13,6 +14,22 @@ export const getTasks = createAsyncThunk(`${sliceName}/getTasks`, async ({isUser
         console.log(isUserTasks)
         console.log(token)
         const data = await getTasksApiCall({isUserTasks, token});
+        return {
+            tasks: [...data]
+        };
+    } catch (error) {
+        alert('Cannot fetch tasks');
+        throw error;
+    }
+});
+
+export const getTaskById = createAsyncThunk(`${sliceName}/getTaskById`, async ({
+                                                                                   isUserTasks,
+                                                                                   id,
+                                                                                   token
+                                                                               }, {dispatch}) => {
+    try {
+        const data = []
         console.log(data);
         //const {tasks} = data;
         return {
@@ -27,7 +44,11 @@ export const getTasks = createAsyncThunk(`${sliceName}/getTasks`, async ({isUser
 const task = createSlice({
     name: sliceName,
     initialState,
-    reducers: {},
+    reducers: {
+        setCurrentTaskId: (state, {payload}) => {
+            state.currentTaskId = payload
+        }
+    },
     extraReducers: (builder) => {
         builder.addCase(getTasks.pending, (state) => {
             state.isLoading = true;
@@ -43,8 +64,10 @@ const task = createSlice({
         });
     }
 });
-
+export const {setCurrentTaskId} = task.actions
 export const getIsLoading = state => state[sliceName].isLoading;
 export const getAllTasks = state => state[sliceName].tasks;
+export const getCurrentTaskId = state => state[sliceName].currentTaskId;
+export const getCurrentTask = (state) => state[sliceName].tasks.find(task => task.id === state[sliceName].currentTaskId);
 
 export default task.reducer;

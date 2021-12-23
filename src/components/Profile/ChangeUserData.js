@@ -27,7 +27,9 @@ const ChangeUserData = ({open, setOpen, email}) => {
             email: enteredEmail,
             phoneNumber: enteredPhoneNumber,
             name: enteredName,
-            location: enteredLocation
+            location: enteredLocation,
+            // currentPassword: 'test1234',
+            // newPassword: 'test1234'
         }
 
         fetch(url, {

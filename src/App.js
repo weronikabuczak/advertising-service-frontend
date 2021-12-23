@@ -45,8 +45,12 @@ function App() {
                 {/*    {isLoggedIn && <TaskDetails/>}*/}
                 {/*    {!isLoggedIn && <Redirect to='/auth'/>}*/}
                 {/*</Route>*/}
-                <Route path='/taskDetails'>
-                   <TaskDetails/>
+                {/*<Route path='/taskDetails'>*/}
+                {/*   <TaskDetails/>*/}
+                {/*</Route>*/}
+                <Route path='/taskDetails:id?'>
+                    {isLoggedIn && <TaskDetails/>}
+                    {!isLoggedIn && <Redirect to='/auth'/>}
                 </Route>
                 <Route path='*'>
                     <Redirect to='/'/>
