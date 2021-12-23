@@ -4,17 +4,30 @@ import classes from './TaskDetails.module.css';
 import {MapContainer, TileLayer, Marker, Popup} from 'react-leaflet'
 import {useSelector} from "react-redux";
 import {getCurrentTask} from "../../../../../../store/task";
+import L from 'leaflet';
+import icon from 'leaflet/dist/images/marker-icon.png';
+import iconShadow from 'leaflet/dist/images/marker-shadow.png';
+
+
 
 const TaskDetails = () => {
     const task = useSelector(getCurrentTask);
     let avatar = null;
-
-    const position = [52, 19];
+    const latitude = task.latitude;
+    const longitude = task.longitude;
+    const position = [latitude,longitude];
 
     if (task.user.image) {
         avatar = "data:image/jpeg;base64," + task.user.image;
     }
 
+    //leaflet icon issue
+    let DefaultIcon = L.icon({
+        iconUrl: icon,
+        shadowUrl: iconShadow
+    });
+
+    L.Marker.prototype.options.icon = DefaultIcon;
 
     return (<Container className={classes.task__container}>
         <Grid>
@@ -83,20 +96,10 @@ const TaskDetails = () => {
             <Grid.Row>
                 <Container textAlign='justified'>
                     <Header>Szczegóły</Header>
-                    Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean
-                    commodo ligula eget
-                    dolor. Aenean massa strong. Cum sociis natoque penatibus et magnis dis parturient montes,
-                    nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem.
-                    Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget,
-                    arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu
-                    pede link mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean
-                    vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim.
-                    Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut
-                    metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue.
-                    Curabitur ullamcorper ultricies nisi.</Container>
+                    {task.content}</Container>
             </Grid.Row>
             <Grid.Row>
-                <MapContainer className={classes.taskMap__container} center={position} zoom={12}
+                <MapContainer className={classes.taskMap__container} center={position} zoom={17}
                               scrollWheelZoom={false}>
                     <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -109,15 +112,6 @@ const TaskDetails = () => {
                     </Marker>
                 </MapContainer>
             </Grid.Row>
-            {/*<Grid.Row>*/}
-            {/*    <Grid.Column width={10}>*/}
-            {/*    </Grid.Column>*/}
-            {/*    <Grid.Column width={6}>*/}
-            {/*        <Button animated='vertical' floated='right' fluid>*/}
-            {/*            <Button.Content>Zobacz szczegóły</Button.Content>*/}
-            {/*        </Button>*/}
-            {/*    </Grid.Column>*/}
-            {/*</Grid.Row>*/}
         </Grid>
     </Container>)
 }

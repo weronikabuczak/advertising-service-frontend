@@ -19,7 +19,6 @@ const NewTaskForm = () => {
     const [pickerValue, setPickerValue] = useState();
     const [latitude, setLatitude] = useState(0);
     const [longitude, setLongitude] = useState(0);
-    const [imageContent, setImageContent] = useState();
     const [category, setCategory] = useState();
     const token = useSelector(getUserToken);
 
@@ -135,7 +134,6 @@ const NewTaskForm = () => {
         let baseURL;
         let newBaseURL;
         reader.onload = () => {
-            // console.log("Called", reader);
             baseURL = reader.result;
             newBaseURL = baseURL.split(',')[1];
             console.log(newBaseURL);
@@ -165,7 +163,7 @@ const NewTaskForm = () => {
                         <Button.Group>
                             {categories.map((category) => (
                                 <Button color={category.color} onClick={getCategory}
-                                        content={category.id}>{category.label}</Button>
+                                        content={category.label}>{category.label}</Button>
                             ))}
                         </Button.Group>
                     </div>

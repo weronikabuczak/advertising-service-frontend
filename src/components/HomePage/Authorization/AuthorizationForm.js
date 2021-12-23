@@ -58,11 +58,9 @@ const AuthorizationForm = () => {
             let baseURL;
             let newBaseURL;
             reader.onload = () => {
-                // console.log("Called", reader);
                 baseURL = reader.result;
                 newBaseURL = baseURL.split(',')[1];
                 image = newBaseURL;
-                // console.log(image);
             };
         }
 

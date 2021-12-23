@@ -6,17 +6,17 @@ export const colors = {
 
 export const categories = [
     {
-        id: 'HOME',
+        id: 'Dom',
         label: 'Dom',
         color: colors.RED,
     },
     {
-        id: 'GARDEN',
+        id: 'Ogród',
         label: 'Ogród',
         color: colors.GREEN,
     },
     {
-        id: 'FIXING',
+        id: 'Naprawa',
         label: 'Naprawa',
         color: colors.BLUE,
     },
