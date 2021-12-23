@@ -8,12 +8,6 @@ import LocationPicker from "react-leaflet-location-picker";
 import {categories} from "../../utils/taskCategory";
 import {Button} from "semantic-ui-react";
 
-// const category = [
-//     {key: 'HOME', value: 'Dom', text: 'Dom'},
-//     {key: 'GARDEN', value: 'Ogród', text: 'Ogród'},
-//     {key: 'FIXING', value: 'Naprawa', text: 'Naprawa'},
-// ]
-
 const NewTaskForm = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [pickerValue, setPickerValue] = useState();
@@ -138,10 +132,9 @@ const NewTaskForm = () => {
             newBaseURL = baseURL.split(',')[1];
             console.log(newBaseURL);
             image = newBaseURL;
-             console.log(image);
+            console.log(image);
         };
     }
-
 
 
     return (

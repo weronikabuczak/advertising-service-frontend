@@ -12,7 +12,7 @@ export const getTasksApiCall = async ({isUserTasks, token}) => {
                     return [...data]
                 })
             } else {
-                throw 'Authentication failed!'
+                throw 'Fetching tasks failed!'
             }
         })
     } catch (error) {
@@ -20,25 +20,24 @@ export const getTasksApiCall = async ({isUserTasks, token}) => {
     }
 };
 
-// export const getTaskByIdApiCall = async ({isUserTasks, id,  token}) => {
-//     try {
-//         return fetch(`http://localhost:8080/api/task?userTasks=${isUserTasks}`, {
-//             method: 'GET',
-//             headers: {
-//                 'Authorization': 'Bearer ' + token,
-//                 'Content-Type': 'application/json'
-//             },
-//         }).then((response) => {
-//             if (response.ok) {
-//                 return response.json().then(data => {
-//                     console.log(data)
-//                     return [...data]
-//                 })
-//             } else {
-//                 throw 'Authentication failed!'
-//             }
-//         })
-//     } catch (error) {
-//         throw error;
-//     }
-// };
+export const deleteTaskApiCall = async ({token, id}) => {
+    try {
+        return fetch(`http://localhost:8080/api/task/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': 'Bearer ' + token,
+                'Content-Type': 'application/json'
+            },
+        }).then((response) => {
+            if (response.ok) {
+                return response.json().then(data => {
+                    return [...data]
+                })
+            } else {
+                throw 'Cannot delete task'
+            }
+        })
+    } catch (error) {
+        throw error;
+    }
+};

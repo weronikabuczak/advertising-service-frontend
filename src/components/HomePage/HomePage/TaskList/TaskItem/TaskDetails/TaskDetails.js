@@ -1,4 +1,4 @@
-import {Card, Container, Divider, Grid, Header, Icon, Image, Table} from "semantic-ui-react";
+import {Button, Card, Container, Divider, Grid, Header, Icon, Image, Table} from "semantic-ui-react";
 import profile from "../../../../../../files/profile.jpg";
 import classes from './TaskDetails.module.css';
 import {MapContainer, TileLayer, Marker, Popup} from 'react-leaflet'
@@ -7,8 +7,9 @@ import {getCurrentTask} from "../../../../../../store/task";
 import L from 'leaflet';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
-
-
+import {useState} from "react";
+import DeleteTask from "./DeleteTask";
+import EditTask from "./EditTask";
 
 const TaskDetails = () => {
     const task = useSelector(getCurrentTask);
@@ -16,6 +17,8 @@ const TaskDetails = () => {
     const latitude = task.latitude;
     const longitude = task.longitude;
     const position = [latitude,longitude];
+    const [modalOpenDelete, setModalOpenDelete] = useState(false);
+    const [modalOpenEdit, setModalOpenEdit] = useState(false);
 
     if (task.user.image) {
         avatar = "data:image/jpeg;base64," + task.user.image;
@@ -26,16 +29,27 @@ const TaskDetails = () => {
         iconUrl: icon,
         shadowUrl: iconShadow
     });
-
     L.Marker.prototype.options.icon = DefaultIcon;
 
+    const deleteTaskHandler = () => {
+        setModalOpenDelete(true);
+    }
+
+    const editTaskHandler = () => {
+        setModalOpenEdit(true);
+    }
+
     return (<Container className={classes.task__container}>
+        <DeleteTask open={modalOpenDelete} setOpen={setModalOpenDelete} id={task.id}/>
+        <EditTask open={modalOpenEdit} setOpen={setModalOpenEdit} id={task.id}/>
         <Grid>
             <Grid.Row>
                 <Grid.Column width={10}>
                     <Image src={profile} rounded size='large'/>
                 </Grid.Column>
                 <Grid.Column width={6}>
+                    <Button onClick={deleteTaskHandler}>Usuń</Button>
+                    <Button onClick={editTaskHandler}>Edytuj</Button>
                     <Card fluid>
                         <Card.Content className={classes.category__container}>
                             <span className={classes.category__chip}>{task.category}</span></Card.Content>

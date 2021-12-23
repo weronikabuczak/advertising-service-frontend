@@ -3,9 +3,9 @@ import profile from '../../../../../files/profile.jpg';
 import classes from "../TaskItem/TaskItem.module.css";
 import {formatDate} from "../../../../../utils/functions";
 import {useHistory} from "react-router-dom";
-import {useSelector} from "react-redux";
-import {getTaskId, setCurrentTaskId} from "../../../../../store/task";
+import {setCurrentTaskId} from "../../../../../store/task";
 import {useAppDispatch} from "../../../../../root";
+import UserTasks from "../../../../Profile/UserTasks/UserTasks";
 
 
 const TaskItem = ({props}) => {

@@ -14,11 +14,11 @@ const UserTasks = () => {
         history.replace('/userTasks');
     }
 
-    return <section className={classes.section}>
+    return <div className={classes.section}>
         <Button onClick={userInfoHandler}>Dane</Button>
         <Button onClick={userTasksHandler}>Moje ogłoszenia</Button>
         <TaskList isUserTasks={true}/>
-    </section>
+    </div>
 }
 
 export default UserTasks;

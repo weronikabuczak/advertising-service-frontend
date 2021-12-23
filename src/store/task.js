@@ -1,5 +1,5 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import {getTasksApiCall} from "./thunks/task-thunks";
+import {deleteTaskApiCall, getTasksApiCall} from "./thunks/task-thunks";
 
 export const sliceName = 'task';
 
@@ -23,23 +23,35 @@ export const getTasks = createAsyncThunk(`${sliceName}/getTasks`, async ({isUser
     }
 });
 
-export const getTaskById = createAsyncThunk(`${sliceName}/getTaskById`, async ({
-                                                                                   isUserTasks,
-                                                                                   id,
-                                                                                   token
-                                                                               }, {dispatch}) => {
+export const deleteTask = createAsyncThunk(`${sliceName}/deleteTask`, async ({id, token}, {dispatch}) => {
     try {
-        const data = []
-        console.log(data);
-        //const {tasks} = data;
+        const data = await deleteTaskApiCall({id, token});
         return {
-            tasks: [...data]
+            data
         };
     } catch (error) {
-        alert('Cannot fetch tasks');
+        alert('Cannot delete task 2');
         throw error;
     }
 });
+
+// export const getTaskById = createAsyncThunk(`${sliceName}/getTaskById`, async ({
+//                                                                                    isUserTasks,
+//                                                                                    id,
+//                                                                                    token
+//                                                                                }, {dispatch}) => {
+//     try {
+//         const data = []
+//         console.log(data);
+//         //const {tasks} = data;
+//         return {
+//             tasks: [...data]
+//         };
+//     } catch (error) {
+//         alert('Cannot fetch tasks');
+//         throw error;
+//     }
+// });
 
 const task = createSlice({
     name: sliceName,
@@ -67,7 +79,6 @@ const task = createSlice({
 export const {setCurrentTaskId} = task.actions
 export const getIsLoading = state => state[sliceName].isLoading;
 export const getAllTasks = state => state[sliceName].tasks;
-export const getCurrentTaskId = state => state[sliceName].currentTaskId;
 export const getCurrentTask = (state) => state[sliceName].tasks.find(task => task.id === state[sliceName].currentTaskId);
 
 export default task.reducer;
