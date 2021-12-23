@@ -6,7 +6,7 @@ import {useSelector} from "react-redux";
 import {getUserToken} from "../../store/auth";
 import LocationPicker from "react-leaflet-location-picker";
 import {categories} from "../../utils/taskCategory";
-import {Button, ButtonGroup} from "semantic-ui-react";
+import {Button} from "semantic-ui-react";
 
 // const category = [
 //     {key: 'HOME', value: 'Dom', text: 'Dom'},
@@ -30,6 +30,8 @@ const NewTaskForm = () => {
     const expirationDateInput = useRef();
     const history = useHistory();
 
+    let image = null;
+
 
     const submitHandler = (event) => {
         event.preventDefault();
@@ -45,9 +47,10 @@ const NewTaskForm = () => {
         const enteredPay = payInput.current.value;
         const enteredExpirationDate = expirationDateInput.current.value;
         const enteredEstimatedTime = pickerValue;
-        //const enteredImage = imageContent;
-        //const enteredLongitude = longitude;
-        //const enteredLatitude = latitude;
+        const enteredImage = image;
+        const enteredLongitude = longitude;
+        const enteredLatitude = latitude;
+        console.log(image);
 
 
         url =
@@ -60,9 +63,9 @@ const NewTaskForm = () => {
             pay: enteredPay,
             expirationDate: new Date(enteredExpirationDate),
             estimatedTime: enteredEstimatedTime,
-            //image: enteredImage,
-            // longitude: longitude,
-            // latitude: latitude
+            image: enteredImage,
+            longitude: enteredLongitude,
+            latitude: enteredLatitude
         }
 
         fetch(url, {
@@ -118,25 +121,30 @@ const NewTaskForm = () => {
         zoom: 5,
     }
 
-    const imageUploadHandler = (e) => {
-        const newImage = e.target.files[0];
-        newImage
-            .text()
-            .then(data => {
-                setImageContent(data)
-                console.log(data)
-                // data is file content
-                // can be added to some object that is send as imageContent
-            })
-
-        // const fd = new FormData();
-        // fd.append('image', image, image.name);
-    }
     const getCategory = (e, button) => {
         e.preventDefault();
         const {content} = button;
         setCategory(content);
+        console.log(category);
     }
+
+    const handleFileInput = (e) => {
+        const file = e.target.files[0];
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        let baseURL;
+        let newBaseURL;
+        reader.onload = () => {
+            // console.log("Called", reader);
+            baseURL = reader.result;
+            newBaseURL = baseURL.split(',')[1];
+            console.log(newBaseURL);
+            image = newBaseURL;
+             console.log(image);
+        };
+    }
+
+
 
     return (
         <section className={classes.section}>
@@ -182,7 +190,7 @@ const NewTaskForm = () => {
                     </div>
                     <div className={classes.control}>
                         <label htmlFor='image'>Zdjęcie</label>
-                        <input type='file' onChange={imageUploadHandler} id='image'/>
+                        <input type='file' onChange={handleFileInput} id='image'/>
                     </div>
                 </div>
                 <div className={classes.control}>
@@ -194,8 +202,7 @@ const NewTaskForm = () => {
                 </div>
             </form>
         </section>
-    )
-        ;
+    );
 }
 
 export default NewTaskForm;

@@ -27,13 +27,12 @@ const UserProfile = () => {
             })
             const responseData = await response.json();
             const createDate = new Date(responseData.createDate);
+            responseData.createDate = createDate.toLocaleDateString();
             if (responseData.image) {
                 let avatar = "data:image/jpeg;base64," + responseData.image;
-                responseData.createDate = createDate.toLocaleDateString();
                 responseData.image = avatar;
             }
             setUserInfo(responseData);
-            console.log(userInfo);
         };
         fetchUserInfo();
     }, []);

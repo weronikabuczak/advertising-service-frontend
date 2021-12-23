@@ -20,3 +20,9 @@
 .taskDetails__divider {
     border-top: 4px;
 }
+
+.taskMap__container {
+    height: 450px;
+    width:90%;
+    margin: 0 auto;
+}

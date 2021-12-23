@@ -1,49 +1,24 @@
-import {useCallback, useContext, useEffect, useState} from "react";
+import {useEffect} from "react";
 import TaskItem from "./TaskItem/TaskItem";
-import classes from "../TaskList/TaskList.module.css";
 import {useSelector} from "react-redux";
 import {getUserToken} from "../../../../store/auth";
+import {getAllTasks, getTasks} from "../../../../store/task";
+import {useAppDispatch} from "../../../../root";
 
 const TaskList = ({isUserTasks}) => {
-    const [tasks, setTasks] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState(null);
+    const dispatch = useAppDispatch();
     const token = useSelector(getUserToken);
-
-    const fetchTasks = useCallback(async () => {
-        setIsLoading(true);
-        setError(null);
-        try {
-            const response = await fetch(`http://localhost:8080/api/task?userTasks=${isUserTasks}`, {
-                method: 'GET',
-                headers: {
-                    'Authorization': 'Bearer ' + token,
-                    'Content-Type': 'application/json'
-                }
-            })
-            console.log(response)
-            if (!response.ok) {
-                throw new Error('Fetch error');
-            }
-
-            const data = await response.json();
-            const fetchedTasks = [];
-
-            setTasks([...data])
-        } catch (error) {
-            setError(error.message);
-        }
-        setIsLoading(false);
-    }, []);
+    const tasks = useSelector(getAllTasks);
 
     useEffect(() => {
-        fetchTasks();
-    }, []);
-
+        if (token) {
+            dispatch(getTasks({isUserTasks, token}))
+        }
+    }, [isUserTasks, token]);
 
     return (
         <ul>
-            {tasks.map((task) => (
+            {tasks && tasks.map((task) => (
                 <TaskItem props={task}/>
             ))}
         </ul>

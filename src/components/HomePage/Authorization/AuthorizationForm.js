@@ -26,7 +26,7 @@ const AuthorizationForm = () => {
             return <Redirect to={'/'}/>
         }
 
-        const brandNewHandlerForForm = async (event) => {
+        const FormHandler = async (event) => {
             event.preventDefault();
             if (!isLoggedIn && isLogin) {
                 const email = emailInput.current.value;
@@ -124,7 +124,7 @@ const AuthorizationForm = () => {
         return (
             <section className={classes.auth}>
                 <h2>{isLogin ? 'Zaloguj się' : 'Zarejestruj nowe konto'}</h2>
-                <form onSubmit={brandNewHandlerForForm}>
+                <form onSubmit={FormHandler}>
                     {isLogin ? (
                             <div>
                                 <div className={classes.control}>

@@ -1,15 +1,11 @@
 import {Button, Card, Grid, Header, Icon, Image} from "semantic-ui-react";
 import profile from '../../../../../files/profile.jpg';
 import classes from "../TaskItem/TaskItem.module.css";
-import {useHistory} from "react-router-dom";
+import {formatDate} from "../../../../../utils/functions";
 
 
 const TaskItem = ({props}) => {
-    const history = useHistory();
 
-    const taskDetailsHandler = () => {
-
-    }
 
     return (
         <Card fluid centered className={classes.taskCard}>
@@ -17,7 +13,10 @@ const TaskItem = ({props}) => {
                 <Grid>
                     <Grid.Row>
                         <Grid.Column width={5}>
-                            <Image src={profile} rounded size='medium'/>
+                            {props.image != null
+                                ? <Image src={props.image} rounded size='medium'/>
+                                : <Image src={profile} rounded size='medium'/>
+                            }
                         </Grid.Column>
                         <Grid.Column width={11}>
                             <Grid.Row className={classes.category__container}>
@@ -36,7 +35,7 @@ const TaskItem = ({props}) => {
                                         name='location arrow'/>{props.address}
                                     </div>
                                     <div className={classes.taskDetails__main__info}><Icon
-                                        name='calendar times'/>{props.expirationDate}</div>
+                                        name='calendar times'/>{formatDate(props.expirationDate)}</div>
                                 </Grid.Column>
                                 <Grid.Column width={7}>
                                     <div className={classes.taskDetails__payment__details}><Icon
@@ -53,7 +52,7 @@ const TaskItem = ({props}) => {
                         <Grid.Column width={10}>
                         </Grid.Column>
                         <Grid.Column width={6}>
-                            <Button animated='vertical' floated='right' fluid onClick={taskDetailsHandler}>
+                            <Button animated='vertical' floated='right' fluid >
                                 <Button.Content>Zobacz szczegóły</Button.Content>
                             </Button>
                         </Grid.Column>

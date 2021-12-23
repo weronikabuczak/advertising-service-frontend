@@ -1,9 +1,13 @@
-import { Card, Container, Divider, Grid, Header, Icon, Image, Table} from "semantic-ui-react";
+import {Card, Container, Divider, Grid, Header, Icon, Image, Table} from "semantic-ui-react";
 import profile from "../../../../../../files/profile.jpg";
 import classes from './TaskDetails.module.css';
-import LocationPicker from "react-leaflet-location-picker";
+import {MapContainer, TileLayer, Marker, Popup} from 'react-leaflet'
 
 const TaskDetails = () => {
+
+    const position = [52, 19]
+
+
     return (
         <Container className={classes.task__container}>
             <Grid>
@@ -54,16 +58,16 @@ const TaskDetails = () => {
                             </Table>
                         </Card>
                         <Card fluid>
-                           <Card.Content><Header as='h2'>Wystawione przez</Header>
-                               <Grid.Row>
-                               <Grid.Column width={8}>
-                                   <Image src={profile} rounded size='tiny'/>
-                               </Grid.Column>
-                               <Grid.Column width={8}>
-                                   <p>hfghjktgtyhuj</p>
-                               </Grid.Column>
-                               </Grid.Row>
-                           </Card.Content>
+                            <Card.Content><Header as='h2'>Wystawione przez</Header>
+                                <Grid.Row>
+                                    <Grid.Column width={8}>
+                                        <Image src={profile} rounded size='tiny'/>
+                                    </Grid.Column>
+                                    <Grid.Column width={8}>
+                                        <p>hfghjktgtyhuj</p>
+                                    </Grid.Column>
+                                </Grid.Row>
+                            </Card.Content>
                         </Card>
                     </Grid.Column>
                 </Grid.Row>
@@ -82,9 +86,17 @@ const TaskDetails = () => {
                         Curabitur ullamcorper ultricies nisi.</Container>
                 </Grid.Row>
                 <Grid.Row>
-                    MAP <div className={classes.control}>
-                    <LocationPicker/>
-                </div>
+                    <MapContainer className={classes.taskMap__container} center={position} zoom={12} scrollWheelZoom={false}>
+                        <TileLayer
+                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        />
+                        <Marker position={position}>
+                            <Popup>
+                                Miejsce wykonania zlecenia
+                            </Popup>
+                        </Marker>
+                    </MapContainer>
                 </Grid.Row>
                 {/*<Grid.Row>*/}
                 {/*    <Grid.Column width={10}>*/}
