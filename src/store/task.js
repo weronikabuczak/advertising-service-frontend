@@ -11,12 +11,11 @@ export const initialState = {
 
 export const getTasks = createAsyncThunk(`${sliceName}/getTasks`, async ({isUserTasks, token}, {dispatch}) => {
     try {
-        console.log(isUserTasks)
-        console.log(token)
         const data = await getTasksApiCall({isUserTasks, token});
         return {
             tasks: [...data]
         };
+
     } catch (error) {
         alert('Cannot fetch tasks');
         throw error;

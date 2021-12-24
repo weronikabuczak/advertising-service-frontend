@@ -26,8 +26,23 @@ const NewTaskForm = () => {
     let image = null;
 
 
-    const submitHandler = (event) => {
+    const handleFileInput = (e) => {
+        const file = e.target.files[0];
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        let baseURL;
+        let newBaseURL;
+        reader.onload = () => {
+            baseURL = reader.result;
+            newBaseURL = baseURL.split(',')[1];
+            image = newBaseURL;
+            console.log(image);
+        };
+    }
+
+    const submitHandler = async (event) => {
         event.preventDefault();
+        console.log(image);
 
         setIsLoading(true);
         let url;
@@ -40,7 +55,7 @@ const NewTaskForm = () => {
         const enteredPay = payInput.current.value;
         const enteredExpirationDate = expirationDateInput.current.value;
         const enteredEstimatedTime = pickerValue;
-        const enteredImage = image;
+        //const enteredImage = image;
         const enteredLongitude = longitude;
         const enteredLatitude = latitude;
         console.log(image);
@@ -56,7 +71,7 @@ const NewTaskForm = () => {
             pay: enteredPay,
             expirationDate: new Date(enteredExpirationDate),
             estimatedTime: enteredEstimatedTime,
-            image: enteredImage,
+            image,
             longitude: enteredLongitude,
             latitude: enteredLatitude
         }
@@ -118,23 +133,9 @@ const NewTaskForm = () => {
         e.preventDefault();
         const {content} = button;
         setCategory(content);
-        console.log(category);
     }
 
-    const handleFileInput = (e) => {
-        const file = e.target.files[0];
-        let reader = new FileReader();
-        reader.readAsDataURL(file);
-        let baseURL;
-        let newBaseURL;
-        reader.onload = () => {
-            baseURL = reader.result;
-            newBaseURL = baseURL.split(',')[1];
-            console.log(newBaseURL);
-            image = newBaseURL;
-            console.log(image);
-        };
-    }
+
 
 
     return (

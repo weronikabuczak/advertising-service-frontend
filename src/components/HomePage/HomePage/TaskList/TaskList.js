@@ -12,7 +12,7 @@ const TaskList = ({isUserTasks}) => {
 
     useEffect(() => {
         if (token) {
-            dispatch(getTasks({isUserTasks, token}))
+            dispatch(getTasks({isUserTasks, token}));
         }
     }, [isUserTasks, token]);
 
