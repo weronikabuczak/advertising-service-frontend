@@ -71,6 +71,10 @@ ul {
     }
 }
 
+a, a:hover {
+    color: black;
+}
+
 
 
 

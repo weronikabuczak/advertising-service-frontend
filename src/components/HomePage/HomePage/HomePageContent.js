@@ -1,5 +1,5 @@
 import classes from './HomePageContent.module.css';
-import {Grid} from "semantic-ui-react";
+import {Button, Grid} from "semantic-ui-react";
 import TaskList from "./TaskList/TaskList";
 import {MapContainer, Marker, Popup, TileLayer, useMap} from "react-leaflet";
 import L from 'leaflet';
@@ -12,16 +12,18 @@ import {useSelector} from "react-redux";
 import {getUserToken} from "../../../store/auth";
 import React from 'react'
 import MapTrickyComponent from "../../NewTask/MapTrickyComponent";
+import {set} from "react-hook-form";
+import {categories} from "../../../utils/taskCategory";
 
 const HomePageContent = () => {
-    const [latitude, setLatitude] = useState(50);
-    const [longitude, setLongitude] = useState(40);
+    const [latitude, setLatitude] = useState(52);
+    const [longitude, setLongitude] = useState(19);
     const center = [latitude, longitude]
     const tasks = useSelector(getAllTasks);
     const dispatch = useAppDispatch();
     const token = useSelector(getUserToken);
     const [currentTask, setCurrentTask] = useState({})
-    const [zoom, setZoom] = useState(3);
+    const [zoom, setZoom] = useState(6);
 
     //leaflet icon issue
     let DefaultIcon = L.icon({
@@ -37,18 +39,35 @@ const HomePageContent = () => {
     }, [token]);
 
     const onClickFunction = (id) => {
-        const task = tasks.find(t => t.id === id)
-        setCurrentTask(task)
+        const task = tasks.find(t => t.id === id);
+        setCurrentTask(task);
         setZoom(12);
-        setLatitude(task.latitude)
-        setLongitude(task.longitude)
+        setLatitude(task.latitude);
+        setLongitude(task.longitude);
+    }
+
+    const resetMapHandler = () => {
+        setZoom(6);
+        setLongitude(19);
+        setLatitude(52)
     }
 
 
     return (
         <section className={classes.section}>
-            <h3>Ogłoszenia</h3>
             <Grid>
+                <Grid.Row>
+                    <Grid.Column width={1}></Grid.Column>
+                    <Grid.Column width={15}>
+                        <Button.Group floated='left'>
+                            {categories.map((category) => (
+                                <Button color={category.color}
+                                        content={category.label}>{category.label}</Button>
+                            ))}
+                        </Button.Group>
+                        <Button onClick={resetMapHandler} className={classes.refreshMap__button} floated='left'>Domyślny widok mapy</Button>
+                    </Grid.Column>
+                </Grid.Row>
                 <Grid.Row>
                     <Grid.Column width={10}>
                         <MapContainer className={classes.taskMap__container} center={center} zoom={zoom}
@@ -69,6 +88,7 @@ const HomePageContent = () => {
                         </MapContainer>
                     </Grid.Column>
                     <Grid.Column width={6}>
+
                         <TaskList tasks={tasks} onClick={onClickFunction}/>
                     </Grid.Column>
                 </Grid.Row>

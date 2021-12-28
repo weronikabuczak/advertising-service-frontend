@@ -7,7 +7,7 @@
   margin: 2.5rem auto;
 }
 
-h3 {
+h2 {
   text-align: center;
   margin: 3rem;
 }
@@ -15,7 +15,16 @@ h3 {
 .taskMap__container {
   height: 778px;
   width: 100%;
-  margin: 0 30px;
+  margin: 4px 30px;
   z-index: 0;
 
+}
+
+.refreshMap__button {
+  margin:30px;
+  /*padding: 50px;*/
+}
+
+.ui.button {
+  margin: 40px;
 }
