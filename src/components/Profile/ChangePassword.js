@@ -18,7 +18,7 @@ const ChangePassword = ({open, setOpen, email}) => {
         const enteredCurrentPassword = currentPasswordInput.current.value;
         const enteredNewPassword = newPasswordInput.current.value;
 
-        let url = `http://localhost:8080/api/user/${email}`;
+        let url = `http://localhost:8080/api/user/updatePassword/${email}`;
         let init = {
             currentPassword: enteredCurrentPassword,
             newPassword: enteredNewPassword

@@ -56,8 +56,8 @@ const UserProfile = () => {
         <section className={classes.section}>
             <Button className={classes.button} onClick={userInfoHandler}>Dane</Button>
             <Button className={classes.button} onClick={userTasksHandler}>Moje ogłoszenia</Button>
-            <ChangePassword open={modalOpenPassword} setOpen={setModalOpenPassword} email={userInfo.email}/>
-            <ChangeUserData open={modalOpenUserInfo} setOpen={setModalOpenUserInfo} email={userInfo.email}/>
+            <ChangePassword open={modalOpenPassword} setOpen={setModalOpenPassword} email={userInfo.email} />
+            <ChangeUserData open={modalOpenUserInfo} setOpen={setModalOpenUserInfo} email={userInfo.email} user={userInfo}/>
             <Card fluid className={classes.userCard__container}>
                 <Card.Content>
                     <Card.Header>

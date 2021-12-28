@@ -2,8 +2,10 @@ import {Button, Form, Modal} from "semantic-ui-react";
 import {useRef} from "react";
 import {useSelector} from "react-redux";
 import {getUserToken} from "../../store/auth";
+import {useHistory} from "react-router-dom";
 
-const ChangeUserData = ({open, setOpen, email}) => {
+const ChangeUserData = ({open, setOpen, email, user}) => {
+    const history = useHistory();
     const token = useSelector(getUserToken);
     const phoneNumberInput = useRef();
     const emailInput = useRef();
@@ -28,8 +30,6 @@ const ChangeUserData = ({open, setOpen, email}) => {
             phoneNumber: enteredPhoneNumber,
             name: enteredName,
             location: enteredLocation,
-            // currentPassword: 'test1234',
-            // newPassword: 'test1234'
         }
 
         fetch(url, {
@@ -43,6 +43,7 @@ const ChangeUserData = ({open, setOpen, email}) => {
             .then((response) => {
                 if (response.ok) {
                     setOpen(false);
+
                 } else {
                     return response.json().then((data) => {
                         if (data.status === 500) {
@@ -68,19 +69,19 @@ const ChangeUserData = ({open, setOpen, email}) => {
                 <Form onSubmit={submitHandler}>
                     <Form.Field>
                         <label>Nowa nazwa użytkownika</label>
-                        <input type='text' ref={nameInput}/>
+                        <input type='text' ref={nameInput} defaultValue={user.name} required/>
                     </Form.Field>
                     <Form.Field>
                         <label>Nowy e-mail</label>
-                        <input type='email' ref={emailInput}/>
+                        <input type='email' ref={emailInput} defaultValue={user.email} required/>
                     </Form.Field>
                     <Form.Field>
                         <label>Nowy numer telefonu</label>
-                        <input type='number' ref={phoneNumberInput}/>
+                        <input type='number' ref={phoneNumberInput} maxLength={12} defaultValue={user.phoneNumber} required/>
                     </Form.Field>
                     <Form.Field>
                         <label>Nowa miejscowość</label>
-                        <input type='text' ref={locationInput}/>
+                        <input type='text' ref={locationInput} defaultValue={user.location} required/>
                     </Form.Field>
                     <Button positive type='submit'>Zatwierdź</Button>
                     <Button negative onClick={onClose}>

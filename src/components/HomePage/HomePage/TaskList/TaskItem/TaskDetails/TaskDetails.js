@@ -37,11 +37,12 @@ const TaskDetails = () => {
 
     const editTaskHandler = () => {
         setModalOpenEdit(true);
+        console.log(task.category)
     }
 
     return (<Container className={classes.task__container}>
         <DeleteTask open={modalOpenDelete} setOpen={setModalOpenDelete} id={task.id}/>
-        <EditTask open={modalOpenEdit} setOpen={setModalOpenEdit} id={task.id}/>
+        <EditTask open={modalOpenEdit} setOpen={setModalOpenEdit} id={task.id} task={task}/>
         <Grid>
             <Grid.Row>
                 <Grid.Column width={10}>

@@ -131,7 +131,7 @@ const AuthorizationForm = () => {
                                 </div>
                                 <div className={classes.control}>
                                     <label htmlFor='password'>Hasło</label>
-                                    <input type='password' id='password' value='test1234' required ref={passwordInput}/>
+                                    <input type='password' id='password' value='test12345' required ref={passwordInput}/>
                                 </div>
                             </div>
                         )

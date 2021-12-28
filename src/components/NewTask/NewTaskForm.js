@@ -149,7 +149,7 @@ const NewTaskForm = () => {
                     </div>
                     <div className={classes.control}>
                         <label htmlFor='content'>Opis</label>
-                        <input type='text' id='password' minLength="20" maxLength="800"
+                        <input type='text' id='content' minLength="20" maxLength="800"
                                ref={contentInput}/>
                     </div>
                     <div className={classes.control}>
@@ -175,7 +175,7 @@ const NewTaskForm = () => {
                         <input type='date' id='expirationDate' ref={expirationDateInput}/>
                     </div>
                     <div className={classes.control}>
-                        <label htmlFor='estimatedTime'>Przybliżony czas na wykonanie zlecenia</label>
+                        <label>Przybliżony czas na wykonanie zlecenia</label>
                         <QuantityPicker onChange={getPickerValue} e min={1} max={24} value={1}
                                         smooth/>
                         {/*required*/}

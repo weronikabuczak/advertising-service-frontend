@@ -1,34 +1,93 @@
 import {Button, Form, Modal} from "semantic-ui-react";
 import {useSelector} from "react-redux";
-import {deleteTask} from "../../../../../../store/task";
 import {useAppDispatch} from "../../../../../../root";
 import {getUserToken} from "../../../../../../store/auth";
 import {useHistory} from "react-router-dom";
-import NewTaskForm from "../../../../../NewTask/NewTaskForm";
-import classes from "../../../../../NewTask/NewTaskForm.module.css";
 import {categories} from "../../../../../../utils/taskCategory";
 import {QuantityPicker} from "react-qty-picker";
 import LocationPicker from "react-leaflet-location-picker";
-import {useState} from "react";
+import { useRef, useState} from "react";
 
-const EditTask = ({open, setOpen, id}) => {
+const EditTask = ({open, setOpen, id, task}) => {
     const token = useSelector(getUserToken);
+    const [isLoading,  setIsLoading] = useState();
     const dispatch = useAppDispatch();
     const history = useHistory();
     const [pickerValue, setPickerValue] = useState();
-    const [longitude, setLongitude] = useState(0);
-    const [latitude, setLatitude] = useState(0);
+    const [category, setCategory] = useState(task.category);
+    const [longitude, setLongitude] = useState(task.longitude);
+    const [latitude, setLatitude] = useState(task.latitude);
+
+    const titleInput = useRef();
+    const contentInput = useRef();
+    const addressInput = useRef();
+    const payInput = useRef();
+    const expirationDateInput = useRef();
 
     const onClose = (event) => {
         event.preventDefault()
         setOpen(false);
     }
 
-    const editTaskHandler = () => {
-        dispatch(deleteTask({id, token}));
-        //history.replace('/userTasks')
+    const submitHandler = async (event) => {
+        event.preventDefault();
+        setIsLoading(true);
+        let url;
+        let init;
 
-    }
+        const enteredTitle = titleInput.current.value;
+        const enteredContent = contentInput.current.value;
+        const enteredCategory = category;
+        const enteredAddress = addressInput.current.value;
+        const enteredPay = payInput.current.value;
+        const enteredExpirationDate = expirationDateInput.current.value;
+        const enteredEstimatedTime = pickerValue;
+        //const enteredImage = image;
+        const enteredLongitude = longitude;
+        const enteredLatitude = latitude;
+
+
+        url =
+            `http://localhost:8080/api/task/${id}`;
+        init = {
+            title: enteredTitle,
+            content: enteredContent,
+            category: enteredCategory,
+            address: enteredAddress,
+            pay: enteredPay,
+            expirationDate: new Date(enteredExpirationDate),
+            estimatedTime: enteredEstimatedTime,
+            longitude: enteredLongitude,
+            latitude: enteredLatitude
+        }
+
+        fetch(url, {
+            method: 'PUT',
+            body: JSON.stringify(init),
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token,
+            },
+        })
+            .then((response) => {
+                setIsLoading(false);
+                if (response.ok) {
+                    return response.json().then(data => {
+                        history.replace(`/taskDetails/${id}`);
+                    })
+                } else {
+                    return response.json().then((data) => {
+                        if (data.status === 500) {
+                            alert(data.message)
+                            throw new Error(data.message);
+                        }
+                    });
+                }
+            })
+            .catch((err) => {
+                alert(err.message);
+            });
+    };
 
     const getPickerValue = (value) => {
         setPickerValue(value);
@@ -56,6 +115,12 @@ const EditTask = ({open, setOpen, id}) => {
         }
     }
 
+    const getCategory = (e, button) => {
+        e.preventDefault();
+        const {content} = button;
+        setCategory(content);
+    }
+
     return (
         <Modal
             centered={true}
@@ -66,41 +131,47 @@ const EditTask = ({open, setOpen, id}) => {
         >
             <Modal.Header>Edycja danych</Modal.Header>
             <Modal.Content>
-                <Form>
+                <Form onSubmit={submitHandler}>
                     <Form.Field>
                         <label>Nowy tytuł</label>
-                        <input type='text'/>
+                        <input type='text' id='title' minLength="10" maxLength="100" value={task.title} ref={titleInput}/>
                     </Form.Field>
                     <Form.Field>
                         <label>Nowy opis</label>
-                        <input type='text'/>
+                        <input type='text' id='content' minLength="20" maxLength="800" value={task.content}
+                               ref={contentInput}/>
                     </Form.Field>
                     <Form.Field>
                         <label htmlFor='category'>Nowa kategoria</label>
                         <Button.Group>
                             {categories.map((category) => (
-                                <Button color={category.color}
+                                <Button color={category.color} onClick={getCategory}
                                         content={category.label}>{category.label}</Button>
                             ))}
                         </Button.Group>
                     </Form.Field>
                     <Form.Field>
                         <label>Nowy adres</label>
-                        <input type='text'/>
+                        <input type='text' id='address' minLength="5" maxLength="100" defaultValue={task.address}
+                               ref={addressInput}/>
                     </Form.Field>
                     <Form.Field>
                         <label>Nowa zapłata</label>
-                        <input type='number' maxLength='10'/>
+                        <input type='number' id='pay' maxLength="10" ref={payInput} defaultValue={task.pay}/>
                     </Form.Field>
                     <Form.Field>
                         <label>Nowa data wygaśnięcia</label>
-                        <input type='date' maxLength='10'/>
+                        <input type='date' id='expirationDate' ref={expirationDateInput} defaultValue={task.expirationDate}/>
                     </Form.Field>
                     <Form.Field>
                         <label>Nowa czas wykonania</label>
-                        <QuantityPicker onChange={getPickerValue} e min={1} max={24} value={1}
+                        <QuantityPicker onChange={getPickerValue} e min={1} max={24} defaultValue={task.estimatedTime}
                                         smooth/>
                     </Form.Field>
+                    {/*<Form.Field>*/}
+                    {/*    <label htmlFor='image'>Zdjęcie</label>*/}
+                    {/*    <input type='file' onChange={handleFileInput} id='image'/>*/}
+                    {/*</Form.Field>*/}
                     <Form.Field>
                         <LocationPicker startPort={startPort} pointMode={pointMode}/>
                     </Form.Field>
