@@ -8,7 +8,7 @@ import {useAppDispatch} from "../../../../../root";
 import UserTasks from "../../../../Profile/UserTasks/UserTasks";
 
 
-const TaskItem = ({props}) => {
+const TaskItem = ({props, onClick}) => {
     const history = useHistory();
     const dispatch = useAppDispatch()
 
@@ -17,8 +17,12 @@ const TaskItem = ({props}) => {
         history.replace(`/taskDetails/${props.id}`);
     }
 
+    const onClickHandler = () => onClick(props.id)
+
+
+
     return (
-        <Card fluid centered className={classes.taskCard}>
+        <Card fluid centered className={classes.taskCard} onClick={onClickHandler}>
             <Card.Content>
                 <Grid className={classes.taskRow}>
                     <Grid.Row >
