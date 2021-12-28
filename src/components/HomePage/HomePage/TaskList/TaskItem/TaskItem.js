@@ -20,23 +20,30 @@ const TaskItem = ({props}) => {
     return (
         <Card fluid centered className={classes.taskCard}>
             <Card.Content>
-                <Grid>
-                    <Grid.Row>
-                        <Grid.Column width={5}>
+                <Grid className={classes.taskRow}>
+                    <Grid.Row >
+                        <Grid.Column width={3}>
                             {props.image != null
                                 ? <Image src={props.image} rounded size='medium'/>
                                 : <Image src={profile} rounded size='medium'/>
                             }
                         </Grid.Column>
-                        <Grid.Column width={11}>
+                        <Grid.Column width={13}>
                             <Grid.Row className={classes.category__container}>
-                                <span className={classes.category__chip}>{props.category}</span>
+                                <Grid.Column width={5}>
+                                    <p className={classes.category__chip}>{props.category}</p>
+                                </Grid.Column>
+                                <Grid.Column width={11} floated='right'>
+                                    <Button floated='right' fluid onClick={taskDetailsHandler}>
+                                        <Button.Content>Szczegóły</Button.Content>
+                                    </Button>
+                                </Grid.Column>
                             </Grid.Row>
+
                             <Grid.Row>
                                 <Grid.Row>
-                                    <Header as='h2' className={classes.title__break__word} content={props.title}/>
+                                    <Header as='h3' content={props.title}/>
                                 </Grid.Row>
-
                             </Grid.Row>
 
                             <div className={classes.taskDetails__container}>
@@ -58,15 +65,7 @@ const TaskItem = ({props}) => {
                             </div>
                         </Grid.Column>
                     </Grid.Row>
-                    <Grid.Row>
-                        <Grid.Column width={10}>
-                        </Grid.Column>
-                        <Grid.Column width={6}>
-                            <Button animated='vertical' floated='right' fluid onClick={taskDetailsHandler}>
-                                <Button.Content>Zobacz szczegóły</Button.Content>
-                            </Button>
-                        </Grid.Column>
-                    </Grid.Row>
+
                 </Grid>
             </Card.Content>
         </Card>

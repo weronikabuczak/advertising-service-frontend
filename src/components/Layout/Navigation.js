@@ -56,7 +56,6 @@ const Navigation = () => {
             </nav>
             <AppSidebar toggleMenu={toggle} toggleFn={toggleMenu}/>
         </header>
-
     );
 };
 
