@@ -6,7 +6,6 @@ import {getAllTasks, getTasks} from "../../../../store/task";
 import {useAppDispatch} from "../../../../root";
 
 const TaskList = ({tasks, onClick}) => {
-    console.log(tasks)
     return (
         <ul>
             {tasks && tasks.map((task) => (

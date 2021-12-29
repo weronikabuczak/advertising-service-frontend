@@ -1,5 +1,5 @@
 import {Button, Card, Container, Divider, Grid, Header, Icon, Image, Table} from "semantic-ui-react";
-import profile from "../../../../../../files/profile.jpg";
+import taskIcon from "../../../../../../files/task.png";
 import classes from './TaskDetails.module.css';
 import {MapContainer, TileLayer, Marker, Popup} from 'react-leaflet'
 import {useSelector} from "react-redux";
@@ -46,7 +46,7 @@ const TaskDetails = () => {
         <Grid>
             <Grid.Row>
                 <Grid.Column width={10}>
-                    <Image src={profile} rounded size='large'/>
+                    <Image src={taskIcon} rounded size='large'/>
                 </Grid.Column>
                 <Grid.Column width={6}>
                     <Button onClick={deleteTaskHandler}>Usuń</Button>
@@ -96,7 +96,7 @@ const TaskDetails = () => {
                         <Card.Content>
                             {avatar != null
                                 ? <Image src={avatar} rounded size='tiny' floated='right'/>
-                                : <Image src={profile} rounded size='tiny' floated='right'/>
+                                : <Image src={taskIcon} rounded size='tiny' floated='right'/>
                             }
                             <Card.Header>Osoba zlecająca</Card.Header>
                             <Card.Content>{task.user.name}</Card.Content>

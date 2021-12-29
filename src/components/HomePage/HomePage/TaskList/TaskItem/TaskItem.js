@@ -1,5 +1,5 @@
 import {Button, Card, Grid, Header, Icon, Image} from "semantic-ui-react";
-import profile from '../../../../../files/profile.jpg';
+import taskIcon from '../../../../../files/task.png';
 import classes from "../TaskItem/TaskItem.module.css";
 import {formatDate} from "../../../../../utils/functions";
 import {useHistory} from "react-router-dom";
@@ -29,7 +29,7 @@ const TaskItem = ({props, onClick}) => {
                         <Grid.Column width={3}>
                             {props.image != null
                                 ? <Image src={props.image} rounded size='medium'/>
-                                : <Image src={profile} rounded size='medium'/>
+                                : <Image src={taskIcon} rounded size='medium'/>
                             }
                         </Grid.Column>
                         <Grid.Column width={13}>

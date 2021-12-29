@@ -57,7 +57,7 @@ const HomePageContent = () => {
         <section className={classes.section}>
             <Grid>
                 <Grid.Row>
-                    <Grid.Column width={1}></Grid.Column>
+                    <Grid.Column width={1}/>
                     <Grid.Column width={15}>
                         <Button.Group floated='left'>
                             {categories.map((category) => (

@@ -12,8 +12,15 @@ export const initialState = {
 export const getTasks = createAsyncThunk(`${sliceName}/getTasks`, async ({isUserTasks, token}, {dispatch}) => {
     try {
         const data = await getTasksApiCall({isUserTasks, token});
+
         return {
-            tasks: [...data]
+            tasks: data.map(task => {
+                if (task.image) {
+                    let avatar = "data:image/jpeg;base64," + task.image;
+                    task.image = avatar;
+                }
+                return task
+            })
         };
 
     } catch (error) {
