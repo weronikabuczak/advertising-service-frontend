@@ -9,9 +9,9 @@ export const initialState = {
     isLoading: false,
 };
 
-export const getTasks = createAsyncThunk(`${sliceName}/getTasks`, async ({isUserTasks, token}, {dispatch}) => {
+export const getTasks = createAsyncThunk(`${sliceName}/getTasks`, async ({isUserTasks, token, category}, {dispatch}) => {
     try {
-        const data = await getTasksApiCall({isUserTasks, token});
+        const data = await getTasksApiCall({isUserTasks, token, category});
 
         return {
             tasks: data.map(task => {

@@ -1,5 +1,5 @@
 import classes from './HomePageContent.module.css';
-import {Button, Grid} from "semantic-ui-react";
+import {Button, Form, Grid} from "semantic-ui-react";
 import TaskList from "./TaskList/TaskList";
 import {MapContainer, Marker, Popup, TileLayer, useMap} from "react-leaflet";
 import L from 'leaflet';
@@ -12,8 +12,8 @@ import {useSelector} from "react-redux";
 import {getUserToken} from "../../../store/auth";
 import React from 'react'
 import MapTrickyComponent from "../../NewTask/MapTrickyComponent";
-import {set} from "react-hook-form";
 import {categories} from "../../../utils/taskCategory";
+import {useHistory} from "react-router-dom";
 
 const HomePageContent = () => {
     const [latitude, setLatitude] = useState(52);
@@ -24,6 +24,8 @@ const HomePageContent = () => {
     const token = useSelector(getUserToken);
     const [currentTask, setCurrentTask] = useState({})
     const [zoom, setZoom] = useState(6);
+    const [category, setCategory] = useState('');
+    const history = useHistory();
 
     //leaflet icon issue
     let DefaultIcon = L.icon({
@@ -34,9 +36,10 @@ const HomePageContent = () => {
 
     useEffect(() => {
         if (token) {
-            dispatch(getTasks({isUserTasks: false, token}));
+            dispatch(getTasks({isUserTasks: false, token, category}));
         }
-    }, [token]);
+    }, [token, category]);
+
 
     const onClickFunction = (id) => {
         const task = tasks.find(t => t.id === id);
@@ -52,6 +55,13 @@ const HomePageContent = () => {
         setLatitude(52)
     }
 
+    const filterCategory = (e, button) => {
+        e.preventDefault();
+        const {content} = button;
+        console.log(content)
+        setCategory(content);
+    }
+
 
     return (
         <section className={classes.section}>
@@ -61,11 +71,12 @@ const HomePageContent = () => {
                     <Grid.Column width={15}>
                         <Button.Group floated='left'>
                             {categories.map((category) => (
-                                <Button color={category.color}
+                                <Button color={category.color} onClick={filterCategory}
                                         content={category.label}>{category.label}</Button>
                             ))}
                         </Button.Group>
-                        <Button onClick={resetMapHandler} className={classes.refreshMap__button} floated='left'>Domyślny widok mapy</Button>
+                        <Button onClick={resetMapHandler} className={classes.refreshMap__button} floated='left'>Domyślny
+                            widok mapy</Button>
                     </Grid.Column>
                 </Grid.Row>
                 <Grid.Row>
