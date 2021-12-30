@@ -58,8 +58,16 @@ const HomePageContent = () => {
     const filterCategory = (e, button) => {
         e.preventDefault();
         const {content} = button;
-        console.log(content)
         setCategory(content);
+        resetMapHandler();
+    }
+
+    const componentDidMount= () => {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            setLatitude(position.coords.latitude);
+            setLongitude(position.coords.longitude);
+            setZoom(13);
+        });
     }
 
 
@@ -69,6 +77,8 @@ const HomePageContent = () => {
                 <Grid.Row>
                     <Grid.Column width={1}/>
                     <Grid.Column width={15}>
+                        <Button content='' floated='left' onClick={filterCategory}>Wszystkie</Button>
+                        <Button  floated='left' onClick={componentDidMount}>geo</Button>
                         <Button.Group floated='left'>
                             {categories.map((category) => (
                                 <Button color={category.color} onClick={filterCategory}
