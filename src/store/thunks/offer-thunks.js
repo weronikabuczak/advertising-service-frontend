@@ -28,9 +28,9 @@ export const createOfferApiCall = async ({token, taskId}) => {
     }
 };
 
-export const getOffersApiCall = async ({token, taskId}) => {
+export const getOffersApiCall = async ({token, taskId, offerStatus}) => {
     try {
-        const offerUrl = `http://localhost:8080/api/offer?${taskId}`;
+        const offerUrl = `http://localhost:8080/api/offer?taskId=${taskId}&offerStatus=${offerStatus}`;
         return fetch(offerUrl, {
             method: 'GET',
             headers: {

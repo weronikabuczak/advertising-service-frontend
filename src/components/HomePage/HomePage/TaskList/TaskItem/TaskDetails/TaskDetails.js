@@ -12,27 +12,32 @@ import DeleteTask from "./DeleteTask";
 import EditTask from "./EditTask";
 import {getUserToken} from "../../../../../../store/auth";
 import {useAppDispatch} from "../../../../../../root";
-import {createOffer} from "../../../../../../store/offer";
+import {createOffer, getAllOffers, getOffers} from "../../../../../../store/offer";
 import {useLocation} from "react-router-dom";
+import {off} from "leaflet/src/dom/DomEvent";
 
 const TaskDetails = () => {
     const task = useSelector(getCurrentTask);
 
-    //const offer = useSelector(getAllOffers);
+    const offer = useSelector(getAllOffers);
     let avatar = null;
+    let taskId = task.id;
     const latitude = task.latitude;
     const longitude = task.longitude;
-    const position = [latitude,longitude];
+    const position = [latitude, longitude];
     const [modalOpenDelete, setModalOpenDelete] = useState(false);
     const [modalOpenEdit, setModalOpenEdit] = useState(false);
-    const [isUserTasks, setIsUserTasks] = useState();
+    const [isUserTasks, setIsUserTasks] = useState(false);
 
     const token = useSelector(getUserToken);
     const dispatch = useAppDispatch();
     const location = useLocation();
 
     useEffect(() => {
-        setIsUserTasks(location.state.isUserTasks);
+        setIsUserTasks(location.state.isUserTasks === 'true');
+        if (token) {
+            dispatch(getOffers({token, taskId, offerStatus: 'ACTIVE'}));
+        }
     }, [location]);
 
 
@@ -51,6 +56,7 @@ const TaskDetails = () => {
         setModalOpenDelete(true);
         let isUserTasks = location.state.isUserTasks;
 
+        console.log(offer);
         console.log(isUserTasks)
     }
 
@@ -61,11 +67,13 @@ const TaskDetails = () => {
 
     const offerHandler = () => {
         if (token) {
-            let taskId = task.id;
             dispatch(createOffer({token, taskId}));
         }
     }
-
+    // const renderProposition = isUserTasks && offer;
+    console.log(offer)
+    console.log(offer?.length > 0)
+    // console.log(renderProposition)
     return (<Container className={classes.task__container}>
         <DeleteTask open={modalOpenDelete} setOpen={setModalOpenDelete} id={task.id}/>
         <EditTask open={modalOpenEdit} setOpen={setModalOpenEdit} id={task.id} task={task}/>
@@ -75,44 +83,54 @@ const TaskDetails = () => {
                     <Image src={taskIcon} rounded size='large'/>
                 </Grid.Column>
                 <Grid.Column width={6}>
-                    <Button negative animated  onClick={deleteTaskHandler}>
-                        <Button.Content visible>Usuń</Button.Content>
-                        <Button.Content hidden>
-                            <Icon size='large' name='delete' />
-                        </Button.Content>
-                    </Button>
-                    <Button animated  onClick={editTaskHandler}>
-                        <Button.Content visible>Edytuj</Button.Content>
-                        <Button.Content hidden>
-                            <Icon size='large' name='edit' />
-                        </Button.Content>
-                    </Button>
-                    <Button animated  onClick={offerHandler}>
-                        <Button.Content visible>Zapytanie</Button.Content>
-                        <Button.Content hidden>
-                            <Icon size='large' name='chat' />
-                        </Button.Content>
-                    </Button>
+                    {isUserTasks &&
 
+                        <Button negative animated onClick={deleteTaskHandler}>
+                            <Button.Content visible>Usuń</Button.Content>
+                            <Button.Content hidden>
+                                <Icon size='large' name='delete'/>
+                            </Button.Content>
+                        </Button>
+                    }
+                    {isUserTasks &&
+                        <Button animated onClick={editTaskHandler}>
+                            <Button.Content visible>Edytuj</Button.Content>
+                            <Button.Content hidden>
+                                <Icon size='large' name='edit'/>
+                            </Button.Content>
+                        </Button>
+                    }
+                    {!isUserTasks &&
+                        <Button animated onClick={offerHandler}>
+                            <Button.Content visible>Zapytanie</Button.Content>
+                            <Button.Content hidden>
+                                <Icon size='large' name='chat'/>
+                            </Button.Content>
+                        </Button>
+                    }
 
-                    <Card>
-                        <Header>Nowa propozycja od
-                            {/*{offer.task.user.name}*/}
-                            {/*image*/}
-                        </Header>
-                        <Card.Content extra>
-                            <div className='ui two buttons'>
-                                <Button basic color='green'>
-                                    {/*PUT offer, status=accepted*/}
-                                    Zatwierdź
-                                </Button>
-                                <Button basic color='red'>
-                                    {/*PUT offer, status=rejected*/}
-                                    Odrzuć
-                                </Button>
-                            </div>
-                        </Card.Content>
-                    </Card>
+                    {offer?.length > 0 && (
+                        <Card>
+                            <Header>Nowa propozycja od
+                                {offer.status}
+                                {/*{offer.task.user.name}*/}
+                                {/*image*/}
+                            </Header>
+                            <Card.Content extra>
+                                <div className='ui two buttons'>
+                                    <Button basic color='green'>
+                                        {/*PUT offer, status=accepted*/}
+                                        Zatwierdź
+                                    </Button>
+                                    <Button basic color='red'>
+                                        {/*PUT offer, status=rejected*/}
+                                        Odrzuć
+                                    </Button>
+                                </div>
+                            </Card.Content>
+                        </Card>
+                    )
+                    }
 
 
                     <Card fluid>

@@ -1,6 +1,7 @@
-import {createAsyncThunk} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {createOfferApiCall, getOffersApiCall, updateOfferApiCall} from "./thunks/offer-thunks";
 import {getExpirationTimeFromToken, getRemainingTimeFromToken, registerUserApiCall} from "./thunks/auth-thunks";
+import {loginUser, logoutUser, registerUser} from "./auth";
 
 export const sliceName = 'offer';
 
@@ -11,13 +12,13 @@ export const initialState = {
 };
 
 export const createOffer = createAsyncThunk(`${sliceName}/createOffer`, async ({
-                                                                                 token, taskId
-                                                                             }, {dispatch}) => {
+                                                                                   token, taskId
+                                                                               }, {dispatch}) => {
     try {
         const data = await createOfferApiCall({token, taskId});
         // const {token} = data;
         return {
-           offers: data
+            data
         };
     } catch (error) {
         alert('Cannot create offer');
@@ -26,12 +27,12 @@ export const createOffer = createAsyncThunk(`${sliceName}/createOffer`, async ({
 });
 
 export const getOffers = createAsyncThunk(`${sliceName}/getOffers`, async ({
-                                                                                   token, taskId
-                                                                               }, {dispatch}) => {
+                                                                               token, taskId, offerStatus
+                                                                           }, {dispatch}) => {
     try {
-        const data = await getOffersApiCall({token, taskId});
+        const data = await getOffersApiCall({token, taskId, offerStatus});
         return {
-            data
+            offers: data
         };
     } catch (error) {
         alert('Cannot get offers');
@@ -40,8 +41,8 @@ export const getOffers = createAsyncThunk(`${sliceName}/getOffers`, async ({
 });
 
 export const updateOffer = createAsyncThunk(`${sliceName}/updateOffer`, async ({
-                                                                                 token, taskId, status
-                                                                             }, {dispatch}) => {
+                                                                                   token, taskId, status
+                                                                               }, {dispatch}) => {
     try {
         const data = await updateOfferApiCall({token, taskId, status});
         // const {token} = data;
@@ -57,5 +58,28 @@ export const updateOffer = createAsyncThunk(`${sliceName}/updateOffer`, async ({
     }
 });
 
-// export const getAllOffers = state => state[sliceName].offers;
+const offer = createSlice({
+    name: sliceName,
+    initialState,
+    reducers: {},
+    extraReducers: (builder) => {
+        builder.addCase(getOffers.pending, (state) => {
+            state.isLoading = true;
+        });
+
+        builder.addCase(getOffers.fulfilled, (state, {payload}) => {
+            const {offers} = payload;
+            state.offers = offers;
+            state.isLoading = false;
+        });
+        builder.addCase(getOffers.rejected, (state) => {
+            state.isLoading = false;
+        });
+    }
+});
+
+
+export const getAllOffers = state => state[sliceName].offers;
+
+export default offer.reducer;
 
