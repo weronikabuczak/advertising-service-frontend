@@ -5,20 +5,26 @@ import {formatDate} from "../../../../../utils/functions";
 import {useHistory} from "react-router-dom";
 import {setCurrentTaskId} from "../../../../../store/task";
 import {useAppDispatch} from "../../../../../root";
-import UserTasks from "../../../../Profile/UserTasks/UserTasks";
+import TaskDetails from "./TaskDetails/TaskDetails";
+import Link from "react-router-dom/es/Link";
 
 
-const TaskItem = ({props, onClick}) => {
+const TaskItem = ({props, onClick, isUserTasks}) => {
     const history = useHistory();
     const dispatch = useAppDispatch()
 
     const taskDetailsHandler = () => {
         dispatch(setCurrentTaskId(props.id))
-        history.replace(`/taskDetails/${props.id}`);
+        // history.replace(`/taskDetails/${props.id}`);
+        history.push({
+            pathname: `/taskDetails/${props.id}`,
+            state: {isUserTasks: isUserTasks}
+        });
+
+        // TaskDetails(isUserTasks={isUserTasks});
     }
 
     const onClickHandler = () => onClick(props.id)
-
 
 
     return (
@@ -38,7 +44,7 @@ const TaskItem = ({props, onClick}) => {
                                     <p className={classes.category__chip}>{props.category}</p>
                                 </Grid.Column>
                                 <Grid.Column width={11} floated='right'>
-                                    <Button floated='right' fluid onClick={taskDetailsHandler}>
+                                    <Button floated='right' fluid onClick={taskDetailsHandler} >
                                         <Button.Content>Szczegóły</Button.Content>
                                     </Button>
                                 </Grid.Column>

@@ -127,11 +127,11 @@ const AuthorizationForm = () => {
                             <div>
                                 <div className={classes.control}>
                                     <label htmlFor='email'>E-mail</label>
-                                    <input type='email' id='email' value='test1@test.com' required ref={emailInput}/>
+                                    <input type='email' id='email' defaultValue='test1@test.com' required ref={emailInput}/>
                                 </div>
                                 <div className={classes.control}>
                                     <label htmlFor='password'>Hasło</label>
-                                    <input type='password' id='password' value='test1234' required ref={passwordInput}/>
+                                    <input type='password' id='password' defaultValue='test1234' required ref={passwordInput}/>
                                 </div>
                             </div>
                         )

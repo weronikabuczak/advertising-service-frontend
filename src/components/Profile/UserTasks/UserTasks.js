@@ -22,6 +22,10 @@ const UserTasks = () => {
         history.replace('/userTasks');
     }
 
+    const onClickFunction = (id) => {
+        const task = tasks.find(t => t.id === id);
+    }
+
     useEffect(() => {
         if (token) {
             dispatch(getTasks({isUserTasks: true, token}));
@@ -31,7 +35,7 @@ const UserTasks = () => {
     return <div className={classes.section}>
         <Button onClick={userInfoHandler}>Dane</Button>
         <Button onClick={userTasksHandler}>Moje ogłoszenia</Button>
-        <TaskList tasks={tasks}/>
+        <TaskList tasks={tasks} onClick={onClickFunction} isUserTasks='true'/>
     </div>
 }
 

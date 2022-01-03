@@ -1,5 +1,5 @@
 import classes from './HomePageContent.module.css';
-import {Button, Form, Grid} from "semantic-ui-react";
+import {Button, Form, Grid, Icon} from "semantic-ui-react";
 import TaskList from "./TaskList/TaskList";
 import {MapContainer, Marker, Popup, TileLayer, useMap} from "react-leaflet";
 import L from 'leaflet';
@@ -13,7 +13,6 @@ import {getUserToken} from "../../../store/auth";
 import React from 'react'
 import MapTrickyComponent from "../../NewTask/MapTrickyComponent";
 import {categories} from "../../../utils/taskCategory";
-import {useHistory} from "react-router-dom";
 
 const HomePageContent = () => {
     const [latitude, setLatitude] = useState(52);
@@ -25,7 +24,6 @@ const HomePageContent = () => {
     const [currentTask, setCurrentTask] = useState({})
     const [zoom, setZoom] = useState(6);
     const [category, setCategory] = useState('');
-    const history = useHistory();
 
     //leaflet icon issue
     let DefaultIcon = L.icon({
@@ -62,7 +60,7 @@ const HomePageContent = () => {
         resetMapHandler();
     }
 
-    const componentDidMount= () => {
+    const componentDidMount = () => {
         navigator.geolocation.getCurrentPosition(function(position) {
             setLatitude(position.coords.latitude);
             setLongitude(position.coords.longitude);
@@ -78,7 +76,7 @@ const HomePageContent = () => {
                     <Grid.Column width={1}/>
                     <Grid.Column width={15}>
                         <Button content='' floated='left' onClick={filterCategory}>Wszystkie</Button>
-                        <Button  floated='left' onClick={componentDidMount}>geo</Button>
+                        <Button  floated='left' onClick={componentDidMount}><Icon name='compass'></Icon>Zlokalizuj mnie</Button>
                         <Button.Group floated='left'>
                             {categories.map((category) => (
                                 <Button color={category.color} onClick={filterCategory}
@@ -110,7 +108,7 @@ const HomePageContent = () => {
                     </Grid.Column>
                     <Grid.Column width={6}>
 
-                        <TaskList tasks={tasks} onClick={onClickFunction}/>
+                        <TaskList tasks={tasks} onClick={onClickFunction} isUserTasks='false'/>
                     </Grid.Column>
                 </Grid.Row>
             </Grid>

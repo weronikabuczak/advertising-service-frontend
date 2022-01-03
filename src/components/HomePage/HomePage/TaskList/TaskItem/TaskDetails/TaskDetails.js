@@ -3,22 +3,38 @@ import taskIcon from "../../../../../../files/task.png";
 import classes from './TaskDetails.module.css';
 import {MapContainer, TileLayer, Marker, Popup} from 'react-leaflet'
 import {useSelector} from "react-redux";
-import {getCurrentTask} from "../../../../../../store/task";
+import {getCurrentTask, getTasks} from "../../../../../../store/task";
 import L from 'leaflet';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
-import {useState} from "react";
+import React, {useEffect, useState} from "react";
 import DeleteTask from "./DeleteTask";
 import EditTask from "./EditTask";
+import {getUserToken} from "../../../../../../store/auth";
+import {useAppDispatch} from "../../../../../../root";
+import {createOffer} from "../../../../../../store/offer";
+import {useLocation} from "react-router-dom";
 
 const TaskDetails = () => {
     const task = useSelector(getCurrentTask);
+
+    //const offer = useSelector(getAllOffers);
     let avatar = null;
     const latitude = task.latitude;
     const longitude = task.longitude;
     const position = [latitude,longitude];
     const [modalOpenDelete, setModalOpenDelete] = useState(false);
     const [modalOpenEdit, setModalOpenEdit] = useState(false);
+    const [isUserTasks, setIsUserTasks] = useState();
+
+    const token = useSelector(getUserToken);
+    const dispatch = useAppDispatch();
+    const location = useLocation();
+
+    useEffect(() => {
+        setIsUserTasks(location.state.isUserTasks);
+    }, [location]);
+
 
     if (task.user.image) {
         avatar = "data:image/jpeg;base64," + task.user.image;
@@ -33,11 +49,21 @@ const TaskDetails = () => {
 
     const deleteTaskHandler = () => {
         setModalOpenDelete(true);
+        let isUserTasks = location.state.isUserTasks;
+
+        console.log(isUserTasks)
     }
 
     const editTaskHandler = () => {
         setModalOpenEdit(true);
         console.log(task.category)
+    }
+
+    const offerHandler = () => {
+        if (token) {
+            let taskId = task.id;
+            dispatch(createOffer({token, taskId}));
+        }
     }
 
     return (<Container className={classes.task__container}>
@@ -49,8 +75,46 @@ const TaskDetails = () => {
                     <Image src={taskIcon} rounded size='large'/>
                 </Grid.Column>
                 <Grid.Column width={6}>
-                    <Button onClick={deleteTaskHandler}>Usuń</Button>
-                    <Button onClick={editTaskHandler}>Edytuj</Button>
+                    <Button negative animated  onClick={deleteTaskHandler}>
+                        <Button.Content visible>Usuń</Button.Content>
+                        <Button.Content hidden>
+                            <Icon size='large' name='delete' />
+                        </Button.Content>
+                    </Button>
+                    <Button animated  onClick={editTaskHandler}>
+                        <Button.Content visible>Edytuj</Button.Content>
+                        <Button.Content hidden>
+                            <Icon size='large' name='edit' />
+                        </Button.Content>
+                    </Button>
+                    <Button animated  onClick={offerHandler}>
+                        <Button.Content visible>Zapytanie</Button.Content>
+                        <Button.Content hidden>
+                            <Icon size='large' name='chat' />
+                        </Button.Content>
+                    </Button>
+
+
+                    <Card>
+                        <Header>Nowa propozycja od
+                            {/*{offer.task.user.name}*/}
+                            {/*image*/}
+                        </Header>
+                        <Card.Content extra>
+                            <div className='ui two buttons'>
+                                <Button basic color='green'>
+                                    {/*PUT offer, status=accepted*/}
+                                    Zatwierdź
+                                </Button>
+                                <Button basic color='red'>
+                                    {/*PUT offer, status=rejected*/}
+                                    Odrzuć
+                                </Button>
+                            </div>
+                        </Card.Content>
+                    </Card>
+
+
                     <Card fluid>
                         <Card.Content className={classes.category__container}>
                             <span className={classes.category__chip}>{task.category}</span></Card.Content>
