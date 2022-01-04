@@ -6,36 +6,46 @@ import ChangePassword from "./ChangePassword";
 import ChangeUserData from "./ChangeUserData";
 import {useHistory} from "react-router-dom";
 import {useSelector} from "react-redux";
-import {getUserToken} from "../../store/auth";
+import {getUser, getUserInfo, getUserToken} from "../../store/auth";
+import {useAppDispatch} from "../../root";
 
 const UserProfile = () => {
     const history = useHistory();
-    const [userInfo, setUserInfo] = useState({});
+    const dispatch = useAppDispatch();
+    const userInfo = useSelector(getUserInfo);
+    // const [userInfo, setUserInfo] = useState({});
     const [modalOpenPassword, setModalOpenPassword] = useState(false);
     const [modalOpenUserInfo, setModalOpenUserInfo] = useState(false);
     const token = useSelector(getUserToken);
 
 
+    // useEffect(() => {
+    //     const fetchUserInfo = async () => {
+    //         const response = await fetch('http://localhost:8080/api/user/me', {
+    //             method: 'get',
+    //             headers: {
+    //                 'Authorization': 'Bearer ' + token,
+    //                 'Content-Type': 'application/json'
+    //             }
+    //         })
+    //         const responseData = await response.json();
+    //         const createDate = new Date(responseData.createDate);
+    //         responseData.createDate = createDate.toLocaleDateString();
+    //         if (responseData.image) {
+    //             let avatar = "data:image/jpeg;base64," + responseData.image;
+    //             responseData.image = avatar;
+    //         }
+    //         setUserInfo(responseData);
+    //     };
+    //     fetchUserInfo();
+    // }, []);
+
     useEffect(() => {
-        const fetchUserInfo = async () => {
-            const response = await fetch('http://localhost:8080/api/user/me', {
-                method: 'get',
-                headers: {
-                    'Authorization': 'Bearer ' + token,
-                    'Content-Type': 'application/json'
-                }
-            })
-            const responseData = await response.json();
-            const createDate = new Date(responseData.createDate);
-            responseData.createDate = createDate.toLocaleDateString();
-            if (responseData.image) {
-                let avatar = "data:image/jpeg;base64," + responseData.image;
-                responseData.image = avatar;
-            }
-            setUserInfo(responseData);
-        };
-        fetchUserInfo();
-    }, []);
+        if (token) {
+            dispatch(getUser({token}));
+        }
+        console.log(userInfo)
+    }, [token]);
 
     const userInfoHandler = () => {
         history.replace('/profile');

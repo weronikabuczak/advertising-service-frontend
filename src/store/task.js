@@ -41,23 +41,6 @@ export const deleteTask = createAsyncThunk(`${sliceName}/deleteTask`, async ({id
     }
 });
 
-// export const getTaskById = createAsyncThunk(`${sliceName}/getTaskById`, async ({
-//                                                                                    isUserTasks,
-//                                                                                    id,
-//                                                                                    token
-//                                                                                }, {dispatch}) => {
-//     try {
-//         const data = []
-//         console.log(data);
-//         //const {tasks} = data;
-//         return {
-//             tasks: [...data]
-//         };
-//     } catch (error) {
-//         alert('Cannot fetch tasks');
-//         throw error;
-//     }
-// });
 
 const task = createSlice({
     name: sliceName,

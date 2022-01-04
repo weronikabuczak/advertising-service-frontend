@@ -40,7 +40,8 @@ const TaskItem = ({props, onClick, isUserTasks}) => {
                         <Grid.Column width={13}>
                             <Grid.Row className={classes.category__container}>
                                 <Grid.Column width={5}>
-                                    <p className={classes.category__chip}>{props.category}</p>
+                                    <span className={classes.category__chip}>{props.category}</span>
+                                    <span className={classes.status__chip}>{props.status}</span>
                                 </Grid.Column>
                                 <Grid.Column width={11} floated='right'>
                                     <Button floated='right' fluid onClick={taskDetailsHandler} >

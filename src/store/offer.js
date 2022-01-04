@@ -99,14 +99,12 @@ const offer = createSlice({
         });
 
         builder.addCase(updateOffer.fulfilled, (state, {payload}) => {
-            // const {offers} = payload;
-            // state.offers = offers;
+            const {offers} = payload;
+            state.offers = offers;
             state.isLoading = false;
-            state.updateSuccess = true;
         });
         builder.addCase(updateOffer.rejected, (state) => {
             state.isLoading = false;
-            state.updateSuccess = false;
         });
     }
 });

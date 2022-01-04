@@ -56,6 +56,29 @@ export const registerUserApiCall = async ({email, currentPassword, newPassword, 
     }
 };
 
+export const getUserApiCall = async ({token}) => {
+    try {
+        let url = 'http://localhost:8080/api/user/me';
+        return fetch(url, {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + token,
+                'Content-Type': 'application/json'
+            },
+        }).then((response) => {
+            if (response.ok) {
+                return response.json().then(data => {
+                    return data
+                })
+            } else {
+                throw 'Fetching user failed!'
+            }
+        })
+    } catch (error) {
+        throw error;
+    }
+};
+
 
 export const getExpirationTimeFromToken = (token) => {
     const {exp} = jwtDecode(token);

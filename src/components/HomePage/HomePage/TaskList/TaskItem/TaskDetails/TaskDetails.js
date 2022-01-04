@@ -4,7 +4,7 @@ import taskIcon from "../../../../../../files/task.png";
 import classes from './TaskDetails.module.css';
 import {MapContainer, TileLayer, Marker, Popup} from 'react-leaflet'
 import {useSelector} from "react-redux";
-import {getCurrentTask, getTasks, setCurrentTaskId} from "../../../../../../store/task";
+import {getCurrentTask} from "../../../../../../store/task";
 import L from 'leaflet';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
@@ -16,10 +16,7 @@ import {useAppDispatch} from "../../../../../../root";
 import {
     createOffer,
     getAllOffers,
-    getCurrentOffer,
-    getOffers, getPostSuccess, getUpdateSuccess,
-    setCurrentOfferId,
-    updateOffer
+    getOffers, getPostSuccess
 } from "../../../../../../store/offer";
 import {useLocation} from "react-router-dom";
 import OfferItem from "./Offer/OfferItem";
@@ -28,7 +25,6 @@ const TaskDetails = () => {
     const task = useSelector(getCurrentTask);
 
     const offers = useSelector(getAllOffers);
-    const [currentOffer, setCurrentOffer] = useState({})
     let avatar = null;
     let taskId = task.id;
     const latitude = task.latitude;
@@ -42,7 +38,6 @@ const TaskDetails = () => {
     const dispatch = useAppDispatch();
     const location = useLocation();
 
-    const postSuccess = useSelector(getPostSuccess);
     const [offerSent, setOfferSent] = useState();
 
     useEffect(() => {
@@ -69,12 +64,14 @@ const TaskDetails = () => {
         setModalOpenDelete(true);
         let isUserTasks = location.state.isUserTasks;
 
-        console.log(offers);
-        console.log(isUserTasks)
     }
 
     const editTaskHandler = () => {
         setModalOpenEdit(true);
+    }
+
+    const endTaskHandler = () => {
+
     }
 
     const offerHandler = () => {
@@ -82,10 +79,10 @@ const TaskDetails = () => {
             dispatch(createOffer({token, taskId}));
         }
         console.log(offerSent)
-        // if (postSuccess) {
-            setOfferSent(true);
-        // }
+        setOfferSent(true);
         console.log(offerSent)
+        console.log(task.user.id);
+        console.log()
     }
 
 
@@ -116,7 +113,14 @@ const TaskDetails = () => {
                             </Button.Content>
                         </Button>
                     }
-
+                    {isUserTasks &&
+                        <Button animated onClick={endTaskHandler}>
+                            <Button.Content visible>Zakończ zlecenie</Button.Content>
+                            <Button.Content hidden>
+                                <Icon size='large' name='calendar outline'/>
+                            </Button.Content>
+                        </Button>
+                    }
 
 
                     <Card fluid>

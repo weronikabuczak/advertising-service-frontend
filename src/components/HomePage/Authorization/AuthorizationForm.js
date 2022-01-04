@@ -13,7 +13,6 @@ const AuthorizationForm = () => {
         const nameInput = useRef();
         const locationInput = useRef();
         const phoneInput = useRef();
-        // const [imageContent, setImageContent] = useState(null);
         let image = null;
 
         const [isLogin, setIsLogin] = useState(true);
@@ -63,60 +62,6 @@ const AuthorizationForm = () => {
                 image = newBaseURL;
             };
         }
-
-
-        // const getBase64 = (file) => {
-        //     return new Promise(resolve => {
-        //         let fileInfo;
-        //         let baseURL = "";
-        //         // Make new FileReader
-        //         let reader = new FileReader();
-        //
-        //         // Convert the file to base64 text
-        //         reader.readAsDataURL(file);
-        //
-        //         // on reader load somthing...
-        //         reader.onload = () => {
-        //             // Make a fileInfo Object
-        //             console.log("Called", reader);
-        //             baseURL = reader.result;
-        //             console.log(baseURL);
-        //             resolve(baseURL);
-        //         };
-        //         console.log(fileInfo);
-        //     });
-        // };
-
-        // const handleFileInputChange = e => {
-        //     console.log(e.target.files[0]);
-        //     //let {file} = state;
-        //     let file = e.target.files[0];
-        //
-        //     getBase64(file)
-        //         .then(result => {
-        //             console.log("File Is", file);
-        //             this.setState(result);
-        //             console.log(result);
-        //             console.log(state);
-        //         })
-        //         .catch(err => {
-        //             console.log(err);
-        //         });
-        //
-        //     // this.setState({
-        //     //     file: e.target.files[0]
-        //     // });
-        // };
-
-
-        // const imageUploadHandler = (event) => {
-        //     const newImage = event.target.files[0];
-        //       newImage
-        //         .text()
-        //         .then(data => {
-        //             setImageContent(data);
-        //         })
-        // }
 
 
         return (
