@@ -16,7 +16,7 @@ export const loginUserApiCall = async ({email, password}) => {
                 return response.json().then(data => {
                     return {
                         token: data.token,
-                        email: data.email
+                        receivedEmail: data.email
                     }
                 })
             } else {

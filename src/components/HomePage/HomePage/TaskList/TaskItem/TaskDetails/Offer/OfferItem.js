@@ -2,8 +2,6 @@ import {useAppDispatch} from "../../../../../../../root";
 import {Button, Card, Icon, Image} from "semantic-ui-react";
 import {useEffect, useState} from "react";
 import {
-    getCurrentOfferId,
-    getUpdateSuccess,
     setCurrentOfferId,
     updateOffer
 } from "../../../../../../../store/offer";
@@ -15,44 +13,28 @@ import classes from './OfferItem.module.css';
 const OfferItem = ({offer, isUserTasks}) => {
     const dispatch = useAppDispatch();
     const token = useSelector(getUserToken);
-    const offerId = useSelector(getCurrentOfferId);
-    const updateSuccess = useSelector(getUpdateSuccess);
-    const [offerAccepted, setOfferAccepted] = useState();
-    const [offerRejected, setOfferRejected] = useState();
+    const [offerAccepted, setOfferAccepted] = useState(false);
+    const [offerRejected, setOfferRejected] = useState(false);
 
-    useEffect(() => {
 
-    }, [offerAccepted, offerRejected]);
-
-    const acceptOffer = () => {
-        dispatch(setCurrentOfferId(offer.id));
-        console.log(offerId)
+    const acceptOffer = (event) => {
         if (token) {
-            dispatch(updateOffer({token, offerId, offerStatus: 'ACCEPTED'}));
+            dispatch(updateOffer({token, offerId: offer.id, offerStatus: 'ACCEPTED'}));
         }
-        console.log(updateSuccess)
-        // if (updateSuccess) {
         setOfferAccepted(true);
-        // }
-
+        //todo
     }
 
     const rejectOffer = () => {
-        dispatch(setCurrentOfferId(offer.id));
-        console.log(updateSuccess)
-        console.log(offerId)
         if (token) {
-            dispatch(updateOffer({token, offerId, offerStatus: 'REJECTED'}));
+            dispatch(updateOffer({token, offerId: offer.id, offerStatus: 'REJECTED'}));
         }
-        // if (updateSuccess) {
         setOfferRejected(true);
-        // }
-
     }
 
     return (
         <section>
-            {!updateSuccess && isUserTasks &&
+            {isUserTasks &&
                 <Card fluid>
                     <Card.Content>
                         {offer.user.image != null
@@ -71,11 +53,9 @@ const OfferItem = ({offer, isUserTasks}) => {
                     <Card.Content extra>
                         <div className='ui two buttons'>
                             <Button basic color='green' onClick={acceptOffer}>
-                                {/*PUT offer, status=accepted*/}
                                 Zatwierdź
                             </Button>
                             <Button basic color='red' onClick={rejectOffer}>
-                                {/*PUT offer, status=rejected*/}
                                 Odrzuć
                             </Button>
                         </div>
@@ -84,11 +64,12 @@ const OfferItem = ({offer, isUserTasks}) => {
                 </Card>
             }
             {(offerAccepted || offerRejected) &&
-            <div className={classes.offerInfo__card} fluid>{offerAccepted &&
-                <p>Propozycja została zatwierdzona!</p>}
-                {offerRejected &&
-                    <p>Propozycja została odrzucona.</p>}
-            </div>
+                <div className={classes.offerInfo__card}>
+                    {offerAccepted &&
+                    <p>Propozycja została zatwierdzona!</p>}
+                    {offerRejected &&
+                        <p>Propozycja została odrzucona.</p>}
+                </div>
             }
         </section>
     );

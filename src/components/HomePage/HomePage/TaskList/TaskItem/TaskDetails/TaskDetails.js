@@ -11,19 +11,20 @@ import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import React, {useEffect, useState} from "react";
 import DeleteTask from "./DeleteTask";
 import EditTask from "./EditTask";
-import {getUserToken} from "../../../../../../store/auth";
+import {getUserEmail, getUserToken} from "../../../../../../store/auth";
 import {useAppDispatch} from "../../../../../../root";
-import {
+import  {
     createOffer,
     getAllOffers,
-    getOffers, getPostSuccess
+    getOffers,
 } from "../../../../../../store/offer";
 import {useLocation} from "react-router-dom";
 import OfferItem from "./Offer/OfferItem";
 
 const TaskDetails = () => {
     const task = useSelector(getCurrentTask);
-
+    // const currentUser = useSelector(getUserInfo);
+    const currentUser = useSelector(getUserEmail);
     const offers = useSelector(getAllOffers);
     let avatar = null;
     let taskId = task.id;
@@ -37,16 +38,17 @@ const TaskDetails = () => {
     const token = useSelector(getUserToken);
     const dispatch = useAppDispatch();
     const location = useLocation();
-
-    const [offerSent, setOfferSent] = useState();
+    const [isCurrentUserTask, setIsCurrentUserTask] = useState(false);
+    const [offerSent, setOfferSent] = useState(false);
 
     useEffect(() => {
+        setIsCurrentUserTask(currentUser === task.user.email)
         setIsUserTasks(location.state.isUserTasks === 'true');
         if (token) {
             dispatch(getOffers({token, taskId, offerStatus: 'ACTIVE'}));
         }
 
-    }, [location, offerSent]);
+    }, [location, offerSent, isCurrentUserTask, currentUser]);
 
 
     if (task.user.image) {
@@ -78,11 +80,9 @@ const TaskDetails = () => {
         if (token) {
             dispatch(createOffer({token, taskId}));
         }
-        console.log(offerSent)
         setOfferSent(true);
-        console.log(offerSent)
-        console.log(task.user.id);
-        console.log()
+        console.log(currentUser.id)
+        console.log(task.user.id)
     }
 
 
@@ -177,13 +177,14 @@ const TaskDetails = () => {
                             <Card.Content><Icon name='mail'/>{task.user.email}</Card.Content>
                         </Card.Content>
                     </Card>
-                    {!isUserTasks && !offerSent &&
+                    {!isUserTasks && !offerSent && !isCurrentUserTask && (
                         <Button animated onClick={offerHandler}>
                             <Button.Content visible>Zapytanie</Button.Content>
                             <Button.Content hidden>
                                 <Icon size='large' name='chat'/>
                             </Button.Content>
                         </Button>
+                    )
                     }
                     {offerSent &&
                         <div fluid className={classes.offerInfo__card}>

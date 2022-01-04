@@ -1,5 +1,3 @@
-
-
 export const createOfferApiCall = async ({token, taskId}) => {
     const offerUrl = `http://localhost:8080/api/offer?taskId=${taskId}`;
     try {
@@ -54,7 +52,7 @@ export const getOffersApiCall = async ({token, taskId, offerStatus}) => {
 export const updateOfferApiCall = async ({token, offerId, offerStatus}) => {
     const offerUrl = `http://localhost:8080/api/offer?id=${offerId}&offerStatus=${offerStatus}`;
     try {
-        const body = JSON.stringify({token, offerId, offerStatus});
+        const body = JSON.stringify({offerId, offerStatus});
         return fetch(offerUrl, {
             method: 'PUT',
             body: body,

@@ -5,10 +5,8 @@ export const sliceName = 'offer';
 
 export const initialState = {
     offers: [],
-    currentOfferId: '',
+    // currentOfferId: '',
     isLoading: false,
-    updateSuccess: false,
-    postSuccess: false
 };
 
 export const createOffer = createAsyncThunk(`${sliceName}/createOffer`, async ({
@@ -65,19 +63,16 @@ const offer = createSlice({
     extraReducers: (builder) => {
         builder.addCase(createOffer.pending, (state) => {
             state.isLoading = true;
-            state.postSuccess = false;
 
         });
         builder.addCase(createOffer.fulfilled, (state, {payload}) => {
             const {id} = payload;
             state.isLoading = false;
             state.offerId = id;
-            state.postSuccess = true;
 
         });
         builder.addCase(createOffer.rejected, (state) => {
             state.isLoading = false;
-            state.postSuccess = false;
         });
 
         builder.addCase(getOffers.pending, (state) => {
@@ -88,14 +83,12 @@ const offer = createSlice({
             const {offers} = payload;
             state.offers = offers;
             state.isLoading = false;
-            state.updateSuccess = false;
         });
         builder.addCase(getOffers.rejected, (state) => {
             state.isLoading = false;
         });
         builder.addCase(updateOffer.pending, (state) => {
             state.isLoading = true;
-            state.updateSuccess = false;
         });
 
         builder.addCase(updateOffer.fulfilled, (state, {payload}) => {
@@ -110,10 +103,8 @@ const offer = createSlice({
 });
 
 export const {setCurrentOfferId} = offer.actions;
-export const getCurrentOffer = (state) => state[sliceName].offers.find(offer => offer.id === state[sliceName].currentOfferId);
+// export const getCurrentOffer = (state) => state[sliceName].offers.find(offer => offer.id === state[sliceName].currentOfferId);
 export const getCurrentOfferId = (state) => state[sliceName].currentOfferId;
-export const getUpdateSuccess = (state) => state[sliceName].updateSuccess;
-export const getPostSuccess = (state) => state[sliceName].postSuccess;
 export const getAllOffers = state => state[sliceName].offers;
 
 export default offer.reducer;

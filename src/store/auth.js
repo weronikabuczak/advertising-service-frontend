@@ -15,7 +15,8 @@ export const initialState = {
     remainingTime: 0,
     isLoggedIn: false,
     isLoading: false,
-    user: { }
+    user: { },
+    email: ''
 };
 
 export const loginUser = createAsyncThunk(`${sliceName}/login`, async ({email, password}, {dispatch}) => {
@@ -23,8 +24,10 @@ export const loginUser = createAsyncThunk(`${sliceName}/login`, async ({email, p
         const data = await loginUserApiCall({email, password});
         // console.log(user)
         const {token, exp} = data;
+        const {receivedEmail} = data;
         return {
             token: token,
+            email: receivedEmail,
             isLoggedIn: true,
             expirationTime: exp,
             remainingTime: getRemainingTimeFromToken(token),
@@ -112,12 +115,13 @@ const auth = createSlice({
         });
 
         builder.addCase(loginUser.fulfilled || registerUser.fulfilled, (state, {payload}) => {
-            const {token, expirationTime, remainingTime} = payload;
+            const {email, token, expirationTime, remainingTime} = payload;
             state.token = token;
             state.isLoggedIn = true;
             state.expirationTime = expirationTime;
             state.remainingTime = remainingTime;
             state.isLoading = false;
+            state.email = email;
         });
         builder.addCase(loginUser.rejected || registerUser.rejected, (state) => {
             state.isLoading = false;
@@ -164,5 +168,6 @@ const auth = createSlice({
 export const isUserLoggedIn = state => state[sliceName].isLoggedIn;
 export const getUserToken = state => state[sliceName].token;
 export const getUserInfo = state => state[sliceName].user;
+export const getUserEmail = state => state[sliceName].email;
 
 export default auth.reducer;
