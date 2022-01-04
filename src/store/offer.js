@@ -2,13 +2,15 @@ import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {createOfferApiCall, getOffersApiCall, updateOfferApiCall} from "./thunks/offer-thunks";
 import {getExpirationTimeFromToken, getRemainingTimeFromToken, registerUserApiCall} from "./thunks/auth-thunks";
 import {loginUser, logoutUser, registerUser} from "./auth";
+import {getTasks} from "./task";
 
 export const sliceName = 'offer';
 
 export const initialState = {
     offers: [],
-    // currentTaskId: '',
+    currentOfferId: '',
     isLoading: false,
+    updateSuccess: false
 };
 
 export const createOffer = createAsyncThunk(`${sliceName}/createOffer`, async ({
@@ -41,16 +43,12 @@ export const getOffers = createAsyncThunk(`${sliceName}/getOffers`, async ({
 });
 
 export const updateOffer = createAsyncThunk(`${sliceName}/updateOffer`, async ({
-                                                                                   token, taskId, status
+                                                                                   token, offerId, offerStatus
                                                                                }, {dispatch}) => {
     try {
-        const data = await updateOfferApiCall({token, taskId, status});
-        // const {token} = data;
+        const data = await updateOfferApiCall({token, offerId, offerStatus});
         return {
-            // token: token,
-            // isLoggedIn: true,
-            // expirationTime: getExpirationTimeFromToken(token),
-            // remainingTime: getRemainingTimeFromToken(token),
+            data
         };
     } catch (error) {
         alert('Cannot update offers');
@@ -61,8 +59,26 @@ export const updateOffer = createAsyncThunk(`${sliceName}/updateOffer`, async ({
 const offer = createSlice({
     name: sliceName,
     initialState,
-    reducers: {},
+    reducers: {
+        setCurrentOfferId: (state, {payload}) => {
+            state.currentOfferId = payload
+        }
+    },
     extraReducers: (builder) => {
+        builder.addCase(createOffer.pending, (state) => {
+            state.isLoading = true;
+
+        });
+        builder.addCase(createOffer.fulfilled, (state, {payload}) => {
+            const {id} = payload;
+            state.isLoading = false;
+            state.offerId = id;
+
+        });
+        builder.addCase(createOffer.rejected, (state) => {
+            state.isLoading = false;
+        });
+
         builder.addCase(getOffers.pending, (state) => {
             state.isLoading = true;
         });
@@ -71,14 +87,33 @@ const offer = createSlice({
             const {offers} = payload;
             state.offers = offers;
             state.isLoading = false;
+            state.updateSuccess = false;
         });
         builder.addCase(getOffers.rejected, (state) => {
             state.isLoading = false;
         });
+        builder.addCase(updateOffer.pending, (state) => {
+            state.isLoading = true;
+            state.updateSuccess = false;
+        });
+
+        builder.addCase(updateOffer.fulfilled, (state, {payload}) => {
+            // const {offers} = payload;
+            // state.offers = offers;
+            state.isLoading = false;
+            state.updateSuccess = true;
+        });
+        builder.addCase(updateOffer.rejected, (state) => {
+            state.isLoading = false;
+            state.updateSuccess = false;
+        });
     }
 });
 
-
+export const {setCurrentOfferId} = offer.actions;
+export const getCurrentOffer = (state) => state[sliceName].offers.find(offer => offer.id === state[sliceName].currentOfferId);
+export const getCurrentOfferId = (state) => state[sliceName].currentOfferId;
+export const getUpdateSuccess = (state) => state[sliceName].updateSuccess;
 export const getAllOffers = state => state[sliceName].offers;
 
 export default offer.reducer;

@@ -14,8 +14,7 @@ const TaskItem = ({props, onClick, isUserTasks}) => {
     const dispatch = useAppDispatch()
 
     const taskDetailsHandler = () => {
-        dispatch(setCurrentTaskId(props.id))
-        // history.replace(`/taskDetails/${props.id}`);
+        dispatch(setCurrentTaskId(props.id));
         history.push({
             pathname: `/taskDetails/${props.id}`,
             state: {isUserTasks: isUserTasks}

@@ -1,9 +1,10 @@
 import {Button, Card, Container, Divider, Grid, Header, Icon, Image, Table} from "semantic-ui-react";
 import taskIcon from "../../../../../../files/task.png";
+
 import classes from './TaskDetails.module.css';
 import {MapContainer, TileLayer, Marker, Popup} from 'react-leaflet'
 import {useSelector} from "react-redux";
-import {getCurrentTask, getTasks} from "../../../../../../store/task";
+import {getCurrentTask, getTasks, setCurrentTaskId} from "../../../../../../store/task";
 import L from 'leaflet';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
@@ -12,14 +13,22 @@ import DeleteTask from "./DeleteTask";
 import EditTask from "./EditTask";
 import {getUserToken} from "../../../../../../store/auth";
 import {useAppDispatch} from "../../../../../../root";
-import {createOffer, getAllOffers, getOffers} from "../../../../../../store/offer";
+import {
+    createOffer,
+    getAllOffers,
+    getCurrentOffer,
+    getOffers,
+    setCurrentOfferId,
+    updateOffer
+} from "../../../../../../store/offer";
 import {useLocation} from "react-router-dom";
-import {off} from "leaflet/src/dom/DomEvent";
+import OfferItem from "./Offer/OfferItem";
 
 const TaskDetails = () => {
     const task = useSelector(getCurrentTask);
 
-    const offer = useSelector(getAllOffers);
+    const offers = useSelector(getAllOffers);
+    const [currentOffer, setCurrentOffer] = useState({})
     let avatar = null;
     let taskId = task.id;
     const latitude = task.latitude;
@@ -38,6 +47,7 @@ const TaskDetails = () => {
         if (token) {
             dispatch(getOffers({token, taskId, offerStatus: 'ACTIVE'}));
         }
+
     }, [location]);
 
 
@@ -56,13 +66,12 @@ const TaskDetails = () => {
         setModalOpenDelete(true);
         let isUserTasks = location.state.isUserTasks;
 
-        console.log(offer);
+        console.log(offers);
         console.log(isUserTasks)
     }
 
     const editTaskHandler = () => {
         setModalOpenEdit(true);
-        console.log(task.category)
     }
 
     const offerHandler = () => {
@@ -70,21 +79,20 @@ const TaskDetails = () => {
             dispatch(createOffer({token, taskId}));
         }
     }
-    // const renderProposition = isUserTasks && offer;
-    console.log(offer)
-    console.log(offer?.length > 0)
-    // console.log(renderProposition)
+
+
     return (<Container className={classes.task__container}>
         <DeleteTask open={modalOpenDelete} setOpen={setModalOpenDelete} id={task.id}/>
         <EditTask open={modalOpenEdit} setOpen={setModalOpenEdit} id={task.id} task={task}/>
         <Grid>
             <Grid.Row>
-                <Grid.Column width={10}>
+                <Grid.Column width={8}>
                     <Image src={taskIcon} rounded size='large'/>
-                </Grid.Column>
-                <Grid.Column width={6}>
-                    {isUserTasks &&
 
+                </Grid.Column>
+                <Grid.Column width={8}>
+
+                    {isUserTasks &&
                         <Button negative animated onClick={deleteTaskHandler}>
                             <Button.Content visible>Usuń</Button.Content>
                             <Button.Content hidden>
@@ -107,29 +115,6 @@ const TaskDetails = () => {
                                 <Icon size='large' name='chat'/>
                             </Button.Content>
                         </Button>
-                    }
-
-                    {offer?.length > 0 && (
-                        <Card>
-                            <Header>Nowa propozycja od
-                                {offer.status}
-                                {/*{offer.task.user.name}*/}
-                                {/*image*/}
-                            </Header>
-                            <Card.Content extra>
-                                <div className='ui two buttons'>
-                                    <Button basic color='green'>
-                                        {/*PUT offer, status=accepted*/}
-                                        Zatwierdź
-                                    </Button>
-                                    <Button basic color='red'>
-                                        {/*PUT offer, status=rejected*/}
-                                        Odrzuć
-                                    </Button>
-                                </div>
-                            </Card.Content>
-                        </Card>
-                    )
                     }
 
 
@@ -187,6 +172,10 @@ const TaskDetails = () => {
                             <Card.Content><Icon name='mail'/>{task.user.email}</Card.Content>
                         </Card.Content>
                     </Card>
+                    {offers?.length > 0 && offers.map((offer) => (
+                        <OfferItem offer={offer}/>
+
+                    ))}
                 </Grid.Column>
             </Grid.Row>
             <Divider className={classes.taskDetails__divider}/>

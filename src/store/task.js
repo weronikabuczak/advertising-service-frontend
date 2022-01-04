@@ -63,7 +63,7 @@ const task = createSlice({
     name: sliceName,
     initialState,
     reducers: {
-        setCurrentTaskId: (state, {payload}) => {
+        setCurrentTaskId: (state, {payload})  => {
             state.currentTaskId = payload
         }
     },
