@@ -1,8 +1,5 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {createOfferApiCall, getOffersApiCall, updateOfferApiCall} from "./thunks/offer-thunks";
-import {getExpirationTimeFromToken, getRemainingTimeFromToken, registerUserApiCall} from "./thunks/auth-thunks";
-import {loginUser, logoutUser, registerUser} from "./auth";
-import {getTasks} from "./task";
 
 export const sliceName = 'offer';
 
@@ -10,7 +7,8 @@ export const initialState = {
     offers: [],
     currentOfferId: '',
     isLoading: false,
-    updateSuccess: false
+    updateSuccess: false,
+    postSuccess: false
 };
 
 export const createOffer = createAsyncThunk(`${sliceName}/createOffer`, async ({
@@ -67,16 +65,19 @@ const offer = createSlice({
     extraReducers: (builder) => {
         builder.addCase(createOffer.pending, (state) => {
             state.isLoading = true;
+            state.postSuccess = false;
 
         });
         builder.addCase(createOffer.fulfilled, (state, {payload}) => {
             const {id} = payload;
             state.isLoading = false;
             state.offerId = id;
+            state.postSuccess = true;
 
         });
         builder.addCase(createOffer.rejected, (state) => {
             state.isLoading = false;
+            state.postSuccess = false;
         });
 
         builder.addCase(getOffers.pending, (state) => {
@@ -114,6 +115,7 @@ export const {setCurrentOfferId} = offer.actions;
 export const getCurrentOffer = (state) => state[sliceName].offers.find(offer => offer.id === state[sliceName].currentOfferId);
 export const getCurrentOfferId = (state) => state[sliceName].currentOfferId;
 export const getUpdateSuccess = (state) => state[sliceName].updateSuccess;
+export const getPostSuccess = (state) => state[sliceName].postSuccess;
 export const getAllOffers = state => state[sliceName].offers;
 
 export default offer.reducer;

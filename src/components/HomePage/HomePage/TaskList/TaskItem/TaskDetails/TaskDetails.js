@@ -17,7 +17,7 @@ import {
     createOffer,
     getAllOffers,
     getCurrentOffer,
-    getOffers,
+    getOffers, getPostSuccess, getUpdateSuccess,
     setCurrentOfferId,
     updateOffer
 } from "../../../../../../store/offer";
@@ -42,13 +42,16 @@ const TaskDetails = () => {
     const dispatch = useAppDispatch();
     const location = useLocation();
 
+    const postSuccess = useSelector(getPostSuccess);
+    const [offerSent, setOfferSent] = useState();
+
     useEffect(() => {
         setIsUserTasks(location.state.isUserTasks === 'true');
         if (token) {
             dispatch(getOffers({token, taskId, offerStatus: 'ACTIVE'}));
         }
 
-    }, [location]);
+    }, [location, offerSent]);
 
 
     if (task.user.image) {
@@ -78,6 +81,11 @@ const TaskDetails = () => {
         if (token) {
             dispatch(createOffer({token, taskId}));
         }
+        console.log(offerSent)
+        // if (postSuccess) {
+            setOfferSent(true);
+        // }
+        console.log(offerSent)
     }
 
 
@@ -87,7 +95,7 @@ const TaskDetails = () => {
         <Grid>
             <Grid.Row>
                 <Grid.Column width={8}>
-                    <Image src={taskIcon} rounded size='large'/>
+                    <Image src={taskIcon} rounded size='medium'/>
 
                 </Grid.Column>
                 <Grid.Column width={8}>
@@ -108,14 +116,7 @@ const TaskDetails = () => {
                             </Button.Content>
                         </Button>
                     }
-                    {!isUserTasks &&
-                        <Button animated onClick={offerHandler}>
-                            <Button.Content visible>Zapytanie</Button.Content>
-                            <Button.Content hidden>
-                                <Icon size='large' name='chat'/>
-                            </Button.Content>
-                        </Button>
-                    }
+
 
 
                     <Card fluid>
@@ -172,8 +173,21 @@ const TaskDetails = () => {
                             <Card.Content><Icon name='mail'/>{task.user.email}</Card.Content>
                         </Card.Content>
                     </Card>
+                    {!isUserTasks && !offerSent &&
+                        <Button animated onClick={offerHandler}>
+                            <Button.Content visible>Zapytanie</Button.Content>
+                            <Button.Content hidden>
+                                <Icon size='large' name='chat'/>
+                            </Button.Content>
+                        </Button>
+                    }
+                    {offerSent &&
+                        <div fluid className={classes.offerInfo__card}>
+                            <p>Propozycja została wysłana!</p>
+                        </div>
+                    }
                     {offers?.length > 0 && offers.map((offer) => (
-                        <OfferItem offer={offer}/>
+                        <OfferItem offer={offer} isUserTasks={isUserTasks}/>
 
                     ))}
                 </Grid.Column>
@@ -186,7 +200,7 @@ const TaskDetails = () => {
             </Grid.Row>
             <Grid.Row>
                 <MapContainer className={classes.taskMap__container} center={position} zoom={17}
-                              scrollWheelZoom={false}>
+                              scrollWheelZoom={true}>
                     <TileLayer
                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

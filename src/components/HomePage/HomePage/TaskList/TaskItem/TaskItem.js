@@ -74,7 +74,6 @@ const TaskItem = ({props, onClick, isUserTasks}) => {
                             </div>
                         </Grid.Column>
                     </Grid.Row>
-
                 </Grid>
             </Card.Content>
         </Card>

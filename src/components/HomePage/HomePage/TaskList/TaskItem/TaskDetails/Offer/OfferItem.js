@@ -12,7 +12,7 @@ import {useSelector} from "react-redux";
 import {getUserToken} from "../../../../../../../store/auth";
 import classes from './OfferItem.module.css';
 
-const OfferItem = ({offer}) => {
+const OfferItem = ({offer, isUserTasks}) => {
     const dispatch = useAppDispatch();
     const token = useSelector(getUserToken);
     const offerId = useSelector(getCurrentOfferId);
@@ -52,7 +52,7 @@ const OfferItem = ({offer}) => {
 
     return (
         <section>
-            {!updateSuccess &&
+            {!updateSuccess && isUserTasks &&
                 <Card fluid>
                     <Card.Content>
                         {offer.user.image != null
