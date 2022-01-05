@@ -13,6 +13,8 @@ import {getUserToken} from "../../../store/auth";
 import React from 'react'
 import MapTrickyComponent from "../../NewTask/MapTrickyComponent";
 import {categories} from "../../../utils/taskCategory";
+import "leaflet-control-geocoder/dist/Control.Geocoder.css";
+import "leaflet-control-geocoder/dist/Control.Geocoder.js";
 
 const HomePageContent = () => {
     const [latitude, setLatitude] = useState(52);

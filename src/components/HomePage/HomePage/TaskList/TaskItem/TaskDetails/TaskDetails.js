@@ -13,7 +13,7 @@ import DeleteTask from "./DeleteTask";
 import EditTask from "./EditTask";
 import {getUserEmail, getUserToken} from "../../../../../../store/auth";
 import {useAppDispatch} from "../../../../../../root";
-import  {
+import {
     createOffer,
     getAllOffers,
     getOffers,
@@ -72,8 +72,10 @@ const TaskDetails = () => {
         setModalOpenEdit(true);
     }
 
-    const endTaskHandler = () => {
-
+    const completeTaskHandler = () => {
+        if (token) {
+            dispatch()
+        }
     }
 
     const offerHandler = () => {
@@ -113,8 +115,8 @@ const TaskDetails = () => {
                             </Button.Content>
                         </Button>
                     }
-                    {isUserTasks &&
-                        <Button animated onClick={endTaskHandler}>
+                    {isUserTasks && task.status === 'IN_PROGRESS' &&
+                        <Button animated onClick={completeTaskHandler}>
                             <Button.Content visible>Zakończ zlecenie</Button.Content>
                             <Button.Content hidden>
                                 <Icon size='large' name='calendar outline'/>

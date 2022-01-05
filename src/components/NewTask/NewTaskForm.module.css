@@ -56,7 +56,6 @@
     border-bottom: 2px solid gray;
     width: 90%;
     height: 30px;
-    text-align: left;
     padding: 7px 0;
     background: transparent;
     transition: border-color 0.2s;
@@ -88,6 +87,11 @@
 .actions button:hover {
     background-color: #3abed1;
     border-color: #3abed1;
+}
+
+.quantityPicker {
+    display: flex;
+    justify-content: center;
 }
 
 

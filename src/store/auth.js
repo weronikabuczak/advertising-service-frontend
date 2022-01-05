@@ -5,7 +5,6 @@ import {
     getRemainingTimeFromToken, getUserApiCall,
     loginUserApiCall, registerUserApiCall,
 } from './thunks/auth-thunks';
-import {getTasksApiCall} from "./thunks/task-thunks";
 
 export const sliceName = 'auth';
 

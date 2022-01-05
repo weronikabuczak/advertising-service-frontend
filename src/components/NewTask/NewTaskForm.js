@@ -8,6 +8,7 @@ import LocationPicker from "react-leaflet-location-picker";
 import {categories} from "../../utils/taskCategory";
 import {Button} from "semantic-ui-react";
 
+
 const NewTaskForm = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [pickerValue, setPickerValue] = useState();
@@ -135,7 +136,7 @@ const NewTaskForm = () => {
         setCategory(content);
     }
 
-
+    console.log(category)
 
 
     return (
@@ -176,9 +177,11 @@ const NewTaskForm = () => {
                     </div>
                     <div className={classes.control}>
                         <label>Przybliżony czas na wykonanie zlecenia</label>
-                        <QuantityPicker onChange={getPickerValue} e min={1} max={24} value={1}
+                        <div className={classes.quantityPicker}>
+                        <QuantityPicker onChange={getPickerValue} min={1} max={24} value={1}
                                         smooth/>
                         {/*required*/}
+                        </div>
                     </div>
                     <div className={classes.control}>
                         <label htmlFor='image'>Zdjęcie</label>

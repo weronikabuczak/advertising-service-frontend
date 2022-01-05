@@ -23,8 +23,8 @@ export const loginUserApiCall = async ({email, password}) => {
                 throw 'Authentication failed!'
             }
         })
-    } catch (err) {
-        throw err;
+    } catch (error) {
+        throw error;
     }
 };
 

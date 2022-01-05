@@ -4,6 +4,7 @@ import {Redirect, useHistory} from "react-router-dom";
 import {isUserLoggedIn, loginUser, registerUser} from "../../../store/auth";
 import {useSelector} from "react-redux";
 import {useAppDispatch} from "../../../root";
+import {Icon} from "semantic-ui-react";
 
 const AuthorizationForm = () => {
         const history = useHistory();
@@ -66,7 +67,7 @@ const AuthorizationForm = () => {
 
         return (
             <section className={classes.auth}>
-                <h2>{isLogin ? 'Zaloguj się' : 'Zarejestruj nowe konto'}</h2>
+                <h3><Icon name='user circle outline'/>{isLogin ? 'Zaloguj się' : 'Zarejestruj nowe konto'}</h3>
                 <form onSubmit={FormHandler}>
                     {isLogin ? (
                             <div>
@@ -114,11 +115,7 @@ const AuthorizationForm = () => {
                         {!isLoading && (
                             <button>{isLogin ? 'Zaloguj się' : 'Utwórz konto'}</button>)}
                         {isLoading && <p>Wysyłanie żądania...</p>}
-                        <button
-                            type='button'
-                            className={classes.toggle}
-                            onClick={switchAuthModeHandler}
-                        >
+                        <button type='button' onClick={switchAuthModeHandler}>
                             {isLogin ? 'Stwórz konto' : 'Masz już konto? Zaloguj się'}
                         </button>
                     </div>
