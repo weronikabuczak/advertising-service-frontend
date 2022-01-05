@@ -10,15 +10,29 @@
     animation: content 0.1s cubic-bezier(0.39, 0.575, 0.565, 1) both;
 }
 
-
 .section:hover {
     animation: content-hover 0.1s cubic-bezier(0.39, 0.575, 0.565, 1) both;
 }
 
+.section h2 {
+    text-align: center;
+    color: #1F1D36;
+}
+
+@media(max-width: 767px) {
+    .section {
+        width: 90%;
+        padding: 0.8rem;
+        margin: 25px auto;
+    }
+    .section h2 {
+        margin-bottom: 15px;
+    }
+}
 
 @keyframes content {
     0% {
-        transform: scale(1.01);
+        transform: scale(1.005);
     }
     100% {
         transform: scale(1);
@@ -30,14 +44,11 @@
         transform: scale(1);
     }
     100% {
-        transform: scale(1.01);
+        transform: scale(1.005);
     }
 }
 
-.section h2 {
-    text-align: center;
-    color: #1F1D36;
-}
+
 
 .control {
     margin-bottom: 1.5em;
@@ -47,7 +58,7 @@
     display: block;
     color: #000000;
     font-weight: bold;
-    margin-bottom: 0.5em;
+    /*margin-bottom: 0.5em;*/
 }
 
 .control input {
@@ -55,7 +66,7 @@
     border: white;
     border-bottom: 2px solid gray;
     width: 90%;
-    height: 30px;
+    height: 40px;
     padding: 7px 0;
     background: transparent;
     transition: border-color 0.2s;
@@ -64,7 +75,7 @@
 .control input:focus {
     animation: content-hover 0.1s cubic-bezier(0.39, 0.575, 0.565, 1) both;
     outline: none;
-
+    border-bottom: 2px solid #151515;
 }
 
 .actions {
@@ -92,6 +103,14 @@
 .quantityPicker {
     display: flex;
     justify-content: center;
+}
+
+.content__textarea {
+   width: 100%;
+    height: 6rem;
+    border: #ccc 1px solid;
+    padding: 0.6rem;
+    margin: 1rem auto;
 }
 
 

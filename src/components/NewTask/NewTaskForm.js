@@ -150,8 +150,7 @@ const NewTaskForm = () => {
                     </div>
                     <div className={classes.control}>
                         <label htmlFor='content'>Opis</label>
-                        <input type='text' id='content' minLength="20" maxLength="800"
-                               ref={contentInput}/>
+                        <textarea ref={contentInput} minLength="20" maxLength="800" className={classes.content__textarea}>Opis zlecenia...</textarea>
                     </div>
                     <div className={classes.control}>
                         <label htmlFor='category'>Kategoria</label>
@@ -178,9 +177,9 @@ const NewTaskForm = () => {
                     <div className={classes.control}>
                         <label>Przybliżony czas na wykonanie zlecenia</label>
                         <div className={classes.quantityPicker}>
-                        <QuantityPicker onChange={getPickerValue} min={1} max={24} value={1}
-                                        smooth/>
-                        {/*required*/}
+                            <QuantityPicker onChange={getPickerValue} min={1} max={24} value={1}
+                                            smooth/>
+                            {/*required*/}
                         </div>
                     </div>
                     <div className={classes.control}>

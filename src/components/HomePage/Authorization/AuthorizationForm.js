@@ -104,8 +104,8 @@ const AuthorizationForm = () => {
                                     <input type='tel' id='phone' defaultValue='+48' maxLength='12' ref={phoneInput}/>
                                 </div>
                                 <div className={classes.control}>
-                                    <label htmlFor='image'>Zdjęcie</label>
-                                    <input type='file' onChange={handleFileInput} id='image'/>
+                                    <label htmlFor='image' >Zdjęcie</label>
+                                    <input type='file' onChange={handleFileInput}/>
                                 </div>
                             </div>
                         )

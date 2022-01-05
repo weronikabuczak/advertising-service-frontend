@@ -17,7 +17,12 @@
     font-size: 2rem;
     color: white;
     margin: auto;
+
 }
+
+
+
+
 
 .header button {
     background-color: rgb(0, 0, 0);
@@ -29,16 +34,27 @@
     cursor: pointer;
     border: solid 1px white;
     font-family: inherit;
-}
-
-.header a:hover {
-    color: #c291e2;
+    transition: 0.5s;
 }
 
 .header button:hover {
-    background-color: #0eb6f9;
+    background-color: #08b4f8;
     color: #ffffff;
     border: solid 1px rgb(0, 0, 0);
 }
 
+@media(max-width: 767px) {
+    .logo {
+        font-size: 1.2rem;
+    }
+}
 
+@media(max-width: 320px) {
+    .logo {
+        font-size: 1rem;
+    }
+    .header button {
+        padding: 0.5rem;
+    }
+
+}

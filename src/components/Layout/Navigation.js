@@ -31,13 +31,12 @@ const Navigation = () => {
     return (
         <header className={classes.header}>
             {isLoggedIn && (
-                <button onClick={toggleMenu}>MENU</button>
+                <button onClick={toggleMenu}>Menu</button>
             )}
             {isLoggedIn && (
                 <Link to='/'>
                     <div className={classes.logo}>
-                        <Icon link={appIcon} name='home'/>
-                        {/*<img src={appIcon} alt='task'/>Services App*/}
+                        <Icon link={appIcon} name='calendar check'/>
                         Services App
                     </div>
                 </Link>
@@ -45,7 +44,6 @@ const Navigation = () => {
             {!isLoggedIn && (
                 <div className={classes.logo}>
                     <Icon link='/' name='calendar check'/>
-                    {/*<img src={appIcon} alt='task'/>Services App*/}
                     Services App
                 </div>
             )}
