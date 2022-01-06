@@ -22,9 +22,10 @@ h2 {
 
 .refreshMap__button {
   margin:30px;
-  /*padding: 50px;*/
 }
 
-.ui.button {
-  margin: 40px;
+.noTask__button {
+  justify-content: center;
+  margin: 2rem;
+  display: flex;
 }

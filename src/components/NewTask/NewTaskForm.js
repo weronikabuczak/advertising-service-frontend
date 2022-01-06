@@ -146,33 +146,37 @@ const NewTaskForm = () => {
                 <div>
                     <div className={classes.control}>
                         <label htmlFor='title'>Tytuł</label>
-                        <input type='text' id='title' minLength="10" maxLength="100" ref={titleInput}/>
+                        <input  required type='text' id='title' minLength="10" maxLength="100" ref={titleInput}/>
                     </div>
                     <div className={classes.control}>
-                        <label htmlFor='content'>Opis</label>
-                        <textarea ref={contentInput} minLength="20" maxLength="800" className={classes.content__textarea}>Opis zlecenia...</textarea>
-                    </div>
-                    <div className={classes.control}>
-                        <label htmlFor='category'>Kategoria</label>
+                        <label className={classes.category__button} htmlFor='category'>Kategoria</label>
                         <Button.Group>
                             {categories.map((category) => (
                                 <Button color={category.color} onClick={getCategory}
                                         content={category.label}>{category.label}</Button>
                             ))}
                         </Button.Group>
+                        {/*required*/}
                     </div>
+
+                    <div className={classes.control}>
+                        <label htmlFor='content'>Opis</label>
+                        <textarea required ref={contentInput} minLength="20" maxLength="800"
+                                  placeholder='Tutaj wpisz szczegóły zlecenia.' className={classes.content__textarea}/>
+                    </div>
+
                     <div className={classes.control}>
                         <label htmlFor='address'>Adres</label>
-                        <input type='text' id='address' minLength="5" maxLength="100"
+                        <input required type='text' id='address' minLength="5" maxLength="100"
                                ref={addressInput}/>
                     </div>
                     <div className={classes.control}>
                         <label htmlFor='pay'>Zapłata</label>
-                        <input type='number' id='pay' maxLength="10" ref={payInput}/>
+                        <input required type='number' id='pay' maxLength="10" ref={payInput}/>
                     </div>
                     <div className={classes.control}>
                         <label htmlFor='expirationDate'>Data wygaśnięcia</label>
-                        <input type='date' id='expirationDate' ref={expirationDateInput}/>
+                        <input required type='date' id='expirationDate' ref={expirationDateInput}/>
                     </div>
                     <div className={classes.control}>
                         <label>Przybliżony czas na wykonanie zlecenia</label>

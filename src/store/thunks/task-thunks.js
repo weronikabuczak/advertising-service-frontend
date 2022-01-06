@@ -1,8 +1,11 @@
-export const getTasksApiCall = async ({isUserTasks, token, category}) => {
+export const getTasksApiCall = async ({isUserTasks, token, category, status}) => {
     try {
         let url = `http://localhost:8080/api/task?userTasks=${isUserTasks}`;
         if (category) {
             url += `&category=${category}`
+        }
+        if (status) {
+            url += `&status=${status}`
         }
         return fetch(url, {
             method: 'GET',

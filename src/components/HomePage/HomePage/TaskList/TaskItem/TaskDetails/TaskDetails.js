@@ -16,14 +16,14 @@ import {useAppDispatch} from "../../../../../../root";
 import {
     createOffer,
     getAllOffers,
-    getOffers,
+    getOffers, updateOffer,
 } from "../../../../../../store/offer";
 import {useLocation} from "react-router-dom";
 import OfferItem from "./Offer/OfferItem";
+import {categories} from "../../../../../../utils/taskCategory";
 
 const TaskDetails = () => {
     const task = useSelector(getCurrentTask);
-    // const currentUser = useSelector(getUserInfo);
     const currentUser = useSelector(getUserEmail);
     const offers = useSelector(getAllOffers);
     let avatar = null;
@@ -42,13 +42,17 @@ const TaskDetails = () => {
     const [offerSent, setOfferSent] = useState(false);
 
     useEffect(() => {
-        setIsCurrentUserTask(currentUser === task.user.email)
-        setIsUserTasks(location.state.isUserTasks === 'true');
-        if (token) {
-            dispatch(getOffers({token, taskId, offerStatus: 'ACTIVE'}));
-        }
+            setIsCurrentUserTask(currentUser === task.user.email)
+            setIsUserTasks(location.state.isUserTasks === 'true');
+            if (token && task.status === 'AWAITING') {
+                dispatch(getOffers({token, taskId, offerStatus: 'ACTIVE'}));
+            }
+            if (token && task.status === 'IN_PROGRESS') {
+                dispatch(getOffers({token, taskId, offerStatus: 'ACCEPTED'}));
+            }
 
-    }, [location, offerSent, isCurrentUserTask, currentUser]);
+        },
+        [location, offerSent, isCurrentUserTask, currentUser]);
 
 
     if (task.user.image) {
@@ -72,11 +76,6 @@ const TaskDetails = () => {
         setModalOpenEdit(true);
     }
 
-    const completeTaskHandler = () => {
-        if (token) {
-            dispatch()
-        }
-    }
 
     const offerHandler = () => {
         if (token) {
@@ -115,14 +114,7 @@ const TaskDetails = () => {
                             </Button.Content>
                         </Button>
                     }
-                    {isUserTasks && task.status === 'IN_PROGRESS' &&
-                        <Button animated onClick={completeTaskHandler}>
-                            <Button.Content visible>Zakończ zlecenie</Button.Content>
-                            <Button.Content hidden>
-                                <Icon size='large' name='calendar outline'/>
-                            </Button.Content>
-                        </Button>
-                    }
+
 
 
                     <Card fluid>
@@ -195,7 +187,6 @@ const TaskDetails = () => {
                     }
                     {offers?.length > 0 && offers.map((offer) => (
                         <OfferItem offer={offer} isUserTasks={isUserTasks}/>
-
                     ))}
                 </Grid.Column>
             </Grid.Row>
