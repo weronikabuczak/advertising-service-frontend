@@ -32,7 +32,8 @@ const TaskItem = ({props, onClick, isUserTasks}) => {
                     <Grid.Column computer={5} widescreen={4} tablet={5}>
                         {props.image != null ?
                             <Image floated='left' className={classes.image} src={props.image} rounded
-                                   size='large'/> : <Image src={taskIcon} rounded size='large'/>}
+                                   size='large'/>
+                            : <Image src={taskIcon} rounded size='large'/>}
 
 
                         {/*<div className={classes.status__chip}>{props.status}</div>*/}
@@ -44,7 +45,7 @@ const TaskItem = ({props, onClick, isUserTasks}) => {
 
                             </Grid.Column>
                             <Grid.Column width={11} floated='right'>
-                                <Button floated='right' fluid onClick={taskDetailsHandler} size='small'>
+                                <Button className={classes.userButton} floated='right' fluid onClick={taskDetailsHandler} size='small'>
                                     <Button.Content>Szczegóły</Button.Content>
                                 </Button>
                             </Grid.Column>

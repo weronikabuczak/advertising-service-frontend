@@ -1,7 +1,7 @@
 import classes from './HomePageContent.module.css';
-import {Button, Card, Form, Grid, Header, Icon} from "semantic-ui-react";
+import {Button, Grid, Icon} from "semantic-ui-react";
 import TaskList from "./TaskList/TaskList";
-import {MapContainer, Marker, Popup, TileLayer, useMap} from "react-leaflet";
+import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import L from 'leaflet';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
@@ -79,21 +79,26 @@ const HomePageContent = () => {
                 <Grid.Row>
                     <Grid.Column width={1}/>
                     <Grid.Column width={15}>
+                        <div className={classes.locationButtons}>
+                            <Button  floated='left' onClick={componentDidMount}><Icon
+                                name='compass'/>Zlokalizuj
+                                mnie</Button>
+                            <Button onClick={resetMapHandler} className={classes.refreshMap__button} floated='left'>Domyślny
+                                widok mapy</Button>
+                        </div>
+                        <div className={classes.categoryButtons}>
                         <Button content='' floated='left' onClick={filterCategory}>Wszystkie</Button>
-                        <Button floated='left' onClick={componentDidMount}><Icon name='compass'/>Zlokalizuj
-                            mnie</Button>
                         <Button.Group floated='left'>
                             {categories.map((category) => (
                                 <Button color={category.color} onClick={filterCategory}
                                         content={category.label}>{category.label}</Button>
                             ))}
                         </Button.Group>
-                        <Button onClick={resetMapHandler} className={classes.refreshMap__button} floated='left'>Domyślny
-                            widok mapy</Button>
+                        </div>
                     </Grid.Column>
                 </Grid.Row>
                 <Grid.Row>
-                    <Grid.Column only={"computer tablet"}  widescreen={10} largeScreen={9} computer={8} tablet={7}>
+                    <Grid.Column only={"computer tablet"} widescreen={10} largeScreen={9} computer={8} tablet={7}>
                         <MapContainer className={classes.taskMap__container} center={center} zoom={zoom}
                                       scrollWheelZoom={true}>
                             <MapTrickyComponent zoom={zoom} center={center}/>

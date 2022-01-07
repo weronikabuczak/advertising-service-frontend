@@ -30,6 +30,11 @@ h2 {
   display: flex;
 }
 
-@media (max-width: 1024px) {
-
+@media (max-width: 768px) {
+  .locationButtons {
+display: none;
+  }
+  .categoryButtons {
+    padding-left: 10px;
+  }
 }

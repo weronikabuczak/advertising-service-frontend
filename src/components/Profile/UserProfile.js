@@ -42,8 +42,8 @@ const UserProfile = () => {
 
     return (
         <section className={classes.section}>
-            <Button className={classes.button} onClick={userInfoHandler}>Dane</Button>
-            <Button className={classes.button} onClick={userTasksHandler}>Moje ogłoszenia</Button>
+            <Button color='teal' onClick={userInfoHandler}>Dane</Button>
+            <Button color='vk' onClick={userTasksHandler}>Moje ogłoszenia</Button>
             <ChangePassword open={modalOpenPassword} setOpen={setModalOpenPassword} email={userInfo.email} />
             <ChangeUserData open={modalOpenUserInfo} setOpen={setModalOpenUserInfo} email={userInfo.email} user={userInfo}/>
             <Card fluid className={classes.userCard__container}>
@@ -56,11 +56,11 @@ const UserProfile = () => {
                     </Card.Header>
                 </Card.Content>
                 <Card.Content>
-                    <Grid>
+                    <Grid stackable>
                         <Grid.Column width={6}>
                             {userInfo.image != null
-                                ? <Image src={userInfo.image} rounded size='medium'/>
-                                : <Image src={profile} rounded size='medium'/>
+                                ? <Image className={classes.profileImage} src={userInfo.image} rounded fluid/>
+                                : <Image className={classes.profileImage} src={profile} rounded />
                             }
                         </Grid.Column>
                         <Grid.Column width={10}>

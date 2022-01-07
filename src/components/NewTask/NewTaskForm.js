@@ -152,7 +152,7 @@ const NewTaskForm = () => {
                         <label className={classes.category__button} htmlFor='category'>Kategoria</label>
                         <Button.Group>
                             {categories.map((category) => (
-                                <Button color={category.color} onClick={getCategory}
+                                <Button toggle color={category.color} onClick={getCategory}
                                         content={category.label}>{category.label}</Button>
                             ))}
                         </Button.Group>

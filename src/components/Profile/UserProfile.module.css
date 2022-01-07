@@ -22,7 +22,29 @@
     padding: 1rem;
 }
 
-.button {
-    margin: 0 auto;
+.userInfo__container {
+    border: none !important;
+}
+
+.noTask__button {
+    justify-content: center;
+    margin: 2rem;
+    display: flex;
+}
+
+@media (max-width: 1024px) {
+   .section {
+       width: 70%;
+   }
+  }
+
+
+@media (max-width: 768px) {
+    .section {
+        width: 90%;
+    }
+    .profileImage {
+        padding:0 40px;
+    }
 }
 

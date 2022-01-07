@@ -82,19 +82,18 @@ const TaskDetails = () => {
             dispatch(createOffer({token, taskId}));
         }
         setOfferSent(true);
-        console.log(currentUser.id)
-        console.log(task.user.id)
     }
 
 
     return (<Container className={classes.task__container}>
         <DeleteTask open={modalOpenDelete} setOpen={setModalOpenDelete} id={task.id}/>
         <EditTask open={modalOpenEdit} setOpen={setModalOpenEdit} id={task.id} task={task}/>
-        <Grid>
+        <Grid stackable>
             <Grid.Row>
                 <Grid.Column width={8}>
-                    <Image src={taskIcon} rounded size='medium'/>
-
+                    {task.image != null ?
+                        <Image src={task.image} rounded size='large'/>
+                        : <Image src={taskIcon} rounded size='large'/>}
                 </Grid.Column>
                 <Grid.Column width={8}>
 
@@ -114,8 +113,6 @@ const TaskDetails = () => {
                             </Button.Content>
                         </Button>
                     }
-
-
 
                     <Card fluid>
                         <Card.Content className={classes.category__container}>
