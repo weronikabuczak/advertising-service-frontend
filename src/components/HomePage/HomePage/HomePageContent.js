@@ -93,7 +93,7 @@ const HomePageContent = () => {
                     </Grid.Column>
                 </Grid.Row>
                 <Grid.Row>
-                    <Grid.Column width={10}>
+                    <Grid.Column only={"computer tablet"}  widescreen={10} largeScreen={9} computer={8} tablet={7}>
                         <MapContainer className={classes.taskMap__container} center={center} zoom={zoom}
                                       scrollWheelZoom={true}>
                             <MapTrickyComponent zoom={zoom} center={center}/>
@@ -112,7 +112,7 @@ const HomePageContent = () => {
                             }
                         </MapContainer>
                     </Grid.Column>
-                    <Grid.Column width={6}>
+                    <Grid.Column widescreen={6} largeScreen={7} computer={8} tablet={9} mobile={16}>
                         {tasks?.length > 0 && tasks
                             ?
                             <TaskList tasks={tasks} onClick={onClickFunction} isUserTasks='false'/>

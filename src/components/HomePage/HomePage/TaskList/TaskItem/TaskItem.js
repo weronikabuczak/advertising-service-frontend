@@ -1,4 +1,4 @@
-import {Button, Card, Grid, Header, Icon, Image} from "semantic-ui-react";
+import {Button, Card, Grid, Header, Icon, Image, Segment} from "semantic-ui-react";
 import taskIcon from '../../../../../files/task.png';
 import classes from "../TaskItem/TaskItem.module.css";
 import {formatDate} from "../../../../../utils/functions";
@@ -16,8 +16,7 @@ const TaskItem = ({props, onClick, isUserTasks}) => {
     const taskDetailsHandler = () => {
         dispatch(setCurrentTaskId(props.id));
         history.push({
-            pathname: `/taskDetails/${props.id}`,
-            state: {isUserTasks: isUserTasks}
+            pathname: `/taskDetails/${props.id}`, state: {isUserTasks: isUserTasks}
         });
 
         // TaskDetails(isUserTasks={isUserTasks});
@@ -26,59 +25,59 @@ const TaskItem = ({props, onClick, isUserTasks}) => {
     const onClickHandler = () => onClick(props.id)
 
 
-    return (
-        <Card fluid centered className={classes.taskCard} onClick={onClickHandler}>
-            <Card.Content>
-                <Grid className={classes.taskRow}>
-                    <Grid.Row >
-                        <Grid.Column width={3}>
-                            {props.image != null
-                                ? <Image src={props.image} rounded size='medium'/>
-                                : <Image src={taskIcon} rounded size='medium'/>
-                            }
-                        </Grid.Column>
-                        <Grid.Column width={13}>
-                            <Grid.Row className={classes.category__container}>
-                                <Grid.Column width={5}>
-                                    <span className={classes.category__chip}>{props.category}</span>
-                                    <span className={classes.status__chip}>{props.status}</span>
-                                </Grid.Column>
-                                <Grid.Column width={11} floated='right'>
-                                    <Button floated='right' fluid onClick={taskDetailsHandler} >
-                                        <Button.Content>Szczegóły</Button.Content>
-                                    </Button>
-                                </Grid.Column>
-                            </Grid.Row>
+    return (<Card fluid centered className={classes.taskCard} onClick={onClickHandler}>
+        <Card.Content>
+            <Grid stackable>
+                <Grid.Row className={classes.taskRow}>
+                    <Grid.Column computer={5} widescreen={4} tablet={5}>
+                        {props.image != null ?
+                            <Image floated='left' className={classes.image} src={props.image} rounded
+                                   size='large'/> : <Image src={taskIcon} rounded size='large'/>}
 
+
+                        {/*<div className={classes.status__chip}>{props.status}</div>*/}
+                    </Grid.Column>
+                    <Grid.Column width={12} computer={11} tablet={11}>
+                        <Grid.Row className={classes.category__container}>
+                            <Grid.Column width={5}>
+                                <span className={classes.category__chip}>{props.category}</span>
+
+                            </Grid.Column>
+                            <Grid.Column width={11} floated='right'>
+                                <Button floated='right' fluid onClick={taskDetailsHandler} size='small'>
+                                    <Button.Content>Szczegóły</Button.Content>
+                                </Button>
+                            </Grid.Column>
+                        </Grid.Row>
+
+                        <Grid.Row>
                             <Grid.Row>
-                                <Grid.Row>
-                                    <Header as='h3' content={props.title}/>
-                                </Grid.Row>
+                                <Header as='h3' content={props.title}/>
                             </Grid.Row>
+                        </Grid.Row>
+                        <div className={classes.taskDetails__container}>
+                            <Grid.Column className={classes.taskDetails__column}>
+                                <div className={classes.taskDetails__main__info}><Icon
+                                    name='location arrow'/>{props.address}
+                                </div>
+                                <div className={classes.taskDetails__main__info}><Icon
+                                    name='calendar times'/>{formatDate(props.expirationDate)}</div>
 
-                            <div className={classes.taskDetails__container}>
-                                <Grid.Column width={3}>
-                                    <div className={classes.taskDetails__main__info}><Icon
-                                        name='location arrow'/>{props.address}
-                                    </div>
-                                    <div className={classes.taskDetails__main__info}><Icon
-                                        name='calendar times'/>{formatDate(props.expirationDate)}</div>
-                                </Grid.Column>
-                                <Grid.Column width={7}>
-                                    <div className={classes.taskDetails__payment__details}><Icon
-                                        name='money'/> {props.pay} PLN
-                                    </div>
-                                    <div className={classes.taskDetails__payment__details}><Icon
-                                        name='time'/> {props.estimatedTime} h
-                                    </div>
-                                </Grid.Column>
-                            </div>
-                        </Grid.Column>
-                    </Grid.Row>
-                </Grid>
-            </Card.Content>
-        </Card>
-    );
+                            </Grid.Column>
+                            <Grid.Column width={7}>
+                                <div className={classes.taskDetails__payment__details}><Icon
+                                    name='money'/> {props.pay} PLN
+                                </div>
+                                <div className={classes.taskDetails__payment__details}><Icon
+                                    name='time'/> {props.estimatedTime} h
+                                </div>
+                            </Grid.Column>
+                        </div>
+                    </Grid.Column>
+                </Grid.Row>
+            </Grid>
+        </Card.Content>
+    </Card>);
 };
 
 export default TaskItem;

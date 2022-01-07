@@ -29,3 +29,7 @@ h2 {
   margin: 2rem;
   display: flex;
 }
+
+@media (max-width: 1024px) {
+
+}

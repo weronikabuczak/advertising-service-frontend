@@ -18,7 +18,6 @@ const AuthorizationForm = () => {
 
         const [isLogin, setIsLogin] = useState(true);
         const [isLoading, setIsLoading] = useState(false);
-
         const isLoggedIn = useSelector(isUserLoggedIn);
 
 

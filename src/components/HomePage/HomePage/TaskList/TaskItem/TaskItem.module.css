@@ -7,31 +7,37 @@
 .category__chip {
     font-size: 0.9rem;
     padding: 0.7rem;
-    margin: 1rem;
+    /*margin: 1rem;*/
     border-radius: 10px;
     box-shadow: rgba(149, 157, 165, 0.2) 0px 1px 4px;
     font-weight: bold;
     background-color: #eef2fa;
     border: #b5c8fc 1px solid;
+
 }
 
-.status__chip {
-    font-size: 0.9rem;
-    padding: 0.7rem;
-    margin: 1rem;
-    border-radius: 10px;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 1px 4px;
-    font-weight: bold;
-    background-color: #ecfaf4;
-    border: #9ff6d8 1px solid;
+/*.status__chip {*/
+/*    font-size: 0.9rem;*/
+/*    padding: 0.3rem;*/
+/*    margin: 2px;*/
+/*    border-radius: 10px;*/
+/*    box-shadow: rgba(149, 157, 165, 0.2) 0px 1px 4px;*/
+/*    font-weight: bold;*/
+/*    background-color: #ecfaf4;*/
+/*    border: #9ff6d8 1px solid;*/
+/*    width: fit-content;*/
+/*}*/
+
+.image {
+
 }
 
 .taskDetails__main__info {
-    padding: 2px 8px;
     margin: 0.7rem 0;
     border-radius: 10px;
     font-size: 1.2rem;
     width: auto;
+
 }
 
 .taskDetails__payment__details {
@@ -51,8 +57,12 @@
     justify-content: space-between;
 }
 
+.taskDetails__column {
+    width: 65%;
+}
+
 .taskCard {
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word;
 }
 
 .taskCard:hover {
@@ -61,15 +71,16 @@
 }
 
 ul {
-    width: 80%;
-    margin: 0 0 2rem;
+    width: 95%;
     height: 778px;
     overflow: auto;
+    padding: 0.3rem;
+    margin: 0 auto;
 }
 
-/*not working*/
 .taskRow {
-    padding-bottom: 0px;
+    padding-bottom: 5px !important;
+    justify-content: center !important;
 }
 
 
@@ -85,6 +96,57 @@ ul {
 a, a:hover {
     color: black;
 }
+
+@media (max-width: 768px) {
+    .category__chip {
+        font-size: 0.8rem;
+        padding: 0.4rem;
+    }
+    /*.status__chip {*/
+    /*    font-size: 0.7rem;*/
+    /*    padding: 0.3rem;*/
+    /*    margin: 1px;*/
+    /*}*/
+    .taskDetails__main__info {
+        padding: 1px;
+        margin: 0.7rem 0;
+        font-size: 0.9rem;
+    }
+
+    .taskDetails__payment__details {
+        padding: 1px;
+        margin: 5px;
+        font-size: 0.9rem;
+        width: auto;
+        background-color: #e3e3ff;
+        border: #c4d1f6 1px solid;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 1px 6px;
+    }
+}
+
+@media (max-width: 425px) {
+    /*.status__chip {*/
+    /*    font-size: 0.7rem;*/
+    /*    padding: 0.3rem;*/
+    /*    margin: 0;*/
+    /*}*/
+    .taskDetails__main__info {
+        padding: 1px;
+        margin: 1px;
+    }
+
+    .taskDetails__payment__details {
+        padding: 2px;
+        margin: 6px;
+        font-size: 0.9rem;
+        width: auto;
+        background-color: #e3e3ff;
+        border: #c4d1f6 1px solid;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 1px 6px;
+    }
+}
+
+
 
 
 

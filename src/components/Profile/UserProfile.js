@@ -73,7 +73,7 @@ const UserProfile = () => {
                                     <Button.Content>Zmień hasło</Button.Content>
                                 </Button></Header>
 
-                            <Header as='h2'>{userInfo.location}</Header>
+                            <Header>{userInfo.location}</Header>
                             <Table className={classes.userInfo__container}>
                                 <Table.Body className={classes.userInfo__container}>
                                     <Table.Row>

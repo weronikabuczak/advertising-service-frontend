@@ -1,5 +1,5 @@
 import classes from "../NewTask/NewTaskForm.module.css";
-import {Button, Divider, Grid, Header, Icon, Search, Segment} from "semantic-ui-react";
+import {Button, Divider, Grid, Header, Icon, Segment} from "semantic-ui-react";
 import {useHistory} from "react-router-dom";
 
 const TaskAdded = () => {
@@ -17,8 +17,8 @@ const TaskAdded = () => {
 return (
     <section className={classes.section}>
         <Header>Pomyślnie dodano ogłoszenie.</Header>
-        <Segment placeholder>
-            <Grid columns={2} stackable textAlign='center'>
+        <Segment placeholder >
+            <Grid columns={2} textAlign='center' className={classes.choiceSegment}>
                 <Divider vertical>lub</Divider>
                 <Grid.Row verticalAlign='middle'>
                     <Grid.Column>
