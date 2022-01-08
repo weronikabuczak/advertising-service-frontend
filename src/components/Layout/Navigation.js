@@ -9,7 +9,7 @@ import appIcon from '../../files/app.png'
 import {isUserLoggedIn, logoutUser} from "../../store/auth";
 import {Icon} from "semantic-ui-react";
 import { useTranslation } from "react-i18next";
-import LanguageSwitcher from '../LanguageSwitcher';
+import LanguageSwitcher from './LanguageSwitcher';
 
 
 const Navigation = () => {
@@ -53,10 +53,13 @@ const Navigation = () => {
             )}
             <nav>
                 {isLoggedIn && (
-                    <button className={classes.navButton} onClick={logoutHandler}>{t("logout")}</button>
+                    <div>
+                    <button onClick={logoutHandler}>{t("logout")}</button>
+                    <LanguageSwitcher/>
+                    </div>
                 )}
-                <LanguageSwitcher/>
             </nav>
+
             <AppSidebar toggleMenu={toggle} toggleFn={toggleMenu}/>
         </header>
     );

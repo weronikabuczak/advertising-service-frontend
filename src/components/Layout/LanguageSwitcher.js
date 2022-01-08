@@ -1,10 +1,11 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
+import classes from './Navigation.module.css';
+
 function LanguageSwitcher() {
     const { i18n } = useTranslation();
     return (
-        <div className="select">
-            <select
+            <select className={classes.languageSelect}
                 value={i18n.language}
                 onChange={(e) =>
                     i18n.changeLanguage(e.target.value)
@@ -12,7 +13,6 @@ function LanguageSwitcher() {
                 <option value="pl">Polski</option>
                 <option value="en">English</option>
             </select>
-        </div>
     );
 }
 
