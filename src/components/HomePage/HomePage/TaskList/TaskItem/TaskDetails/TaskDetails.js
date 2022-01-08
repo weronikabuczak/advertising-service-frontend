@@ -16,13 +16,15 @@ import {useAppDispatch} from "../../../../../../root";
 import {
     createOffer,
     getAllOffers,
-    getOffers, updateOffer,
+    getOffers,
 } from "../../../../../../store/offer";
 import {useLocation} from "react-router-dom";
 import OfferItem from "./Offer/OfferItem";
-import {categories} from "../../../../../../utils/taskCategory";
+import {useTranslation} from "react-i18next";
 
 const TaskDetails = () => {
+    const {t} = useTranslation();
+
     const task = useSelector(getCurrentTask);
     const currentUser = useSelector(getUserEmail);
     const offers = useSelector(getAllOffers);
@@ -76,14 +78,12 @@ const TaskDetails = () => {
         setModalOpenEdit(true);
     }
 
-
     const offerHandler = () => {
         if (token) {
             dispatch(createOffer({token, taskId}));
         }
         setOfferSent(true);
     }
-
 
     return (<Container className={classes.task__container}>
         <DeleteTask open={modalOpenDelete} setOpen={setModalOpenDelete} id={task.id}/>
@@ -99,7 +99,7 @@ const TaskDetails = () => {
 
                     {isUserTasks &&
                         <Button negative animated onClick={deleteTaskHandler}>
-                            <Button.Content visible>Usuń</Button.Content>
+                            <Button.Content visible>{t("delete")}</Button.Content>
                             <Button.Content hidden>
                                 <Icon size='large' name='delete'/>
                             </Button.Content>
@@ -107,7 +107,7 @@ const TaskDetails = () => {
                     }
                     {isUserTasks &&
                         <Button animated onClick={editTaskHandler}>
-                            <Button.Content visible>Edytuj</Button.Content>
+                            <Button.Content visible>{t("edit")}</Button.Content>
                             <Button.Content hidden>
                                 <Icon size='large' name='edit'/>
                             </Button.Content>
@@ -126,7 +126,7 @@ const TaskDetails = () => {
                                 <Table.Row>
                                     <Table.Cell>
                                         <Header as='h4'>
-                                            <Header.Content>Adres</Header.Content>
+                                            <Header.Content>{t("address")}</Header.Content>
                                         </Header>
                                     </Table.Cell>
                                     <Table.Cell>{task.address}</Table.Cell>
@@ -134,7 +134,7 @@ const TaskDetails = () => {
                                 <Table.Row>
                                     <Table.Cell>
                                         <Header as='h4'>
-                                            <Header.Content>Zapłata</Header.Content>
+                                            <Header.Content>{t("pay")}</Header.Content>
                                         </Header>
                                     </Table.Cell>
                                     <Table.Cell>{task.pay} zł</Table.Cell>
@@ -142,7 +142,7 @@ const TaskDetails = () => {
                                 <Table.Row>
                                     <Table.Cell>
                                         <Header as='h4'>
-                                            <Header.Content>Przewidywany czas wykonania</Header.Content>
+                                            <Header.Content>{t("estimatedTime")}</Header.Content>
                                         </Header>
                                     </Table.Cell>
                                     <Table.Cell>{task.estimatedTime} h</Table.Cell>
@@ -150,7 +150,8 @@ const TaskDetails = () => {
                                 <Table.Row>
                                     <Table.Cell>
                                         <Header as='h4'>
-                                            <Header.Content>Data wygaśnięcia</Header.Content>
+                                            <Header.Content>{t("expDate")}</Header.Content>
+                                            {/*todo*/}
                                         </Header>
                                     </Table.Cell>
                                     <Table.Cell>{task.expirationDate}</Table.Cell>
@@ -164,7 +165,7 @@ const TaskDetails = () => {
                                 ? <Image src={avatar} rounded size='tiny' floated='right'/>
                                 : <Image src={taskIcon} rounded size='tiny' floated='right'/>
                             }
-                            <Card.Header>Osoba zlecająca</Card.Header>
+                            <Card.Header>{t("createdBy")}</Card.Header>
                             <Card.Content>{task.user.name}</Card.Content>
                             <Card.Content><Icon name='home'/>{task.user.location}</Card.Content>
                             <Card.Content><Icon name='phone'/>{task.user.phoneNumber}</Card.Content>
@@ -173,7 +174,7 @@ const TaskDetails = () => {
                     </Card>
                     {!isUserTasks && !offerSent && !isCurrentUserTask && (
                         <Button animated onClick={offerHandler}>
-                            <Button.Content visible>Zapytanie</Button.Content>
+                            <Button.Content visible>{t("makeAnOffer")}</Button.Content>
                             <Button.Content hidden>
                                 <Icon size='large' name='chat'/>
                             </Button.Content>
@@ -182,7 +183,7 @@ const TaskDetails = () => {
                     }
                     {offerSent &&
                         <div fluid className={classes.offerInfo__card}>
-                            <p>Propozycja została wysłana!</p>
+                            <p>{t("offerHasBeenSent")}</p>
                         </div>
                     }
                     {offers?.length > 0 && offers.map((offer) => (
@@ -193,7 +194,7 @@ const TaskDetails = () => {
             <Divider className={classes.taskDetails__divider}/>
             <Grid.Row>
                 <Container textAlign='justified'>
-                    <Header>Szczegóły</Header>
+                    <Header>{t("details")}</Header>
                     {task.content}</Container>
             </Grid.Row>
             <Grid.Row>
@@ -205,7 +206,7 @@ const TaskDetails = () => {
                     />
                     <Marker position={position}>
                         <Popup>
-                            Miejsce wykonania zlecenia
+                            {t("taskLocation")}
                         </Popup>
                     </Marker>
                 </MapContainer>

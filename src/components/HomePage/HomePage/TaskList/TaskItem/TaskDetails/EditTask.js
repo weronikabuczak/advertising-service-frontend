@@ -6,11 +6,14 @@ import {useHistory} from "react-router-dom";
 import {categories} from "../../../../../../utils/taskCategory";
 import {QuantityPicker} from "react-qty-picker";
 import LocationPicker from "react-leaflet-location-picker";
-import { useRef, useState} from "react";
+import {useRef, useState} from "react";
+import {useTranslation} from "react-i18next";
 
 const EditTask = ({open, setOpen, id, task}) => {
+    const {t} = useTranslation();
+
     const token = useSelector(getUserToken);
-    const [isLoading,  setIsLoading] = useState();
+    const [isLoading, setIsLoading] = useState();
     const dispatch = useAppDispatch();
     const history = useHistory();
     const [pickerValue, setPickerValue] = useState();
@@ -129,20 +132,21 @@ const EditTask = ({open, setOpen, id, task}) => {
             size='small'
             dimmer='blurring'
         >
-            <Modal.Header>Edycja danych</Modal.Header>
+            <Modal.Header>{t("editData")}</Modal.Header>
             <Modal.Content>
                 <Form onSubmit={submitHandler}>
                     <Form.Field>
-                        <label>Nowy tytuł</label>
-                        <input type='text' id='title' minLength="10" maxLength="100" value={task.title} ref={titleInput}/>
+                        <label>{t("newTitle")}</label>
+                        <input type='text' id='title' minLength="10" maxLength="100" value={task.title}
+                               ref={titleInput}/>
                     </Form.Field>
                     <Form.Field>
-                        <label>Nowy opis</label>
+                        <label>{t("newContent")}</label>
                         <input type='text' id='content' minLength="20" maxLength="800" value={task.content}
                                ref={contentInput}/>
                     </Form.Field>
                     <Form.Field>
-                        <label htmlFor='category'>Nowa kategoria</label>
+                        <label htmlFor='category'>{t("newCategory")}</label>
                         <Button.Group>
                             {categories.map((category) => (
                                 <Button color={category.color} onClick={getCategory}
@@ -151,20 +155,21 @@ const EditTask = ({open, setOpen, id, task}) => {
                         </Button.Group>
                     </Form.Field>
                     <Form.Field>
-                        <label>Nowy adres</label>
+                        <label>{t("newAddress")}</label>
                         <input type='text' id='address' minLength="5" maxLength="100" defaultValue={task.address}
                                ref={addressInput}/>
                     </Form.Field>
                     <Form.Field>
-                        <label>Nowa zapłata</label>
+                        <label>{t("newPay")}</label>
                         <input type='number' id='pay' maxLength="10" ref={payInput} defaultValue={task.pay}/>
                     </Form.Field>
                     <Form.Field>
-                        <label>Nowa data wygaśnięcia</label>
-                        <input type='date' id='expirationDate' ref={expirationDateInput} defaultValue={task.expirationDate}/>
+                        <label>{t("newExpDate")}</label>
+                        <input type='date' id='expirationDate' ref={expirationDateInput}
+                               defaultValue={task.expirationDate}/>
                     </Form.Field>
                     <Form.Field>
-                        <label>Nowa czas wykonania</label>
+                        <label>{t("newEstTime")}</label>
                         <QuantityPicker onChange={getPickerValue} e min={1} max={24} defaultValue={task.estimatedTime}
                                         smooth/>
                     </Form.Field>
@@ -175,9 +180,9 @@ const EditTask = ({open, setOpen, id, task}) => {
                     <Form.Field>
                         <LocationPicker startPort={startPort} pointMode={pointMode}/>
                     </Form.Field>
-                    <Button positive type='submit'>Zatwierdź</Button>
+                    <Button positive type='submit'>{t("submit")}</Button>
                     <Button negative onClick={onClose}>
-                        Anuluj
+                        {t("cancel")}
                     </Button>
                 </Form>
             </Modal.Content>

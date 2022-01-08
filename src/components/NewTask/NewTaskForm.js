@@ -7,9 +7,12 @@ import {getUserToken} from "../../store/auth";
 import LocationPicker from "react-leaflet-location-picker";
 import {categories} from "../../utils/taskCategory";
 import {Button} from "semantic-ui-react";
+import {useTranslation} from "react-i18next";
 
 
 const NewTaskForm = () => {
+    const {t} = useTranslation();
+
     const [isLoading, setIsLoading] = useState(false);
     const [pickerValue, setPickerValue] = useState();
     const [latitude, setLatitude] = useState(0);
@@ -141,15 +144,15 @@ const NewTaskForm = () => {
 
     return (
         <section className={classes.section}>
-            <h2>Dodaj nowe ogłoszenie</h2>
+            <h2>{t("addNewTask")}</h2>
             <form onSubmit={submitHandler}>
                 <div>
                     <div className={classes.control}>
-                        <label htmlFor='title'>Tytuł</label>
+                        <label htmlFor='title'>{t("title")}</label>
                         <input  required type='text' id='title' minLength="10" maxLength="100" ref={titleInput}/>
                     </div>
                     <div className={classes.control}>
-                        <label className={classes.category__button} htmlFor='category'>Kategoria</label>
+                        <label className={classes.category__button} htmlFor='category'>{t("category")}</label>
                         <Button.Group>
                             {categories.map((category) => (
                                 <Button toggle color={category.color} onClick={getCategory}
@@ -160,26 +163,26 @@ const NewTaskForm = () => {
                     </div>
 
                     <div className={classes.control}>
-                        <label htmlFor='content'>Opis</label>
+                        <label htmlFor='content'>{t("content")}</label>
                         <textarea required ref={contentInput} minLength="20" maxLength="800"
-                                  placeholder='Tutaj wpisz szczegóły zlecenia.' className={classes.content__textarea}/>
+                                  placeholder={t("enterTasksDetails")} className={classes.content__textarea}/>
                     </div>
 
                     <div className={classes.control}>
-                        <label htmlFor='address'>Adres</label>
+                        <label htmlFor='address'>{t("address")}</label>
                         <input required type='text' id='address' minLength="5" maxLength="100"
                                ref={addressInput}/>
                     </div>
                     <div className={classes.control}>
-                        <label htmlFor='pay'>Zapłata</label>
+                        <label htmlFor='pay'>{t("pay")}</label>
                         <input required type='number' id='pay' maxLength="10" ref={payInput}/>
                     </div>
                     <div className={classes.control}>
-                        <label htmlFor='expirationDate'>Data wygaśnięcia</label>
+                        <label htmlFor='expirationDate'>{t("expDate")}</label>
                         <input required type='date' id='expirationDate' ref={expirationDateInput}/>
                     </div>
                     <div className={classes.control}>
-                        <label>Przybliżony czas na wykonanie zlecenia</label>
+                        <label>{t("estimatedTime")}</label>
                         <div className={classes.quantityPicker}>
                             <QuantityPicker onChange={getPickerValue} min={1} max={24} value={1}
                                             smooth/>
@@ -187,7 +190,7 @@ const NewTaskForm = () => {
                         </div>
                     </div>
                     <div className={classes.control}>
-                        <label htmlFor='image'>Zdjęcie</label>
+                        <label htmlFor='image'>{t("image")}</label>
                         <input type='file' onChange={handleFileInput} id='image'/>
                     </div>
                 </div>
@@ -195,8 +198,8 @@ const NewTaskForm = () => {
                     <LocationPicker startPort={startPort} pointMode={pointMode}/>
                 </div>
                 <div className={classes.actions}>
-                    <button>Dodaj ogłoszenie</button>
-                    {isLoading && <p>Wysyłanie żądania...</p>}
+                    <button>{t("addAdvert")}</button>
+                    {isLoading && <p>{t("sendingRequest")}</p>}
                 </div>
             </form>
         </section>

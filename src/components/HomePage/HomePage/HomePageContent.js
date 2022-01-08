@@ -16,15 +16,18 @@ import {categories} from "../../../utils/taskCategory";
 import "leaflet-control-geocoder/dist/Control.Geocoder.css";
 import "leaflet-control-geocoder/dist/Control.Geocoder.js";
 import Link from "react-router-dom/es/Link";
+import {useTranslation} from "react-i18next";
 
 const HomePageContent = () => {
+    const {t} = useTranslation();
+
     const [latitude, setLatitude] = useState(52);
     const [longitude, setLongitude] = useState(19);
     const center = [latitude, longitude]
     const tasks = useSelector(getAllTasks);
     const dispatch = useAppDispatch();
     const token = useSelector(getUserToken);
-    const [setCurrentTask] = useState({})
+    const [currentTask, setCurrentTask] = useState({})
     const [zoom, setZoom] = useState(6);
     const [category, setCategory] = useState('');
     const [status] = useState('AWAITING');
@@ -80,13 +83,11 @@ const HomePageContent = () => {
                     <Grid.Column width={15}>
                         <div className={classes.locationButtons}>
                             <Button floated='left' onClick={componentDidMount}><Icon
-                                name='compass'/>Zlokalizuj
-                                mnie</Button>
-                            <Button onClick={resetMapHandler} className={classes.refreshMap__button} floated='left'>Domyślny
-                                widok mapy</Button>
+                                name='compass'/>{t("detectLocation")}</Button>
+                            <Button onClick={resetMapHandler} className={classes.refreshMap__button} floated='left'>{t("defaultMap")}</Button>
                         </div>
                         <div className={classes.categoryButtons}>
-                            <Button content='' floated='left' onClick={filterCategory}>Wszystkie</Button>
+                            <Button content='' floated='left' onClick={filterCategory}>{t("all")}</Button>
                             <Button.Group floated='left'>
                                 {categories.map((category) => (
                                     <Button color={category.color} onClick={filterCategory}
@@ -109,7 +110,7 @@ const HomePageContent = () => {
                                 /* TODO if task.id === currentTaskId then color = red ?*/
                                 <Marker position={[task.latitude, task.longitude]}>
                                     <Popup>
-                                        Miejsce wykonania zlecenia
+                                        {t("taskLocation")}
                                     </Popup>
                                 </Marker>
                             ))}
@@ -122,8 +123,7 @@ const HomePageContent = () => {
                             <TaskList tasks={tasks} onClick={onClickFunction} isUserTasks='false'/>
                             :
                             (<div className={classes.noTask__button}>
-                                <Button><Link to="/newTask">Brak ogłoszeń. Kliknij, aby dodać pierwsze
-                                    zlecenie.</Link></Button>
+                                <Button><Link to="/newTask">{t("noTasksAddNew")}</Link></Button>
                             </div>)
                         }
                     </Grid.Column>

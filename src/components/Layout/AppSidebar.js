@@ -6,10 +6,10 @@ import {
 } from 'semantic-ui-react'
 import {Link} from "react-router-dom";
 import classes from './Navigation.module.css';
+import {useTranslation} from "react-i18next";
 
 const AppSidebar = ({toggleFn, toggleMenu}) => {
-
-    //const paddingClasses = classNames(classes.menu__item__padding)
+    const {t} = useTranslation();
 
     return (
         <Sidebar
@@ -22,17 +22,16 @@ const AppSidebar = ({toggleFn, toggleMenu}) => {
             visible={toggleMenu}
             width='wide'
         >
-            <MenuItem onClick={toggleFn} >
-                <Link to='/'><Icon name='home' className={classes.paddingClasses}/>Strona główna</Link>
+            <MenuItem onClick={toggleFn}>
+                <Link to='/'><Icon name='home' className={classes.paddingClasses}/>{t("home")}</Link>
             </MenuItem>
             <MenuItem onClick={toggleFn} link='true'>
-                <Link to='/profile'><Icon name='user'/>Moje konto</Link>
+                <Link to='/profile'><Icon name='user'/>{t("myAccount")}</Link>
             </MenuItem>
             <MenuItem onClick={toggleFn}>
-                <Link to='/newTask'><Icon name='add'/>Dodaj nowe ogłoszenie</Link>
+                <Link to='/newTask'><Icon name='add'/>{t("newTask")}</Link>
             </MenuItem>
         </Sidebar>
-
     );
 }
 

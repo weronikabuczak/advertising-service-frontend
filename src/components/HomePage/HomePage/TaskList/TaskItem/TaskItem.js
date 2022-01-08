@@ -5,11 +5,12 @@ import {formatDate} from "../../../../../utils/functions";
 import {useHistory} from "react-router-dom";
 import {setCurrentTaskId} from "../../../../../store/task";
 import {useAppDispatch} from "../../../../../root";
-import TaskDetails from "./TaskDetails/TaskDetails";
-import Link from "react-router-dom/es/Link";
+import {useTranslation} from "react-i18next";
 
 
 const TaskItem = ({props, onClick, isUserTasks}) => {
+    const {t} = useTranslation();
+
     const history = useHistory();
     const dispatch = useAppDispatch()
 
@@ -18,8 +19,6 @@ const TaskItem = ({props, onClick, isUserTasks}) => {
         history.push({
             pathname: `/taskDetails/${props.id}`, state: {isUserTasks: isUserTasks}
         });
-
-        // TaskDetails(isUserTasks={isUserTasks});
     }
 
     const onClickHandler = () => onClick(props.id)
@@ -46,7 +45,7 @@ const TaskItem = ({props, onClick, isUserTasks}) => {
                             </Grid.Column>
                             <Grid.Column width={11} floated='right'>
                                 <Button className={classes.userButton} floated='right' fluid onClick={taskDetailsHandler} size='small'>
-                                    <Button.Content>Szczegóły</Button.Content>
+                                    <Button.Content>{t("taskDetails")}</Button.Content>
                                 </Button>
                             </Grid.Column>
                         </Grid.Row>

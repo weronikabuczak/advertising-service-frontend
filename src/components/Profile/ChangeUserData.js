@@ -3,8 +3,10 @@ import {useRef} from "react";
 import {useSelector} from "react-redux";
 import {getUserToken} from "../../store/auth";
 import {useHistory} from "react-router-dom";
+import {useTranslation} from "react-i18next";
 
 const ChangeUserData = ({open, setOpen, email, user}) => {
+    const {t, i18n} = useTranslation();
     const history = useHistory();
     const token = useSelector(getUserToken);
     const phoneNumberInput = useRef();
@@ -16,7 +18,7 @@ const ChangeUserData = ({open, setOpen, email, user}) => {
         setOpen(false);
     }
 
-    const submitHandler = (event, data) => {
+    const submitHandler = (event) => {
         event.preventDefault();
 
         const enteredPhoneNumber = phoneNumberInput.current.value;
@@ -64,28 +66,28 @@ const ChangeUserData = ({open, setOpen, email, user}) => {
             size='small'
             dimmer='blurring'
         >
-            <Modal.Header>Edycja danych</Modal.Header>
+            <Modal.Header>{t("editData")}</Modal.Header>
             <Modal.Content>
                 <Form onSubmit={submitHandler}>
                     <Form.Field>
-                        <label>Nowa nazwa użytkownika</label>
+                        <label>{t("newUsername")}</label>
                         <input type='text' ref={nameInput} defaultValue={user.name} required/>
                     </Form.Field>
                     <Form.Field>
-                        <label>Nowy e-mail</label>
+                        <label>{t("newEmail")}</label>
                         <input type='email' ref={emailInput} defaultValue={user.email} required/>
                     </Form.Field>
                     <Form.Field>
-                        <label>Nowy numer telefonu</label>
+                        <label>{t("newPhoneNumber")}</label>
                         <input type='number' ref={phoneNumberInput} maxLength={12} defaultValue={user.phoneNumber} required/>
                     </Form.Field>
                     <Form.Field>
-                        <label>Nowa miejscowość</label>
+                        <label>{t("newLocation")}</label>
                         <input type='text' ref={locationInput} defaultValue={user.location} required/>
                     </Form.Field>
-                    <Button positive type='submit'>Zatwierdź</Button>
+                    <Button positive type='submit'>{t("submit")}</Button>
                     <Button negative onClick={onClose}>
-                        Anuluj
+                        {t("cancel")}
                     </Button>
                 </Form>
             </Modal.Content>

@@ -9,9 +9,12 @@ import {useSelector} from "react-redux";
 import {getUserToken} from "../../../store/auth";
 import Link from "react-router-dom/es/Link";
 import {statuses} from "../../../utils/taskStatus";
+import {useTranslation} from "react-i18next";
 
 
 const UserTasks = () => {
+    const {t} = useTranslation();
+
     const history = useHistory();
     const dispatch = useAppDispatch();
     const token = useSelector(getUserToken);
@@ -41,10 +44,10 @@ const UserTasks = () => {
     }, [token, status]);
 
     return <div className={classes.section}>
-        <Button onClick={userInfoHandler}>Dane</Button>
-        <Button onClick={userTasksHandler}>Moje ogłoszenia</Button>
+        <Button onClick={userInfoHandler}>{t("userData")}</Button>
+        <Button onClick={userTasksHandler}>{t("myAdverts")}</Button>
         <Button.Group>
-            <Button content='' floated='left' onClick={filterTasks}>Wszystkie</Button>
+            <Button content='' floated='left' onClick={filterTasks}>{t("all")}</Button>
             {statuses.map((status) => (
                 <Button color={status.color} onClick={filterTasks}
                         content={status.id}>{status.label}</Button>
@@ -55,7 +58,7 @@ const UserTasks = () => {
             <TaskList tasks={tasks} onClick={onClickFunction} isUserTasks='true'/>
             :
             (<div className={classes.noTask__button}>
-                <Button><Link to="/newTask">Brak ogłoszeń. Kliknij, aby dodać pierwsze zlecenie.</Link></Button>
+                <Button><Link to="/newTask">{t("noTasksAddNew")}</Link></Button>
             </div>)
         }
     </div>

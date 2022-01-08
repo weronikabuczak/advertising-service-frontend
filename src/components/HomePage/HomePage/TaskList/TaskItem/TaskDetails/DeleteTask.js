@@ -4,8 +4,11 @@ import {deleteTask} from "../../../../../../store/task";
 import {useAppDispatch} from "../../../../../../root";
 import {getUserToken} from "../../../../../../store/auth";
 import {useHistory} from "react-router-dom";
+import {useTranslation} from "react-i18next";
 
 const DeleteTask = ({open, setOpen, id}) => {
+    const {t} = useTranslation();
+
     const token = useSelector(getUserToken);
     const dispatch = useAppDispatch();
     const history = useHistory();
@@ -28,13 +31,13 @@ const DeleteTask = ({open, setOpen, id}) => {
             size='tiny'
             dimmer='blurring'
         >
-            <Modal.Header>Usuwanie ogłoszenia</Modal.Header>
+            <Modal.Header>{t("deleteAdvert")}</Modal.Header>
             <Modal.Content>
-                <p>Czy na pewno chcesz usunąć ogłoszenie?</p>
+                <p>{t("areYouSureDeleteAd")}</p>
             </Modal.Content>
             <Modal.Actions>
-                <Button positive onClick={deleteTaskHandler}>Zatwierdź</Button>
-                <Button negative onClick={onClose}>Anuluj</Button>
+                <Button positive onClick={deleteTaskHandler}>{t("submit")}</Button>
+                <Button negative onClick={onClose}>{t("cancel")}</Button>
 
             </Modal.Actions>
         </Modal>

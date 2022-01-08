@@ -53,7 +53,7 @@ const Navigation = () => {
             )}
             <nav>
                 {isLoggedIn && (
-                    <button className={classes.navButton} onClick={logoutHandler}>Wyloguj się</button>
+                    <button className={classes.navButton} onClick={logoutHandler}>{t("logout")}</button>
                 )}
                 <LanguageSwitcher/>
             </nav>

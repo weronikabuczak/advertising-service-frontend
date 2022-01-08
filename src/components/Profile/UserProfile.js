@@ -8,8 +8,11 @@ import {useHistory} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {getUser, getUserInfo, getUserToken} from "../../store/auth";
 import {useAppDispatch} from "../../root";
+import {useTranslation} from "react-i18next";
 
 const UserProfile = () => {
+    const {t} = useTranslation();
+
     const history = useHistory();
     const dispatch = useAppDispatch();
     const userInfo = useSelector(getUserInfo);
@@ -42,8 +45,8 @@ const UserProfile = () => {
 
     return (
         <section className={classes.section}>
-            <Button onClick={userInfoHandler}>Dane</Button>
-            <Button onClick={userTasksHandler}>Moje ogłoszenia</Button>
+            <Button onClick={userInfoHandler}>{t("userData")}</Button>
+            <Button onClick={userTasksHandler}>{t("myAdverts")}</Button>
             <ChangePassword open={modalOpenPassword} setOpen={setModalOpenPassword} email={userInfo.email} />
             <ChangeUserData open={modalOpenUserInfo} setOpen={setModalOpenUserInfo} email={userInfo.email} user={userInfo}/>
             <Card fluid className={classes.userCard__container}>
@@ -51,7 +54,7 @@ const UserProfile = () => {
                     <Card.Header>
                         <Header as='h5' icon textAlign='center'>
                             <Icon name='users'/>
-                            Moje konto
+                            {t("myAccount")}
                         </Header>
                     </Card.Header>
                 </Card.Content>
@@ -67,10 +70,10 @@ const UserProfile = () => {
                             <Header as='h1'>
                                 <>{userInfo.name}</>
                                 <Button floated='right' onClick={changeUserInfoHandler}>
-                                    <Button.Content>Edytuj dane</Button.Content>
+                                    <Button.Content>{t("edit")}</Button.Content>
                                 </Button>
                                 <Button floated='right' onClick={changePasswordHandler}>
-                                    <Button.Content>Zmień hasło</Button.Content>
+                                    <Button.Content>{t("changePassword")}</Button.Content>
                                 </Button></Header>
 
                             <Header>{userInfo.location}</Header>
@@ -87,7 +90,7 @@ const UserProfile = () => {
                                     <Table.Row>
                                         <Table.Cell>
                                             <Header as='h4' image>
-                                                <Header.Content>Telefon</Header.Content>
+                                                <Header.Content></Header.Content>
                                             </Header>
                                         </Table.Cell>
                                         <Table.Cell>{userInfo.phoneNumber}</Table.Cell>
@@ -95,7 +98,7 @@ const UserProfile = () => {
                                     <Table.Row>
                                         <Table.Cell>
                                             <Header as='h4' image>
-                                                <Header.Content>Data utworzenia konta</Header.Content>
+                                                <Header.Content>{t("accountCreationDate")}</Header.Content>
                                             </Header>
                                         </Table.Cell>
                                         <Table.Cell>{userInfo.createDate}</Table.Cell>
@@ -108,6 +111,4 @@ const UserProfile = () => {
             </Card>
         </section>
     );
-};
-
-export default UserProfile;
+};export default UserProfile;

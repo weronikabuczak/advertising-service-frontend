@@ -8,7 +8,7 @@ import {Icon} from "semantic-ui-react";
 import {useTranslation} from "react-i18next";
 
 const AuthorizationForm = () => {
-    const { t, i18n } = useTranslation();
+        const {t, i18n} = useTranslation();
 
         const history = useHistory();
         const dispatch = useAppDispatch();
@@ -77,7 +77,7 @@ const AuthorizationForm = () => {
                                     <input type='email' id='email' defaultValue='test1@test.com' required ref={emailInput}/>
                                 </div>
                                 <div className={classes.control}>
-                                    <label htmlFor='password'>Hasło</label>
+                                    <label htmlFor='password'>{t("password")}</label>
                                     <input type='password' id='password' defaultValue='test1234' required ref={passwordInput}/>
                                 </div>
                             </div>
@@ -89,23 +89,23 @@ const AuthorizationForm = () => {
                                     <input type='email' id='email' required ref={emailInput}/>
                                 </div>
                                 <div className={classes.control}>
-                                    <label htmlFor='password'>Hasło</label>
+                                    <label htmlFor='password'>{t("password")}</label>
                                     <input type='password' id='password' required minLength='8' ref={passwordInput}/>
                                 </div>
                                 <div className={classes.control}>
-                                    <label htmlFor='name'>Nazwa</label>
+                                    <label htmlFor='name'>{t("name")}</label>
                                     <input type='text' id='name' required ref={nameInput}/>
                                 </div>
                                 <div className={classes.control}>
-                                    <label htmlFor='location'>Miejscowość</label>
+                                    <label htmlFor='location'>{t("location")}</label>
                                     <input type='text' id='location' required ref={locationInput}/>
                                 </div>
                                 <div className={classes.control}>
-                                    <label htmlFor='phone'>Numer telefonu</label>
+                                    <label htmlFor='phone'>{t("phoneNumber")}</label>
                                     <input type='tel' id='phone' defaultValue='+48' maxLength='12' ref={phoneInput}/>
                                 </div>
                                 <div className={classes.control}>
-                                    <label htmlFor='image' >Zdjęcie</label>
+                                    <label htmlFor='image'>{t("image")}</label>
                                     <input type='file' onChange={handleFileInput}/>
                                 </div>
                             </div>
@@ -114,10 +114,10 @@ const AuthorizationForm = () => {
 
                     <div className={classes.actions}>
                         {!isLoading && (
-                            <button>{isLogin ? 'Zaloguj się' : 'Utwórz konto'}</button>)}
+                            <button>{isLogin ? t("login") : t("createAccount")}</button>)}
                         {isLoading && <p>Wysyłanie żądania...</p>}
                         <button type='button' onClick={switchAuthModeHandler}>
-                            {isLogin ? 'Stwórz konto' : 'Masz już konto? Zaloguj się'}
+                            {isLogin ? t("createAccount") : t("alreadyHaveAnAccount")}
                         </button>
                     </div>
                 </form>
