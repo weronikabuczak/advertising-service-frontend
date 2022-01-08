@@ -8,9 +8,13 @@ import appIcon from '../../files/app.png'
 
 import {isUserLoggedIn, logoutUser} from "../../store/auth";
 import {Icon} from "semantic-ui-react";
-import app from "../../App";
+import { useTranslation } from "react-i18next";
+import LanguageSwitcher from '../LanguageSwitcher';
+
 
 const Navigation = () => {
+    const { t, i18n } = useTranslation();
+
 
     const dispatch = useAppDispatch();
     const isLoggedIn = useSelector(isUserLoggedIn);
@@ -27,7 +31,6 @@ const Navigation = () => {
         setToggle(!toggle);
     }
 
-
     return (
         <header className={classes.header}>
             {isLoggedIn && (
@@ -42,6 +45,7 @@ const Navigation = () => {
                 </Link>
             )}
             {!isLoggedIn && (
+
                 <div className={classes.logo}>
                     <Icon link='/' name='calendar check'/>
                     Services App
@@ -51,11 +55,7 @@ const Navigation = () => {
                 {isLoggedIn && (
                     <button className={classes.navButton} onClick={logoutHandler}>Wyloguj się</button>
                 )}
-                {/*{isLoggedIn && (*/}
-                {/*        <Link to='/'><img src={flag} alt='flag'/></Link>*/}
-                {/*)}*/}
-
-
+                <LanguageSwitcher/>
             </nav>
             <AppSidebar toggleMenu={toggle} toggleFn={toggleMenu}/>
         </header>

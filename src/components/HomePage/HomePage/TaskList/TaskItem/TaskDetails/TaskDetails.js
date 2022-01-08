@@ -116,7 +116,10 @@ const TaskDetails = () => {
 
                     <Card fluid>
                         <Card.Content className={classes.category__container}>
-                            <span className={classes.category__chip}>{task.category}</span></Card.Content>
+                            <span className={classes.category__chip}>{task.category}</span>
+                            <span className={classes.status__chip
+                            }>{task.status}</span>
+                        </Card.Content>
                         <Card.Content><Header as='h2'>{task.title}</Header></Card.Content>
                         <Table>
                             <Table.Body>

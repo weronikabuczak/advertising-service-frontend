@@ -17,6 +17,15 @@
     background-color: rgb(175, 171, 222);
 }
 
+.status__chip {
+    font-size: 1rem;
+    padding: 0.9rem;
+    margin-left: 5px;
+    border-radius: 5px;
+    font-weight: bold;
+    background-color: rgb(204, 238, 229);
+}
+
 .taskDetails__divider {
     border-top: 4px;
 }

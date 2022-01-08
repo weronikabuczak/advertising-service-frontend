@@ -42,8 +42,8 @@ const UserProfile = () => {
 
     return (
         <section className={classes.section}>
-            <Button color='teal' onClick={userInfoHandler}>Dane</Button>
-            <Button color='vk' onClick={userTasksHandler}>Moje ogłoszenia</Button>
+            <Button onClick={userInfoHandler}>Dane</Button>
+            <Button onClick={userTasksHandler}>Moje ogłoszenia</Button>
             <ChangePassword open={modalOpenPassword} setOpen={setModalOpenPassword} email={userInfo.email} />
             <ChangeUserData open={modalOpenUserInfo} setOpen={setModalOpenUserInfo} email={userInfo.email} user={userInfo}/>
             <Card fluid className={classes.userCard__container}>

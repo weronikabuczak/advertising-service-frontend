@@ -5,30 +5,25 @@ import {
     Sidebar
 } from 'semantic-ui-react'
 import {Link} from "react-router-dom";
-// import classNames from "classnames";
-//
-// import classes from './Navigation.module.css';
+import classes from './Navigation.module.css';
 
 const AppSidebar = ({toggleFn, toggleMenu}) => {
 
     //const paddingClasses = classNames(classes.menu__item__padding)
-
 
     return (
         <Sidebar
             as={Menu}
             animation='push'
             icon='labeled'
-            // className={paddingClasses}
+            className={classes.paddingClasses}
             inverted
             vertical
             visible={toggleMenu}
             width='wide'
-
-
         >
             <MenuItem onClick={toggleFn} >
-                <Link to='/'><Icon name='home'/>Strona główna</Link>
+                <Link to='/'><Icon name='home' className={classes.paddingClasses}/>Strona główna</Link>
             </MenuItem>
             <MenuItem onClick={toggleFn} link='true'>
                 <Link to='/profile'><Icon name='user'/>Moje konto</Link>

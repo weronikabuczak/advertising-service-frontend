@@ -2,6 +2,7 @@
     width: 60%;
     display: block;
     margin: 4rem auto;
+    flex-wrap: wrap;
 }
 
 .userCard__container:hover {

@@ -24,10 +24,10 @@ const HomePageContent = () => {
     const tasks = useSelector(getAllTasks);
     const dispatch = useAppDispatch();
     const token = useSelector(getUserToken);
-    const [currentTask, setCurrentTask] = useState({})
+    const [setCurrentTask] = useState({})
     const [zoom, setZoom] = useState(6);
     const [category, setCategory] = useState('');
-    const [status, setStatus] = useState('AWAITING');
+    const [status] = useState('AWAITING');
 
     //leaflet icon issue
     let DefaultIcon = L.icon({
@@ -72,7 +72,6 @@ const HomePageContent = () => {
         });
     }
 
-
     return (
         <section className={classes.section}>
             <Grid>
@@ -80,20 +79,20 @@ const HomePageContent = () => {
                     <Grid.Column width={1}/>
                     <Grid.Column width={15}>
                         <div className={classes.locationButtons}>
-                            <Button  floated='left' onClick={componentDidMount}><Icon
+                            <Button floated='left' onClick={componentDidMount}><Icon
                                 name='compass'/>Zlokalizuj
                                 mnie</Button>
                             <Button onClick={resetMapHandler} className={classes.refreshMap__button} floated='left'>Domyślny
                                 widok mapy</Button>
                         </div>
                         <div className={classes.categoryButtons}>
-                        <Button content='' floated='left' onClick={filterCategory}>Wszystkie</Button>
-                        <Button.Group floated='left'>
-                            {categories.map((category) => (
-                                <Button color={category.color} onClick={filterCategory}
-                                        content={category.label}>{category.label}</Button>
-                            ))}
-                        </Button.Group>
+                            <Button content='' floated='left' onClick={filterCategory}>Wszystkie</Button>
+                            <Button.Group floated='left'>
+                                {categories.map((category) => (
+                                    <Button color={category.color} onClick={filterCategory}
+                                            content={category.label}>{category.label}</Button>
+                                ))}
+                            </Button.Group>
                         </div>
                     </Grid.Column>
                 </Grid.Row>
@@ -122,11 +121,10 @@ const HomePageContent = () => {
                             ?
                             <TaskList tasks={tasks} onClick={onClickFunction} isUserTasks='false'/>
                             :
-                            (
-                                <div className={classes.noTask__button}>
-                                    <Button><Link to="/newTask">Brak ogłoszeń. Kliknij, aby dodać pierwsze
-                                        zlecenie.</Link></Button>
-                                </div>)
+                            (<div className={classes.noTask__button}>
+                                <Button><Link to="/newTask">Brak ogłoszeń. Kliknij, aby dodać pierwsze
+                                    zlecenie.</Link></Button>
+                            </div>)
                         }
                     </Grid.Column>
                 </Grid.Row>

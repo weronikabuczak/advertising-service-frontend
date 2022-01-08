@@ -5,8 +5,11 @@ import {isUserLoggedIn, loginUser, registerUser} from "../../../store/auth";
 import {useSelector} from "react-redux";
 import {useAppDispatch} from "../../../root";
 import {Icon} from "semantic-ui-react";
+import {useTranslation} from "react-i18next";
 
 const AuthorizationForm = () => {
+    const { t, i18n } = useTranslation();
+
         const history = useHistory();
         const dispatch = useAppDispatch();
         const emailInput = useRef();
@@ -63,10 +66,9 @@ const AuthorizationForm = () => {
             };
         }
 
-
         return (
             <section className={classes.auth}>
-                <h3><Icon name='user circle outline'/>{isLogin ? 'Zaloguj się' : 'Zarejestruj nowe konto'}</h3>
+                <h3><Icon name='user circle outline'/>{isLogin ? t("login") : t("register")}</h3>
                 <form onSubmit={FormHandler}>
                     {isLogin ? (
                             <div>
