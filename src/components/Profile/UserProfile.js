@@ -6,7 +6,7 @@ import ChangePassword from "./ChangePassword";
 import ChangeUserData from "./ChangeUserData";
 import {useHistory} from "react-router-dom";
 import {useSelector} from "react-redux";
-import {getUser, getUserInfo, getUserToken} from "../../store/auth";
+import {getUser, getUserInfo, getUserLoading, getUserToken} from "../../store/auth";
 import {useAppDispatch} from "../../root";
 import {useTranslation} from "react-i18next";
 
@@ -25,8 +25,7 @@ const UserProfile = () => {
         if (token) {
             dispatch(getUser({token}));
         }
-        console.log(userInfo)
-    }, [token]);
+    }, [modalOpenPassword, modalOpenUserInfo]);
 
     const userInfoHandler = () => {
         history.replace('/profile');
@@ -46,16 +45,16 @@ const UserProfile = () => {
     return (
         <section className={classes.section}>
             <Button.Group className={classes.userButtons}>
-            <Button primary onClick={userInfoHandler}>{t("userData")}</Button>
-            <Button secondary onClick={userTasksHandler}>{t("myAdverts")}</Button>
+                <Button primary onClick={userInfoHandler}>{t("userData")}</Button>
+                <Button secondary onClick={userTasksHandler}>{t("myAdverts")}</Button>
             </Button.Group>
             <Button.Group className={classes.userButtons} floated='right'>
-            <Button positive floated='right' onClick={changeUserInfoHandler}>
-                <Button.Content>{t("edit")}</Button.Content>
-            </Button>
-            <Button floated='right' onClick={changePasswordHandler}>
-                <Button.Content>{t("changePassword")}</Button.Content>
-            </Button>
+                <Button positive floated='right' onClick={changeUserInfoHandler}>
+                    <Button.Content>{t("edit")}</Button.Content>
+                </Button>
+                <Button floated='right' onClick={changePasswordHandler}>
+                    <Button.Content>{t("changePassword")}</Button.Content>
+                </Button>
             </Button.Group>
             <ChangePassword open={modalOpenPassword} setOpen={setModalOpenPassword} email={userInfo.email}/>
             <ChangeUserData open={modalOpenUserInfo} setOpen={setModalOpenUserInfo} email={userInfo.email}

@@ -1,6 +1,5 @@
 import {statuses} from "./taskStatus";
 import {categories} from "./taskCategory";
-import {Button} from "semantic-ui-react";
 import React from "react";
 
 export const formatDate = (dateInString) => new Date(dateInString).toLocaleDateString();

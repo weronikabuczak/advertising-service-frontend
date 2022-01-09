@@ -1,5 +1,5 @@
 import {Button, Form, Modal} from "semantic-ui-react";
-import {useRef} from "react";
+import {useEffect, useRef} from "react";
 import {useSelector} from "react-redux";
 import {getUserToken} from "../../store/auth";
 import {useHistory} from "react-router-dom";
@@ -13,6 +13,10 @@ const ChangeUserData = ({open, setOpen, email, user}) => {
     const emailInput = useRef();
     const nameInput = useRef();
     const locationInput = useRef();
+
+    useEffect(() => {
+        },
+        [user]);
 
     const onClose = () => {
         setOpen(false);
@@ -57,6 +61,7 @@ const ChangeUserData = ({open, setOpen, email, user}) => {
             .catch((err) => {
                 alert(err.message);
             });
+
     }
     return (
         <Modal
@@ -73,13 +78,9 @@ const ChangeUserData = ({open, setOpen, email, user}) => {
                         <label>{t("newUsername")}</label>
                         <input type='text' ref={nameInput} defaultValue={user.name} required/>
                     </Form.Field>
-                    {/*<Form.Field>*/}
-                    {/*    <label>{t("newEmail")}</label>*/}
-                    {/*    <input type='email' ref={emailInput} defaultValue={user.email} required/>*/}
-                    {/*</Form.Field>*/}
                     <Form.Field>
                         <label>{t("newPhoneNumber")}</label>
-                        <input type='phone' ref={phoneNumberInput} maxLength={12} value={user.phoneNumber} required/>
+                        <input type='text' ref={phoneNumberInput} maxLength={12} defaultValue={user.phoneNumber} required/>
                     </Form.Field>
                     <Form.Field>
                         <label>{t("newLocation")}</label>

@@ -36,13 +36,13 @@ export const deleteTaskApiCall = async ({token, id}) => {
                 'Content-Type': 'application/json'
             },
         }).then((response) => {
-            if (response.ok) {
+            // if (response.ok) {
                 return response.json().then(data => {
-                    return [...data]
+                    return data
                 })
-            } else {
-                throw 'Cannot delete task'
-            }
+            // } else {
+            //     throw 'Cannot delete task'
+            // }
         })
     } catch (error) {
         throw error;

@@ -31,12 +31,10 @@ export const getTasks = createAsyncThunk(`${sliceName}/getTasks`, async ({isUser
 
 export const deleteTask = createAsyncThunk(`${sliceName}/deleteTask`, async ({id, token}, {dispatch}) => {
     try {
-        const data = await deleteTaskApiCall({id, token});
-        return {
-            data
-        };
+        await deleteTaskApiCall({id, token});
     } catch (error) {
-        alert('Cannot delete task 2');
+        // alert('Cannot delete task');
+        //todo
         throw error;
     }
 });

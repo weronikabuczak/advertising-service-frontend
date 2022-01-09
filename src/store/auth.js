@@ -14,7 +14,7 @@ export const initialState = {
     remainingTime: 0,
     isLoggedIn: false,
     isLoading: false,
-    user: { },
+    user: {},
     email: ''
 };
 
@@ -168,5 +168,6 @@ export const isUserLoggedIn = state => state[sliceName].isLoggedIn;
 export const getUserToken = state => state[sliceName].token;
 export const getUserInfo = state => state[sliceName].user;
 export const getUserEmail = state => state[sliceName].email;
+export const getUserLoading = state => state[sliceName].isLoading;
 
 export default auth.reducer;
