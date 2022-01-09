@@ -34,6 +34,7 @@ const NewTaskForm = () => {
 
 
     const handleFileInput = (e) => {
+        console.log('zdj' + image)
         const file = e.target.files[0];
         let reader = new FileReader();
         reader.readAsDataURL(file);
@@ -62,10 +63,9 @@ const NewTaskForm = () => {
         const enteredPay = payInput.current.value;
         const enteredExpirationDate = expirationDateInput.current.value;
         const enteredEstimatedTime = pickerValue;
-        //const enteredImage = image;
+        const enteredImage = image;
         const enteredLongitude = longitude;
         const enteredLatitude = latitude;
-        console.log(image);
 
 
         url =
@@ -78,7 +78,7 @@ const NewTaskForm = () => {
             pay: enteredPay,
             expirationDate: new Date(enteredExpirationDate),
             estimatedTime: enteredEstimatedTime,
-            image,
+            image: enteredImage,
             longitude: enteredLongitude,
             latitude: enteredLatitude
         }
@@ -147,7 +147,7 @@ const NewTaskForm = () => {
 
         const label = getCategoryLabel(categoryId,language);
 
-        return <Button color={categoryObj.colors} onClick={getCategory}
+        return <Button compact size='medium' color={categoryObj.colors} onClick={getCategory}
                        content={categoryId}>{label}</Button>
     })
 
@@ -162,7 +162,7 @@ const NewTaskForm = () => {
                     </div>
                     <div className={classes.control}>
                         <label className={classes.category__button} htmlFor='category'>{t("category")}</label>
-                        <Button.Group>
+                        <Button.Group className={classes.categoryButtons}>
                             {categoriesBar}
                         </Button.Group>
                     </div>
@@ -170,7 +170,7 @@ const NewTaskForm = () => {
                     <div className={classes.control}>
                         <label htmlFor='content'>{t("content")}</label>
                         <textarea required ref={contentInput} minLength="20" maxLength="800"
-                                  placeholder={t("enterTasksDetails")} className={classes.content__textarea}/>
+                                  placeholder={t("enterTaskDetails")} className={classes.content__textarea}/>
                     </div>
 
                     <div className={classes.control}>
