@@ -3,14 +3,17 @@ import {useSelector} from "react-redux";
 import {useAppDispatch} from "../../../../../../root";
 import {getUserToken} from "../../../../../../store/auth";
 import {useHistory} from "react-router-dom";
-import {categories} from "../../../../../../utils/taskCategory";
 import {QuantityPicker} from "react-qty-picker";
 import LocationPicker from "react-leaflet-location-picker";
-import {useRef, useState} from "react";
+import React, {useRef, useState} from "react";
 import {useTranslation} from "react-i18next";
+import {categories} from "../../../../../../utils/taskCategory";
+import {getCategoryLabel} from "../../../../../../utils/functions";
+import i18n from "../../../../../../i18n";
 
 const EditTask = ({open, setOpen, id, task}) => {
     const {t} = useTranslation();
+    const {language} = i18n;
 
     const token = useSelector(getUserToken);
     const [isLoading, setIsLoading] = useState();
@@ -124,6 +127,15 @@ const EditTask = ({open, setOpen, id, task}) => {
         setCategory(content);
     }
 
+    const categoriesBar = Object.entries(categories).map((arr) => {
+        const [categoryId, categoryObj] = arr
+
+        const label = getCategoryLabel(categoryId,language);
+
+        return <Button color={categoryObj.colors} onClick={getCategory}
+                       content={categoryId}>{label}</Button>
+    })
+
     return (
         <Modal
             centered={true}
@@ -148,10 +160,7 @@ const EditTask = ({open, setOpen, id, task}) => {
                     <Form.Field>
                         <label htmlFor='category'>{t("newCategory")}</label>
                         <Button.Group>
-                            {categories.map((category) => (
-                                <Button color={category.color} onClick={getCategory}
-                                        content={category.label}>{category.label}</Button>
-                            ))}
+                            {categoriesBar}
                         </Button.Group>
                     </Form.Field>
                     <Form.Field>

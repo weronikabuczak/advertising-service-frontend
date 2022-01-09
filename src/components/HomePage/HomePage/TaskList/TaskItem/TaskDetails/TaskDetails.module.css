@@ -16,6 +16,7 @@
     font-weight: bold;
     background-color: #dde6f6;
     border: #b5c8fc 1px solid;
+    color: white;
 }
 
 .status__chip {
@@ -24,8 +25,7 @@
     margin-left: 5px;
     border-radius: 5px;
     font-weight: bold;
-    /*background-color: rgb(204, 238, 229);*/
-    /*border: #84c9b6 1px solid;*/
+    color: white;
 }
 
 .taskDetails__divider {

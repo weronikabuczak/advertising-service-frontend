@@ -57,6 +57,13 @@
   "content": "Details",
   "houseworkCategory": "Housework",
   "gardenCategory": "Garden",
-  "repairingCategory": "Repairing"
-
+  "repairingCategory": "Repairing",
+  "offerFrom": "Offer from:",
+  "accept": "Accept",
+  "reject": "Reject",
+  "jobIsPerformedBy": "Job is performed by:",
+  "markTheJobComplete": "Mark the job complete",
+  "jobCompleted": "The job has been completed.",
+  "offerAccepted": "The offer has been accepted!",
+  "offerRejected": "The offer has been rejected!"
 }

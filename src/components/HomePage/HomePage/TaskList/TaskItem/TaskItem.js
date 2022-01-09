@@ -1,50 +1,54 @@
 import {Button, Card, Grid, Header, Icon, Image, Segment} from "semantic-ui-react";
 import taskIcon from '../../../../../files/task.png';
 import classes from "../TaskItem/TaskItem.module.css";
-import {formatDate} from "../../../../../utils/functions";
+import {formatDate, getCategoryColorClass, getCategoryLabel} from "../../../../../utils/functions";
 import {useHistory} from "react-router-dom";
 import {setCurrentTaskId} from "../../../../../store/task";
 import {useAppDispatch} from "../../../../../root";
 import {useTranslation} from "react-i18next";
+import i18n from "../../../../../i18n";
 
 
-const TaskItem = ({props, onClick, isUserTasks}) => {
+const TaskItem = ({task, onClick, isUserTasks}) => {
     const {t} = useTranslation();
+    const {language: currentLanguage} = i18n
 
     const history = useHistory();
     const dispatch = useAppDispatch()
 
     const taskDetailsHandler = () => {
-        dispatch(setCurrentTaskId(props.id));
+        dispatch(setCurrentTaskId(task.id));
         history.push({
-            pathname: `/taskDetails/${props.id}`, state: {isUserTasks: isUserTasks}
+            pathname: `/taskDetails/${task.id}`, state: {isUserTasks: isUserTasks}
         });
     }
 
-    const onClickHandler = () => onClick(props.id)
+    const onClickHandler = () => onClick(task.id)
 
+    const taskCategory = getCategoryLabel(task.category, currentLanguage);
+
+    const categoryColor = {
+        'background-color': getCategoryColorClass(task.category)
+    };
 
     return (<Card fluid centered className={classes.taskCard} onClick={onClickHandler}>
         <Card.Content>
             <Grid stackable>
                 <Grid.Row className={classes.taskRow}>
                     <Grid.Column computer={5} widescreen={4} tablet={5}>
-                        {props.image != null ?
-                            <Image floated='left' className={classes.image} src={props.image} rounded
+                        {task.image != null ?
+                            <Image floated='left' className={classes.image} src={task.image} rounded
                                    size='large'/>
                             : <Image src={taskIcon} rounded size='large'/>}
-
-
-                        {/*<div className={classes.status__chip}>{props.status}</div>*/}
                     </Grid.Column>
                     <Grid.Column width={12} computer={11} tablet={11}>
                         <Grid.Row className={classes.category__container}>
                             <Grid.Column width={5}>
-                                <span className={classes.category__chip}>{props.category}</span>
-
+                                <span style={categoryColor} className={classes.category__chip}>{taskCategory}</span>
                             </Grid.Column>
                             <Grid.Column width={11} floated='right'>
-                                <Button className={classes.userButton} floated='right' fluid onClick={taskDetailsHandler} size='small'>
+                                <Button className={classes.userButton} floated='right' fluid
+                                        onClick={taskDetailsHandler} size='small'>
                                     <Button.Content>{t("taskDetails")}</Button.Content>
                                 </Button>
                             </Grid.Column>
@@ -52,24 +56,24 @@ const TaskItem = ({props, onClick, isUserTasks}) => {
 
                         <Grid.Row>
                             <Grid.Row>
-                                <Header as='h3' content={props.title}/>
+                                <Header as='h3' content={task.title}/>
                             </Grid.Row>
                         </Grid.Row>
                         <div className={classes.taskDetails__container}>
                             <Grid.Column className={classes.taskDetails__column}>
                                 <div className={classes.taskDetails__main__info}><Icon
-                                    name='location arrow'/>{props.address}
+                                    name='location arrow'/>{task.address}
                                 </div>
                                 <div className={classes.taskDetails__main__info}><Icon
-                                    name='calendar times'/>{formatDate(props.expirationDate)}</div>
+                                    name='calendar times'/>{formatDate(task.expirationDate)}</div>
 
                             </Grid.Column>
                             <Grid.Column width={7}>
                                 <div className={classes.taskDetails__payment__details}><Icon
-                                    name='money'/> {props.pay} PLN
+                                    name='money'/> {task.pay} PLN
                                 </div>
                                 <div className={classes.taskDetails__payment__details}><Icon
-                                    name='time'/> {props.estimatedTime} h
+                                    name='time'/> {task.estimatedTime} h
                                 </div>
                             </Grid.Column>
                         </div>

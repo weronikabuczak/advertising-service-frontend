@@ -1,5 +1,5 @@
 import classes from "../NewTask/NewTaskForm.module.css";
-import {useRef, useState} from "react";
+import React, {useRef, useState} from "react";
 import {useHistory} from "react-router-dom";
 import {QuantityPicker} from 'react-qty-picker';
 import {useSelector} from "react-redux";
@@ -8,10 +8,13 @@ import LocationPicker from "react-leaflet-location-picker";
 import {categories} from "../../utils/taskCategory";
 import {Button} from "semantic-ui-react";
 import {useTranslation} from "react-i18next";
+import {getCategoryLabel} from "../../utils/functions";
+import i18n from "../../i18n";
 
 
 const NewTaskForm = () => {
     const {t} = useTranslation();
+    const {language} = i18n;
 
     const [isLoading, setIsLoading] = useState(false);
     const [pickerValue, setPickerValue] = useState();
@@ -139,8 +142,14 @@ const NewTaskForm = () => {
         setCategory(content);
     }
 
-    console.log(category)
+    const categoriesBar = Object.entries(categories).map((arr) => {
+        const [categoryId, categoryObj] = arr
 
+        const label = getCategoryLabel(categoryId,language);
+
+        return <Button color={categoryObj.colors} onClick={getCategory}
+                       content={categoryId}>{label}</Button>
+    })
 
     return (
         <section className={classes.section}>
@@ -154,12 +163,8 @@ const NewTaskForm = () => {
                     <div className={classes.control}>
                         <label className={classes.category__button} htmlFor='category'>{t("category")}</label>
                         <Button.Group>
-                            {categories.map((category) => (
-                                <Button toggle color={category.color} onClick={getCategory}
-                                        content={category.label}>{category.label}</Button>
-                            ))}
+                            {categoriesBar}
                         </Button.Group>
-                        {/*required*/}
                     </div>
 
                     <div className={classes.control}>

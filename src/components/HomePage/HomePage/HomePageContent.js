@@ -17,9 +17,13 @@ import "leaflet-control-geocoder/dist/Control.Geocoder.css";
 import "leaflet-control-geocoder/dist/Control.Geocoder.js";
 import Link from "react-router-dom/es/Link";
 import {useTranslation} from "react-i18next";
+import {statuses} from "../../../utils/taskStatus";
+import {getCategoryColor, getCategoryLabel, getStatusColor, getStatusLabel} from "../../../utils/functions";
+import i18n from "../../../i18n";
 
 const HomePageContent = () => {
     const {t} = useTranslation();
+    const {language} = i18n;
 
     const [latitude, setLatitude] = useState(52);
     const [longitude, setLongitude] = useState(19);
@@ -75,6 +79,15 @@ const HomePageContent = () => {
         });
     }
 
+    const categoriesBar = Object.entries(categories).map((arr) => {
+        const [categoryId, categoryObj] = arr
+
+        const label = getCategoryLabel(categoryId,language);
+
+        return <Button color={categoryObj.colors} onClick={filterCategory}
+                       content={categoryId}>{label}</Button>
+    })
+
     return (
         <section className={classes.section}>
             <Grid>
@@ -89,10 +102,7 @@ const HomePageContent = () => {
                         <div >
                             <Button className={classes.categoryButtons} content='' floated='left' onClick={filterCategory}>{t("all")}</Button>
                             <Button.Group className={classes.categoryButtons}floated='left' >
-                                {categories.map((category) => (
-                                    <Button color={category.color} onClick={filterCategory}
-                                            content={category.label}>{category.label}</Button>
-                                ))}
+                                {categoriesBar}
                             </Button.Group>
                         </div>
                     </Grid.Column>

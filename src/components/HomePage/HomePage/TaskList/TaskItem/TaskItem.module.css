@@ -7,7 +7,7 @@
 .category__chip {
     font-size: 0.9rem;
     padding: 0.7rem;
-    /*margin: 1rem;*/
+    color: white;
     border-radius: 10px;
     box-shadow: rgba(149, 157, 165, 0.2) 0px 1px 4px;
     font-weight: bold;
@@ -15,19 +15,6 @@
     border: #b5c8fc 1px solid;
 
 }
-
-/*.status__chip {*/
-/*    font-size: 0.9rem;*/
-/*    padding: 0.3rem;*/
-/*    margin: 2px;*/
-/*    border-radius: 10px;*/
-/*    box-shadow: rgba(149, 157, 165, 0.2) 0px 1px 4px;*/
-/*    font-weight: bold;*/
-/*    background-color: #ecfaf4;*/
-/*    border: #9ff6d8 1px solid;*/
-/*    width: fit-content;*/
-/*}*/
-
 
 .taskDetails__main__info {
     margin: 0.7rem 0;

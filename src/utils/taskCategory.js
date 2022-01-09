@@ -1,29 +1,40 @@
+export const colorsClasses = {
+    RED: '#dd4b39',
+    GREEN: '#21ba45',
+    BLUE: '#2185d0',
+    BROWN: '#a5673f'
+};
+
 export const colors = {
     RED: 'google plus',
-    GREEN: 'teal',
+    GREEN: 'green',
     BLUE: 'blue',
     BROWN: 'brown'
 };
 
-export const categories = [
-    {
-        id: 'Housework',
-        label: 'Prace domowe',
-        color: colors.RED,
+export const categories = {
+    'Housework': {
+        pl: 'Prace domowe',
+        en: 'Housework',
+        colorClass: colorsClasses.RED,
+        colors: colors.RED
     },
-    {
-        id: 'Garden',
-        label: 'Ogród',
-        color: colors.GREEN,
+    'Garden': {
+        pl: 'Ogród',
+        en: 'Garden',
+        colorClass: colorsClasses.GREEN,
+        colors: colors.GREEN
     },
-    {
-        id: 'Repair',
-        label: 'Naprawa',
-        color: colors.BLUE,
+    'Repair': {
+        pl: 'Naprawa',
+        en: 'Repair',
+        colorClass: colorsClasses.GREEN,
+        colors: colors.BLUE
     },
-    {
-        id: 'Mounting',
-        label: 'Montowanie',
-        color: colors.BROWN,
+    'Moving': {
+        pl: 'Przeprowadzka',
+        en: 'Moving',
+        colorClass: colorsClasses.BROWN,
+        colors: colors.BROWN
     },
-];
+}

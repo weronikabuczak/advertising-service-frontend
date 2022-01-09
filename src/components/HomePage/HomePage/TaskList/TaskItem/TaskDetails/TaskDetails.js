@@ -21,8 +21,12 @@ import {
 import {useLocation} from "react-router-dom";
 import OfferItem from "./Offer/OfferItem";
 import {useTranslation} from "react-i18next";
-import {getStatusColor, getStatusColorClass, getStatusLabel} from "../../../../../../utils/functions";
-import classNames from "classnames";
+import {
+    getCategoryColorClass,
+    getCategoryLabel, getStatusColor,
+    getStatusColorClass,
+    getStatusLabel
+} from "../../../../../../utils/functions";
 import {statuses} from "../../../../../../utils/taskStatus";
 
 const TaskDetails = () => {
@@ -89,10 +93,18 @@ const TaskDetails = () => {
         setOfferSent(true);
     }
 
+
+
     const taskStatus = getStatusLabel(task.status, currentLanguage);
 
-    const categoryColor = {
+    const statusColor = {
         'background-color': getStatusColorClass(task.status)
+    };
+
+    const taskCategory = getCategoryLabel(task.category, currentLanguage);
+
+    const categoryColor = {
+        'background-color': getCategoryColorClass(task.category)
     };
 
     return (<Container className={classes.task__container}>
@@ -106,7 +118,6 @@ const TaskDetails = () => {
                         : <Image src={taskIcon} rounded size='large'/>}
                 </Grid.Column>
                 <Grid.Column width={8}>
-
                     {isUserTasks &&
                         <Button negative animated onClick={deleteTaskHandler}>
                             <Button.Content visible>{t("delete")}</Button.Content>
@@ -126,8 +137,8 @@ const TaskDetails = () => {
 
                     <Card fluid>
                         <Card.Content className={classes.category__container}>
-                            <span className={classes.category__chip}>{task.category}</span>
-                            <span style={categoryColor} className={classes.status__chip}>{taskStatus}</span>
+                            <span style={categoryColor} className={classes.category__chip}>{taskCategory}</span>
+                            <span style={statusColor} className={classes.status__chip}>{taskStatus}</span>
                         </Card.Content>
                         <Card.Content><Header as='h2'>{task.title}</Header></Card.Content>
                         <Table>

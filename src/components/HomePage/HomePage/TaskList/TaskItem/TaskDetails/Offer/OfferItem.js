@@ -8,8 +8,10 @@ import profile from '../../../../../../../files/profile.jpg'
 import {useSelector} from "react-redux";
 import {getUserToken} from "../../../../../../../store/auth";
 import classes from './OfferItem.module.css';
+import {useTranslation} from "react-i18next";
 
 const OfferItem = ({offer, isUserTasks}) => {
+    const {t, i18n} = useTranslation();
     const dispatch = useAppDispatch();
     const token = useSelector(getUserToken);
     const [offerAccepted, setOfferAccepted] = useState(false);
@@ -59,7 +61,7 @@ const OfferItem = ({offer, isUserTasks}) => {
                             <Image src={profile} rounded size='tiny' floated='right'/>
                         }
 
-                        <Card.Header>Propozycja od użytkownika:</Card.Header>
+                        <Card.Header>{t("offerFrom")}</Card.Header>
                         <Card.Content>{offer.user.name}</Card.Content>
                         <Card.Content><Icon name='home'/>{offer.user.location}</Card.Content>
                         <Card.Content><Icon name='phone'/>{offer.user.phoneNumber}</Card.Content>
@@ -68,10 +70,10 @@ const OfferItem = ({offer, isUserTasks}) => {
                     <Card.Content extra>
                         <div className='ui two buttons'>
                             <Button basic color='green' onClick={acceptOffer}>
-                                Zatwierdź
+                                {t("accept")}
                             </Button>
                             <Button basic color='red' onClick={rejectOffer}>
-                                Odrzuć
+                                {t("reject")}
                             </Button>
                         </div>
 
@@ -87,20 +89,20 @@ const OfferItem = ({offer, isUserTasks}) => {
                             :
                             <Image src={profile} rounded size='tiny' floated='right'/>
                         }
-                        <Card.Header>Zlecenie wykonywywane przez:</Card.Header>
+                        <Card.Header>{t("jobIsPerformedBy")}</Card.Header>
                         <Card.Content>{offer.user.name}</Card.Content>
                         <Card.Content><Icon name='home'/>{offer.user.location}</Card.Content>
                         <Card.Content><Icon name='phone'/>{offer.user.phoneNumber}</Card.Content>
                         <Card.Content><Icon name='mail'/>{offer.user.email}</Card.Content>
                             <Button animated onClick={completeTaskHandler}>
-                                <Button.Content visible>Zakończ zlecenie</Button.Content>
+                                <Button.Content visible>{t("markTheJobComplete")}</Button.Content>
                                 <Button.Content hidden>
                                     <Icon size='large' name='calendar outline'/>
                                 </Button.Content>
                             </Button>
                         {taskCompleted &&
                             <div className={classes.offerInfo__card}>
-                               Zlecenie zostało wykonane.
+                                {t("jobCompleted")}
                             </div>}
                     </Card.Content>
                 </Card>
@@ -109,9 +111,9 @@ const OfferItem = ({offer, isUserTasks}) => {
             {(offerAccepted || offerRejected) &&
                 <div className={classes.offerInfo__card}>
                     {offerAccepted &&
-                    <p>Propozycja została zatwierdzona!</p>}
+                    <p>  {t("offerAccepted")}</p>}
                     {offerRejected &&
-                        <p>Propozycja została odrzucona.</p>}
+                        <p>  {t("offerRejected")}</p>}
                 </div>
             }
         </section>

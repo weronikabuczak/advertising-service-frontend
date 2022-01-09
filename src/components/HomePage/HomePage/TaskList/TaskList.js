@@ -9,7 +9,7 @@ const TaskList = ({tasks, onClick, isUserTasks}) => {
     return (
         <ul>
             {tasks && tasks.map((task) => (
-                <TaskItem props={task} onClick={onClick} isUserTasks={isUserTasks}/>
+                <TaskItem task={task} onClick={onClick} isUserTasks={isUserTasks}/>
             ))}
         </ul>
     );

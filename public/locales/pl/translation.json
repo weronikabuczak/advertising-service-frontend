@@ -58,8 +58,14 @@
   "content": "Opis",
   "houseworkCategory": "Prace domowe",
   "gardenCategory": "Ogród",
-  "repairingCategory": "Naprawa"
-
-
+  "repairingCategory": "Naprawa",
+  "offerFrom": "Propozycja od użytkownika:",
+  "accept": "Zaakceptuj",
+  "reject": "Odrzuć",
+  "jobIsPerformedBy": "Zlecenie wykonywane przez:",
+  "markTheJobComplete": "Zakończ zlecenie",
+  "jobCompleted": "Zlecenie zostało wykonane.",
+  "offerAccepted": "Propozycja została zatwierdzona!",
+  "offerRejected": "Propozycja została odrzucona!"
 
 }

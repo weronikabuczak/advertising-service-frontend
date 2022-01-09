@@ -46,7 +46,7 @@ const UserTasks = () => {
     }, [token, status]);
 
 
-    const nestedStatuesV2 = Object.entries(statuses).map((arr) => {
+    const statusesBar = Object.entries(statuses).map((arr) => {
         const [statusId, statusObj] = arr
 
         const label = getStatusLabel(statusId,language);
@@ -68,7 +68,7 @@ const UserTasks = () => {
         <Button secondary onClick={userTasksHandler}>{t("myAdverts")}</Button>
         <Button.Group>
             <Button content='' floated='left' onClick={filterTasks}>{t("all")}</Button>
-            {nestedStatuesV2}
+            {statusesBar}
         </Button.Group>
         {tasks?.length > 0 && tasks
             ?
