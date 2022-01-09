@@ -86,9 +86,9 @@ const HomePageContent = () => {
                                 name='compass'/>{t("detectLocation")}</Button>
                             <Button onClick={resetMapHandler} className={classes.refreshMap__button} floated='left'>{t("defaultMap")}</Button>
                         </div>
-                        <div className={classes.categoryButtons}>
-                            <Button content='' floated='left' onClick={filterCategory}>{t("all")}</Button>
-                            <Button.Group floated='left'>
+                        <div >
+                            <Button className={classes.categoryButtons} content='' floated='left' onClick={filterCategory}>{t("all")}</Button>
+                            <Button.Group className={classes.categoryButtons}floated='left' >
                                 {categories.map((category) => (
                                     <Button color={category.color} onClick={filterCategory}
                                             content={category.label}>{category.label}</Button>

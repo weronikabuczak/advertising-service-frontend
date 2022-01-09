@@ -1,7 +1,7 @@
 import React from 'react'
 import {
     Icon,
-    Menu, MenuItem,
+    Menu, MenuItem, Segment,
     Sidebar
 } from 'semantic-ui-react'
 import {Link} from "react-router-dom";
@@ -10,6 +10,7 @@ import {useTranslation} from "react-i18next";
 
 const AppSidebar = ({toggleFn, toggleMenu}) => {
     const {t} = useTranslation();
+    const [visible, setVisible] = React.useState(false)
 
     return (
         <Sidebar
@@ -32,6 +33,7 @@ const AppSidebar = ({toggleFn, toggleMenu}) => {
                 <Link to='/newTask'><Icon name='add'/>{t("newTask")}</Link>
             </MenuItem>
         </Sidebar>
+
     );
 }
 

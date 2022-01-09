@@ -1,5 +1,5 @@
 .section {
-    width: 60%;
+    width: 40%;
     display: block;
     margin: 4rem auto;
     flex-wrap: wrap;
@@ -47,5 +47,10 @@
     .profileImage {
         padding:0 40px;
     }
+    .userButtons {
+        margin-bottom: 7px !important;
+        float: none !important;
+    }
 }
+
 

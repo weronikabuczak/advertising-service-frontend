@@ -2,15 +2,12 @@ import {useAppDispatch} from "../../../../../../../root";
 import {Button, Card, Icon, Image} from "semantic-ui-react";
 import React, {useEffect, useState} from "react";
 import {
-    getOffers,
-    setCurrentOfferId,
     updateOffer
 } from "../../../../../../../store/offer";
 import profile from '../../../../../../../files/profile.jpg'
 import {useSelector} from "react-redux";
 import {getUserToken} from "../../../../../../../store/auth";
 import classes from './OfferItem.module.css';
-import task from "../../../../../../../store/task";
 
 const OfferItem = ({offer, isUserTasks}) => {
     const dispatch = useAppDispatch();

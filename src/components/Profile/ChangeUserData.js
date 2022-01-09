@@ -22,18 +22,18 @@ const ChangeUserData = ({open, setOpen, email, user}) => {
         event.preventDefault();
 
         const enteredPhoneNumber = phoneNumberInput.current.value;
-        const enteredEmail = emailInput.current.value;
+        // const enteredEmail = emailInput.current.value;
         const enteredName = nameInput.current.value;
         const enteredLocation = locationInput.current.value;
 
         let url = `http://localhost:8080/api/user/${email}`;
         let init = {
-            email: enteredEmail,
+            // email: enteredEmail,
             phoneNumber: enteredPhoneNumber,
             name: enteredName,
             location: enteredLocation,
         }
-
+        // TODO Move me :)
         fetch(url, {
             method: 'PUT',
             body: JSON.stringify(init),
@@ -73,13 +73,13 @@ const ChangeUserData = ({open, setOpen, email, user}) => {
                         <label>{t("newUsername")}</label>
                         <input type='text' ref={nameInput} defaultValue={user.name} required/>
                     </Form.Field>
-                    <Form.Field>
-                        <label>{t("newEmail")}</label>
-                        <input type='email' ref={emailInput} defaultValue={user.email} required/>
-                    </Form.Field>
+                    {/*<Form.Field>*/}
+                    {/*    <label>{t("newEmail")}</label>*/}
+                    {/*    <input type='email' ref={emailInput} defaultValue={user.email} required/>*/}
+                    {/*</Form.Field>*/}
                     <Form.Field>
                         <label>{t("newPhoneNumber")}</label>
-                        <input type='number' ref={phoneNumberInput} maxLength={12} defaultValue={user.phoneNumber} required/>
+                        <input type='phone' ref={phoneNumberInput} maxLength={12} value={user.phoneNumber} required/>
                     </Form.Field>
                     <Form.Field>
                         <label>{t("newLocation")}</label>

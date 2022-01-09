@@ -55,7 +55,11 @@
   "sendingRequest": "Wysyłanie żądania...",
   "title": "Tytuł",
   "category": "Kategoria",
-  "content": "Opis"
+  "content": "Opis",
+  "houseworkCategory": "Prace domowe",
+  "gardenCategory": "Ogród",
+  "repairingCategory": "Naprawa"
+
 
 
 }

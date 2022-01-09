@@ -10,8 +10,8 @@ function LanguageSwitcher() {
                 onChange={(e) =>
                     i18n.changeLanguage(e.target.value)
                 }>
-                <option value="pl">Polski</option>
-                <option value="en">English</option>
+                <option value="pl">PL</option>
+                <option value="en">EN</option>
             </select>
     );
 }

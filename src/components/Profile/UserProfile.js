@@ -45,38 +45,46 @@ const UserProfile = () => {
 
     return (
         <section className={classes.section}>
-            <Button onClick={userInfoHandler}>{t("userData")}</Button>
-            <Button onClick={userTasksHandler}>{t("myAdverts")}</Button>
-            <ChangePassword open={modalOpenPassword} setOpen={setModalOpenPassword} email={userInfo.email} />
-            <ChangeUserData open={modalOpenUserInfo} setOpen={setModalOpenUserInfo} email={userInfo.email} user={userInfo}/>
+            <Button.Group className={classes.userButtons}>
+            <Button primary onClick={userInfoHandler}>{t("userData")}</Button>
+            <Button secondary onClick={userTasksHandler}>{t("myAdverts")}</Button>
+            </Button.Group>
+            <Button.Group className={classes.userButtons} floated='right'>
+            <Button positive floated='right' onClick={changeUserInfoHandler}>
+                <Button.Content>{t("edit")}</Button.Content>
+            </Button>
+            <Button floated='right' onClick={changePasswordHandler}>
+                <Button.Content>{t("changePassword")}</Button.Content>
+            </Button>
+            </Button.Group>
+            <ChangePassword open={modalOpenPassword} setOpen={setModalOpenPassword} email={userInfo.email}/>
+            <ChangeUserData open={modalOpenUserInfo} setOpen={setModalOpenUserInfo} email={userInfo.email}
+                            user={userInfo}/>
             <Card fluid className={classes.userCard__container}>
                 <Card.Content>
                     <Card.Header>
                         <Header as='h5' icon textAlign='center'>
                             <Icon name='users'/>
                             {t("myAccount")}
+
                         </Header>
+
                     </Card.Header>
                 </Card.Content>
                 <Card.Content>
                     <Grid stackable>
                         <Grid.Column width={6}>
                             {userInfo.image != null
-                                ? <Image className={classes.profileImage} src={userInfo.image} rounded fluid/>
-                                : <Image className={classes.profileImage} src={profile} rounded />
+                                ? <Image className={classes.profileImage} src={userInfo.image} rounded/>
+                                : <Image className={classes.profileImage} src={profile} rounded/>
                             }
                         </Grid.Column>
                         <Grid.Column width={10}>
                             <Header as='h1'>
-                                <>{userInfo.name}</>
-                                <Button floated='right' onClick={changeUserInfoHandler}>
-                                    <Button.Content>{t("edit")}</Button.Content>
-                                </Button>
-                                <Button floated='right' onClick={changePasswordHandler}>
-                                    <Button.Content>{t("changePassword")}</Button.Content>
-                                </Button></Header>
+                                {userInfo.name}
+                                <Header.Subheader>{userInfo.location}</Header.Subheader>
+                            </Header>
 
-                            <Header>{userInfo.location}</Header>
                             <Table className={classes.userInfo__container}>
                                 <Table.Body className={classes.userInfo__container}>
                                     <Table.Row>
@@ -90,7 +98,7 @@ const UserProfile = () => {
                                     <Table.Row>
                                         <Table.Cell>
                                             <Header as='h4' image>
-                                                <Header.Content></Header.Content>
+                                                <Header.Content>{t("phoneNumber")}</Header.Content>
                                             </Header>
                                         </Table.Cell>
                                         <Table.Cell>{userInfo.phoneNumber}</Table.Cell>
@@ -111,4 +119,5 @@ const UserProfile = () => {
             </Card>
         </section>
     );
-};export default UserProfile;
+};
+export default UserProfile;

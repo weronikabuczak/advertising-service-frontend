@@ -1,29 +1,32 @@
-export const colors = {
-    RED: 'google plus',
-    GREEN: 'teal',
-    BLUE: 'facebook',
+export const colorsClasses = {
+    RED: '#db2828',
+    BLUE: '#2185d0',
+    TEAL: '#00b5ad',
 };
 
-export const statuses = [
-    {
-        id: 'AWAITING',
-        label: 'Oczekujące',
-        color: colors.GREEN,
-    },
-    {
-        id: 'IN_PROGRESS',
-        label: 'W trakcie',
-        color: colors.RED,
-    },
+export const colors = {
+    RED: 'red',
+    BLUE: 'blue',
+    TEAL: 'teal',
+};
 
-    {
-        id: 'DONE',
-        label: 'Zakończone',
-        color: colors.BLUE,
+export const statuses = {
+    'AWAITING': {
+        pl: 'Oczekujące',
+        en: 'Awaiting',
+        colorClass:  colorsClasses.RED,
+        colors: colors.RED
     },
-    // {
-    //     id: 'DELETED',
-    //     label: 'Naprawa',
-    //     color: colors.BLUE,
-    // },
-];
+    'IN_PROGRESS': {
+        pl: 'W trakcie',
+        en: 'In progress',
+        colorClass: colorsClasses.BLUE,
+        colors: colors.BLUE
+    },
+    'DONE': {
+        pl: 'Zakończone',
+        en: 'Done',
+        colorClass: colorsClasses.TEAL,
+        colors: colors.TEAL
+    },
+}

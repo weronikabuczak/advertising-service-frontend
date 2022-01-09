@@ -21,9 +21,13 @@ import {
 import {useLocation} from "react-router-dom";
 import OfferItem from "./Offer/OfferItem";
 import {useTranslation} from "react-i18next";
+import {getStatusColor, getStatusColorClass, getStatusLabel} from "../../../../../../utils/functions";
+import classNames from "classnames";
+import {statuses} from "../../../../../../utils/taskStatus";
 
 const TaskDetails = () => {
-    const {t} = useTranslation();
+    const {t, i18n} = useTranslation();
+    const {language: currentLanguage} = i18n
 
     const task = useSelector(getCurrentTask);
     const currentUser = useSelector(getUserEmail);
@@ -85,6 +89,12 @@ const TaskDetails = () => {
         setOfferSent(true);
     }
 
+    const taskStatus = getStatusLabel(task.status, currentLanguage);
+
+    const categoryColor = {
+        'background-color': getStatusColorClass(task.status)
+    };
+
     return (<Container className={classes.task__container}>
         <DeleteTask open={modalOpenDelete} setOpen={setModalOpenDelete} id={task.id}/>
         <EditTask open={modalOpenEdit} setOpen={setModalOpenEdit} id={task.id} task={task}/>
@@ -117,8 +127,7 @@ const TaskDetails = () => {
                     <Card fluid>
                         <Card.Content className={classes.category__container}>
                             <span className={classes.category__chip}>{task.category}</span>
-                            <span className={classes.status__chip
-                            }>{task.status}</span>
+                            <span style={categoryColor} className={classes.status__chip}>{taskStatus}</span>
                         </Card.Content>
                         <Card.Content><Header as='h2'>{task.title}</Header></Card.Content>
                         <Table>

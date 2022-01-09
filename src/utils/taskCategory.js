@@ -2,22 +2,28 @@ export const colors = {
     RED: 'google plus',
     GREEN: 'teal',
     BLUE: 'blue',
+    BROWN: 'brown'
 };
 
 export const categories = [
     {
-        id: 'Dom',
-        label: 'Dom',
+        id: 'Housework',
+        label: 'Prace domowe',
         color: colors.RED,
     },
     {
-        id: 'Ogród',
+        id: 'Garden',
         label: 'Ogród',
         color: colors.GREEN,
     },
     {
-        id: 'Naprawa',
+        id: 'Repair',
         label: 'Naprawa',
         color: colors.BLUE,
+    },
+    {
+        id: 'Mounting',
+        label: 'Montowanie',
+        color: colors.BROWN,
     },
 ];

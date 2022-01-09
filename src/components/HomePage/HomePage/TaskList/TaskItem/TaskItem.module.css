@@ -11,7 +11,7 @@
     border-radius: 10px;
     box-shadow: rgba(149, 157, 165, 0.2) 0px 1px 4px;
     font-weight: bold;
-    background-color: #eef2fa;
+    background-color: #dde6f6;
     border: #b5c8fc 1px solid;
 
 }
@@ -28,9 +28,6 @@
 /*    width: fit-content;*/
 /*}*/
 
-.image {
-
-}
 
 .taskDetails__main__info {
     margin: 0.7rem 0;

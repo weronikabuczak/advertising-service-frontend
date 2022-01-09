@@ -54,5 +54,9 @@
   "sendingRequest": "Sending the request...",
   "title": "Title",
   "category": "Category",
-  "content": "Details"
+  "content": "Details",
+  "houseworkCategory": "Housework",
+  "gardenCategory": "Garden",
+  "repairingCategory": "Repairing"
+
 }
