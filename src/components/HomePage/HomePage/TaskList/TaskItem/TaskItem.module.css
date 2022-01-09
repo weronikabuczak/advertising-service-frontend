@@ -6,14 +6,10 @@
 
 .category__chip {
     font-size: 0.9rem;
-    padding: 0.7rem;
-    color: white;
-    border-radius: 10px;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 1px 4px;
-    font-weight: bold;
-    background-color: #dde6f6;
-    border: #b5c8fc 1px solid;
-
+    padding: 0.5rem !important;
+    color: white !important;
+    border-radius: 10px !important;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 1px 4px !important;
 }
 
 .taskDetails__main__info {

@@ -17,8 +17,7 @@ import "leaflet-control-geocoder/dist/Control.Geocoder.css";
 import "leaflet-control-geocoder/dist/Control.Geocoder.js";
 import Link from "react-router-dom/es/Link";
 import {useTranslation} from "react-i18next";
-import {statuses} from "../../../utils/taskStatus";
-import {getCategoryColor, getCategoryLabel, getStatusColor, getStatusLabel} from "../../../utils/functions";
+import {getCategoryLabel} from "../../../utils/functions";
 import i18n from "../../../i18n";
 
 const HomePageContent = () => {
@@ -130,7 +129,7 @@ const HomePageContent = () => {
                     <Grid.Column widescreen={6} largeScreen={7} computer={8} tablet={9} mobile={16}>
                         {tasks?.length > 0 && tasks
                             ?
-                            <TaskList tasks={tasks} onClick={onClickFunction} isUserTasks='false'/>
+                            <TaskList tasks={tasks} onClick={onClickFunction} isUserTasks={false}/>
                             :
                             (<div className={classes.noTask__button}>
                                 <Button><Link to="/newTask">{t("noTasksAddNew")}</Link></Button>

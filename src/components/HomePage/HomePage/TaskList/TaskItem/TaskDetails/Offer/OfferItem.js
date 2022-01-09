@@ -19,7 +19,7 @@ const OfferItem = ({offer, isUserTasks}) => {
     const [taskCompleted, setTaskCompleted] = useState(false);
 
     useEffect(() => {
-
+            console.log(isUserTasks)
         },
         [offerAccepted, offerRejected, taskCompleted]);
 
@@ -51,6 +51,7 @@ const OfferItem = ({offer, isUserTasks}) => {
 
     return (
         <section>
+
             {isUserTasks && offer.status === 'ACTIVE' &&
                 <Card fluid>
                     <Card.Content>

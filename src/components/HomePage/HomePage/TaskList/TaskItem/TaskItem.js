@@ -1,4 +1,4 @@
-import {Button, Card, Grid, Header, Icon, Image, Segment} from "semantic-ui-react";
+import {Button, Card, Grid, Header, Icon, Image, Message, Segment} from "semantic-ui-react";
 import taskIcon from '../../../../../files/task.png';
 import classes from "../TaskItem/TaskItem.module.css";
 import {formatDate, getCategoryColorClass, getCategoryLabel} from "../../../../../utils/functions";
@@ -7,11 +7,19 @@ import {setCurrentTaskId} from "../../../../../store/task";
 import {useAppDispatch} from "../../../../../root";
 import {useTranslation} from "react-i18next";
 import i18n from "../../../../../i18n";
+import {useEffect} from "react";
+import {getOffers} from "../../../../../store/offer";
 
 
 const TaskItem = ({task, onClick, isUserTasks}) => {
     const {t} = useTranslation();
     const {language: currentLanguage} = i18n
+
+    useEffect(() => {
+            console.log(isUserTasks)
+        },
+        [isUserTasks]);
+
 
     const history = useHistory();
     const dispatch = useAppDispatch()
@@ -40,17 +48,23 @@ const TaskItem = ({task, onClick, isUserTasks}) => {
                             <Image floated='left' className={classes.image} src={task.image} rounded
                                    size='large'/>
                             : <Image src={taskIcon} rounded size='large'/>}
+                        {(isUserTasks && task.hasOffer) &&
+                            (
+                            <Message color='green' size='tiny'>
+                                <Message.Header>{t("newOffer")}</Message.Header>
+                            </Message>)}
                     </Grid.Column>
                     <Grid.Column width={12} computer={11} tablet={11}>
                         <Grid.Row className={classes.category__container}>
                             <Grid.Column width={5}>
-                                <span style={categoryColor} className={classes.category__chip}>{taskCategory}</span>
+                                <Message size="tiny" style={categoryColor} className={classes.category__chip}>{taskCategory}</Message>
                             </Grid.Column>
                             <Grid.Column width={11} floated='right'>
                                 <Button className={classes.userButton} floated='right' fluid
-                                        onClick={taskDetailsHandler} size='small'>
+                                        onClick={taskDetailsHandler}>
                                     <Button.Content>{t("taskDetails")}</Button.Content>
                                 </Button>
+
                             </Grid.Column>
                         </Grid.Row>
 

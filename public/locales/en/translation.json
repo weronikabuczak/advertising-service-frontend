@@ -65,5 +65,6 @@
   "markTheJobComplete": "Mark the job complete",
   "jobCompleted": "The job has been completed.",
   "offerAccepted": "The offer has been accepted!",
-  "offerRejected": "The offer has been rejected!"
+  "offerRejected": "The offer has been rejected!",
+  "newOffer": "New offer"
 }

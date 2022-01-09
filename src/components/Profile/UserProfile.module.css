@@ -5,6 +5,13 @@
     flex-wrap: wrap;
 }
 
+.taskSection {
+    width: 60%;
+    margin: 4rem auto;
+    flex-wrap: wrap;
+}
+
+
 .userCard__container:hover {
     animation: content-hover 0.1s cubic-bezier(0.39, 0.575, 0.565, 1) both;
 }
@@ -34,22 +41,42 @@
 }
 
 @media (max-width: 1024px) {
-   .section {
-       width: 70%;
-   }
-  }
+    .section, .taskSection {
+        width: 70%;
+    }
+
+    /*.taskButtons {*/
+    /*    display: flex !important;*/
+    /*}*/
+}
 
 
 @media (max-width: 768px) {
-    .section {
-        width: 90%;
+    .section, .taskSection {
+        width: 95%;
     }
+
     .profileImage {
-        padding:0 40px;
+        padding: 0 40px;
     }
+
     .userButtons {
         margin-bottom: 7px !important;
+        margin-right: 7px !important;
         float: none !important;
+    }
+
+}
+
+@media (max-width: 425px) {
+    .taskButtons {
+        display: grid !important;
+    }
+}
+
+@media (max-width: 320px) {
+    .taskSection {
+        width: 100%;
     }
 }
 

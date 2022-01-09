@@ -21,8 +21,8 @@ const DeleteTask = ({open, setOpen, id}) => {
     const deleteTaskHandler = () => {
         dispatch(deleteTask({id, token}));
         history.replace('/userTasks')
-
     }
+
     return (
         <Modal
             centered={true}
@@ -38,7 +38,6 @@ const DeleteTask = ({open, setOpen, id}) => {
             <Modal.Actions>
                 <Button positive onClick={deleteTaskHandler}>{t("submit")}</Button>
                 <Button negative onClick={onClose}>{t("cancel")}</Button>
-
             </Modal.Actions>
         </Modal>
     )

@@ -27,6 +27,8 @@ const UserProfile = () => {
         }
     }, [modalOpenPassword, modalOpenUserInfo]);
 
+
+
     const userInfoHandler = () => {
         history.replace('/profile');
     }

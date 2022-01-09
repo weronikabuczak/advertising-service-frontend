@@ -63,17 +63,19 @@ const UserTasks = () => {
     })
 
 
-    return <div className={classes.section}>
+    return <div className={classes.taskSection}>
+        <Button.Group className={classes.userButtons}>
         <Button primary onClick={userInfoHandler}>{t("userData")}</Button>
         <Button secondary onClick={userTasksHandler}>{t("myAdverts")}</Button>
-        <Button.Group>
+        </Button.Group>
+        <Button.Group className={classes.taskButtons}>
             <Button content='' floated='left' onClick={filterTasks}>{t("all")}</Button>
             {statusesBar}
         </Button.Group>
         {tasks?.length > 0 && tasks
             ?
             <Segment basic>
-                <TaskList tasks={tasks} onClick={onClickFunction} isUserTasks='true'/>
+                <TaskList tasks={tasks} onClick={onClickFunction} isUserTasks={true}/>
             </Segment>
             :
             (<div className={classes.noTask__button}>

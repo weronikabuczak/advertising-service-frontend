@@ -1,10 +1,10 @@
-import {Button, Card, Container, Divider, Grid, Header, Icon, Image, Table} from "semantic-ui-react";
+import {Button, Card, Container, Divider, Grid, Header, Icon, Image, Message, Table} from "semantic-ui-react";
 import taskIcon from "../../../../../../files/task.png";
 
 import classes from './TaskDetails.module.css';
 import {MapContainer, TileLayer, Marker, Popup} from 'react-leaflet'
 import {useSelector} from "react-redux";
-import {getCurrentTask} from "../../../../../../store/task";
+import {getCurrentTask, getTasks} from "../../../../../../store/task";
 import L from 'leaflet';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
@@ -23,11 +23,10 @@ import OfferItem from "./Offer/OfferItem";
 import {useTranslation} from "react-i18next";
 import {
     getCategoryColorClass,
-    getCategoryLabel, getStatusColor,
+    getCategoryLabel,
     getStatusColorClass,
     getStatusLabel
 } from "../../../../../../utils/functions";
-import {statuses} from "../../../../../../utils/taskStatus";
 
 const TaskDetails = () => {
     const {t, i18n} = useTranslation();
@@ -53,7 +52,9 @@ const TaskDetails = () => {
 
     useEffect(() => {
             setIsCurrentUserTask(currentUser === task.user.email)
-            setIsUserTasks(location.state.isUserTasks === 'true');
+            if (location.state.isUserTasks !== null) {
+                setIsUserTasks(location.state.isUserTasks === true);
+            }
             if (token && task.status === 'AWAITING') {
                 dispatch(getOffers({token, taskId, offerStatus: 'ACTIVE'}));
             }
@@ -62,7 +63,7 @@ const TaskDetails = () => {
             }
 
         },
-        [location, offerSent, isCurrentUserTask, currentUser]);
+        [task, offerSent, isCurrentUserTask, currentUser, modalOpenDelete, modalOpenEdit]);
 
 
     if (task.user.image) {
@@ -92,7 +93,6 @@ const TaskDetails = () => {
         }
         setOfferSent(true);
     }
-
 
 
     const taskStatus = getStatusLabel(task.status, currentLanguage);
@@ -137,8 +137,8 @@ const TaskDetails = () => {
 
                     <Card fluid>
                         <Card.Content className={classes.category__container}>
-                            <span style={categoryColor} className={classes.category__chip}>{taskCategory}</span>
-                            <span style={statusColor} className={classes.status__chip}>{taskStatus}</span>
+                            <Message style={categoryColor} className={classes.category__chip}>{taskCategory}</Message>
+                            <Message style={statusColor} className={classes.status__chip}>{taskStatus}</Message>
                         </Card.Content>
                         <Card.Content><Header as='h2'>{task.title}</Header></Card.Content>
                         <Table>

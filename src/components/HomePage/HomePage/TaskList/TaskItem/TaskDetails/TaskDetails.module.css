@@ -9,23 +9,10 @@
     justify-content: center;
 }
 
-.category__chip {
-    font-size: 1rem;
-    padding: 0.9rem;
-    border-radius: 5px;
-    font-weight: bold;
-    background-color: #dde6f6;
-    border: #b5c8fc 1px solid;
-    color: white;
-}
-
-.status__chip {
-    font-size: 1rem;
-    padding: 0.9rem;
-    margin-left: 5px;
-    border-radius: 5px;
-    font-weight: bold;
-    color: white;
+.category__chip, .status__chip {
+    border-radius: 5px !important;
+    color: white !important;
+    margin: 0 0.3rem !important;
 }
 
 .taskDetails__divider {

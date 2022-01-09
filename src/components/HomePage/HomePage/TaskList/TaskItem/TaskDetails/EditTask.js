@@ -10,6 +10,7 @@ import {useTranslation} from "react-i18next";
 import {categories} from "../../../../../../utils/taskCategory";
 import {getCategoryLabel} from "../../../../../../utils/functions";
 import i18n from "../../../../../../i18n";
+import {getTasks} from "../../../../../../store/task";
 
 const EditTask = ({open, setOpen, id, task}) => {
     const {t} = useTranslation();
@@ -30,12 +31,11 @@ const EditTask = ({open, setOpen, id, task}) => {
     const payInput = useRef();
     const expirationDateInput = useRef();
 
-    const onClose = (event) => {
-        event.preventDefault()
+    const onClose = () => {
         setOpen(false);
     }
 
-    const submitHandler = async (event) => {
+    const submitHandler = (event) => {
         event.preventDefault();
         setIsLoading(true);
         let url;
@@ -79,7 +79,8 @@ const EditTask = ({open, setOpen, id, task}) => {
                 setIsLoading(false);
                 if (response.ok) {
                     return response.json().then(data => {
-                        history.replace(`/taskDetails/${id}`);
+                        // history.replace(`/taskDetails/${id}`);
+                        setOpen(false);
                     })
                 } else {
                     return response.json().then((data) => {
@@ -149,12 +150,12 @@ const EditTask = ({open, setOpen, id, task}) => {
                 <Form onSubmit={submitHandler}>
                     <Form.Field>
                         <label>{t("newTitle")}</label>
-                        <input type='text' id='title' minLength="10" maxLength="100" value={task.title}
+                        <input type='text' id='title' minLength="10" maxLength="100" defaultValue={task.title}
                                ref={titleInput}/>
                     </Form.Field>
                     <Form.Field>
                         <label>{t("newContent")}</label>
-                        <input type='text' id='content' minLength="20" maxLength="800" value={task.content}
+                        <input type='text' id='content' minLength="20" maxLength="800" defaultValue={task.content}
                                ref={contentInput}/>
                     </Form.Field>
                     <Form.Field>
