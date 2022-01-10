@@ -1,12 +1,15 @@
 import {Button, Form, Modal} from "semantic-ui-react";
 import {useRef} from "react";
 import {useSelector} from "react-redux";
-import {getUserToken} from "../../store/auth";
+import {getSetOpen, getUserToken, updatePassword} from "../../store/auth";
+import {useAppDispatch} from "../../root";
 
 const ChangePassword = ({open, setOpen, email}) => {
     const token = useSelector(getUserToken);
     const currentPasswordInput = useRef();
     const newPasswordInput = useRef();
+    const dispatch = useAppDispatch();
+    const openModal = useSelector(getSetOpen);
 
     const onClose = (event) => {
         event.preventDefault()
@@ -14,39 +17,11 @@ const ChangePassword = ({open, setOpen, email}) => {
     }
 
     const submitHandler = (event) => {
-        event.preventDefault()
-        const enteredCurrentPassword = currentPasswordInput.current.value;
-        const enteredNewPassword = newPasswordInput.current.value;
-
-        let url = `http://localhost:8080/api/user/updatePassword/${email}`;
-        let init = {
-            currentPassword: enteredCurrentPassword,
-            newPassword: enteredNewPassword
-        }
-
-        fetch(url, {
-            method: 'PUT',
-            body: JSON.stringify(init),
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + token,
-            },
-        })
-            .then((response) => {
-                if (response.ok) {
-                    setOpen(false);
-                } else {
-                    return response.json().then((data) => {
-                        if (data.status === 500) {
-                            throw new Error(data.message);
-                        }
-                    });
-                }
-            })
-            .catch((err) => {
-                alert(err.message);
-            });
-
+        event.preventDefault();
+        const currentPassword = currentPasswordInput.current.value;
+        const newPassword = newPasswordInput.current.value;
+        dispatch(updatePassword({token, email, currentPassword, newPassword}));
+        setOpen(openModal);
     }
     return (
         <Modal

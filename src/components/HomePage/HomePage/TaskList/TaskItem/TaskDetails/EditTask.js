@@ -2,24 +2,21 @@ import {Button, Form, Modal} from "semantic-ui-react";
 import {useSelector} from "react-redux";
 import {useAppDispatch} from "../../../../../../root";
 import {getUserToken} from "../../../../../../store/auth";
-import {useHistory} from "react-router-dom";
 import {QuantityPicker} from "react-qty-picker";
 import LocationPicker from "react-leaflet-location-picker";
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {useTranslation} from "react-i18next";
 import {categories} from "../../../../../../utils/taskCategory";
 import {getCategoryLabel} from "../../../../../../utils/functions";
 import i18n from "../../../../../../i18n";
-import {getTasks} from "../../../../../../store/task";
+import {getSetOpenTask, updateTask} from "../../../../../../store/task";
 
 const EditTask = ({open, setOpen, id, task}) => {
     const {t} = useTranslation();
     const {language} = i18n;
 
     const token = useSelector(getUserToken);
-    const [isLoading, setIsLoading] = useState();
     const dispatch = useAppDispatch();
-    const history = useHistory();
     const [pickerValue, setPickerValue] = useState();
     const [category, setCategory] = useState(task.category);
     const [longitude, setLongitude] = useState(task.longitude);
@@ -30,6 +27,11 @@ const EditTask = ({open, setOpen, id, task}) => {
     const addressInput = useRef();
     const payInput = useRef();
     const expirationDateInput = useRef();
+    const openModal = useSelector(getSetOpenTask);
+
+    useEffect(() => {
+        },
+        [task]);
 
     const onClose = () => {
         setOpen(false);
@@ -37,64 +39,29 @@ const EditTask = ({open, setOpen, id, task}) => {
 
     const submitHandler = (event) => {
         event.preventDefault();
-        setIsLoading(true);
-        let url;
-        let init;
+        const title = titleInput.current.value;
+        const content = contentInput.current.value;
+        const category = category;
+        const address = addressInput.current.value;
+        const pay = payInput.current.value;
+        const expirationDate = expirationDateInput.current.value;
+        const estimatedTime = pickerValue;
+        dispatch(updateTask({
+            token,
+            id,
+            title,
+            content,
+            category,
+            address,
+            pay,
+            expirationDate,
+            estimatedTime,
+            longitude,
+            latitude
+        }));
+        setOpen(openModal);
+    }
 
-        const enteredTitle = titleInput.current.value;
-        const enteredContent = contentInput.current.value;
-        const enteredCategory = category;
-        const enteredAddress = addressInput.current.value;
-        const enteredPay = payInput.current.value;
-        const enteredExpirationDate = expirationDateInput.current.value;
-        const enteredEstimatedTime = pickerValue;
-        //const enteredImage = image;
-        const enteredLongitude = longitude;
-        const enteredLatitude = latitude;
-
-
-        url =
-            `http://localhost:8080/api/task/${id}`;
-        init = {
-            title: enteredTitle,
-            content: enteredContent,
-            category: enteredCategory,
-            address: enteredAddress,
-            pay: enteredPay,
-            expirationDate: new Date(enteredExpirationDate),
-            estimatedTime: enteredEstimatedTime,
-            longitude: enteredLongitude,
-            latitude: enteredLatitude
-        }
-
-        fetch(url, {
-            method: 'PUT',
-            body: JSON.stringify(init),
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + token,
-            },
-        })
-            .then((response) => {
-                setIsLoading(false);
-                if (response.ok) {
-                    return response.json().then(data => {
-                        // history.replace(`/taskDetails/${id}`);
-                        setOpen(false);
-                    })
-                } else {
-                    return response.json().then((data) => {
-                        if (data.status === 500) {
-                            alert(data.message)
-                            throw new Error(data.message);
-                        }
-                    });
-                }
-            })
-            .catch((err) => {
-                alert(err.message);
-            });
-    };
 
     const getPickerValue = (value) => {
         setPickerValue(value);
@@ -131,7 +98,7 @@ const EditTask = ({open, setOpen, id, task}) => {
     const categoriesBar = Object.entries(categories).map((arr) => {
         const [categoryId, categoryObj] = arr
 
-        const label = getCategoryLabel(categoryId,language);
+        const label = getCategoryLabel(categoryId, language);
 
         return <Button color={categoryObj.colors} onClick={getCategory}
                        content={categoryId}>{label}</Button>
@@ -180,7 +147,8 @@ const EditTask = ({open, setOpen, id, task}) => {
                     </Form.Field>
                     <Form.Field>
                         <label>{t("newEstTime")}</label>
-                        <QuantityPicker onChange={getPickerValue} e min={1} max={24} defaultValue={task.estimatedTime}
+                        <QuantityPicker onChange={getPickerValue} e min={1} max={24}
+                                        defaultValue={task.estimatedTime}
                                         smooth/>
                     </Form.Field>
                     {/*<Form.Field>*/}

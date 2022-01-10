@@ -1,4 +1,6 @@
 import jwtDecode from "jwt-decode";
+import task from "../task";
+
 const loginUrl = 'http://localhost:8080/api/user/login';
 const registerUrl = 'http://localhost:8080/api/user/register';
 
@@ -28,9 +30,15 @@ export const loginUserApiCall = async ({email, password}) => {
     }
 };
 
-
-
-export const registerUserApiCall = async ({email, currentPassword, newPassword, name, location, phoneNumber, image}) => {
+export const registerUserApiCall = async ({
+                                              email,
+                                              currentPassword,
+                                              newPassword,
+                                              name,
+                                              location,
+                                              phoneNumber,
+                                              image
+                                          }) => {
     try {
         const body = JSON.stringify({email, currentPassword, newPassword, name, location, phoneNumber, image});
         return fetch(registerUrl, {
@@ -56,6 +64,19 @@ export const registerUserApiCall = async ({email, currentPassword, newPassword, 
     }
 };
 
+export const getExpirationTimeFromToken = (token) => {
+    const {exp} = jwtDecode(token);
+    return exp;
+};
+
+export const getRemainingTimeFromToken = (expirationTime) => {
+    const currentTime = new Date().getTime();
+    const receivedExpirationTime = expirationTime * 1000;
+    //const remainingTime = receivedExpirationTime - currentTime;
+    const remainingTime = 1000000;
+    return remainingTime;
+};
+
 export const getUserApiCall = async ({token}) => {
     try {
         let url = 'http://localhost:8080/api/user/me';
@@ -79,19 +100,62 @@ export const getUserApiCall = async ({token}) => {
     }
 };
 
-
-export const getExpirationTimeFromToken = (token) => {
-    const {exp} = jwtDecode(token);
-    return exp;
+export const updatePasswordApiCall = async ({token, email, currentPassword, newPassword}) => {
+    try {
+        const body = JSON.stringify({currentPassword, newPassword});
+        let passwordUpdateUrl = `http://localhost:8080/api/user/updatePassword/${email}`;
+        return fetch(passwordUpdateUrl, {
+            method: 'PUT',
+            body: body,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token,
+            },
+        }).then((response) => {
+            if (response.ok) {
+                return response.json().then(data => {
+                    return {
+                        data
+                    }
+                })
+            } else {
+                throw 'Password update failed!'
+            }
+        })
+    } catch (error) {
+        throw error;
+    }
 };
 
-export const getRemainingTimeFromToken = (expirationTime) => {
-    const currentTime = new Date().getTime();
-    const receivedExpirationTime = expirationTime * 1000;
-    //const remainingTime = receivedExpirationTime - currentTime;
-    const remainingTime = 1000000;
-    return remainingTime;
+export const updateUserApiCall = async ({token, id, title, content, address, pay, expirationDate, estimatedTime, longitude, latitude}) => {
+    try {
+        const body = JSON.stringify({token, id, title, content, address, pay, expirationDate, estimatedTime, longitude, latitude});
+        let taskUpdateUrl = `http://localhost:8080/api/task/${id}`;
+        return fetch(taskUpdateUrl, {
+            method: 'PUT',
+            body: body,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token,
+            },
+        }).then((response) => {
+            if (response.ok) {
+                return response.json().then(data => {
+                    return {
+                        data
+                    }
+                })
+            } else {
+                throw 'Task update failed!'
+            }
+        })
+    } catch (error) {
+        throw error;
+    }
 };
+
+
+
 
 
 

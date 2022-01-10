@@ -63,8 +63,8 @@ const TaskDetails = () => {
             }
 
         },
-        [task, offerSent, isCurrentUserTask, currentUser, modalOpenDelete, modalOpenEdit]);
-
+        [location.state.isUserTasks, dispatch, taskId, token, task, offerSent, isCurrentUserTask, currentUser, modalOpenDelete, modalOpenEdit]);
+    // []);
 
     if (task.user.image) {
         avatar = "data:image/jpeg;base64," + task.user.image;

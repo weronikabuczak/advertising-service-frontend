@@ -6,7 +6,7 @@ import ChangePassword from "./ChangePassword";
 import ChangeUserData from "./ChangeUserData";
 import {useHistory} from "react-router-dom";
 import {useSelector} from "react-redux";
-import {getUser, getUserInfo, getUserLoading, getUserToken} from "../../store/auth";
+import {getUser, getUserInfo, getUserToken} from "../../store/auth";
 import {useAppDispatch} from "../../root";
 import {useTranslation} from "react-i18next";
 

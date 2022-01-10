@@ -8,7 +8,6 @@ import {useAppDispatch} from "../../../../../root";
 import {useTranslation} from "react-i18next";
 import i18n from "../../../../../i18n";
 import {useEffect} from "react";
-import {getOffers} from "../../../../../store/offer";
 
 
 const TaskItem = ({task, onClick, isUserTasks}) => {

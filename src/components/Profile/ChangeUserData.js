@@ -1,9 +1,10 @@
 import {Button, Form, Modal} from "semantic-ui-react";
 import {useEffect, useRef} from "react";
 import {useSelector} from "react-redux";
-import {getUserToken} from "../../store/auth";
+import {getSetOpen, getUserToken, updatePassword, updateUser} from "../../store/auth";
 import {useHistory} from "react-router-dom";
 import {useTranslation} from "react-i18next";
+import {useAppDispatch} from "../../root";
 
 const ChangeUserData = ({open, setOpen, email, user}) => {
     const {t, i18n} = useTranslation();
@@ -13,6 +14,9 @@ const ChangeUserData = ({open, setOpen, email, user}) => {
     const emailInput = useRef();
     const nameInput = useRef();
     const locationInput = useRef();
+    const dispatch = useAppDispatch();
+    const openModal = useSelector(getSetOpen);
+
 
     useEffect(() => {
         },
@@ -24,45 +28,12 @@ const ChangeUserData = ({open, setOpen, email, user}) => {
 
     const submitHandler = (event) => {
         event.preventDefault();
-
-        const enteredPhoneNumber = phoneNumberInput.current.value;
-        // const enteredEmail = emailInput.current.value;
-        const enteredName = nameInput.current.value;
-        const enteredLocation = locationInput.current.value;
-
-        let url = `http://localhost:8080/api/user/${email}`;
-        let init = {
-            // email: enteredEmail,
-            phoneNumber: enteredPhoneNumber,
-            name: enteredName,
-            location: enteredLocation,
-        }
-        // TODO Move me :)
-        fetch(url, {
-            method: 'PUT',
-            body: JSON.stringify(init),
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + token,
-            },
-        })
-            .then((response) => {
-                if (response.ok) {
-                    setOpen(false);
-
-                } else {
-                    return response.json().then((data) => {
-                        if (data.status === 500) {
-                            throw new Error(data.message);
-                        }
-                    });
-                }
-            })
-            .catch((err) => {
-                alert(err.message);
-            });
-
-    }
+        const phoneNumber = phoneNumberInput.current.value;
+        const name = nameInput.current.value;
+        const location = locationInput.current.value;
+        dispatch(updateUser({token, email, phoneNumber, name, location}));
+        setOpen(openModal);
+         }
     return (
         <Modal
             centered={true}
@@ -80,7 +51,8 @@ const ChangeUserData = ({open, setOpen, email, user}) => {
                     </Form.Field>
                     <Form.Field>
                         <label>{t("newPhoneNumber")}</label>
-                        <input type='text' ref={phoneNumberInput} maxLength={12} defaultValue={user.phoneNumber} required/>
+                        <input type='text' ref={phoneNumberInput} maxLength={12} defaultValue={user.phoneNumber}
+                               required/>
                     </Form.Field>
                     <Form.Field>
                         <label>{t("newLocation")}</label>

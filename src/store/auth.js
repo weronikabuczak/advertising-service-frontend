@@ -3,7 +3,7 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import {
     getExpirationTimeFromToken,
     getRemainingTimeFromToken, getUserApiCall,
-    loginUserApiCall, registerUserApiCall,
+    loginUserApiCall, registerUserApiCall, updatePasswordApiCall, updateUserApiCall,
 } from './thunks/auth-thunks';
 
 export const sliceName = 'auth';
@@ -15,7 +15,8 @@ export const initialState = {
     isLoggedIn: false,
     isLoading: false,
     user: {},
-    email: ''
+    email: '',
+    setOpen: false
 };
 
 export const loginUser = createAsyncThunk(`${sliceName}/login`, async ({email, password}, {dispatch}) => {
@@ -86,7 +87,6 @@ export const logoutUser = createAsyncThunk(`${sliceName}/logout`, async ({dispat
 export const getUser = createAsyncThunk(`${sliceName}/getUser`, async ({token}, {dispatch}) => {
     try {
         const data = await getUserApiCall({token});
-        console.log(data);
         const createDate = new Date(data.createDate);
         data.createDate = createDate.toLocaleDateString();
         if (data.image) {
@@ -99,6 +99,41 @@ export const getUser = createAsyncThunk(`${sliceName}/getUser`, async ({token}, 
 
     } catch (error) {
         alert('Cannot fetch user');
+        throw error;
+    }
+});
+
+export const updatePassword = createAsyncThunk(`${sliceName}/updatePassword`, async ({
+                                                                                         token,
+                                                                                         email,
+                                                                                         currentPassword,
+                                                                                         newPassword
+                                                                                     }, {dispatch}) => {
+    try {
+        const data = await updatePasswordApiCall({token, email, currentPassword, newPassword});
+        return {
+            data
+        };
+    } catch (error) {
+        alert('Cannot update password');
+        throw error;
+    }
+});
+
+export const updateUser = createAsyncThunk(`${sliceName}/updateUser`, async ({
+                                                                                 token,
+                                                                                 email,
+                                                                                 phoneNumber,
+                                                                                 name,
+                                                                                 location
+                                                                             }, {dispatch}) => {
+    try {
+        const data = await updateUserApiCall({token, email, phoneNumber, name, location});
+        return {
+           data
+        };
+    } catch (error) {
+        alert('Cannot update user');
         throw error;
     }
 });
@@ -160,6 +195,21 @@ const auth = createSlice({
             state.isLoading = false;
             state.isLoggedIn = true;
         });
+        builder.addCase(updatePassword.pending || updateUser.pending, (state) => {
+            state.isLoading = true;
+            state.setOpen = true;
+        });
+
+        builder.addCase(updatePassword.fulfilled || updateUser.fulfilled, (state, {}) => {
+            state.isLoading = false;
+            state.setOpen = false;
+        });
+
+        builder.addCase(updatePassword.rejected || updateUser.rejected, (state) => {
+            state.isLoading = false;
+            state.setOpen = true;
+        });
+
     }
 });
 
@@ -169,5 +219,6 @@ export const getUserToken = state => state[sliceName].token;
 export const getUserInfo = state => state[sliceName].user;
 export const getUserEmail = state => state[sliceName].email;
 export const getUserLoading = state => state[sliceName].isLoading;
+export const getSetOpen = state => state[sliceName].setOpen;
 
 export default auth.reducer;

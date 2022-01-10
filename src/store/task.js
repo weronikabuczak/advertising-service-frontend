@@ -1,5 +1,6 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import {deleteTaskApiCall, getTasksApiCall} from "./thunks/task-thunks";
+import {deleteTaskApiCall, getTasksApiCall, updateTaskApiCall} from "./thunks/task-thunks";
+import {updateUserApiCall} from "./thunks/auth-thunks";
 
 export const sliceName = 'task';
 
@@ -7,14 +8,28 @@ export const initialState = {
     tasks: [],
     currentTaskId: '',
     isLoading: false,
+    // setOpen: false
 };
 
-export const getTasks = createAsyncThunk(`${sliceName}/getTasks`, async ({isUserTasks, token, category, status}, {dispatch}) => {
+export const getTasks = createAsyncThunk(`${sliceName}/getTasks`, async ({
+                                                                             isUserTasks,
+                                                                             token,
+                                                                             category,
+                                                                             status
+                                                                         }, {dispatch}) => {
     try {
         const data = await getTasksApiCall({isUserTasks, token, category, status});
+        // const expirationDate = new Date(data.expirationDate);
+        // data.expirationDate = expirationDate.toLocaleDateString();
+        //
+        // return {
+        //     user: data
+        // };
 
         return {
             tasks: data.map(task => {
+                const expirationDate = new Date(task.expirationDate);
+                task.expirationDate = expirationDate.toLocaleDateString();
                 if (task.image) {
                     let avatar = "data:image/jpeg;base64," + task.image;
                     task.image = avatar;
@@ -39,12 +54,48 @@ export const deleteTask = createAsyncThunk(`${sliceName}/deleteTask`, async ({id
     }
 });
 
+export const updateTask = createAsyncThunk(`${sliceName}/updateTask`, async ({
+                                                                                 token,
+                                                                                 id,
+                                                                                 title,
+                                                                                 category,
+                                                                                 content,
+                                                                                 address,
+                                                                                 pay,
+                                                                                 expirationDate,
+                                                                                 estimatedTime,
+                                                                                 longitude,
+                                                                                 latitude
+                                                                             }, {dispatch}) => {
+    try {
+        const data = await updateTaskApiCall({
+            token,
+            id,
+            title,
+            category,
+            content,
+            address,
+            pay,
+            expirationDate,
+            estimatedTime,
+            longitude,
+            latitude
+        });
+        return {
+            data
+        };
+    } catch (error) {
+        alert('Cannot update user');
+        throw error;
+    }
+});
+
 
 const task = createSlice({
     name: sliceName,
     initialState,
     reducers: {
-        setCurrentTaskId: (state, {payload})  => {
+        setCurrentTaskId: (state, {payload}) => {
             state.currentTaskId = payload
         }
     },
@@ -61,11 +112,35 @@ const task = createSlice({
         builder.addCase(getTasks.rejected, (state) => {
             state.isLoading = false;
         });
+        builder.addCase(deleteTask.pending, (state) => {
+            state.isLoading = true;
+        });
+
+        builder.addCase(deleteTask.fulfilled, (state, {payload}) => {
+            state.isLoading = false;
+        });
+        builder.addCase(deleteTask.rejected, (state) => {
+            state.isLoading = false;
+        });
+        builder.addCase(updateTask.pending, (state) => {
+            state.isLoading = true;
+            state.setOpen = true;
+        });
+
+        builder.addCase(updateTask.fulfilled, (state, {payload}) => {
+            state.isLoading = false;
+            state.setOpen = false;
+        });
+        builder.addCase(updateTask.rejected, (state) => {
+            state.isLoading = false;
+            state.setOpen = false;
+        });
     }
 });
 export const {setCurrentTaskId} = task.actions
 export const getIsLoading = state => state[sliceName].isLoading;
 export const getAllTasks = state => state[sliceName].tasks;
 export const getCurrentTask = (state) => state[sliceName].tasks.find(task => task.id === state[sliceName].currentTaskId);
+export const getSetOpenTask = state => state[sliceName].setOpen;
 
 export default task.reducer;
