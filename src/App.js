@@ -10,6 +10,7 @@ import {useSelector} from "react-redux";
 import {isUserLoggedIn} from "./store/auth";
 import ProfilePage from "./pages/ProfilePage";
 import TaskDetails from "./components/HomePage/HomePage/TaskList/TaskItem/TaskDetails/TaskDetails";
+import UserDetails from "./components/HomePage/HomePage/UserDetails/UserDetails";
 
 function App() {
     const isLoggedIn = useSelector(isUserLoggedIn);
@@ -50,6 +51,10 @@ function App() {
                 {/*</Route>*/}
                 <Route path='/taskDetails:id?'>
                     {isLoggedIn && <TaskDetails/>}
+                    {!isLoggedIn && <Redirect to='/auth'/>}
+                </Route>
+                <Route path='/user:id?'>
+                    {isLoggedIn && <UserDetails/>}
                     {!isLoggedIn && <Redirect to='/auth'/>}
                 </Route>
                 <Route path='*'>

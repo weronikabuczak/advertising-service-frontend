@@ -1,6 +1,7 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 
 import {
+    getAnotherUserApiCall,
     getUserApiCall,
     loginUserApiCall, registerUserApiCall, updatePasswordApiCall, updateUserApiCall,
 } from './thunks/auth-thunks';
@@ -14,6 +15,7 @@ export const initialState = {
     isLoggedIn: false,
     isLoading: false,
     user: {},
+    anotherUser: {},
     email: '',
     setOpen: false
 };
@@ -105,6 +107,23 @@ export const getUser = createAsyncThunk(`${sliceName}/getUser`, async ({token}, 
     }
 });
 
+export const getAnotherUser = createAsyncThunk(`${sliceName}/getAnotherUser`, async ({token, email}, {dispatch}) => {
+    try {
+        const data = await getAnotherUserApiCall({token, email});
+        // if (data.image) {
+        //     let avatar = "data:image/jpeg;base64," + data.image;
+        //     data.image = avatar;
+        // }
+        return {
+            anotherUser: data
+        };
+
+    } catch (error) {
+        alert('Cannot fetch user');
+        throw error;
+    }
+});
+
 export const updatePassword = createAsyncThunk(`${sliceName}/updatePassword`, async ({
                                                                                          token,
                                                                                          email,
@@ -179,7 +198,7 @@ const auth = createSlice({
             state.isLoggedIn = true;
         });
 
-        builder.addCase(getUser.pending, (state) => {
+        builder.addCase(getUser.pending || getAnotherUser.pending, (state) => {
             state.isLoading = true;
             state.isLoggedIn = true;
         });
@@ -191,10 +210,19 @@ const auth = createSlice({
             state.user = user;
         });
 
-        builder.addCase(getUser.rejected, (state) => {
+        builder.addCase(getAnotherUser.fulfilled, (state, {payload}) => {
+            state.isLoading = false;
+            state.isLoggedIn = true;
+            const {anotherUser} = payload;
+            state.anotherUser = anotherUser;
+        });
+
+        builder.addCase(getUser.rejected || getAnotherUser.rejected, (state) => {
             state.isLoading = false;
             state.isLoggedIn = true;
         });
+
+
         builder.addCase(updatePassword.pending || updateUser.pending, (state) => {
             state.isLoading = true;
             state.setOpen = true;
@@ -217,6 +245,7 @@ const auth = createSlice({
 export const isUserLoggedIn = state => state[sliceName].isLoggedIn;
 export const getUserToken = state => state[sliceName].token;
 export const getUserInfo = state => state[sliceName].user;
+export const getAnotherUserInfo = state => state[sliceName].anotherUser;
 export const getUserEmail = state => state[sliceName].email;
 export const getUserLoading = state => state[sliceName].isLoading;
 export const getSetOpen = state => state[sliceName].setOpen;

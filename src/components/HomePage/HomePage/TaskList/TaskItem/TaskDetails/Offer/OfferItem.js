@@ -1,5 +1,5 @@
 import {useAppDispatch} from "../../../../../../../root";
-import {Button, Card, Divider, Form, Grid, Header, Icon, Image, Rating, TextArea} from "semantic-ui-react";
+import {Button, Card, Container, Divider, Form, Grid, Header, Icon, Image, Rating, TextArea} from "semantic-ui-react";
 import React, {useEffect, useRef, useState} from "react";
 import {
     updateOffer
@@ -12,6 +12,7 @@ import {useTranslation} from "react-i18next";
 import {createOpinion, getOpinion, getOpinionForOffer} from "../../../../../../../store/opinion";
 import Link from "react-router-dom/es/Link";
 import Redirect from "react-router-dom/es/Redirect";
+import UserDetails from "../../../../UserDetails/UserDetails";
 
 const OfferItem = ({offer, isUserTasks}) => {
     const {t, i18n} = useTranslation();
@@ -25,14 +26,17 @@ const OfferItem = ({offer, isUserTasks}) => {
     const contentInput = useRef();
     const opinion = useSelector(getOpinionForOffer);
 
+    const [modalShowUser, setModalShowUser] = useState(false);
+
     console.log(opinion)
     console.log(opinion.content)
     useEffect(() => {
             if (token) {
                 dispatch(getOpinion({token, offerId: offer.id}))
             }
+            console.log(opinion)
         },
-        [offerAccepted, offerRejected, taskCompleted, opinionSent]);
+        [offerAccepted, offerRejected, taskCompleted, opinionSent, offer, modalShowUser]);
 
 
     const acceptOffer = (event) => {
@@ -72,9 +76,13 @@ const OfferItem = ({offer, isUserTasks}) => {
         setOpinionSent(true);
     }
 
+    const showUser = () => {
+        setModalShowUser(true);
+    }
 
     return (
         <section>
+            <UserDetails open={modalShowUser} setOpen={setModalShowUser} email={offer.user.email}/>
             {isUserTasks && offer.status === 'ACTIVE' &&
                 <Card fluid>
                     <Card.Content>
@@ -182,9 +190,18 @@ const OfferItem = ({offer, isUserTasks}) => {
                         <Grid>
                             <Grid.Column>
                                 <div>
-                                    <Redirect to={`/user/${offer.user.email}`} />
+                                    <Button animated onClick={showUser}>
+                                        <Button.Content visible>{offer.user.email}</Button.Content>
+                                        <Button.Content hidden>
+                                            Zobacz szczegóły
+                                        </Button.Content>
+                                    </Button>
                                 </div>
-                                <Rating maxRating={5} defaultRating={opinion.rating} icon='star' size='large' disabled/>
+                                <Divider/>
+                                {opinion.rating &&
+                                    <Rating maxRating={5} defaultRating={opinion.rating} icon='star' size='large'
+                                            disabled/>
+                                }
                                 <div>{opinion.content}</div>
                             </Grid.Column>
                         </Grid>

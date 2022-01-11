@@ -109,6 +109,29 @@ export const getUserApiCall = async ({token}) => {
     }
 };
 
+export const getAnotherUserApiCall = async ({token, email}) => {
+    try {
+        let url = `http://localhost:8080/api/user/${email}`;
+        return fetch(url, {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + token,
+                'Content-Type': 'application/json'
+            },
+        }).then((response) => {
+            if (response.ok) {
+                return response.json().then(data => {
+                    return data
+                })
+            } else {
+                throw 'Fetching user failed!'
+            }
+        })
+    } catch (error) {
+        throw error;
+    }
+};
+
 export const updatePasswordApiCall = async ({token, email, currentPassword, newPassword}) => {
     try {
         const body = JSON.stringify({currentPassword, newPassword});
