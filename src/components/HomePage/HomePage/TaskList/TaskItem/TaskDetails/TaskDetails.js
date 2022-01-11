@@ -61,6 +61,9 @@ const TaskDetails = () => {
             if (token && task.status === 'IN_PROGRESS') {
                 dispatch(getOffers({token, taskId, offerStatus: 'ACCEPTED'}));
             }
+            if (token && task.status === 'DONE') {
+                dispatch(getOffers({token, taskId, offerStatus: 'COMPLETED'}));
+            }
 
         },
         [location.state.isUserTasks, dispatch, taskId, token, task, offerSent, isCurrentUserTask, currentUser, modalOpenDelete, modalOpenEdit]);

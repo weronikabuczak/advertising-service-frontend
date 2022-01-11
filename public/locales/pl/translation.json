@@ -67,5 +67,6 @@
   "jobCompleted": "Zlecenie zostało wykonane.",
   "offerAccepted": "Propozycja została zatwierdzona!",
   "offerRejected": "Propozycja została odrzucona!",
-  "newOffer": "Nowa propozycja"
+  "newOffer": "Nowa propozycja",
+  "taskCompletedBy" : "Zlecenie zostało wykonane przez:"
 }
