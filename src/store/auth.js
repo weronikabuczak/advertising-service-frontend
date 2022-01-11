@@ -1,7 +1,6 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 
 import {
-    getExpirationTimeFromToken,
     getUserApiCall,
     loginUserApiCall, registerUserApiCall, updatePasswordApiCall, updateUserApiCall,
 } from './thunks/auth-thunks';

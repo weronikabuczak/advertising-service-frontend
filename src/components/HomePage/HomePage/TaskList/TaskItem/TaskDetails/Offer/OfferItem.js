@@ -1,5 +1,5 @@
 import {useAppDispatch} from "../../../../../../../root";
-import {Button, Card, Divider, Form, Header, Icon, Image, Rating, TextArea} from "semantic-ui-react";
+import {Button, Card, Divider, Form, Grid, Header, Icon, Image, Rating, TextArea} from "semantic-ui-react";
 import React, {useEffect, useRef, useState} from "react";
 import {
     updateOffer
@@ -9,7 +9,9 @@ import {useSelector} from "react-redux";
 import {getUserToken} from "../../../../../../../store/auth";
 import classes from './OfferItem.module.css';
 import {useTranslation} from "react-i18next";
-import {createOpinion} from "../../../../../../../store/opinion";
+import {createOpinion, getOpinion, getOpinionForOffer} from "../../../../../../../store/opinion";
+import Link from "react-router-dom/es/Link";
+import Redirect from "react-router-dom/es/Redirect";
 
 const OfferItem = ({offer, isUserTasks}) => {
     const {t, i18n} = useTranslation();
@@ -21,12 +23,14 @@ const OfferItem = ({offer, isUserTasks}) => {
     const [opinionSent, setOpinionSent] = useState(false);
     const [rating, setRating] = useState();
     const contentInput = useRef();
+    const opinion = useSelector(getOpinionForOffer);
 
-
+    console.log(opinion)
+    console.log(opinion.content)
     useEffect(() => {
-            console.log(offer.hasOpinion)
-            console.log(isUserTasks)
-            console.log(opinionSent)
+            if (token) {
+                dispatch(getOpinion({token, offerId: offer.id}))
+            }
         },
         [offerAccepted, offerRejected, taskCompleted, opinionSent]);
 
@@ -172,7 +176,20 @@ const OfferItem = ({offer, isUserTasks}) => {
             }
 
             {offer.hasOpinion && (
-                <div>Opinia</div>
+                <Card>
+                    <Card.Content>
+                        <Card.Header>Wystawiona opinia dla:</Card.Header>
+                        <Grid>
+                            <Grid.Column>
+                                <div>
+                                    <Redirect to={`/user/${offer.user.email}`} />
+                                </div>
+                                <Rating maxRating={5} defaultRating={opinion.rating} icon='star' size='large' disabled/>
+                                <div>{opinion.content}</div>
+                            </Grid.Column>
+                        </Grid>
+                    </Card.Content>
+                </Card>
             )}
         </section>
     );
