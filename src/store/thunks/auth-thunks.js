@@ -1,5 +1,4 @@
 import jwtDecode from "jwt-decode";
-import task from "../task";
 
 const loginUrl = 'http://localhost:8080/api/user/login';
 const registerUrl = 'http://localhost:8080/api/user/register';
@@ -18,6 +17,7 @@ export const loginUserApiCall = async ({email, password}) => {
                 return response.json().then(data => {
                     return {
                         token: data.token,
+                        remainingTime: getExpirationTimeFromToken(data.token),
                         receivedEmail: data.email
                     }
                 })
@@ -52,7 +52,8 @@ export const registerUserApiCall = async ({
                 return response.json().then(data => {
                     return {
                         token: data.token,
-                        email: data.email
+                        email: data.email,
+                        remainingTime: getExpirationTimeFromToken(data.token),
                     }
                 })
             } else {
@@ -66,7 +67,15 @@ export const registerUserApiCall = async ({
 
 export const getExpirationTimeFromToken = (token) => {
     const {exp} = jwtDecode(token);
-    return exp;
+    console.log(exp)
+    // return exp;
+    const currentTime = new Date().getTime();
+    const receivedExpirationTime = exp * 1000;
+    const remainingTime = receivedExpirationTime - currentTime;
+    // const remainingTime = 6000;
+    console.log(remainingTime);
+    return remainingTime;
+
 };
 
 export const getRemainingTimeFromToken = (expirationTime) => {

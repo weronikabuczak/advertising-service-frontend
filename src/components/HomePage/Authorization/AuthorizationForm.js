@@ -1,7 +1,7 @@
 import {useRef, useState} from 'react';
 import classes from './AuthorizationForm.module.css';
 import {Redirect, useHistory} from "react-router-dom";
-import {isUserLoggedIn, loginUser, registerUser} from "../../../store/auth";
+import auth, {getRemainingTime, isUserLoggedIn, loginUser, logoutUser, registerUser} from "../../../store/auth";
 import {useSelector} from "react-redux";
 import {useAppDispatch} from "../../../root";
 import {Icon} from "semantic-ui-react";
@@ -33,7 +33,7 @@ const AuthorizationForm = () => {
             if (!isLoggedIn && isLogin) {
                 const email = emailInput.current.value;
                 const password = passwordInput.current.value;
-                dispatch(loginUser({email, password}))
+                dispatch(loginUser({email, password}));
                 history.push('/')
             } else if (!isLogin) {
                 const email = emailInput.current.value;
@@ -45,6 +45,7 @@ const AuthorizationForm = () => {
                 dispatch(registerUser({email, currentPassword, newPassword, name, location, phoneNumber, image}))
                 history.push('/')
             }
+            // setTimeout(dispatch(logoutUser({})), remainingTime);
         }
 
 

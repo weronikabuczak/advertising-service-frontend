@@ -2,7 +2,7 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 
 import {
     getExpirationTimeFromToken,
-    getRemainingTimeFromToken, getUserApiCall,
+    getUserApiCall,
     loginUserApiCall, registerUserApiCall, updatePasswordApiCall, updateUserApiCall,
 } from './thunks/auth-thunks';
 
@@ -22,15 +22,16 @@ export const initialState = {
 export const loginUser = createAsyncThunk(`${sliceName}/login`, async ({email, password}, {dispatch}) => {
     try {
         const data = await loginUserApiCall({email, password});
-        // console.log(user)
-        const {token, exp} = data;
+        const {token, remainingTime} = data;
         const {receivedEmail} = data;
+        setTimeout(() => {
+            dispatch(logoutUser({}))
+        }, remainingTime);
         return {
             token: token,
             email: receivedEmail,
             isLoggedIn: true,
-            expirationTime: exp,
-            remainingTime: getRemainingTimeFromToken(token),
+            remainingTime: remainingTime,
         };
     } catch (error) {
         alert('Cannot fetch user');
@@ -57,12 +58,14 @@ export const registerUser = createAsyncThunk(`${sliceName}/register`, async ({
             phoneNumber,
             image
         });
-        const {token} = data;
+        const {token, remainingTime} = data;
+        setTimeout(() => {
+            dispatch(logoutUser({}))
+        }, remainingTime);
         return {
             token: token,
             isLoggedIn: true,
-            expirationTime: getExpirationTimeFromToken(token),
-            remainingTime: getRemainingTimeFromToken(token),
+            remainingTime: remainingTime
         };
     } catch (error) {
         alert('Cannot fetch user');
@@ -130,7 +133,7 @@ export const updateUser = createAsyncThunk(`${sliceName}/updateUser`, async ({
     try {
         const data = await updateUserApiCall({token, email, phoneNumber, name, location});
         return {
-           data
+            data
         };
     } catch (error) {
         alert('Cannot update user');
@@ -149,10 +152,9 @@ const auth = createSlice({
         });
 
         builder.addCase(loginUser.fulfilled || registerUser.fulfilled, (state, {payload}) => {
-            const {email, token, expirationTime, remainingTime} = payload;
+            const {email, token, remainingTime} = payload;
             state.token = token;
             state.isLoggedIn = true;
-            state.expirationTime = expirationTime;
             state.remainingTime = remainingTime;
             state.isLoading = false;
             state.email = email;
@@ -169,7 +171,6 @@ const auth = createSlice({
         builder.addCase(logoutUser.fulfilled, (state, {payload}) => {
             state.token = null;
             state.isLoggedIn = false;
-            state.expirationTime = null;
             state.remainingTime = null;
             state.isLoading = false;
         });
