@@ -56,8 +56,9 @@ export const getAnotherUserCompletedTasks = createAsyncThunk(`${sliceName}/getAn
                                                                          }, {dispatch}) => {
     try {
         const data = await getAnotherUserCompletedTasksApiCall({token, email});
+        console.log(data)
           return {
-            anotherUserTasks: [...data]
+            anotherUserTasks: data
         };
 
     } catch (error) {

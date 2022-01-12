@@ -11,6 +11,18 @@
     flex-wrap: wrap;
 }
 
+.myCompletedTasks {
+    margin: 17px;
+    font-size: 1.2rem;
+}
+
+.myCompletedTasksItem:hover {
+    background-color: #f6f8f8;
+    animation: content-hover 0.1s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+}
+
+
+
 
 .userCard__container:hover {
     animation: content-hover 0.1s cubic-bezier(0.39, 0.575, 0.565, 1) both;
