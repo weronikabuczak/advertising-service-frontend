@@ -50,6 +50,7 @@ const HomePageContent = () => {
         }
     }, [token, category]);
 
+    const listStyle = {overflow: "auto"};
 
     const onClickFunction = (id) => {
         const task = tasks.find(t => t.id === id);
@@ -145,7 +146,7 @@ const HomePageContent = () => {
                     <Grid.Column widescreen={6} largeScreen={7} computer={8} tablet={9} mobile={16}>
                         {tasks?.length > 0 && tasks
                             ?
-                            <TaskList tasks={tasks} onClick={onClickFunction} isUserTasks={false}/>
+                            <TaskList tasks={tasks} onClick={onClickFunction} isUserTasks={false} listStyle={listStyle}/>
                             :
                             (<div className={classes.noTask__button}>
                                 <Button><Link to="/newTask">{t("noTasksAddNew")}</Link></Button>

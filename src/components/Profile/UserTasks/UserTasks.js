@@ -28,6 +28,8 @@ const UserTasks = () => {
     const [status, setStatus] = useState('');
     const [showCompletedTasks, setShowCompletedTasks] = useState(false);
 
+    const listStyle = {overflow: "inherit"};
+
     const userInfoHandler = () => {
         history.replace('/profile');
     }
@@ -80,7 +82,7 @@ const UserTasks = () => {
         {tasks?.length > 0 && tasks && !showCompletedTasks
             ?
             <Segment basic>
-                <TaskList tasks={tasks} onClick={onClickFunction} isUserTasks={true}/>
+                <TaskList tasks={tasks} onClick={onClickFunction} isUserTasks={true} listStyle={listStyle}/>
             </Segment>
             :
             (!showCompletedTasks &&

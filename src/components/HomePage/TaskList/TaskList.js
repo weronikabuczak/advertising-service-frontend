@@ -1,8 +1,8 @@
 import TaskItem from "./TaskItem/TaskItem";
 
-const TaskList = ({tasks, onClick, isUserTasks}) => {
+const TaskList = ({tasks, onClick, isUserTasks, listStyle}) => {
     return (
-        <ul>
+        <ul style={listStyle}>
             {tasks && tasks.map((task) => (
                 <TaskItem task={task} onClick={onClick} isUserTasks={isUserTasks}/>
             ))}
