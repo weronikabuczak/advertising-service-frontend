@@ -30,7 +30,6 @@ export const createOpinionApiCall = async ({token, offerId, rating, content}) =>
 export const getOpinionApiCall = async ({token, offerId}) => {
     const opinionUrl = `http://localhost:8080/api/opinion/${offerId}`;
     try {
-        // const body = JSON.stringify({rating, content});
         return fetch(opinionUrl, {
             method: 'GET',
             // body: body,

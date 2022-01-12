@@ -1,5 +1,5 @@
 import {useAppDispatch} from "../../../../../../../root";
-import {Button, Card, Container, Divider, Form, Grid, Header, Icon, Image, Rating, TextArea} from "semantic-ui-react";
+import {Button, Card, Divider, Form, Grid, Header, Icon, Image, Rating, TextArea} from "semantic-ui-react";
 import React, {useEffect, useRef, useState} from "react";
 import {
     updateOffer
@@ -10,8 +10,6 @@ import {getUserToken} from "../../../../../../../store/auth";
 import classes from './OfferItem.module.css';
 import {useTranslation} from "react-i18next";
 import {createOpinion, getOpinion, getOpinionForOffer} from "../../../../../../../store/opinion";
-import Link from "react-router-dom/es/Link";
-import Redirect from "react-router-dom/es/Redirect";
 import UserDetails from "../../../../UserDetails/UserDetails";
 
 const OfferItem = ({offer, isUserTasks}) => {
@@ -29,14 +27,16 @@ const OfferItem = ({offer, isUserTasks}) => {
     const [modalShowUser, setModalShowUser] = useState(false);
 
     useEffect(() => {
-            if (token && !offer.hasOpinion) {
+            console.log(offer.hasOpinion)
+            if (token && offer.hasOpinion) {
                 dispatch(getOpinion({token, offerId: offer.id}))
             }
+            console.log(opinion)
         },
-        [offerAccepted, offerRejected, taskCompleted, opinionSent, offer, modalShowUser]);
+        [offerAccepted, offerRejected, taskCompleted, offer, modalShowUser, opinionSent, offer.hasOpinion]);
 
 
-    const acceptOffer = (event) => {
+    const acceptOffer = () => {
         if (token) {
             dispatch(updateOffer({token, offerId: offer.id, offerStatus: 'ACCEPTED'}));
         }
@@ -64,8 +64,6 @@ const OfferItem = ({offer, isUserTasks}) => {
     }
 
     const createOpinionHandler = () => {
-        console.log(rating);
-        console.log(contentInput.current.value);
         const ratingContent = contentInput.current.value;
         if (token) {
             dispatch(createOpinion({token, offerId: offer.id, rating, content: ratingContent}));
@@ -80,6 +78,9 @@ const OfferItem = ({offer, isUserTasks}) => {
     return (
         <section>
             <UserDetails open={modalShowUser} setOpen={setModalShowUser} email={offer.user.email}/>
+
+            {/*show offer*/}
+
             {isUserTasks && offer.status === 'ACTIVE' &&
                 <Card fluid>
                     <Card.Content>
@@ -115,6 +116,9 @@ const OfferItem = ({offer, isUserTasks}) => {
                     </Card.Content>
                 </Card>
             }
+
+
+
             {isUserTasks && offer.status === 'ACCEPTED' &&
                 <Card fluid>
                     <Card.Content>
@@ -157,7 +161,7 @@ const OfferItem = ({offer, isUserTasks}) => {
                         <Card.Content><Icon name='phone'/>{offer.user.phoneNumber}</Card.Content>
                         <Card.Content><Icon name='mail'/>{offer.user.email}</Card.Content>
                         <Divider/>
-                        {!opinion && !offer.hasOpinion &&
+                        {!offer.hasOpinion &&
                             <Form onSubmit={createOpinionHandler}>
                                 <Header as='h4'>Prześlij opinię:</Header>
                                 <Form.Field>
@@ -188,7 +192,7 @@ const OfferItem = ({offer, isUserTasks}) => {
                 </div>
             }
 
-            {offer.hasOpinion && (
+            {offer.hasOpinion && opinion && (
                 <Card>
                     <Card.Content>
                         <Card.Header>Wystawiona opinia dla:</Card.Header>
@@ -207,7 +211,9 @@ const OfferItem = ({offer, isUserTasks}) => {
                                     <Rating maxRating={5} defaultRating={opinion.rating} icon='star' size='large'
                                             disabled/>
                                 }
-                                <div>{opinion.content}</div>
+                                {opinion.content &&
+                                    <div>{opinion.content}</div>
+                                }
                             </Grid.Column>
                         </Grid>
                     </Card.Content>

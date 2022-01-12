@@ -23,20 +23,20 @@ const UserDetails = ({open, setOpen, email}) => {
         setOpen(false);
     }
     useEffect(() => {
-            if (token) {
+            if (token && open) {
                 dispatch(getAnotherUser({token, email}));
                 dispatch(getAnotherUserCompletedTasks ({token, email}));
             }
             console.log(anotherUser)
             console.log(anotherUserTasks)
         },
-         [email]);
+         [email, open]);
 
 
     return (
         <Modal
             closeIcon
-            // centered={true}
+            centered={true}
             open={open}
             scrolling
             onClose={onClose}

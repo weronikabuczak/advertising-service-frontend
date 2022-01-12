@@ -66,7 +66,7 @@ const TaskDetails = () => {
             }
 
         },
-        [location.state.isUserTasks, dispatch, taskId, token, task, offerSent, isCurrentUserTask, currentUser, modalOpenDelete, modalOpenEdit]);
+        [location.state.isUserTasks, taskId, token, task, offerSent, isCurrentUserTask, currentUser, modalOpenDelete, modalOpenEdit]);
     // []);
 
     if (task.user.image) {
