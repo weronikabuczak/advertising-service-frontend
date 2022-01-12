@@ -1,11 +1,12 @@
 import {Card, Icon, Segment} from "semantic-ui-react";
 import {useTranslation} from "react-i18next";
+import classes from "./UserCompletedTasks.module.css";
 
 const UserCompletedTasks = ({task}) => {
     const {t, i18n} = useTranslation();
 
     return (
-        <Card fluid>
+        <Card fluid className={classes.completedTasksItem}>
             <Card.Content header={task.title}/>
             <Card.Content><strong>{t("category")}: </strong> {task.category}</Card.Content>
             <Card.Content><Icon name='location arrow'/><strong>{t("address")}: </strong>{task.address}</Card.Content>

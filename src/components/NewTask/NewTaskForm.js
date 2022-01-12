@@ -59,9 +59,6 @@ const NewTaskForm = () => {
         const pay = payInput.current.value;
         const expirationDate = new Date(expirationDateInput.current.value);
         const estimatedTime = pickerValue;
-        // const image = image;
-        // const longitude = longitude;
-        // const latitude = latitude;
 
         dispatch(createTask({
             token,

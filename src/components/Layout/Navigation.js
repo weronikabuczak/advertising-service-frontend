@@ -4,12 +4,11 @@ import AppSidebar from "./AppSidebar";
 import {useState} from "react";
 import {useAppDispatch} from "../../root";
 import {useSelector} from "react-redux";
-import appIcon from '../../files/app.png'
-
 import {isUserLoggedIn, logoutUser} from "../../store/auth";
-import {Icon} from "semantic-ui-react";
 import {useTranslation} from "react-i18next";
 import LanguageSwitcher from './LanguageSwitcher';
+import {Icon} from "semantic-ui-react";
+
 
 
 const Navigation = () => {
@@ -39,7 +38,7 @@ const Navigation = () => {
             {isLoggedIn && (
                 <Link to='/'>
                     <div className={classes.logo}>
-                        <Icon link={appIcon} name='calendar check'/>
+                        <Icon name='calendar check'/>
                         Services App
                     </div>
                 </Link>

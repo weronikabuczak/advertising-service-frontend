@@ -120,15 +120,15 @@ const TaskDetails = () => {
                 </Grid.Column>
                 <Grid.Column width={8}>
                     {isUserTasks &&
-                        <Button negative animated onClick={deleteTaskHandler}>
+                        <Button negative animated onClick={deleteTaskHandler} className={classes.taskButtons}>
                             <Button.Content visible>{t("delete")}</Button.Content>
                             <Button.Content hidden>
                                 <Icon size='large' name='delete'/>
                             </Button.Content>
                         </Button>
                     }
-                    {isUserTasks &&
-                        <Button animated onClick={editTaskHandler}>
+                    {isUserTasks && task.status === 'AWAITING' &&
+                        <Button animated onClick={editTaskHandler} className={classes.taskButtons}>
                             <Button.Content visible>{t("edit")}</Button.Content>
                             <Button.Content hidden>
                                 <Icon size='large' name='edit'/>

@@ -72,8 +72,16 @@
   "sendOpinion": "Send feedback",
   "writeYourOpinion": "Write your feedback here...",
   "opinionSent": "The opinion has been sent",
-  "feedbackFor": "Feedback for: ",
+  "feedbackFor": "Feedback for user: ",
   "opinion": "Feedback",
   "completedTasks": "Completed tasks",
-  "map": "Map"
+  "map": "Map",
+  "adWasAddedSuccessfully": "Advert was added successfully",
+  "newAd?": "New advert?",
+  "add": "Add",
+  "or": "or",
+  "browseAdverts": "Browse adverts",
+  "currentPassword": "Current password",
+  "newPassword": "New password",
+  "doneByMe": "Done by me"
 }

@@ -10,8 +10,8 @@ import {getUserEmail, getUserToken} from "../../../store/auth";
 import Link from "react-router-dom/es/Link";
 import {statuses} from "../../../utils/taskStatus";
 import {useTranslation} from "react-i18next";
-import {getCategoryLabel, getStatusColor, getStatusLabel} from "../../../utils/functions";
-import UserCompletedTasks from "../../HomePage/TaskList/TaskItem/TaskDetails/UserDetails/userCompletedTasks";
+import {getStatusColor, getStatusLabel} from "../../../utils/functions";
+import UserCompletedTasks from "../../HomePage/TaskList/TaskItem/TaskDetails/UserDetails/UserCompletedTasks";
 
 
 const UserTasks = () => {
@@ -49,7 +49,6 @@ const UserTasks = () => {
         if (token) {
             dispatch(getAnotherUserCompletedTasks({token, email}));
         }
-        console.log(myCompletedTasks)
         setShowCompletedTasks(true);
     }
 
@@ -63,20 +62,10 @@ const UserTasks = () => {
 
     const statusesBar = Object.entries(statuses).map((arr) => {
         const [statusId, statusObj] = arr
-
         const label = getStatusLabel(statusId, language);
-
-
-        // TODO: do it your way
-        const categoryColor = {
-            'background-color': getStatusColor(statusId)
-        };
-
-
         return <Button color={statusObj.colors} onClick={filterTasks}
                        content={statusId}>{label}</Button>
     })
-
 
     return <div className={classes.taskSection}>
         <Button.Group className={classes.userButtons}>
@@ -86,7 +75,7 @@ const UserTasks = () => {
         <Button.Group className={classes.taskButtons}>
             <Button content='' floated='left' onClick={filterTasks}>{t("all")}</Button>
             {statusesBar}
-            <Button floated='left' onClick={getTaskCompletedByMe}>Wykonane przeze mnie</Button>
+            <Button floated='left' onClick={getTaskCompletedByMe}>{t("doneByMe")}:</Button>
         </Button.Group>
         {tasks?.length > 0 && tasks && !showCompletedTasks
             ?
@@ -101,30 +90,7 @@ const UserTasks = () => {
         }
         <ul>
             {myCompletedTasks && showCompletedTasks && myCompletedTasks.map((task) => (
-                <section className={classes.myCompletedTasks}>
-                    <Card fluid className={classes.myCompletedTasksItem}>
-                        <Card.Content header={task.title}/>
-                        <Card.Content><strong>Kategoria: </strong> {task.category}</Card.Content>
-                        <Card.Content><strong>Adres: </strong>{task.address}
-                        </Card.Content>
-                        <Card.Content><strong>Zapłata: </strong>{task.pay}</Card.Content>
-
-                        {task.opinion &&
-                            <Card.Content>
-                                <h4>Opinia od {task.user.email} ({task.user.name}, {task.user.location}):</h4>
-                                <Card.Content>
-                                    <Icon name='star'/>{task.opinion.rating}/5
-                                </Card.Content>
-
-                                {task.opinion.content &&
-                                    <Segment>
-                                        <strong>Opis: </strong>{task.opinion.content}
-                                    </Segment>
-                                }
-                            </Card.Content>
-                        }
-                    </Card>
-                </section>
+                <UserCompletedTasks task={task}></UserCompletedTasks>
             ))}
         </ul>
 

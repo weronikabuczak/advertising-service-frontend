@@ -6,7 +6,7 @@ import {useAppDispatch} from "../../../../../../root";
 import {getAnotherUser, getAnotherUserInfo, getUserToken} from "../../../../../../store/auth";
 import {useSelector} from "react-redux";
 import {useTranslation} from "react-i18next";
-import UserCompletedTasks from "./userCompletedTasks";
+import UserCompletedTasks from "./UserCompletedTasks";
 import {getAnotherUserCompletedTasks, getAnotherUserTasks} from "../../../../../../store/task";
 
 const UserDetails = ({open, setOpen, email}) => {

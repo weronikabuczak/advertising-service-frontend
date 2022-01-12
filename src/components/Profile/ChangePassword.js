@@ -3,8 +3,10 @@ import {useRef} from "react";
 import {useSelector} from "react-redux";
 import {getSetOpen, getUserToken, updatePassword} from "../../store/auth";
 import {useAppDispatch} from "../../root";
+import {useTranslation} from "react-i18next";
 
 const ChangePassword = ({open, setOpen, email}) => {
+    const {t} = useTranslation();
     const token = useSelector(getUserToken);
     const currentPasswordInput = useRef();
     const newPasswordInput = useRef();
@@ -31,20 +33,20 @@ const ChangePassword = ({open, setOpen, email}) => {
             size='tiny'
             dimmer='blurring'
         >
-            <Modal.Header>Zmiana hasła</Modal.Header>
+            <Modal.Header>{t("changePassword")}</Modal.Header>
             <Modal.Content>
                 <Form onSubmit={submitHandler}>
                     <Form.Field>
-                        <label>Obecne hasło</label>
+                        <label>{t("currentPassword")}</label>
                         <input type='password' required ref={currentPasswordInput}/>
                     </Form.Field>
                     <Form.Field>
-                        <label>Nowe hasło</label>
+                        <label>{t("newPassword")}</label>
                         <input type='password' required ref={newPasswordInput}/>
                     </Form.Field>
-                    <Button positive type='submit'>Zatwierdź</Button>
+                    <Button positive type='submit'>{t("submit")}</Button>
                     <Button negative onClick={onClose}>
-                        Anuluj
+                        {t("cancel")}
                     </Button>
                 </Form>
             </Modal.Content>

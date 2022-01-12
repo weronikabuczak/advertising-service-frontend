@@ -73,8 +73,16 @@
   "sendOpinion": "Prześlij opinię: ",
   "writeYourOpinion": "Tutaj wpisz swoją opinię...",
   "opinionSent": "Opinia została przesłana",
-  "feedbackFor": "Wystawiono opinię dla: ",
+  "feedbackFor": "Wystawiono opinię dla użytkownika: ",
   "opinion": "Opinia",
   "completedTasks": "Wykonane zlecenia",
-  "map": "Mapa"
+  "map": "Mapa",
+  "adWasAddedSuccessfully": "Pomyślnie dodano ogłoszenie",
+  "newAd?": "Nowe ogłoszenie?",
+  "add": "Dodaj",
+  "or": "lub",
+  "browseAdverts": "Przeglądaj ogłoszenia",
+  "currentPassword": "Obecne hasło",
+  "newPassword": "Nowe hasło",
+  "doneByMe": "Zlecenia wykonane przeze mnie"
 }

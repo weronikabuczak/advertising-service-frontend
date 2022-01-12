@@ -39,6 +39,10 @@
     border-radius: 5px;
 }
 
+.taskButtons {
+    z-index: 0 !important;
+}
+
 @keyframes slide-out-blurred-right {
     0% {
         transform: translateX(0) scaleY(1) scaleX(1);

@@ -1,5 +1,5 @@
 import {useAppDispatch} from "../../../../../../root";
-import {Button, Card, Divider, Form, Grid, Header, Icon, Image, Rating, TextArea} from "semantic-ui-react";
+import {Button, Card, Divider, Form, Grid, Header, Icon, Image, Rating, Segment, TextArea} from "semantic-ui-react";
 import React, {useEffect, useRef, useState} from "react";
 import {
     updateOffer
@@ -185,29 +185,24 @@ const OfferItem = ({offer, isUserTasks}) => {
             }
 
             {offer.hasOpinion && opinion && (
-                <Card>
+                <Card fluid>
                     <Card.Content>
-                        <Card.Header>{t("feedbackFor")}</Card.Header>
-                        <Grid>
-                            <Grid.Column>
-                                <div>
-                                    <Button animated onClick={showUser}>
-                                        <Button.Content visible>{offer.user.email}</Button.Content>
-                                        <Button.Content hidden>
-                                            {t("seeDetails")}
-                                        </Button.Content>
-                                    </Button>
-                                </div>
-                                <Divider/>
-                                {opinion.rating &&
-                                    <Rating maxRating={5} defaultRating={opinion.rating} icon='star' size='large'
-                                            disabled/>
-                                }
-                                {opinion.content &&
-                                    <div>{opinion.content}</div>
-                                }
-                            </Grid.Column>
-                        </Grid>
+                        <Card.Header>{t("feedbackFor")}
+                            <Button animated onClick={showUser}>
+                                <Button.Content visible>{offer.user.email}</Button.Content>
+                                <Button.Content hidden>
+                                    {t("seeDetails")}
+                                </Button.Content>
+                            </Button></Card.Header>
+                        <Segment>
+                            {opinion.rating &&
+                                <Rating maxRating={5} defaultRating={opinion.rating} icon='star' size='large'
+                                        disabled/>
+                            }
+                            {opinion.content &&
+                                <Card.Content> <strong>{t("content")}: </strong>{opinion.content}</Card.Content>
+                            }
+                        </Segment>
                     </Card.Content>
                 </Card>
             )}

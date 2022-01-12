@@ -1,22 +1,18 @@
 import {Button, Form, Modal} from "semantic-ui-react";
 import {useEffect, useRef} from "react";
 import {useSelector} from "react-redux";
-import {getSetOpen, getUserToken, updatePassword, updateUser} from "../../store/auth";
-import {useHistory} from "react-router-dom";
+import {getSetOpen, getUserToken, updateUser} from "../../store/auth";
 import {useTranslation} from "react-i18next";
 import {useAppDispatch} from "../../root";
 
 const ChangeUserData = ({open, setOpen, email, user}) => {
     const {t, i18n} = useTranslation();
-    const history = useHistory();
     const token = useSelector(getUserToken);
     const phoneNumberInput = useRef();
-    const emailInput = useRef();
     const nameInput = useRef();
     const locationInput = useRef();
     const dispatch = useAppDispatch();
     const openModal = useSelector(getSetOpen);
-
 
     useEffect(() => {
         },
@@ -33,7 +29,7 @@ const ChangeUserData = ({open, setOpen, email, user}) => {
         const location = locationInput.current.value;
         dispatch(updateUser({token, email, phoneNumber, name, location}));
         setOpen(openModal);
-         }
+    }
     return (
         <Modal
             centered={true}
