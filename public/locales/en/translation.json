@@ -67,5 +67,13 @@
   "offerAccepted": "The offer has been accepted!",
   "offerRejected": "The offer has been rejected!",
   "newOffer": "New offer",
-  "taskCompletedBy" : "Task completed by:"
+  "taskCompletedBy": "Task completed by:",
+  "seeDetails": "See details",
+  "sendOpinion": "Send feedback",
+  "writeYourOpinion": "Write your feedback here...",
+  "opinionSent": "The opinion has been sent",
+  "feedbackFor": "Feedback for: ",
+  "opinion": "Feedback",
+  "completedTasks": "Completed tasks",
+  "map": "Map"
 }

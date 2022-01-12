@@ -1,8 +1,8 @@
 import {Button, Modal} from "semantic-ui-react";
 import {useSelector} from "react-redux";
-import {deleteTask} from "../../../../../../store/task";
-import {useAppDispatch} from "../../../../../../root";
-import {getUserToken} from "../../../../../../store/auth";
+import {deleteTask} from "../../../../../store/task";
+import {useAppDispatch} from "../../../../../root";
+import {getUserToken} from "../../../../../store/auth";
 import {useHistory} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 
@@ -29,8 +29,8 @@ const DeleteTask = ({open, setOpen, id}) => {
             open={open}
             onClose={onClose}
             size='tiny'
-            dimmer='blurring'
-        >
+            dimmer='blurring'>
+
             <Modal.Header>{t("deleteAdvert")}</Modal.Header>
             <Modal.Content>
                 <p>{t("areYouSureDeleteAd")}</p>

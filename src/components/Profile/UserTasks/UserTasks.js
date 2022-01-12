@@ -1,4 +1,4 @@
-import TaskList from "../../HomePage/HomePage/TaskList/TaskList";
+import TaskList from "../../HomePage/TaskList/TaskList";
 import {Button, Card, Icon, Segment} from "semantic-ui-react";
 import {useHistory} from "react-router-dom";
 import classes from "../UserProfile.module.css";
@@ -11,7 +11,7 @@ import Link from "react-router-dom/es/Link";
 import {statuses} from "../../../utils/taskStatus";
 import {useTranslation} from "react-i18next";
 import {getCategoryLabel, getStatusColor, getStatusLabel} from "../../../utils/functions";
-import AnotherUserCompletedTasks from "../../HomePage/HomePage/UserDetails/AnotherUserCompletedTasks";
+import UserCompletedTasks from "../../HomePage/TaskList/TaskItem/TaskDetails/UserDetails/userCompletedTasks";
 
 
 const UserTasks = () => {

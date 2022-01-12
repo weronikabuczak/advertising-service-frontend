@@ -9,8 +9,8 @@ import UserTasks from "./components/Profile/UserTasks/UserTasks";
 import {useSelector} from "react-redux";
 import {isUserLoggedIn} from "./store/auth";
 import ProfilePage from "./pages/ProfilePage";
-import TaskDetails from "./components/HomePage/HomePage/TaskList/TaskItem/TaskDetails/TaskDetails";
-import UserDetails from "./components/HomePage/HomePage/UserDetails/UserDetails";
+import TaskDetails from "./components/HomePage/TaskList/TaskItem/TaskDetails/TaskDetails";
+import UserDetails from "./components/HomePage/TaskList/TaskItem/TaskDetails/UserDetails/UserDetails";
 
 function App() {
     const isLoggedIn = useSelector(isUserLoggedIn);

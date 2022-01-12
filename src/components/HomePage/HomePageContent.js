@@ -6,19 +6,19 @@ import L from 'leaflet';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import {useEffect, useState} from "react";
-import {getAllTasks, getTasks} from "../../../store/task";
-import {useAppDispatch} from "../../../root";
+import {getAllTasks, getTasks} from "../../store/task";
+import {useAppDispatch} from "../../root";
 import {useSelector} from "react-redux";
-import {getUserToken} from "../../../store/auth";
+import {getUserToken} from "../../store/auth";
 import React from 'react'
-import MapTrickyComponent from "../../NewTask/MapTrickyComponent";
-import {categories} from "../../../utils/taskCategory";
+import MapTrickyComponent from "../NewTask/MapTrickyComponent";
+import {categories} from "../../utils/taskCategory";
 import "leaflet-control-geocoder/dist/Control.Geocoder.css";
 import "leaflet-control-geocoder/dist/Control.Geocoder.js";
 import Link from "react-router-dom/es/Link";
 import {useTranslation} from "react-i18next";
-import {getCategoryLabel} from "../../../utils/functions";
-import i18n from "../../../i18n";
+import {getCategoryLabel} from "../../utils/functions";
+import i18n from "../../i18n";
 
 const HomePageContent = () => {
     const {t} = useTranslation();
@@ -30,7 +30,7 @@ const HomePageContent = () => {
     const tasks = useSelector(getAllTasks);
     const dispatch = useAppDispatch();
     const token = useSelector(getUserToken);
-    const [currentTask, setCurrentTask] = useState({})
+    // const [currentTask, setCurrentTask] = useState({})
     const [zoom, setZoom] = useState(6);
     const [category, setCategory] = useState('');
     const [status] = useState('AWAITING');
@@ -51,7 +51,7 @@ const HomePageContent = () => {
 
     const onClickFunction = (id) => {
         const task = tasks.find(t => t.id === id);
-        setCurrentTask(task);
+        // setCurrentTask(task);
         setZoom(12);
         setLatitude(task.latitude);
         setLongitude(task.longitude);
@@ -80,9 +80,7 @@ const HomePageContent = () => {
 
     const categoriesBar = Object.entries(categories).map((arr) => {
         const [categoryId, categoryObj] = arr
-
-        const label = getCategoryLabel(categoryId,language);
-
+        const label = getCategoryLabel(categoryId, language);
         return <Button color={categoryObj.colors} onClick={filterCategory}
                        content={categoryId}>{label}</Button>
     })
@@ -96,11 +94,13 @@ const HomePageContent = () => {
                         <div className={classes.locationButtons}>
                             <Button floated='left' onClick={componentDidMount}><Icon
                                 name='compass'/>{t("detectLocation")}</Button>
-                            <Button onClick={resetMapHandler} className={classes.refreshMap__button} floated='left'>{t("defaultMap")}</Button>
+                            <Button onClick={resetMapHandler} className={classes.refreshMap__button}
+                                    floated='left'>{t("defaultMap")}</Button>
                         </div>
-                        <div >
-                            <Button className={classes.categoryButtons} content='' floated='left' onClick={filterCategory}>{t("all")}</Button>
-                            <Button.Group className={classes.categoryButtons}floated='left' >
+                        <div>
+                            <Button className={classes.categoryButtons} content='' floated='left'
+                                    onClick={filterCategory}>{t("all")}</Button>
+                            <Button.Group className={classes.categoryButtons} floated='left'>
                                 {categoriesBar}
                             </Button.Group>
                         </div>
@@ -116,14 +116,12 @@ const HomePageContent = () => {
                                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                             />
                             {tasks?.length > 0 && tasks && tasks.map((task) => (
-                                /* TODO if task.id === currentTaskId then color = red ?*/
                                 <Marker position={[task.latitude, task.longitude]}>
                                     <Popup>
                                         {t("taskLocation")}
                                     </Popup>
                                 </Marker>
                             ))}
-                            }
                         </MapContainer>
                     </Grid.Column>
                     <Grid.Column widescreen={6} largeScreen={7} computer={8} tablet={9} mobile={16}>

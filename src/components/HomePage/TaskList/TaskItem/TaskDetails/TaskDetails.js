@@ -1,23 +1,23 @@
 import {Button, Card, Container, Divider, Grid, Header, Icon, Image, Message, Table} from "semantic-ui-react";
-import taskIcon from "../../../../../../files/task.png";
+import taskIcon from "../../../../../files/task.png";
 
 import classes from './TaskDetails.module.css';
 import {MapContainer, TileLayer, Marker, Popup} from 'react-leaflet'
 import {useSelector} from "react-redux";
-import {getCurrentTask, getTasks} from "../../../../../../store/task";
+import {getCurrentTask, getTasks} from "../../../../../store/task";
 import L from 'leaflet';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import React, {useEffect, useState} from "react";
 import DeleteTask from "./DeleteTask";
 import EditTask from "./EditTask";
-import {getUserEmail, getUserToken} from "../../../../../../store/auth";
-import {useAppDispatch} from "../../../../../../root";
+import {getUserEmail, getUserToken} from "../../../../../store/auth";
+import {useAppDispatch} from "../../../../../root";
 import {
     createOffer,
     getAllOffers,
     getOffers,
-} from "../../../../../../store/offer";
+} from "../../../../../store/offer";
 import {useLocation} from "react-router-dom";
 import OfferItem from "./Offer/OfferItem";
 import {useTranslation} from "react-i18next";
@@ -26,7 +26,7 @@ import {
     getCategoryLabel,
     getStatusColorClass,
     getStatusLabel
-} from "../../../../../../utils/functions";
+} from "../../../../../utils/functions";
 
 const TaskDetails = () => {
     const {t, i18n} = useTranslation();
@@ -64,10 +64,8 @@ const TaskDetails = () => {
             if (token && task.status === 'DONE') {
                 dispatch(getOffers({token, taskId, offerStatus: 'COMPLETED'}));
             }
-
         },
         [location.state.isUserTasks, taskId, token, task, offerSent, isCurrentUserTask, currentUser, modalOpenDelete, modalOpenEdit]);
-    // []);
 
     if (task.user.image) {
         avatar = "data:image/jpeg;base64," + task.user.image;
@@ -137,7 +135,6 @@ const TaskDetails = () => {
                             </Button.Content>
                         </Button>
                     }
-
                     <Card fluid>
                         <Card.Content className={classes.category__container}>
                             <Message style={categoryColor} className={classes.category__chip}>{taskCategory}</Message>
@@ -174,7 +171,6 @@ const TaskDetails = () => {
                                     <Table.Cell>
                                         <Header as='h4'>
                                             <Header.Content>{t("expDate")}</Header.Content>
-                                            {/*todo*/}
                                         </Header>
                                     </Table.Cell>
                                     <Table.Cell>{task.expirationDate}</Table.Cell>
@@ -201,8 +197,7 @@ const TaskDetails = () => {
                             <Button.Content hidden>
                                 <Icon size='large' name='chat'/>
                             </Button.Content>
-                        </Button>
-                    )
+                        </Button>)
                     }
                     {offerSent &&
                         <div fluid className={classes.offerInfo__card}>
@@ -217,9 +212,10 @@ const TaskDetails = () => {
             <Divider className={classes.taskDetails__divider}/>
             <Grid.Row>
                 <Container textAlign='justified'>
-                    <Header>{t("details")}</Header>
+                    <Header>{t("details")}:</Header>
                     {task.content}</Container>
             </Grid.Row>
+            <Header>{t("map")}:</Header>
             <Grid.Row>
                 <MapContainer className={classes.taskMap__container} center={position} zoom={17}
                               scrollWheelZoom={true}>

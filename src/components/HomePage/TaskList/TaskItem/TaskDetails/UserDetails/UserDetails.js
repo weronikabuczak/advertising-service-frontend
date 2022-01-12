@@ -1,15 +1,13 @@
-import classes from "../../../Profile/UserProfile.module.css";
-import {Button, Card, Form, Grid, Header, Icon, Image, Modal, Table} from "semantic-ui-react";
-import profile from "../../../../files/profile.jpg";
+import classes from "../../../../../Profile/UserProfile.module.css";
+import { Card, Grid, Header, Image, Modal, Table} from "semantic-ui-react";
+import profile from "../../../../../../files/profile.jpg";
 import {useEffect} from "react";
-import {getOpinion} from "../../../../store/opinion";
-import {useAppDispatch} from "../../../../root";
-import {getAnotherUser, getAnotherUserInfo, getUserToken} from "../../../../store/auth";
+import {useAppDispatch} from "../../../../../../root";
+import {getAnotherUser, getAnotherUserInfo, getUserToken} from "../../../../../../store/auth";
 import {useSelector} from "react-redux";
 import {useTranslation} from "react-i18next";
-import AnotherUserCompletedTasks from "./AnotherUserCompletedTasks";
-import {getAnotherUserCompletedTasks, getAnotherUserTasks} from "../../../../store/task";
-import TaskItem from "../TaskList/TaskItem/TaskItem";
+import UserCompletedTasks from "./userCompletedTasks";
+import {getAnotherUserCompletedTasks, getAnotherUserTasks} from "../../../../../../store/task";
 
 const UserDetails = ({open, setOpen, email}) => {
     const {t, i18n} = useTranslation();
@@ -32,7 +30,6 @@ const UserDetails = ({open, setOpen, email}) => {
         },
          [email, open]);
 
-
     return (
         <Modal
             closeIcon
@@ -41,10 +38,8 @@ const UserDetails = ({open, setOpen, email}) => {
             scrolling
             onClose={onClose}
             size='medium'
-            dimmer='blurring'
+            dimmer='blurring'>
 
-
-        >
             <Card fluid>
                 <Card.Content>
                     <Grid stackable>
@@ -53,6 +48,7 @@ const UserDetails = ({open, setOpen, email}) => {
                                 ? <Image className={classes.profileImage} src={anotherUser.image} rounded/>
                                 : <Image className={classes.profileImage} src={profile} rounded/>
                             }
+                            {/*todo*/}
                         </Grid.Column>
                         <Grid.Column width={12}>
                             <Header as='h1'>
@@ -63,7 +59,7 @@ const UserDetails = ({open, setOpen, email}) => {
                                 <Table.Body className={classes.userInfo__container}>
                                     <Table.Row>
                                         <Table.Cell>
-                                            <Header as='h4' image>
+                                            <Header as='h4'>
                                                 <Header.Content>E-mail</Header.Content>
                                             </Header>
                                         </Table.Cell>
@@ -71,7 +67,7 @@ const UserDetails = ({open, setOpen, email}) => {
                                     </Table.Row>
                                     <Table.Row>
                                         <Table.Cell>
-                                            <Header as='h4' image>
+                                            <Header as='h4'>
                                                 <Header.Content>{t("phoneNumber")}</Header.Content>
                                             </Header>
                                         </Table.Cell>
@@ -80,10 +76,10 @@ const UserDetails = ({open, setOpen, email}) => {
                                 </Table.Body>
                             </Table>
                         </Grid.Column>
-                        <h1>Wykonane zadania:</h1>
+                        <h1>{t("completedTasks")}:</h1>
                         <ul>
                         {anotherUserTasks && anotherUserTasks.map((task) => (
-                            <AnotherUserCompletedTasks task={task}/>
+                            <UserCompletedTasks task={task}/>
                                 ))}
                             </ul>
                     </Grid>

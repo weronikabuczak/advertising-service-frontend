@@ -10,11 +10,14 @@ import {Button} from "semantic-ui-react";
 import {useTranslation} from "react-i18next";
 import {getCategoryLabel} from "../../utils/functions";
 import i18n from "../../i18n";
+import {useAppDispatch} from "../../root";
+import {createTask} from "../../store/task";
 
 
 const NewTaskForm = () => {
     const {t} = useTranslation();
     const {language} = i18n;
+    const dispatch = useAppDispatch();
 
     const [isLoading, setIsLoading] = useState(false);
     const [pickerValue, setPickerValue] = useState();
@@ -34,7 +37,6 @@ const NewTaskForm = () => {
 
 
     const handleFileInput = (e) => {
-        console.log('zdj' + image)
         const file = e.target.files[0];
         let reader = new FileReader();
         reader.readAsDataURL(file);
@@ -50,71 +52,36 @@ const NewTaskForm = () => {
 
     const submitHandler = async (event) => {
         event.preventDefault();
-        console.log(image);
 
-        setIsLoading(true);
-        let url;
-        let init;
+        const title = titleInput.current.value;
+        const content = contentInput.current.value;
+        const address = addressInput.current.value;
+        const pay = payInput.current.value;
+        const expirationDate = new Date(expirationDateInput.current.value);
+        const estimatedTime = pickerValue;
+        // const image = image;
+        // const longitude = longitude;
+        // const latitude = latitude;
 
-        const enteredTitle = titleInput.current.value;
-        const enteredContent = contentInput.current.value;
-        const enteredCategory = category;
-        const enteredAddress = addressInput.current.value;
-        const enteredPay = payInput.current.value;
-        const enteredExpirationDate = expirationDateInput.current.value;
-        const enteredEstimatedTime = pickerValue;
-        const enteredImage = image;
-        const enteredLongitude = longitude;
-        const enteredLatitude = latitude;
-
-
-        url =
-            'http://localhost:8080/api/task';
-        init = {
-            title: enteredTitle,
-            content: enteredContent,
-            category: enteredCategory,
-            address: enteredAddress,
-            pay: enteredPay,
-            expirationDate: new Date(enteredExpirationDate),
-            estimatedTime: enteredEstimatedTime,
-            image: enteredImage,
-            longitude: enteredLongitude,
-            latitude: enteredLatitude
-        }
-
-        fetch(url, {
-            method: 'POST',
-            body: JSON.stringify(init),
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + token,
-            },
-        })
-            .then((response) => {
-                setIsLoading(false);
-                if (response.ok) {
-                    return response.json().then(data => {
-                        history.replace('/taskAdded');
-                    })
-                } else {
-                    return response.json().then((data) => {
-                        if (data.status === 500) {
-                            alert(data.message)
-                            throw new Error(data.message);
-                        }
-                    });
-                }
-            })
-            .catch((err) => {
-                alert(err.message);
-            });
-    };
+        dispatch(createTask({
+            token,
+            title,
+            content,
+            category,
+            address,
+            pay,
+            expirationDate,
+            estimatedTime,
+            image,
+            longitude,
+            latitude
+        }))
+        history.replace('/taskAdded');
+    }
 
     const getPickerValue = (value) => {
         setPickerValue(value);
     }
-
 
     const points = [[latitude, longitude]];
 
@@ -131,6 +98,7 @@ const NewTaskForm = () => {
                 getPoint(point)
         }
     };
+
     const startPort = {
         center: [52, 19],
         zoom: 5,
@@ -145,7 +113,7 @@ const NewTaskForm = () => {
     const categoriesBar = Object.entries(categories).map((arr) => {
         const [categoryId, categoryObj] = arr
 
-        const label = getCategoryLabel(categoryId,language);
+        const label = getCategoryLabel(categoryId, language);
 
         return <Button compact size='medium' color={categoryObj.colors} onClick={getCategory}
                        content={categoryId}>{label}</Button>
@@ -158,7 +126,7 @@ const NewTaskForm = () => {
                 <div>
                     <div className={classes.control}>
                         <label htmlFor='title'>{t("title")}</label>
-                        <input  required type='text' id='title' minLength="10" maxLength="100" ref={titleInput}/>
+                        <input required type='text' id='title' minLength="10" maxLength="100" ref={titleInput}/>
                     </div>
                     <div className={classes.control}>
                         <label className={classes.category__button} htmlFor='category'>{t("category")}</label>

@@ -1,16 +1,16 @@
-import {useAppDispatch} from "../../../../../../../root";
+import {useAppDispatch} from "../../../../../../root";
 import {Button, Card, Divider, Form, Grid, Header, Icon, Image, Rating, TextArea} from "semantic-ui-react";
 import React, {useEffect, useRef, useState} from "react";
 import {
     updateOffer
-} from "../../../../../../../store/offer";
-import profile from '../../../../../../../files/profile.jpg'
+} from "../../../../../../store/offer";
+import profile from '../../../../../../files/profile.jpg'
 import {useSelector} from "react-redux";
-import {getUserToken} from "../../../../../../../store/auth";
+import {getUserToken} from "../../../../../../store/auth";
 import classes from './OfferItem.module.css';
 import {useTranslation} from "react-i18next";
-import {createOpinion, getOpinion, getOpinionForOffer} from "../../../../../../../store/opinion";
-import UserDetails from "../../../../UserDetails/UserDetails";
+import {createOpinion, getOpinion, getOpinionForOffer} from "../../../../../../store/opinion";
+import UserDetails from "../UserDetails/UserDetails";
 
 const OfferItem = ({offer, isUserTasks}) => {
     const {t, i18n} = useTranslation();
@@ -27,11 +27,9 @@ const OfferItem = ({offer, isUserTasks}) => {
     const [modalShowUser, setModalShowUser] = useState(false);
 
     useEffect(() => {
-            console.log(offer.hasOpinion)
             if (token && offer.hasOpinion) {
                 dispatch(getOpinion({token, offerId: offer.id}))
             }
-            console.log(opinion)
         },
         [offerAccepted, offerRejected, taskCompleted, offer, modalShowUser, opinionSent, offer.hasOpinion]);
 
@@ -41,7 +39,6 @@ const OfferItem = ({offer, isUserTasks}) => {
             dispatch(updateOffer({token, offerId: offer.id, offerStatus: 'ACCEPTED'}));
         }
         setOfferAccepted(true);
-
         //todo
     }
 
@@ -79,8 +76,6 @@ const OfferItem = ({offer, isUserTasks}) => {
         <section>
             <UserDetails open={modalShowUser} setOpen={setModalShowUser} email={offer.user.email}/>
 
-            {/*show offer*/}
-
             {isUserTasks && offer.status === 'ACTIVE' &&
                 <Card fluid>
                     <Card.Content>
@@ -99,7 +94,7 @@ const OfferItem = ({offer, isUserTasks}) => {
                         <Button animated onClick={showUser}>
                             <Button.Content visible>{offer.user.email}</Button.Content>
                             <Button.Content hidden>
-                                Zobacz szczegóły
+                                {t("seeDetails")}
                             </Button.Content>
                         </Button>
                     </Card.Content>
@@ -112,12 +107,9 @@ const OfferItem = ({offer, isUserTasks}) => {
                                 {t("reject")}
                             </Button>
                         </div>
-
                     </Card.Content>
                 </Card>
             }
-
-
 
             {isUserTasks && offer.status === 'ACCEPTED' &&
                 <Card fluid>
@@ -163,22 +155,22 @@ const OfferItem = ({offer, isUserTasks}) => {
                         <Divider/>
                         {!offer.hasOpinion &&
                             <Form onSubmit={createOpinionHandler}>
-                                <Header as='h4'>Prześlij opinię:</Header>
+                                <Header as='h4'>{t("sendOpinion")}</Header>
                                 <Form.Field>
                                     <Rating maxRating={5} icon='star' size='huge' onRate={handleRate}/>
                                 </Form.Field>
                                 <Form.Field>
-                                <textarea ref={contentInput} minLength="7" maxLength="800"
-                                          placeholder="dfsdfsdf"/>
+                                <textarea ref={contentInput} minLength="5" maxLength="800"
+                                          placeholder={t("writeYourOpinion")}/>
                                 </Form.Field>
-                                <Button type='submit'>Submit</Button>
+                                <Button type='submit'>{t("submit")}</Button>
                             </Form>
                         }
                         {opinionSent &&
                             <div className={classes.offerInfo__card}>
-                                opinion sent
-                            </div>}
-
+                                {t("opinionSent")}
+                            </div>
+                        }
                     </Card.Content>
                 </Card>
             }
@@ -186,23 +178,23 @@ const OfferItem = ({offer, isUserTasks}) => {
             {(offerAccepted || offerRejected) &&
                 <div className={classes.offerInfo__card}>
                     {offerAccepted &&
-                        <p>  {t("offerAccepted")}</p>}
+                        <p>{t("offerAccepted")}</p>}
                     {offerRejected &&
-                        <p>  {t("offerRejected")}</p>}
+                        <p>{t("offerRejected")}</p>}
                 </div>
             }
 
             {offer.hasOpinion && opinion && (
                 <Card>
                     <Card.Content>
-                        <Card.Header>Wystawiona opinia dla:</Card.Header>
+                        <Card.Header>{t("feedbackFor")}</Card.Header>
                         <Grid>
                             <Grid.Column>
                                 <div>
                                     <Button animated onClick={showUser}>
                                         <Button.Content visible>{offer.user.email}</Button.Content>
                                         <Button.Content hidden>
-                                            Zobacz szczegóły
+                                            {t("seeDetails")}
                                         </Button.Content>
                                     </Button>
                                 </div>

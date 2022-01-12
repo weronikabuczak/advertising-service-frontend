@@ -29,8 +29,6 @@ export const getOpinion = createAsyncThunk(`${sliceName}/getOpinion`, async ({
                                                                            }, {dispatch}) => {
     try {
         const data = await getOpinionApiCall({token, offerId});
-        console.log(data)
-        console.log(data.data)
         return {
            opinion: data.data
         };

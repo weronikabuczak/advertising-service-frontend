@@ -10,7 +10,6 @@ import {useTranslation} from "react-i18next";
 
 const AppSidebar = ({toggleFn, toggleMenu}) => {
     const {t} = useTranslation();
-    const [visible, setVisible] = React.useState(false)
 
     return (
         <Sidebar

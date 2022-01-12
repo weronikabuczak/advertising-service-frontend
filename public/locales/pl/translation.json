@@ -68,5 +68,13 @@
   "offerAccepted": "Propozycja została zatwierdzona!",
   "offerRejected": "Propozycja została odrzucona!",
   "newOffer": "Nowa propozycja",
-  "taskCompletedBy" : "Zlecenie zostało wykonane przez:"
+  "taskCompletedBy": "Zlecenie zostało wykonane przez:",
+  "seeDetails": "Zobacz szczegóły",
+  "sendOpinion": "Prześlij opinię: ",
+  "writeYourOpinion": "Tutaj wpisz swoją opinię...",
+  "opinionSent": "Opinia została przesłana",
+  "feedbackFor": "Wystawiono opinię dla: ",
+  "opinion": "Opinia",
+  "completedTasks": "Wykonane zlecenia",
+  "map": "Mapa"
 }

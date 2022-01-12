@@ -1,19 +1,19 @@
 import {Link, useHistory} from 'react-router-dom';
 import classes from './Navigation.module.css';
 import AppSidebar from "./AppSidebar";
-import { useState} from "react";
+import {useState} from "react";
 import {useAppDispatch} from "../../root";
 import {useSelector} from "react-redux";
 import appIcon from '../../files/app.png'
 
 import {isUserLoggedIn, logoutUser} from "../../store/auth";
 import {Icon} from "semantic-ui-react";
-import { useTranslation } from "react-i18next";
+import {useTranslation} from "react-i18next";
 import LanguageSwitcher from './LanguageSwitcher';
 
 
 const Navigation = () => {
-    const { t, i18n } = useTranslation();
+    const {t, i18n} = useTranslation();
 
 
     const dispatch = useAppDispatch();
@@ -54,12 +54,11 @@ const Navigation = () => {
             <nav>
                 {isLoggedIn && (
                     <div>
-                    <button onClick={logoutHandler}>{t("logout")}</button>
-                    <LanguageSwitcher/>
+                        <button onClick={logoutHandler}>{t("logout")}</button>
+                        <LanguageSwitcher/>
                     </div>
                 )}
             </nav>
-
             <AppSidebar toggleMenu={toggle} toggleFn={toggleMenu}/>
         </header>
     );

@@ -1,9 +1,9 @@
 import {useRef, useState} from 'react';
 import classes from './AuthorizationForm.module.css';
 import {Redirect, useHistory} from "react-router-dom";
-import auth, {getRemainingTime, isUserLoggedIn, loginUser, logoutUser, registerUser} from "../../../store/auth";
+import { isUserLoggedIn, loginUser, registerUser} from "../../store/auth";
 import {useSelector} from "react-redux";
-import {useAppDispatch} from "../../../root";
+import {useAppDispatch} from "../../root";
 import {Icon} from "semantic-ui-react";
 import {useTranslation} from "react-i18next";
 
@@ -20,9 +20,7 @@ const AuthorizationForm = () => {
         let image = null;
 
         const [isLogin, setIsLogin] = useState(true);
-        const [isLoading, setIsLoading] = useState(false);
         const isLoggedIn = useSelector(isUserLoggedIn);
-
 
         if (isLoggedIn) {
             return <Redirect to={'/'}/>
@@ -45,14 +43,11 @@ const AuthorizationForm = () => {
                 dispatch(registerUser({email, currentPassword, newPassword, name, location, phoneNumber, image}))
                 history.push('/')
             }
-            // setTimeout(dispatch(logoutUser({})), remainingTime);
         }
-
 
         const switchAuthModeHandler = () => {
             setIsLogin((prevState) => !prevState);
         };
-
 
         const handleFileInput = (e) => {
             const file = e.target.files[0];
@@ -112,11 +107,8 @@ const AuthorizationForm = () => {
                             </div>
                         )
                     }
-
                     <div className={classes.actions}>
-                        {!isLoading && (
-                            <button>{isLogin ? t("login") : t("createAccount")}</button>)}
-                        {isLoading && <p>Wysyłanie żądania...</p>}
+                            <button>{isLogin ? t("login") : t("createAccount")}</button>
                         <button type='button' onClick={switchAuthModeHandler}>
                             {isLogin ? t("createAccount") : t("alreadyHaveAnAccount")}
                         </button>
@@ -124,8 +116,6 @@ const AuthorizationForm = () => {
                 </form>
             </section>
         );
-    }
-;
-
+};
 
 export default AuthorizationForm;

@@ -1,3 +1,44 @@
+export const createTaskApiCall = async ({
+                                            token,
+                                            title,
+                                            content,
+                                            category,
+                                            address,
+                                            pay,
+                                            expirationDate,
+                                            estimatedTime,
+                                            image,
+                                            longitude,
+                                            latitude
+                                        }) => {
+    const taskUrl = 'http://localhost:8080/api/task';
+    try {
+        const body = JSON.stringify({
+            title, content, category, address, pay, expirationDate, estimatedTime, image, longitude, latitude
+        });
+        return fetch(taskUrl, {
+            method: 'POST',
+            body: body,
+            headers: {
+                'Authorization': 'Bearer ' + token,
+                'Content-Type': 'application/json',
+            },
+        }).then((response) => {
+            if (response.ok) {
+                return response.json().then(data => {
+                    return {
+                        data
+                    }
+                })
+            } else {
+                throw 'Cannot create task'
+            }
+        })
+    } catch (err) {
+        throw err;
+    }
+};
+
 export const getTasksApiCall = async ({isUserTasks, token, category, status}) => {
     try {
         let url = `http://localhost:8080/api/task?userTasks=${isUserTasks}`;
@@ -86,7 +127,8 @@ export const updateTaskApiCall = async ({
                                             latitude
                                         }) => {
     try {
-        const body = JSON.stringify({title, content, category, address, pay, expirationDate, estimatedTime, longitude, latitude
+        const body = JSON.stringify({
+            title, content, category, address, pay, expirationDate, estimatedTime, longitude, latitude
         });
         let taskUpdateUrl = `http://localhost:8080/api/task/${id}`;
         return fetch(taskUpdateUrl, {

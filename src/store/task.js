@@ -1,11 +1,11 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import {
+    createTaskApiCall,
     deleteTaskApiCall,
     getAnotherUserCompletedTasksApiCall,
     getTasksApiCall,
     updateTaskApiCall
 } from "./thunks/task-thunks";
-import {updateUserApiCall} from "./thunks/auth-thunks";
 
 export const sliceName = 'task';
 
@@ -14,8 +14,33 @@ export const initialState = {
     anotherUserTasks: [],
     currentTaskId: '',
     isLoading: false,
-    // setOpen: false
 };
+
+export const createTask = createAsyncThunk(`${sliceName}/createTask`, async ({
+                                                                                 token,
+                                                                                 title,
+                                                                                 content,
+                                                                                 category,
+                                                                                 address,
+                                                                                 pay,
+                                                                                 expirationDate,
+                                                                                 estimatedTime,
+                                                                                 image,
+                                                                                 longitude,
+                                                                                 latitude
+                                                                             }, {dispatch}) => {
+    try {
+        const data = await createTaskApiCall({
+            token, title, content, category, address, pay, expirationDate, estimatedTime, image, longitude, latitude
+        });
+        return {
+            data
+        };
+    } catch (error) {
+        alert('Cannot create tasks');
+        throw error;
+    }
+});
 
 export const getTasks = createAsyncThunk(`${sliceName}/getTasks`, async ({
                                                                              isUserTasks,
@@ -51,13 +76,13 @@ export const getTasks = createAsyncThunk(`${sliceName}/getTasks`, async ({
 });
 
 export const getAnotherUserCompletedTasks = createAsyncThunk(`${sliceName}/getAnotherUserCompletedTasks`, async ({
-                                                                             token,
-                                                                             email
-                                                                         }, {dispatch}) => {
+                                                                                                                     token,
+                                                                                                                     email
+                                                                                                                 }, {dispatch}) => {
     try {
         const data = await getAnotherUserCompletedTasksApiCall({token, email});
         console.log(data)
-          return {
+        return {
             anotherUserTasks: data
         };
 
@@ -123,8 +148,16 @@ const task = createSlice({
         }
     },
     extraReducers: (builder) => {
-        builder.addCase(getTasks.pending || getAnotherUserCompletedTasks.pending, (state) => {
+        builder.addCase(createTask.pending || getTasks.pending || getAnotherUserCompletedTasks.pending, (state) => {
             state.isLoading = true;
+        });
+
+        builder.addCase(createTask.fulfilled, (state, {payload}) => {
+            state.isLoading = false;
+        });
+
+        builder.addCase(createTask.rejected, (state, {payload}) => {
+            state.isLoading = false;
         });
 
         builder.addCase(getTasks.fulfilled, (state, {payload}) => {
@@ -168,7 +201,7 @@ const task = createSlice({
     }
 });
 export const {setCurrentTaskId} = task.actions
-export const getIsLoading = state => state[sliceName].isLoading;
+// export const getIsLoading = state => state[sliceName].isLoading;
 export const getAllTasks = state => state[sliceName].tasks;
 export const getAnotherUserTasks = state => state[sliceName].anotherUserTasks;
 export const getCurrentTask = (state) => state[sliceName].tasks.find(task => task.id === state[sliceName].currentTaskId);
