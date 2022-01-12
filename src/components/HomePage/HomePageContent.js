@@ -20,6 +20,7 @@ import {useTranslation} from "react-i18next";
 import {getCategoryLabel} from "../../utils/functions";
 import i18n from "../../i18n";
 
+
 const HomePageContent = () => {
     const {t} = useTranslation();
     const {language} = i18n;
@@ -30,10 +31,11 @@ const HomePageContent = () => {
     const tasks = useSelector(getAllTasks);
     const dispatch = useAppDispatch();
     const token = useSelector(getUserToken);
-    // const [currentTask, setCurrentTask] = useState({})
+    const [currentTask, setCurrentTask] = useState({})
     const [zoom, setZoom] = useState(6);
     const [category, setCategory] = useState('');
     const [status] = useState('AWAITING');
+
 
     //leaflet icon issue
     let DefaultIcon = L.icon({
@@ -51,7 +53,17 @@ const HomePageContent = () => {
 
     const onClickFunction = (id) => {
         const task = tasks.find(t => t.id === id);
-        // setCurrentTask(task);
+        setCurrentTask(task);
+        setZoom(12);
+        setLatitude(task.latitude);
+        setLongitude(task.longitude);
+    }
+
+    const onClickFunctionFromMap = (e, button) => {
+        e.preventDefault();
+        const {content} = button;
+        const task = tasks.find(t => t.id === content);
+        setCurrentTask(task);
         setZoom(12);
         setLatitude(task.latitude);
         setLongitude(task.longitude);
@@ -84,6 +96,10 @@ const HomePageContent = () => {
         return <Button color={categoryObj.colors} onClick={filterCategory}
                        content={categoryId}>{label}</Button>
     })
+
+    const test = () => {
+        console.log(test)
+    }
 
     return (
         <section className={classes.section}>
@@ -118,7 +134,9 @@ const HomePageContent = () => {
                             {tasks?.length > 0 && tasks && tasks.map((task) => (
                                 <Marker position={[task.latitude, task.longitude]}>
                                     <Popup>
-                                        {t("taskLocation")}
+                                        <div className={classes.popupInfo}><strong>{t("title")}:</strong> {task.title}</div>
+                                        <div className={classes.popupInfo}><strong>{t("taskLocation")}: </strong>{task.address}</div>
+                                        <Button fluid content={task.id} onClick={onClickFunctionFromMap}>{t("zoomMap")}</Button>
                                     </Popup>
                                 </Marker>
                             ))}

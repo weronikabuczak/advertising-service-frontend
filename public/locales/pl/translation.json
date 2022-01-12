@@ -15,7 +15,7 @@
   "detectLocation": "Zlokalizuj mnie",
   "defaultMap": "Domyślny widok mapy",
   "all": "Wszystkie",
-  "taskLocation": "Miejsce wykonania zlecenia",
+  "taskLocation": "Adres wykonania zlecenia",
   "noTasksAddNew": "Brak ogłoszeń. Kliknij, aby dodać pierwsze zlecenie.",
   "taskDetails": "Szczegóły",
   "delete": "Usuń",
@@ -84,5 +84,6 @@
   "browseAdverts": "Przeglądaj ogłoszenia",
   "currentPassword": "Obecne hasło",
   "newPassword": "Nowe hasło",
-  "doneByMe": "Zlecenia wykonane przeze mnie"
+  "doneByMe": "Zlecenia wykonane przeze mnie",
+  "zoomMap": "Przybliż mapę"
 }
