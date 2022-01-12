@@ -1,11 +1,17 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import {deleteTaskApiCall, getTasksApiCall, updateTaskApiCall} from "./thunks/task-thunks";
+import {
+    deleteTaskApiCall,
+    getAnotherUserCompletedTasksApiCall,
+    getTasksApiCall,
+    updateTaskApiCall
+} from "./thunks/task-thunks";
 import {updateUserApiCall} from "./thunks/auth-thunks";
 
 export const sliceName = 'task';
 
 export const initialState = {
     tasks: [],
+    anotherUserTasks: [],
     currentTaskId: '',
     isLoading: false,
     // setOpen: false
@@ -36,6 +42,22 @@ export const getTasks = createAsyncThunk(`${sliceName}/getTasks`, async ({
                 }
                 return task
             })
+        };
+
+    } catch (error) {
+        alert('Cannot fetch tasks');
+        throw error;
+    }
+});
+
+export const getAnotherUserCompletedTasks = createAsyncThunk(`${sliceName}/getAnotherUserCompletedTasks`, async ({
+                                                                             token,
+                                                                             email
+                                                                         }, {dispatch}) => {
+    try {
+        const data = await getAnotherUserCompletedTasksApiCall({token, email});
+          return {
+            anotherUserTasks: [...data]
         };
 
     } catch (error) {
@@ -100,7 +122,7 @@ const task = createSlice({
         }
     },
     extraReducers: (builder) => {
-        builder.addCase(getTasks.pending, (state) => {
+        builder.addCase(getTasks.pending || getAnotherUserCompletedTasks.pending, (state) => {
             state.isLoading = true;
         });
 
@@ -109,7 +131,14 @@ const task = createSlice({
             state.tasks = tasks;
             state.isLoading = false;
         });
-        builder.addCase(getTasks.rejected, (state) => {
+
+        builder.addCase(getAnotherUserCompletedTasks.fulfilled, (state, {payload}) => {
+            const {anotherUserTasks} = payload;
+            state.anotherUserTasks = anotherUserTasks;
+            state.isLoading = false;
+        });
+
+        builder.addCase(getTasks.rejected || getAnotherUserCompletedTasks.rejected, (state) => {
             state.isLoading = false;
         });
         builder.addCase(deleteTask.pending, (state) => {
@@ -140,6 +169,7 @@ const task = createSlice({
 export const {setCurrentTaskId} = task.actions
 export const getIsLoading = state => state[sliceName].isLoading;
 export const getAllTasks = state => state[sliceName].tasks;
+export const getAnotherUserTasks = state => state[sliceName].anotherUserTasks;
 export const getCurrentTask = (state) => state[sliceName].tasks.find(task => task.id === state[sliceName].currentTaskId);
 export const getSetOpenTask = state => state[sliceName].setOpen;
 

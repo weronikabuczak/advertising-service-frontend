@@ -53,10 +53,12 @@
 ul {
     width: 95%;
     height: 778px;
-    overflow: auto;
+    /*overflow: auto;*/
     padding: 0.3rem;
     margin: 0 auto;
 }
+
+body{ max-height: 100vh; }
 
 .taskRow {
     padding-bottom: 5px !important;

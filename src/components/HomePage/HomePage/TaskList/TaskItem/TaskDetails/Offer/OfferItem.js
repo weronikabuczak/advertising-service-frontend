@@ -28,13 +28,10 @@ const OfferItem = ({offer, isUserTasks}) => {
 
     const [modalShowUser, setModalShowUser] = useState(false);
 
-    console.log(opinion)
-    console.log(opinion.content)
     useEffect(() => {
-            if (token) {
+            if (token && !offer.hasOpinion) {
                 dispatch(getOpinion({token, offerId: offer.id}))
             }
-            console.log(opinion)
         },
         [offerAccepted, offerRejected, taskCompleted, opinionSent, offer, modalShowUser]);
 
@@ -98,6 +95,12 @@ const OfferItem = ({offer, isUserTasks}) => {
                         <Card.Content><Icon name='home'/>{offer.user.location}</Card.Content>
                         <Card.Content><Icon name='phone'/>{offer.user.phoneNumber}</Card.Content>
                         <Card.Content><Icon name='mail'/>{offer.user.email}</Card.Content>
+                        <Button animated onClick={showUser}>
+                            <Button.Content visible>{offer.user.email}</Button.Content>
+                            <Button.Content hidden>
+                                Zobacz szczegóły
+                            </Button.Content>
+                        </Button>
                     </Card.Content>
                     <Card.Content extra>
                         <div className='ui two buttons'>
@@ -154,17 +157,19 @@ const OfferItem = ({offer, isUserTasks}) => {
                         <Card.Content><Icon name='phone'/>{offer.user.phoneNumber}</Card.Content>
                         <Card.Content><Icon name='mail'/>{offer.user.email}</Card.Content>
                         <Divider/>
-                        <Form onSubmit={createOpinionHandler}>
-                            <Header as='h4'>Prześlij opinię:</Header>
-                            <Form.Field>
-                                <Rating maxRating={5} icon='star' size='huge' onRate={handleRate}/>
-                            </Form.Field>
-                            <Form.Field>
+                        {!opinion && !offer.hasOpinion &&
+                            <Form onSubmit={createOpinionHandler}>
+                                <Header as='h4'>Prześlij opinię:</Header>
+                                <Form.Field>
+                                    <Rating maxRating={5} icon='star' size='huge' onRate={handleRate}/>
+                                </Form.Field>
+                                <Form.Field>
                                 <textarea ref={contentInput} minLength="7" maxLength="800"
                                           placeholder="dfsdfsdf"/>
-                            </Form.Field>
-                            <Button type='submit'>Submit</Button>
-                        </Form>
+                                </Form.Field>
+                                <Button type='submit'>Submit</Button>
+                            </Form>
+                        }
                         {opinionSent &&
                             <div className={classes.offerInfo__card}>
                                 opinion sent

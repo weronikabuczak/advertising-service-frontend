@@ -27,6 +27,29 @@ export const getTasksApiCall = async ({isUserTasks, token, category, status}) =>
     }
 };
 
+export const getAnotherUserCompletedTasksApiCall = async ({token, email}) => {
+    try {
+        let url = `http://localhost:8080/api/task/complete-by-user/${email}`;
+        return fetch(url, {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + token,
+                'Content-Type': 'application/json'
+            },
+        }).then((response) => {
+            if (response.ok) {
+                return response.json().then(data => {
+                    return [...data]
+                })
+            } else {
+                throw 'Fetching tasks failed!'
+            }
+        })
+    } catch (error) {
+        throw error;
+    }
+};
+
 export const deleteTaskApiCall = async ({token, id}) => {
     try {
         return fetch(`http://localhost:8080/api/task/${id}`, {

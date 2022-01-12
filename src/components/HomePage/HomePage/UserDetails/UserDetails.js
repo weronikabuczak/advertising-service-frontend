@@ -7,12 +7,16 @@ import {useAppDispatch} from "../../../../root";
 import {getAnotherUser, getAnotherUserInfo, getUserToken} from "../../../../store/auth";
 import {useSelector} from "react-redux";
 import {useTranslation} from "react-i18next";
+import AnotherUserCompletedTasks from "./AnotherUserCompletedTasks";
+import {getAnotherUserCompletedTasks, getAnotherUserTasks} from "../../../../store/task";
+import TaskItem from "../TaskList/TaskItem/TaskItem";
 
 const UserDetails = ({open, setOpen, email}) => {
     const {t, i18n} = useTranslation();
     const token = useSelector(getUserToken);
     const dispatch = useAppDispatch();
     const anotherUser = useSelector(getAnotherUserInfo);
+    const anotherUserTasks = useSelector(getAnotherUserTasks);
 
     const onClose = (event) => {
         event.preventDefault()
@@ -20,9 +24,11 @@ const UserDetails = ({open, setOpen, email}) => {
     }
     useEffect(() => {
             if (token) {
-                dispatch(getAnotherUser({token, email}))
+                dispatch(getAnotherUser({token, email}));
+                dispatch(getAnotherUserCompletedTasks ({token, email}));
             }
             console.log(anotherUser)
+            console.log(anotherUserTasks)
         },
          [email]);
 
@@ -30,22 +36,25 @@ const UserDetails = ({open, setOpen, email}) => {
     return (
         <Modal
             closeIcon
-            centered={true}
+            // centered={true}
             open={open}
+            scrolling
             onClose={onClose}
             size='medium'
             dimmer='blurring'
+
+
         >
             <Card fluid>
                 <Card.Content>
                     <Grid stackable>
-                        <Grid.Column width={6}>
+                        <Grid.Column width={4}>
                             {anotherUser.image != null
                                 ? <Image className={classes.profileImage} src={anotherUser.image} rounded/>
                                 : <Image className={classes.profileImage} src={profile} rounded/>
                             }
                         </Grid.Column>
-                        <Grid.Column width={10}>
+                        <Grid.Column width={12}>
                             <Header as='h1'>
                                 {anotherUser.name}
                                 <Header.Subheader>{anotherUser.location}</Header.Subheader>
@@ -71,11 +80,14 @@ const UserDetails = ({open, setOpen, email}) => {
                                 </Table.Body>
                             </Table>
                         </Grid.Column>
+                        <h1>Wykonane zadania:</h1>
+                        <ul>
+                        {anotherUserTasks && anotherUserTasks.map((task) => (
+                            <AnotherUserCompletedTasks task={task}/>
+                                ))}
+                            </ul>
                     </Grid>
                 </Card.Content>
-                <AnotherUserCompletedTasks>
-
-                </AnotherUserCompletedTasks>
             </Card>
         </Modal>
     );

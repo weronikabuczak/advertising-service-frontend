@@ -71,6 +71,7 @@ const UserTasks = () => {
         <Button.Group className={classes.taskButtons}>
             <Button content='' floated='left' onClick={filterTasks}>{t("all")}</Button>
             {statusesBar}
+            <Button content='EXECUTED' floated='left' onClick={filterTasks}/>
         </Button.Group>
         {tasks?.length > 0 && tasks
             ?
