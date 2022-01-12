@@ -17,11 +17,11 @@ const UserDetails = ({open, setOpen, email}) => {
     const dispatch = useAppDispatch();
     const anotherUser = useSelector(getAnotherUserInfo);
     const anotherUserTasks = useSelector(getAnotherUserTasks);
-
     const onClose = (event) => {
         event.preventDefault()
         setOpen(false);
     }
+    console.log(anotherUserTasks)
     useEffect(() => {
             if (token && open) {
                 dispatch(getAnotherUser({token, email}));
