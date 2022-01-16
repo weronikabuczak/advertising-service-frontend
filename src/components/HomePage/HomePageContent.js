@@ -15,10 +15,11 @@ import MapTrickyComponent from "../NewTask/MapTrickyComponent";
 import {categories} from "../../utils/taskCategory";
 import "leaflet-control-geocoder/dist/Control.Geocoder.css";
 import "leaflet-control-geocoder/dist/Control.Geocoder.js";
-import Link from "react-router-dom/es/Link";
+import { Link } from "react-router-dom";
 import {useTranslation} from "react-i18next";
 import {getCategoryLabel} from "../../utils/functions";
 import i18n from "../../i18n";
+import {useHistory} from "react-router-dom";
 
 
 const HomePageContent = () => {
@@ -35,6 +36,7 @@ const HomePageContent = () => {
     const [zoom, setZoom] = useState(6);
     const [category, setCategory] = useState('');
     const [status] = useState('AWAITING');
+    const history = useHistory();
 
 
     //leaflet icon issue
@@ -52,7 +54,7 @@ const HomePageContent = () => {
 
     const listStyle = {overflow: "auto"};
 
-    const onClickFunction = (id) => {
+    const selectCurrentTask = (id) => {
         const task = tasks.find(t => t.id === id);
         setCurrentTask(task);
         setZoom(12);
@@ -60,10 +62,17 @@ const HomePageContent = () => {
         setLongitude(task.longitude);
     }
 
-    const onClickFunctionFromMap = (e, button) => {
-        e.preventDefault();
-        const {content} = button;
-        const task = tasks.find(t => t.id === content);
+    // const selectTaskFromMap = (e, button) => {
+    //     const {content} = button;
+    //     const task = tasks.find(t => t.id === content);
+    //     setCurrentTask(task);
+    //     setZoom(12);
+    //     setLatitude(task.latitude);
+    //     setLongitude(task.longitude);
+    // }
+
+    const selectTaskFromMap = (e, taskId) => {
+        const task = tasks.find(t => t.id === taskId);
         setCurrentTask(task);
         setZoom(12);
         setLatitude(task.latitude);
@@ -133,12 +142,12 @@ const HomePageContent = () => {
                                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                             />
                             {tasks?.length > 0 && tasks && tasks.map((task) => (
-                                <Marker position={[task.latitude, task.longitude]}>
-                                    <Popup>
-                                        <div className={classes.popupInfo}><strong>{t("title")}:</strong> {task.title}</div>
-                                        <div className={classes.popupInfo}><strong>{t("taskLocation")}: </strong>{task.address}</div>
-                                        <Button fluid content={task.id} onClick={onClickFunctionFromMap}>{t("zoomMap")}</Button>
-                                    </Popup>
+                                <Marker position={[task.latitude, task.longitude]}
+                                        eventHandlers={{
+                                            click: (e) => {
+                                                selectTaskFromMap(e, task.id)
+                                            }
+                                        }}>
                                 </Marker>
                             ))}
                         </MapContainer>
@@ -146,7 +155,8 @@ const HomePageContent = () => {
                     <Grid.Column widescreen={6} largeScreen={7} computer={8} tablet={9} mobile={16}>
                         {tasks?.length > 0 && tasks
                             ?
-                            <TaskList tasks={tasks} onClick={onClickFunction} isUserTasks={false} listStyle={listStyle}/>
+                            <TaskList tasks={tasks} onClick={selectCurrentTask} isUserTasks={false}
+                                      listStyle={listStyle} currentTask={currentTask}/>
                             :
                             (<div className={classes.noTask__button}>
                                 <Button><Link to="/newTask">{t("noTasksAddNew")}</Link></Button>

@@ -7,19 +7,34 @@ import {setCurrentTaskId} from "../../../../store/task";
 import {useAppDispatch} from "../../../../root";
 import {useTranslation} from "react-i18next";
 import i18n from "../../../../i18n";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 
-const TaskItem = ({task, onClick, isUserTasks}) => {
+const TaskItem = ({task, onClick, isUserTasks, currentTask}) => {
     const {t} = useTranslation();
-    const {language: currentLanguage} = i18n
+    const {language: currentLanguage} = i18n;
+    const history = useHistory();
+    const dispatch = useAppDispatch();
+    const [taskBackgroundColor, setTaskBackgroundColor] = useState({});
 
     useEffect(() => {
+            let color;
+            if (currentTask) {
+                if (task.id === currentTask.id) {
+                    color = {
+                        'background-color': '#eee',
+                        'border': '2px solid grey'
+                    }
+                    setTaskBackgroundColor(color);
+                } else {
+                    color = {
+                        'background-color': '#fff'
+                    }
+                    setTaskBackgroundColor(color);
+                }
+            }
         },
-        [isUserTasks]);
+        [isUserTasks, currentTask]);
 
-
-    const history = useHistory();
-    const dispatch = useAppDispatch()
 
     const taskDetailsHandler = () => {
         dispatch(setCurrentTaskId(task.id));
@@ -36,8 +51,9 @@ const TaskItem = ({task, onClick, isUserTasks}) => {
         'background-color': getCategoryColorClass(task.category)
     };
 
+
     return (
-        <Card fluid centered className={classes.taskCard} onClick={onClickHandler}>
+        <Card style={taskBackgroundColor} fluid centered className={classes.taskCard} onClick={onClickHandler}>
             <Card.Content>
                 <Grid stackable>
                     <Grid.Row className={classes.taskRow}>

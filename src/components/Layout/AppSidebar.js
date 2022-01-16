@@ -25,7 +25,7 @@ const AppSidebar = ({toggleFn, toggleMenu}) => {
             <MenuItem onClick={toggleFn}>
                 <Link to='/'><Icon name='home' className={classes.paddingClasses}/>{t("home")}</Link>
             </MenuItem>
-            <MenuItem onClick={toggleFn} link='true'>
+            <MenuItem onClick={toggleFn}>
                 <Link to='/profile'><Icon name='user'/>{t("myAccount")}</Link>
             </MenuItem>
             <MenuItem onClick={toggleFn}>

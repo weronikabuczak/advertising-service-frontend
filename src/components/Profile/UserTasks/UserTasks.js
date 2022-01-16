@@ -7,7 +7,7 @@ import {getAllTasks, getAnotherUserCompletedTasks, getAnotherUserTasks, getTasks
 import {useAppDispatch} from "../../../root";
 import {useSelector} from "react-redux";
 import {getUserEmail, getUserToken} from "../../../store/auth";
-import Link from "react-router-dom/es/Link";
+import { Link } from "react-router-dom";
 import {statuses} from "../../../utils/taskStatus";
 import {useTranslation} from "react-i18next";
 import {getStatusColor, getStatusLabel} from "../../../utils/functions";
@@ -38,7 +38,7 @@ const UserTasks = () => {
         history.replace('/userTasks');
     }
 
-    const onClickFunction = (id) => {
+    const selectCurrentTask = (id) => {
         const task = tasks.find(t => t.id === id);
     }
 
@@ -82,7 +82,7 @@ const UserTasks = () => {
         {tasks?.length > 0 && tasks && !showCompletedTasks
             ?
             <Segment basic>
-                <TaskList tasks={tasks} onClick={onClickFunction} isUserTasks={true} listStyle={listStyle}/>
+                <TaskList tasks={tasks} onClick={selectCurrentTask} isUserTasks={true} listStyle={listStyle}/>
             </Segment>
             :
             (!showCompletedTasks &&

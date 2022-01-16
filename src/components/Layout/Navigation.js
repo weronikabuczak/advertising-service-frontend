@@ -44,9 +44,8 @@ const Navigation = () => {
                 </Link>
             )}
             {!isLoggedIn && (
-
                 <div className={classes.logo}>
-                    <Icon link='/' name='calendar check'/>
+                    <Icon name='calendar check'/>
                     Services App
                 </div>
             )}
