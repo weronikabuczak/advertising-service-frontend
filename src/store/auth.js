@@ -75,17 +75,12 @@ export const registerUser = createAsyncThunk(`${sliceName}/register`, async ({
 });
 
 export const logoutUser = createAsyncThunk(`${sliceName}/logout`, async ({dispatch}) => {
-    try {
         return {
             token: null,
             isLoggedIn: false,
             expirationTime: null,
             remainingTime: null,
         };
-    } catch (error) {
-        alert('Cannot logout');
-        throw error;
-    }
 });
 
 export const getUser = createAsyncThunk(`${sliceName}/getUser`, async ({token}, {dispatch}) => {
@@ -228,7 +223,7 @@ const auth = createSlice({
             state.setOpen = true;
         });
 
-        builder.addCase(updatePassword.fulfilled || updateUser.fulfilled, (state, {}) => {
+        builder.addCase(updatePassword.fulfilled || updateUser.fulfilled, (state) => {
             state.isLoading = false;
             state.setOpen = false;
         });

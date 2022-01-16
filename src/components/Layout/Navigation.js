@@ -12,7 +12,7 @@ import {Icon} from "semantic-ui-react";
 
 
 const Navigation = () => {
-    const {t, i18n} = useTranslation();
+    const {t} = useTranslation();
 
 
     const dispatch = useAppDispatch();

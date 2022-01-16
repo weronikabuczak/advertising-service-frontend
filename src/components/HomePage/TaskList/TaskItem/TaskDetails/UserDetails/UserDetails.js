@@ -10,7 +10,7 @@ import UserCompletedTasks from "./UserCompletedTasks";
 import {getAnotherUserCompletedTasks, getAnotherUserTasks} from "../../../../../../store/task";
 
 const UserDetails = ({open, setOpen, email}) => {
-    const {t, i18n} = useTranslation();
+    const {t} = useTranslation();
     const token = useSelector(getUserToken);
     const dispatch = useAppDispatch();
     const anotherUser = useSelector(getAnotherUserInfo);
@@ -19,7 +19,6 @@ const UserDetails = ({open, setOpen, email}) => {
         event.preventDefault()
         setOpen(false);
     }
-    console.log(anotherUserTasks)
     useEffect(() => {
             if (token && open) {
                 dispatch(getAnotherUser({token, email}));
@@ -28,7 +27,7 @@ const UserDetails = ({open, setOpen, email}) => {
             console.log(anotherUser)
             console.log(anotherUserTasks)
         },
-         [email, open]);
+         [dispatch, token, email, open]);
 
     return (
         <Modal

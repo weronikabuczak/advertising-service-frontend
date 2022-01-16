@@ -4,7 +4,7 @@ import taskIcon from "../../../../../files/task.png";
 import classes from './TaskDetails.module.css';
 import {MapContainer, TileLayer, Marker, Popup} from 'react-leaflet'
 import {useSelector} from "react-redux";
-import {getCurrentTask, getTasks} from "../../../../../store/task";
+import {getCurrentTask} from "../../../../../store/task";
 import L from 'leaflet';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
@@ -65,7 +65,7 @@ const TaskDetails = () => {
                 dispatch(getOffers({token, taskId, offerStatus: 'COMPLETED'}));
             }
         },
-        [location.state.isUserTasks, taskId, token, task, offerSent, isCurrentUserTask, currentUser, modalOpenDelete, modalOpenEdit]);
+        [dispatch, location.state.isUserTasks, taskId, token, task, offerSent, isCurrentUserTask, currentUser, modalOpenDelete, modalOpenEdit]);
 
     if (task.user.image) {
         avatar = "data:image/jpeg;base64," + task.user.image;
@@ -80,7 +80,7 @@ const TaskDetails = () => {
 
     const deleteTaskHandler = () => {
         setModalOpenDelete(true);
-        let isUserTasks = location.state.isUserTasks;
+        // let isUserTasks = location.state.isUserTasks;
 
     }
 

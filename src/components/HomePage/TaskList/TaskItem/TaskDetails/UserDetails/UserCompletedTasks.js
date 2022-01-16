@@ -3,7 +3,7 @@ import {useTranslation} from "react-i18next";
 import classes from "./UserCompletedTasks.module.css";
 
 const UserCompletedTasks = ({task}) => {
-    const {t, i18n} = useTranslation();
+    const {t} = useTranslation();
 
     return (
         <Card fluid className={classes.completedTasksItem}>

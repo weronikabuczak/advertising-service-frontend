@@ -1,7 +1,7 @@
 import classes from './HomePageContent.module.css';
 import {Button, Grid, Icon} from "semantic-ui-react";
 import TaskList from "./TaskList/TaskList";
-import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
+import {MapContainer, Marker, TileLayer} from "react-leaflet";
 import L from 'leaflet';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
@@ -19,8 +19,6 @@ import { Link } from "react-router-dom";
 import {useTranslation} from "react-i18next";
 import {getCategoryLabel} from "../../utils/functions";
 import i18n from "../../i18n";
-import {useHistory} from "react-router-dom";
-
 
 const HomePageContent = () => {
     const {t} = useTranslation();
@@ -36,7 +34,6 @@ const HomePageContent = () => {
     const [zoom, setZoom] = useState(6);
     const [category, setCategory] = useState('');
     const [status] = useState('AWAITING');
-    const history = useHistory();
 
 
     //leaflet icon issue
@@ -50,7 +47,7 @@ const HomePageContent = () => {
         if (token) {
             dispatch(getTasks({isUserTasks: false, token, category, status}));
         }
-    }, [token, category]);
+    }, [token, category, dispatch, status]);
 
     const listStyle = {overflow: "auto"};
 
@@ -106,10 +103,6 @@ const HomePageContent = () => {
         return <Button color={categoryObj.colors} onClick={filterCategory}
                        content={categoryId}>{label}</Button>
     })
-
-    const test = () => {
-        console.log(test)
-    }
 
     return (
         <section className={classes.section}>

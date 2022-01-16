@@ -1,5 +1,5 @@
 import TaskList from "../../HomePage/TaskList/TaskList";
-import {Button, Card, Icon, Segment} from "semantic-ui-react";
+import {Button, Segment} from "semantic-ui-react";
 import {useHistory} from "react-router-dom";
 import classes from "../UserProfile.module.css";
 import React, {useEffect, useState} from "react";
@@ -10,7 +10,7 @@ import {getUserEmail, getUserToken} from "../../../store/auth";
 import { Link } from "react-router-dom";
 import {statuses} from "../../../utils/taskStatus";
 import {useTranslation} from "react-i18next";
-import {getStatusColor, getStatusLabel} from "../../../utils/functions";
+import {getStatusLabel} from "../../../utils/functions";
 import UserCompletedTasks from "../../HomePage/TaskList/TaskItem/TaskDetails/UserDetails/UserCompletedTasks";
 
 
@@ -29,6 +29,13 @@ const UserTasks = () => {
     const [showCompletedTasks, setShowCompletedTasks] = useState(false);
 
     const listStyle = {overflow: "inherit"};
+
+    useEffect(() => {
+        if (token) {
+            dispatch(getTasks({isUserTasks: true, token, status}));
+        }
+        setShowCompletedTasks(false);
+    }, [dispatch, token, status]);
 
     const userInfoHandler = () => {
         history.replace('/profile');
@@ -54,12 +61,7 @@ const UserTasks = () => {
         setShowCompletedTasks(true);
     }
 
-    useEffect(() => {
-        if (token) {
-            dispatch(getTasks({isUserTasks: true, token, status}));
-        }
-        setShowCompletedTasks(false);
-    }, [token, status]);
+
 
 
     const statusesBar = Object.entries(statuses).map((arr) => {

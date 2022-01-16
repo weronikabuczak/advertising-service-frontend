@@ -19,7 +19,6 @@ const NewTaskForm = () => {
     const {language} = i18n;
     const dispatch = useAppDispatch();
 
-    const [isLoading, setIsLoading] = useState(false);
     const [pickerValue, setPickerValue] = useState();
     const [latitude, setLatitude] = useState(0);
     const [longitude, setLongitude] = useState(0);
@@ -169,7 +168,6 @@ const NewTaskForm = () => {
                 </div>
                 <div className={classes.actions}>
                     <button>{t("addAdvert")}</button>
-                    {isLoading && <p>{t("sendingRequest")}</p>}
                 </div>
             </form>
         </section>

@@ -25,7 +25,7 @@ const UserProfile = () => {
         if (token) {
             dispatch(getUser({token}));
         }
-    }, [modalOpenPassword, modalOpenUserInfo]);
+    }, [dispatch, token, modalOpenPassword, modalOpenUserInfo]);
 
 
 

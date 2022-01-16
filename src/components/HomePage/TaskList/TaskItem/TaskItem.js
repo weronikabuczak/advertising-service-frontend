@@ -1,7 +1,7 @@
-import {Button, Card, Grid, Header, Icon, Image, Message, Segment} from "semantic-ui-react";
+import {Button, Card, Grid, Header, Icon, Image, Message} from "semantic-ui-react";
 import taskIcon from '../../../../files/task.png';
 import classes from "./TaskItem.module.css";
-import {formatDate, getCategoryColorClass, getCategoryLabel} from "../../../../utils/functions";
+import {getCategoryColorClass, getCategoryLabel} from "../../../../utils/functions";
 import {useHistory} from "react-router-dom";
 import {setCurrentTaskId} from "../../../../store/task";
 import {useAppDispatch} from "../../../../root";
@@ -33,7 +33,7 @@ const TaskItem = ({task, onClick, isUserTasks, currentTask}) => {
                 }
             }
         },
-        [isUserTasks, currentTask]);
+        [task.id, isUserTasks, currentTask]);
 
 
     const taskDetailsHandler = () => {

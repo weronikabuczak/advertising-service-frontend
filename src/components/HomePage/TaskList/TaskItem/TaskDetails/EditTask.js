@@ -41,7 +41,6 @@ const EditTask = ({open, setOpen, id, task}) => {
         event.preventDefault();
         const title = titleInput.current.value;
         const content = contentInput.current.value;
-        const category = category;
         const address = addressInput.current.value;
         const pay = payInput.current.value;
         const expirationDate = expirationDateInput.current.value;

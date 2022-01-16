@@ -6,7 +6,7 @@ import {useTranslation} from "react-i18next";
 import {useAppDispatch} from "../../root";
 
 const ChangeUserData = ({open, setOpen, email, user}) => {
-    const {t, i18n} = useTranslation();
+    const {t} = useTranslation();
     const token = useSelector(getUserToken);
     const phoneNumberInput = useRef();
     const nameInput = useRef();

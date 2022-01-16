@@ -22,7 +22,7 @@ export const loginUserApiCall = async ({email, password}) => {
                     }
                 })
             } else {
-                throw 'Authentication failed!'
+                throw new Error('Authentication failed!');
             }
         })
     } catch (error) {
@@ -57,7 +57,7 @@ export const registerUserApiCall = async ({
                     }
                 })
             } else {
-                throw 'Authentication failed!'
+                throw new Error('Authentication failed!');
             }
         })
     } catch (err) {

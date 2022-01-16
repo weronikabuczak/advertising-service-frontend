@@ -8,7 +8,7 @@ import {Icon} from "semantic-ui-react";
 import {useTranslation} from "react-i18next";
 
 const AuthorizationForm = () => {
-        const {t, i18n} = useTranslation();
+        const {t} = useTranslation();
 
         const history = useHistory();
         const dispatch = useAppDispatch();

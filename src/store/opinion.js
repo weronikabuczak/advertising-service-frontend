@@ -1,7 +1,5 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {createOpinionApiCall, getOpinionApiCall} from "./thunks/opinion-thunks";
-import {createOffer, getOffers, updateOffer} from "./offer";
-import {getOffersApiCall} from "./thunks/offer-thunks";
 
 export const sliceName = 'opinion';
 

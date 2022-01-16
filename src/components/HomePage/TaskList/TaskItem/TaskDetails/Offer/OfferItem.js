@@ -1,5 +1,5 @@
 import {useAppDispatch} from "../../../../../../root";
-import {Button, Card, Divider, Form, Grid, Header, Icon, Image, Rating, Segment, TextArea} from "semantic-ui-react";
+import {Button, Card, Divider, Form, Header, Icon, Image, Rating, Segment} from "semantic-ui-react";
 import React, {useEffect, useRef, useState} from "react";
 import {
     updateOffer
@@ -13,7 +13,7 @@ import {createOpinion, getOpinion, getOpinionForOffer} from "../../../../../../s
 import UserDetails from "../UserDetails/UserDetails";
 
 const OfferItem = ({offer, isUserTasks}) => {
-    const {t, i18n} = useTranslation();
+    const {t} = useTranslation();
     const dispatch = useAppDispatch();
     const token = useSelector(getUserToken);
     const [offerAccepted, setOfferAccepted] = useState(false);
@@ -27,11 +27,10 @@ const OfferItem = ({offer, isUserTasks}) => {
     const [modalShowUser, setModalShowUser] = useState(false);
 
     useEffect(() => {
-            if (token && offer.hasOpinion) {
-                dispatch(getOpinion({token, offerId: offer.id}))
-            }
-        },
-        [offerAccepted, offerRejected, taskCompleted, offer, modalShowUser, opinionSent, offer.hasOpinion]);
+        if (token && offer.hasOpinion) {
+            dispatch(getOpinion({token, offerId: offer.id}))
+        }
+    }, [offerAccepted, offerRejected, taskCompleted, offer, modalShowUser, opinionSent, offer.hasOpinion, dispatch, token]);
 
 
     const acceptOffer = () => {
@@ -72,142 +71,112 @@ const OfferItem = ({offer, isUserTasks}) => {
         setModalShowUser(true);
     }
 
-    return (
-        <section>
-            <UserDetails open={modalShowUser} setOpen={setModalShowUser} email={offer.user.email}/>
+    return (<section>
+        <UserDetails open={modalShowUser} setOpen={setModalShowUser} email={offer.user.email}/>
 
-            {isUserTasks && offer.status === 'ACTIVE' &&
-                <Card fluid>
-                    <Card.Content>
-                        {offer.user.image != null
-                            ? <Image src={offer.user.image} rounded size='tiny' floated='right'/>
-                            //todo get image
-                            :
-                            <Image src={profile} rounded size='tiny' floated='right'/>
-                        }
+        {isUserTasks && offer.status === 'ACTIVE' && <Card fluid>
+            <Card.Content>
+                {offer.user.image != null ? <Image src={offer.user.image} rounded size='tiny' floated='right'/>
+                    //todo get image
+                    : <Image src={profile} rounded size='tiny' floated='right'/>}
 
-                        <Card.Header>{t("offerFrom")}</Card.Header>
-                        <Card.Content>{offer.user.name}</Card.Content>
-                        <Card.Content><Icon name='home'/>{offer.user.location}</Card.Content>
-                        <Card.Content><Icon name='phone'/>{offer.user.phoneNumber}</Card.Content>
-                        <Card.Content><Icon name='mail'/>{offer.user.email}</Card.Content>
-                        <Button animated onClick={showUser}>
-                            <Button.Content visible>{offer.user.email}</Button.Content>
-                            <Button.Content hidden>
-                                {t("seeDetails")}
-                            </Button.Content>
-                        </Button>
-                    </Card.Content>
-                    <Card.Content extra>
-                        <div className='ui two buttons'>
-                            <Button basic color='green' onClick={acceptOffer}>
-                                {t("accept")}
-                            </Button>
-                            <Button basic color='red' onClick={rejectOffer}>
-                                {t("reject")}
-                            </Button>
-                        </div>
-                    </Card.Content>
-                </Card>
-            }
+                <Card.Header>{t("offerFrom")}</Card.Header>
+                <Card.Content>{offer.user.name}</Card.Content>
+                <Card.Content><Icon name='home'/>{offer.user.location}</Card.Content>
+                <Card.Content><Icon name='phone'/>{offer.user.phoneNumber}</Card.Content>
+                <Card.Content><Icon name='mail'/>{offer.user.email}</Card.Content>
+                <Button animated onClick={showUser}>
+                    <Button.Content visible>{offer.user.email}</Button.Content>
+                    <Button.Content hidden>
+                        {t("seeDetails")}
+                    </Button.Content>
+                </Button>
+            </Card.Content>
+            <Card.Content extra>
+                <div className='ui two buttons'>
+                    <Button basic color='green' onClick={acceptOffer}>
+                        {t("accept")}
+                    </Button>
+                    <Button basic color='red' onClick={rejectOffer}>
+                        {t("reject")}
+                    </Button>
+                </div>
+            </Card.Content>
+        </Card>}
 
-            {isUserTasks && offer.status === 'ACCEPTED' &&
-                <Card fluid>
-                    <Card.Content>
-                        {offer.user.image != null
-                            ? <Image src={offer.user.image} rounded size='tiny' floated='right'/>
-                            //todo get image
-                            :
-                            <Image src={profile} rounded size='tiny' floated='right'/>
-                        }
-                        <Card.Header>{t("jobIsPerformedBy")}</Card.Header>
-                        <Card.Content>{offer.user.name}</Card.Content>
-                        <Card.Content><Icon name='home'/>{offer.user.location}</Card.Content>
-                        <Card.Content><Icon name='phone'/>{offer.user.phoneNumber}</Card.Content>
-                        <Card.Content><Icon name='mail'/>{offer.user.email}</Card.Content>
-                        <Button animated onClick={completeTaskHandler}>
-                            <Button.Content visible>{t("markTheJobComplete")}</Button.Content>
-                            <Button.Content hidden>
-                                <Icon size='large' name='calendar outline'/>
-                            </Button.Content>
-                        </Button>
-                        {taskCompleted &&
-                            <div className={classes.offerInfo__card}>
-                                {t("jobCompleted")}
-                            </div>}
-                    </Card.Content>
-                </Card>
-            }
-            {isUserTasks && offer.status === 'COMPLETED' && !offer.hasOpinion && !opinionSent &&
-                <Card fluid>
-                    <Card.Content>
-                        {offer.user.image != null
-                            ? <Image src={offer.user.image} rounded size='tiny' floated='right'/>
-                            //todo get image
-                            :
-                            <Image src={profile} rounded size='tiny' floated='right'/>
-                        }
-                        <Card.Header>{t("taskCompletedBy")}</Card.Header>
-                        <Card.Content>{offer.user.name}</Card.Content>
-                        <Card.Content><Icon name='home'/>{offer.user.location}</Card.Content>
-                        <Card.Content><Icon name='phone'/>{offer.user.phoneNumber}</Card.Content>
-                        <Card.Content><Icon name='mail'/>{offer.user.email}</Card.Content>
-                        <Divider/>
-                        {!offer.hasOpinion &&
-                            <Form onSubmit={createOpinionHandler}>
-                                <Header as='h4'>{t("sendOpinion")}</Header>
-                                <Form.Field>
-                                    <Rating maxRating={5} icon='star' size='huge' onRate={handleRate}/>
-                                </Form.Field>
-                                <Form.Field>
+        {isUserTasks && offer.status === 'ACCEPTED' && <Card fluid>
+            <Card.Content>
+                {offer.user.image != null ? <Image src={offer.user.image} rounded size='tiny' floated='right'/>
+                    //todo get image
+                    : <Image src={profile} rounded size='tiny' floated='right'/>}
+                <Card.Header>{t("jobIsPerformedBy")}</Card.Header>
+                <Card.Content>{offer.user.name}</Card.Content>
+                <Card.Content><Icon name='home'/>{offer.user.location}</Card.Content>
+                <Card.Content><Icon name='phone'/>{offer.user.phoneNumber}</Card.Content>
+                <Card.Content><Icon name='mail'/>{offer.user.email}</Card.Content>
+                <Button animated onClick={completeTaskHandler}>
+                    <Button.Content visible>{t("markTheJobComplete")}</Button.Content>
+                    <Button.Content hidden>
+                        <Icon size='large' name='calendar outline'/>
+                    </Button.Content>
+                </Button>
+                {taskCompleted && <div className={classes.offerInfo__card}>
+                    {t("jobCompleted")}
+                </div>}
+            </Card.Content>
+        </Card>}
+        {isUserTasks && offer.status === 'COMPLETED' && !offer.hasOpinion && !opinionSent && <Card fluid>
+            <Card.Content>
+                {offer.user.image != null ? <Image src={offer.user.image} rounded size='tiny' floated='right'/>
+                    //todo get image
+                    : <Image src={profile} rounded size='tiny' floated='right'/>}
+                <Card.Header>{t("taskCompletedBy")}</Card.Header>
+                <Card.Content>{offer.user.name}</Card.Content>
+                <Card.Content><Icon name='home'/>{offer.user.location}</Card.Content>
+                <Card.Content><Icon name='phone'/>{offer.user.phoneNumber}</Card.Content>
+                <Card.Content><Icon name='mail'/>{offer.user.email}</Card.Content>
+                <Divider/>
+                {!offer.hasOpinion && <Form onSubmit={createOpinionHandler}>
+                    <Header as='h4'>{t("sendOpinion")}</Header>
+                    <Form.Field>
+                        <Rating maxRating={5} icon='star' size='huge' onRate={handleRate}/>
+                    </Form.Field>
+                    <Form.Field>
                                 <textarea ref={contentInput} minLength="5" maxLength="800"
                                           placeholder={t("writeYourOpinion")}/>
-                                </Form.Field>
-                                <Button type='submit'>{t("submit")}</Button>
-                            </Form>
-                        }
-                        {opinionSent &&
-                            <div className={classes.offerInfo__card}>
-                                {t("opinionSent")}
-                            </div>
-                        }
-                    </Card.Content>
-                </Card>
-            }
+                    </Form.Field>
+                    <Button type='submit'>{t("submit")}</Button>
+                </Form>}
+                {opinionSent && <div className={classes.offerInfo__card}>
+                    {t("opinionSent")}
+                </div>}
+            </Card.Content>
+        </Card>}
 
-            {(offerAccepted || offerRejected) &&
-                <div className={classes.offerInfo__card}>
-                    {offerAccepted &&
-                        <p>{t("offerAccepted")}</p>}
-                    {offerRejected &&
-                        <p>{t("offerRejected")}</p>}
-                </div>
-            }
+        {(offerAccepted || offerRejected) && <div className={classes.offerInfo__card}>
+            {offerAccepted && <p>{t("offerAccepted")}</p>}
+            {offerRejected && <p>{t("offerRejected")}</p>}
+        </div>}
 
-            {offer.hasOpinion && opinion && (
-                <Card fluid>
-                    <Card.Content>
-                        <Card.Header>{t("feedbackFor")}
-                            <Button animated onClick={showUser}>
-                                <Button.Content visible>{offer.user.email}</Button.Content>
-                                <Button.Content hidden>
-                                    {t("seeDetails")}
-                                </Button.Content>
-                            </Button></Card.Header>
-                        <Segment>
-                            {opinion.rating &&
-                                <Rating maxRating={5} defaultRating={opinion.rating} icon='star' size='large'
-                                        disabled/>
-                            }
-                            {opinion.content &&
-                                <Card.Content> <strong>{t("content")}: </strong>{opinion.content}</Card.Content>
-                            }
-                        </Segment>
-                    </Card.Content>
-                </Card>
-            )}
-        </section>
-    );
+        {offer.hasOpinion && opinion && (<Card fluid>
+            <Card.Content>
+                <Card.Header>{t("feedbackFor")}
+                    <Button animated onClick={showUser}>
+                        <Button.Content visible>{offer.user.email}</Button.Content>
+                        <Button.Content hidden>
+                            {t("seeDetails")}
+                        </Button.Content>
+                    </Button></Card.Header>
+                <Segment>
+                    {opinion.rating &&
+                        <Rating maxRating={5} defaultRating={opinion.rating} icon='star' size='large'
+                                disabled/>}
+                    {opinion.content &&
+                        <Card.Content> <strong>{t("content")}: </strong>{opinion.content}</Card.Content>}
+                </Segment>
+            </Card.Content>
+        </Card>)}
+    </section>);
 };
 
 export default OfferItem;

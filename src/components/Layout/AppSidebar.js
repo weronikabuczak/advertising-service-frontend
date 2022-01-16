@@ -1,7 +1,7 @@
 import React from 'react'
 import {
     Icon,
-    Menu, MenuItem, Segment,
+    Menu, MenuItem,
     Sidebar
 } from 'semantic-ui-react'
 import {Link} from "react-router-dom";
@@ -22,6 +22,9 @@ const AppSidebar = ({toggleFn, toggleMenu}) => {
             visible={toggleMenu}
             width='wide'
         >
+            {/*<MenuItem onClick={toggleFn} >*/}
+            {/*    <Link to='/'><Icon name='home' className={classes.paddingClasses}/>{t("home")}</Link>*/}
+            {/*</MenuItem>*/}
             <MenuItem onClick={toggleFn}>
                 <Link to='/'><Icon name='home' className={classes.paddingClasses}/>{t("home")}</Link>
             </MenuItem>
