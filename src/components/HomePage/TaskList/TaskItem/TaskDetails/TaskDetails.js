@@ -1,6 +1,5 @@
 import {Button, Card, Container, Divider, Grid, Header, Icon, Image, Message, Table} from "semantic-ui-react";
 import taskIcon from "../../../../../files/task.png";
-
 import classes from './TaskDetails.module.css';
 import {MapContainer, TileLayer, Marker, Popup} from 'react-leaflet'
 import {useSelector} from "react-redux";
@@ -80,8 +79,6 @@ const TaskDetails = () => {
 
     const deleteTaskHandler = () => {
         setModalOpenDelete(true);
-        // let isUserTasks = location.state.isUserTasks;
-
     }
 
     const editTaskHandler = () => {
@@ -114,9 +111,19 @@ const TaskDetails = () => {
         <Grid stackable>
             <Grid.Row>
                 <Grid.Column width={8}>
-                    {task.image != null ?
-                        <Image src={task.image} rounded size='large'/>
-                        : <Image src={taskIcon} rounded size='large'/>}
+
+                    <MapContainer className={classes.taskMap__container} center={position} zoom={17}
+                                  scrollWheelZoom={true}>
+                        <TileLayer
+                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        />
+                        <Marker position={position}>
+                            <Popup>
+                                {t("taskLocation")}
+                            </Popup>
+                        </Marker>
+                    </MapContainer>
                 </Grid.Column>
                 <Grid.Column width={8}>
                     {isUserTasks &&
@@ -140,7 +147,20 @@ const TaskDetails = () => {
                             <Message style={categoryColor} className={classes.category__chip}>{taskCategory}</Message>
                             <Message style={statusColor} className={classes.status__chip}>{taskStatus}</Message>
                         </Card.Content>
-                        <Card.Content><Header as='h2'>{task.title}</Header></Card.Content>
+
+                        <Card.Content>
+                            <Grid>
+                                <Grid.Column width={10}>
+                                    <Header as='h2'>{task.title}</Header>
+                                </Grid.Column>
+                                <Grid.Column width={6}>
+                                    {task.image != null ?
+                                        <Image src={task.image} rounded floated='right' size='medium'/>
+                                        : <Image src={taskIcon} rounded floated='right' size='medium'/>}
+                                </Grid.Column>
+                            </Grid>
+                        </Card.Content>
+
                         <Table>
                             <Table.Body>
                                 <Table.Row>
@@ -207,29 +227,15 @@ const TaskDetails = () => {
                     {offers?.length > 0 && offers.map((offer) => (
                         <OfferItem offer={offer} isUserTasks={isUserTasks}/>
                     ))}
+                    <Grid.Row>
+                        <Container textAlign='justified'>
+                            <Header>{t("details")}:</Header>
+                            {task.content}</Container>
+                    </Grid.Row>
                 </Grid.Column>
             </Grid.Row>
-            <Divider className={classes.taskDetails__divider}/>
-            <Grid.Row>
-                <Container textAlign='justified'>
-                    <Header>{t("details")}:</Header>
-                    {task.content}</Container>
-            </Grid.Row>
-            <Header>{t("map")}:</Header>
-            <Grid.Row>
-                <MapContainer className={classes.taskMap__container} center={position} zoom={17}
-                              scrollWheelZoom={true}>
-                    <TileLayer
-                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    />
-                    <Marker position={position}>
-                        <Popup>
-                            {t("taskLocation")}
-                        </Popup>
-                    </Marker>
-                </MapContainer>
-            </Grid.Row>
+
+
         </Grid>
     </Container>)
 }
