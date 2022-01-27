@@ -83,5 +83,6 @@
   "browseAdverts": "Browse adverts",
   "currentPassword": "Current password",
   "newPassword": "New password",
-  "doneByMe": "Done by me"
+  "doneByMe": "Done by me",
+  "noCompletedTasks": "No completed tasks yet"
 }

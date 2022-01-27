@@ -26,6 +26,7 @@ const UserCompletedTasks = ({task}) => {
                 </Card.Content>
             }
         </Card>
+
     );
 }
 

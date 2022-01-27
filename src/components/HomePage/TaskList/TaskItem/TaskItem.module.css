@@ -43,6 +43,7 @@
 
 .taskCard {
     overflow-wrap: break-word;
+    /*z-index: -1;*/
 }
 
 .taskCard:hover {
@@ -52,7 +53,7 @@
 
 ul {
     width: 95%;
-    height: 778px;
+    /*height: 778px;*/
     padding: 0.3rem;
     margin: 0 auto;
 }

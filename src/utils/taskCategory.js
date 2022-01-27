@@ -28,7 +28,7 @@ export const categories = {
     'Repair': {
         pl: 'Naprawa',
         en: 'Repair',
-        colorClass: colorsClasses.GREEN,
+        colorClass: colorsClasses.BLUE,
         colors: colors.BLUE
     },
     'Moving': {

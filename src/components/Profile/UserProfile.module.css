@@ -37,6 +37,13 @@
     justify-content: center;
     margin: 2rem;
     display: flex;
+    color: black !important;
+}
+
+.noCompletedTasks__message {
+    display: table !important;
+    margin: 0 auto !important;
+    background-color: #ccc !important;
 }
 
 ul {
@@ -44,14 +51,16 @@ ul {
     width: 90%;
 }
 
+.userButtons {
+    margin-bottom: 7px !important;
+    margin-right: 7px !important;
+    float: none !important;
+}
+
 @media (max-width: 1024px) {
     .section, .taskSection {
         width: 70%;
     }
-
-    /*.taskButtons {*/
-    /*    display: flex !important;*/
-    /*}*/
 }
 
 
@@ -63,13 +72,6 @@ ul {
     .profileImage {
         padding: 0 40px;
     }
-
-    .userButtons {
-        margin-bottom: 7px !important;
-        margin-right: 7px !important;
-        float: none !important;
-    }
-
 }
 
 @media (max-width: 425px) {

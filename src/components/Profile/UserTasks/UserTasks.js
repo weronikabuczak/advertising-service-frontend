@@ -1,13 +1,20 @@
 import TaskList from "../../HomePage/TaskList/TaskList";
-import {Button, Segment} from "semantic-ui-react";
+import {Button, Card, Divider, Grid, Message, Segment} from "semantic-ui-react";
 import {useHistory} from "react-router-dom";
 import classes from "../UserProfile.module.css";
 import React, {useEffect, useState} from "react";
-import {getAllTasks, getAnotherUserCompletedTasks, getAnotherUserTasks, getTasks} from "../../../store/task";
+import {
+    getAllTasks, getAllUserTasks,
+    getAnotherUserCompletedTasks,
+    getAnotherUserTasks,
+    getPage,
+    getTasks, getUserPage,
+    getUserTasks, resetTasks
+} from "../../../store/task";
 import {useAppDispatch} from "../../../root";
 import {useSelector} from "react-redux";
-import {getUserEmail, getUserToken} from "../../../store/auth";
-import { Link } from "react-router-dom";
+import {getUser, getUserEmail, getUserToken} from "../../../store/auth";
+import {Link} from "react-router-dom";
 import {statuses} from "../../../utils/taskStatus";
 import {useTranslation} from "react-i18next";
 import {getStatusLabel} from "../../../utils/functions";
@@ -52,6 +59,7 @@ const UserTasks = () => {
     const filterTasks = (e, button) => {
         const {content} = button;
         setStatus(content);
+        setShowCompletedTasks(false);
     }
 
     const getTaskCompletedByMe = () => {
@@ -60,9 +68,6 @@ const UserTasks = () => {
         }
         setShowCompletedTasks(true);
     }
-
-
-
 
     const statusesBar = Object.entries(statuses).map((arr) => {
         const [statusId, statusObj] = arr
@@ -79,12 +84,13 @@ const UserTasks = () => {
         <Button.Group className={classes.taskButtons}>
             <Button content='' floated='left' onClick={filterTasks}>{t("all")}</Button>
             {statusesBar}
-            <Button floated='left' onClick={getTaskCompletedByMe}>{t("doneByMe")}:</Button>
+            <Button floated='left' onClick={getTaskCompletedByMe}>{t("doneByMe")}</Button>
         </Button.Group>
         {tasks?.length > 0 && tasks && !showCompletedTasks
             ?
             <Segment basic>
-                <TaskList tasks={tasks} onClick={selectCurrentTask} isUserTasks={true} listStyle={listStyle}/>
+                <TaskList tasks={tasks} onClick={selectCurrentTask} isUserTasks={true}
+                          listStyle={listStyle}/>
             </Segment>
             :
             (!showCompletedTasks &&
@@ -92,12 +98,18 @@ const UserTasks = () => {
                     <Button><Link to="/newTask">{t("noTasksAddNew")}</Link></Button>
                 </div>)
         }
-        <ul>
-            {myCompletedTasks && showCompletedTasks && myCompletedTasks.map((task) => (
-                <UserCompletedTasks task={task}></UserCompletedTasks>
-            ))}
-        </ul>
-
+        <div>{myCompletedTasks > 0 && showCompletedTasks &&
+            (
+                <ul>
+                    {myCompletedTasks && showCompletedTasks && myCompletedTasks.map((task) => (
+                        <UserCompletedTasks task={task}/>
+                    ))}
+                </ul>)}
+            {myCompletedTasks <= 0 && showCompletedTasks &&
+                <ul>
+                    <Message className={classes.noCompletedTasks__message} size='medium' compact>{t("noCompletedTasks")}</Message>
+                </ul>
+            }</div>
     </div>
 }
 

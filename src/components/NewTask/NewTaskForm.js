@@ -1,5 +1,5 @@
 import classes from "../NewTask/NewTaskForm.module.css";
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {useHistory} from "react-router-dom";
 import {QuantityPicker} from 'react-qty-picker';
 import {useSelector} from "react-redux";
@@ -11,10 +11,11 @@ import {useTranslation} from "react-i18next";
 import {getCategoryLabel} from "../../utils/functions";
 import i18n from "../../i18n";
 import {useAppDispatch} from "../../root";
-import {createTask} from "../../store/task";
+import {createTask, getTasks} from "../../store/task";
 import DatePicker, {registerLocale} from "react-datepicker";
 import pl from 'date-fns/locale/pl';
 import "react-datepicker/dist/react-datepicker.css";
+import {preventDefault} from "leaflet/src/dom/DomEvent";
 
 
 const NewTaskForm = () => {
@@ -152,8 +153,8 @@ const NewTaskForm = () => {
                                ref={addressInput}/>
                     </div>
                     <div className={classes.control}>
-                        <label htmlFor='pay'>{t("pay")}</label>
-                        <input required type='number' id='pay' maxLength="10" ref={payInput}/>
+                        <label htmlFor='pay'>{t("pay")} [PLN]</label>
+                        <input required type='number' min='1' id='pay' max='100000' ref={payInput}/>
                     </div>
                     <div className={classes.control}>
                         <label>{t("estimatedTime")} [h]</label>
@@ -162,13 +163,13 @@ const NewTaskForm = () => {
                                             smooth/>
                         </div>
                     </div>
-                    <div className={classes.control}>
-                        <label htmlFor='image'>{t("image")}</label>
-                        <input type='file' onChange={handleFileInput} id='image'/>
-                    </div>
                 </div>
                 <div className={classes.control}>
                     <LocationPicker startPort={startPort} pointMode={pointMode}/>
+                </div>
+                <div className={classes.control}>
+                    <label htmlFor='image'>{t("image")}</label>
+                    <input type='file' onChange={handleFileInput} id='image'/>
                 </div>
                 <div className={classes.actions}>
                     <button>{t("addAdvert")}</button>
