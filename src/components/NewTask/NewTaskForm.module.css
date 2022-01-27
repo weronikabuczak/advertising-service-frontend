@@ -104,8 +104,14 @@
     font: inherit;
 }
 
-.category__button {
-    margin-bottom: 5px;
+.categoryButton__label {
+    margin-bottom: 10px;
+}
+
+.categoryButton {
+    margin: 2px !important;
+    box-shadow: 2px 2px #ccc !important;
+    border-radius: 7px !important;
 }
 
 .categoryButtons {

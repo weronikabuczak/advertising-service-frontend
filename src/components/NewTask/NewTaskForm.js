@@ -6,7 +6,7 @@ import {useSelector} from "react-redux";
 import {getUserToken} from "../../store/auth";
 import LocationPicker from "react-leaflet-location-picker";
 import {categories} from "../../utils/taskCategory";
-import {Button} from "semantic-ui-react";
+import {Button, Checkbox, Radio} from "semantic-ui-react";
 import {useTranslation} from "react-i18next";
 import {getCategoryLabel} from "../../utils/functions";
 import i18n from "../../i18n";
@@ -28,13 +28,13 @@ const NewTaskForm = () => {
     const [latitude, setLatitude] = useState(0);
     const [longitude, setLongitude] = useState(0);
     const [category, setCategory] = useState();
+    console.log(category)
     const token = useSelector(getUserToken);
 
     const titleInput = useRef();
     const contentInput = useRef();
     const addressInput = useRef();
     const payInput = useRef();
-    const expirationDateInput = useRef();
     const history = useHistory();
 
     let image = null;
@@ -105,35 +105,31 @@ const NewTaskForm = () => {
         zoom: 5,
     }
 
-    const getCategory = (e, button) => {
-        e.preventDefault();
-        const {content} = button;
-        setCategory(content);
-    }
-
     const categoriesBar = Object.entries(categories).map((arr) => {
         const [categoryId, categoryObj] = arr
-
         const label = getCategoryLabel(categoryId, language);
-
-        return <Button compact size='medium' color={categoryObj.colors} onClick={getCategory}
-                       content={categoryId}>{label}</Button>
+        return <Button className={classes.categoryButton} compact size='medium' color={categoryObj.colors}>
+            <Checkbox radio label={label}
+                      category={categoryId}
+                      checked={category === categoryId}
+                      onChange={(e, data) => setCategory(data.category)}> </Checkbox>
+        </Button>
     })
 
     return (
         <section className={classes.section}>
             <h2>{t("addNewTask")}</h2>
+            <div className={classes.control}>
+                <label className={classes.categoryButton__label} htmlFor='category'>{t("category")}</label>
+                <Button.Group className={classes.categoryButtons}>
+                    {categoriesBar}
+                </Button.Group>
+            </div>
             <form onSubmit={submitHandler}>
                 <div>
                     <div className={classes.control}>
                         <label htmlFor='title'>{t("title")}</label>
                         <input required type='text' id='title' minLength="10" maxLength="100" ref={titleInput}/>
-                    </div>
-                    <div className={classes.control}>
-                        <label className={classes.category__button} htmlFor='category'>{t("category")}</label>
-                        <Button.Group className={classes.categoryButtons}>
-                            {categoriesBar}
-                        </Button.Group>
                     </div>
 
                     <div className={classes.control}>
