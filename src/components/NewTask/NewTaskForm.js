@@ -12,6 +12,9 @@ import {getCategoryLabel} from "../../utils/functions";
 import i18n from "../../i18n";
 import {useAppDispatch} from "../../root";
 import {createTask} from "../../store/task";
+import DatePicker, {registerLocale} from "react-datepicker";
+import pl from 'date-fns/locale/pl';
+import "react-datepicker/dist/react-datepicker.css";
 
 
 const NewTaskForm = () => {
@@ -20,6 +23,8 @@ const NewTaskForm = () => {
     const dispatch = useAppDispatch();
 
     const [pickerValue, setPickerValue] = useState();
+    registerLocale('pl', pl);
+    const [startDate, setStartDate] = useState(new Date());
     const [latitude, setLatitude] = useState(0);
     const [longitude, setLongitude] = useState(0);
     const [category, setCategory] = useState();
@@ -56,8 +61,8 @@ const NewTaskForm = () => {
         const content = contentInput.current.value;
         const address = addressInput.current.value;
         const pay = payInput.current.value;
-        const expirationDate = new Date(expirationDateInput.current.value);
         const estimatedTime = pickerValue;
+        const expirationDate = startDate;
 
         dispatch(createTask({
             token,
@@ -136,7 +141,15 @@ const NewTaskForm = () => {
                         <textarea required ref={contentInput} minLength="20" maxLength="800"
                                   placeholder={t("enterTaskDetails")} className={classes.content__textarea}/>
                     </div>
-
+                    <div className={classes.control}>
+                        <label htmlFor='expirationDate'>{t("expDate")}</label>
+                        <DatePicker
+                            selected={startDate}
+                            onChange={date => setStartDate(date)}
+                            minDate={new Date()}
+                            locale="pl"
+                        />
+                    </div>
                     <div className={classes.control}>
                         <label htmlFor='address'>{t("address")}</label>
                         <input required type='text' id='address' minLength="5" maxLength="100"
@@ -147,15 +160,10 @@ const NewTaskForm = () => {
                         <input required type='number' id='pay' maxLength="10" ref={payInput}/>
                     </div>
                     <div className={classes.control}>
-                        <label htmlFor='expirationDate'>{t("expDate")}</label>
-                        <input required type='date' id='expirationDate' ref={expirationDateInput}/>
-                    </div>
-                    <div className={classes.control}>
-                        <label>{t("estimatedTime")}</label>
+                        <label>{t("estimatedTime")} [h]</label>
                         <div className={classes.quantityPicker}>
                             <QuantityPicker onChange={getPickerValue} min={1} max={24} value={1}
                                             smooth/>
-                            {/*required*/}
                         </div>
                     </div>
                     <div className={classes.control}>

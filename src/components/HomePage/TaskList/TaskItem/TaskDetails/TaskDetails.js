@@ -1,4 +1,4 @@
-import {Button, Card, Container, Divider, Grid, Header, Icon, Image, Message, Table} from "semantic-ui-react";
+import {Button, Card, Container, Grid, Header, Icon, Image, Message, Table} from "semantic-ui-react";
 import taskIcon from "../../../../../files/task.png";
 import classes from './TaskDetails.module.css';
 import {MapContainer, TileLayer, Marker, Popup} from 'react-leaflet'
@@ -96,13 +96,13 @@ const TaskDetails = () => {
     const taskStatus = getStatusLabel(task.status, currentLanguage);
 
     const statusColor = {
-        'background-color': getStatusColorClass(task.status)
+        'backgroundColor': getStatusColorClass(task.status)
     };
 
     const taskCategory = getCategoryLabel(task.category, currentLanguage);
 
     const categoryColor = {
-        'background-color': getCategoryColorClass(task.category)
+        'backgroundColor': getCategoryColorClass(task.category)
     };
 
     return (<Container className={classes.task__container}>

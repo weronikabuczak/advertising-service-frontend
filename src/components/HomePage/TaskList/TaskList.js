@@ -6,7 +6,8 @@ const TaskList = ({tasks, onClick, isUserTasks, listStyle, currentTask}) => {
     return (
         <ul style={listStyle}>
             {tasks && sortedTasks.map((task) => (
-                <TaskItem task={task} onClick={onClick} isUserTasks={isUserTasks} currentTask={currentTask}/>
+                <TaskItem key={task.id} task={task} onClick={onClick} isUserTasks={isUserTasks}
+                          currentTask={currentTask}/>
             ))}
         </ul>
     );

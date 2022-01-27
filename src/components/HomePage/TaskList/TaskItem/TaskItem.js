@@ -21,13 +21,13 @@ const TaskItem = ({task, onClick, isUserTasks, currentTask}) => {
             if (currentTask) {
                 if (task.id === currentTask.id) {
                     color = {
-                        'background-color': '#eee',
+                        'backgroundColor': '#eee',
                         'border': '2px solid grey'
                     }
                     setTaskBackgroundColor(color);
                 } else {
                     color = {
-                        'background-color': '#fff'
+                        'backgroundColor': '#fff'
                     }
                     setTaskBackgroundColor(color);
                 }
@@ -48,7 +48,7 @@ const TaskItem = ({task, onClick, isUserTasks, currentTask}) => {
     const taskCategory = getCategoryLabel(task.category, currentLanguage);
 
     const categoryColor = {
-        'background-color': getCategoryColorClass(task.category)
+        'backgroundColor': getCategoryColorClass(task.category)
     };
 
 
@@ -68,7 +68,7 @@ const TaskItem = ({task, onClick, isUserTasks, currentTask}) => {
                                         <Message.Header>{t("newOffer")}</Message.Header>
                                     </Message>)}
                         </Grid.Column>
-                        <Grid.Column width={12} computer={11} tablet={11}>
+                        <Grid.Column computer={11} tablet={11}>
                             <Grid.Row className={classes.category__container}>
                                 <Grid.Column width={5}>
                                     <Message size="tiny" style={categoryColor}
