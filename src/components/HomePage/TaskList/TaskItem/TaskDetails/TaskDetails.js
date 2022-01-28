@@ -54,14 +54,16 @@ const TaskDetails = () => {
             if (location.state.isUserTasks !== null) {
                 setIsUserTasks(location.state.isUserTasks === true);
             }
-            if (token && task.status === 'AWAITING') {
-                dispatch(getOffers({token, taskId, offerStatus: 'ACTIVE'}));
-            }
-            if (token && task.status === 'IN_PROGRESS') {
-                dispatch(getOffers({token, taskId, offerStatus: 'ACCEPTED'}));
-            }
-            if (token && task.status === 'DONE') {
-                dispatch(getOffers({token, taskId, offerStatus: 'COMPLETED'}));
+            switch (token && task.status) {
+                case 'AWAITING':
+                    dispatch(getOffers({token, taskId, offerStatus: 'ACTIVE'}));
+                    break;
+                case 'IN_PROGRESS':
+                    dispatch(getOffers({token, taskId, offerStatus: 'ACCEPTED'}));
+                    break;
+                case 'DONE':
+                    dispatch(getOffers({token, taskId, offerStatus: 'COMPLETED'}));
+                    break;
             }
         },
         [dispatch, location.state.isUserTasks, taskId, token, task, offerSent, isCurrentUserTask, currentUser, modalOpenDelete, modalOpenEdit]);
