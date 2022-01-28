@@ -161,7 +161,7 @@ export const updatePasswordApiCall = async ({token, email, currentPassword, newP
 
 export const updateUserApiCall = async ({token, email, name, phoneNumber, location}) => {
     try {
-        const body = JSON.stringify({token, email, name, phoneNumber, location});
+        const body = JSON.stringify({email, name, phoneNumber, location});
         let userUpdateUrl = `http://localhost:8080/api/user/${email}`;
         return fetch(userUpdateUrl, {
             method: 'PUT',
@@ -186,6 +186,47 @@ export const updateUserApiCall = async ({token, email, name, phoneNumber, locati
     }
 };
 
+export const updateUserImageApiCall = async ({token, image, email}) => {
+    try {
+        const body = JSON.stringify({image});
+        let userUpdateUrl = `http://localhost:8080/api/user/image/${email}`;
+        return fetch(userUpdateUrl, {
+            method: 'PUT',
+            body: body,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token,
+            },
+        }).then((response) => {
+            if (response.ok) {
+                return response.json().then(data => {
+                    return {
+                        data
+                    }
+                })
+            } else {
+                throw 'User image update failed!'
+            }
+        })
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const deleteUserImageApiCall = async ({token, email}) => {
+    try {
+        let userDeleteImageUrl = `http://localhost:8080/api/user/image/${email}`;
+        return fetch(userDeleteImageUrl, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token,
+            },
+        })
+    } catch (error) {
+        throw error;
+    }
+};
 
 
 

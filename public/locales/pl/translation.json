@@ -85,5 +85,7 @@
   "currentPassword": "Obecne hasło",
   "newPassword": "Nowe hasło",
   "doneByMe": "Zlecenia wykonane przeze mnie",
-  "noCompletedTasks": "Brak wykonanych zleceń"
+  "noCompletedTasks": "Brak wykonanych zleceń",
+  "chooseNewImage": "Wybierz twoje nowe zdjęcie",
+  "areYouSureDeleteImage": "Czy na pewno chcesz usunąć zdjęcie?"
 }

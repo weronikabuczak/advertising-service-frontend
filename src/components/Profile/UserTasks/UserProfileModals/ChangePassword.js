@@ -1,8 +1,8 @@
 import {Button, Form, Modal} from "semantic-ui-react";
 import {useRef} from "react";
 import {useSelector} from "react-redux";
-import {getSetOpen, getUserToken, updatePassword} from "../../store/auth";
-import {useAppDispatch} from "../../root";
+import {getSetOpen, getUserToken, updatePassword} from "../../../../store/auth";
+import {useAppDispatch} from "../../../../root";
 import {useTranslation} from "react-i18next";
 
 const ChangePassword = ({open, setOpen, email}) => {

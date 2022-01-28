@@ -1,9 +1,10 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 
 import {
+    deleteUserImageApiCall,
     getAnotherUserApiCall,
     getUserApiCall,
-    loginUserApiCall, registerUserApiCall, updatePasswordApiCall, updateUserApiCall,
+    loginUserApiCall, registerUserApiCall, updatePasswordApiCall, updateUserApiCall, updateUserImageApiCall,
 } from './thunks/auth-thunks';
 
 export const sliceName = 'auth';
@@ -75,12 +76,12 @@ export const registerUser = createAsyncThunk(`${sliceName}/register`, async ({
 });
 
 export const logoutUser = createAsyncThunk(`${sliceName}/logout`, async ({dispatch}) => {
-        return {
-            token: null,
-            isLoggedIn: false,
-            expirationTime: null,
-            remainingTime: null,
-        };
+    return {
+        token: null,
+        isLoggedIn: false,
+        expirationTime: null,
+        remainingTime: null,
+    };
 });
 
 export const getUser = createAsyncThunk(`${sliceName}/getUser`, async ({token}, {dispatch}) => {
@@ -90,6 +91,7 @@ export const getUser = createAsyncThunk(`${sliceName}/getUser`, async ({token}, 
         data.createDate = createDate.toLocaleDateString();
         if (data.image) {
             let avatar = "data:image/jpeg;base64," + data.image;
+            console.log("avatar" + avatar)
             data.image = avatar;
         }
         return {
@@ -145,11 +147,44 @@ export const updateUser = createAsyncThunk(`${sliceName}/updateUser`, async ({
                                                                              }, {dispatch}) => {
     try {
         const data = await updateUserApiCall({token, email, phoneNumber, name, location});
+        dispatch(getUser({token}));
         return {
             data
         };
     } catch (error) {
         alert('Cannot update user');
+        throw error;
+    }
+});
+
+export const updateUserImage = createAsyncThunk(`${sliceName}/updateUserImage`, async ({
+                                                                                           token,
+                                                                                           image,
+                                                                                           email
+                                                                                       }, {dispatch}) => {
+    try {
+        const data = await updateUserImageApiCall({token, image, email});
+        dispatch(getUser({token}));
+        return {
+            data
+        };
+
+    } catch (error) {
+        alert('Cannot update user image');
+        throw error;
+    }
+});
+
+export const deleteUserImage = createAsyncThunk(`${sliceName}/deleteUserImage`, async ({
+                                                                                           token,
+                                                                                           email
+                                                                                       }, {dispatch}) => {
+    try {
+        await deleteUserImageApiCall({token, email});
+        dispatch(getUser({token}));
+
+    } catch (error) {
+        alert('Cannot delete user image');
         throw error;
     }
 });
@@ -218,17 +253,17 @@ const auth = createSlice({
         });
 
 
-        builder.addCase(updatePassword.pending || updateUser.pending, (state) => {
+        builder.addCase(updatePassword.pending || updateUser.pending || updateUserImage.pending || deleteUserImage.pending, (state) => {
             state.isLoading = true;
             state.setOpen = true;
         });
 
-        builder.addCase(updatePassword.fulfilled || updateUser.fulfilled, (state) => {
+        builder.addCase(updatePassword.fulfilled || updateUser.fulfilled || updateUserImage.fulfilled || deleteUserImage.fulfilled, (state) => {
             state.isLoading = false;
             state.setOpen = false;
         });
 
-        builder.addCase(updatePassword.rejected || updateUser.rejected, (state) => {
+        builder.addCase(updatePassword.rejected || updateUser.rejected || updateUserImage.rejected || deleteUserImage.rejected, (state) => {
             state.isLoading = false;
             state.setOpen = true;
         });

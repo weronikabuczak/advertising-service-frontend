@@ -1,9 +1,10 @@
 import {Button, Form, Modal} from "semantic-ui-react";
 import {useEffect, useRef} from "react";
 import {useSelector} from "react-redux";
-import {getSetOpen, getUserToken, updateUser} from "../../store/auth";
+import {getSetOpen, getUserToken, updateUser} from "../../../../store/auth";
 import {useTranslation} from "react-i18next";
-import {useAppDispatch} from "../../root";
+import {useAppDispatch} from "../../../../root";
+import classes from "../../../Authorization/AuthorizationForm.module.css";
 
 const ChangeUserData = ({open, setOpen, email, user}) => {
     const {t} = useTranslation();
@@ -54,6 +55,7 @@ const ChangeUserData = ({open, setOpen, email, user}) => {
                         <label>{t("newLocation")}</label>
                         <input type='text' ref={locationInput} defaultValue={user.location} required/>
                     </Form.Field>
+
                     <Button positive type='submit'>{t("submit")}</Button>
                     <Button negative onClick={onClose}>
                         {t("cancel")}

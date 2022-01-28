@@ -1,14 +1,16 @@
 import classes from './UserProfile.module.css';
-import {Button, Card, Grid, Header, Icon, Image, Table} from "semantic-ui-react";
+import {Button, Card, Grid, Header, Icon, Image, Reveal, Table} from "semantic-ui-react";
 import profile from '../../files/profile.jpg'
 import {useEffect, useState} from "react";
-import ChangePassword from "./ChangePassword";
-import ChangeUserData from "./ChangeUserData";
+import ChangePassword from "./UserTasks/UserProfileModals/ChangePassword";
+import ChangeUserData from "./UserTasks/UserProfileModals/ChangeUserData";
 import {useHistory} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {getUser, getUserInfo, getUserToken} from "../../store/auth";
 import {useAppDispatch} from "../../root";
 import {useTranslation} from "react-i18next";
+import UpdateUserImage from "./UserTasks/UserProfileModals/UpdateUserImage";
+import DeleteUserImage from "./UserTasks/UserProfileModals/DeleteUserImage";
 
 const UserProfile = () => {
     const {t} = useTranslation();
@@ -18,15 +20,18 @@ const UserProfile = () => {
     const userInfo = useSelector(getUserInfo);
     const [modalOpenPassword, setModalOpenPassword] = useState(false);
     const [modalOpenUserInfo, setModalOpenUserInfo] = useState(false);
+    const [modalOpenUserImage, setModalOpenUserImage] = useState(false);
+    const [modalOpenDeleteUserImage, setModalOpenDeleteUserImage] = useState(false);
     const token = useSelector(getUserToken);
+
 
 
     useEffect(() => {
         if (token) {
             dispatch(getUser({token}));
         }
-    }, [dispatch, token, modalOpenPassword, modalOpenUserInfo]);
 
+    }, []);
 
 
     const userInfoHandler = () => {
@@ -42,6 +47,14 @@ const UserProfile = () => {
     }
     const changeUserInfoHandler = () => {
         setModalOpenUserInfo(true);
+    }
+
+    const updateUserImageHandler = () => {
+      setModalOpenUserImage(true);
+    }
+
+    const deleteUserImageHandler = () => {
+        setModalOpenDeleteUserImage(true);
     }
 
     return (
@@ -61,6 +74,8 @@ const UserProfile = () => {
             <ChangePassword open={modalOpenPassword} setOpen={setModalOpenPassword} email={userInfo.email}/>
             <ChangeUserData open={modalOpenUserInfo} setOpen={setModalOpenUserInfo} email={userInfo.email}
                             user={userInfo}/>
+            <UpdateUserImage open={modalOpenUserImage} setOpen={setModalOpenUserImage} email={userInfo.email}/>
+            <DeleteUserImage open={modalOpenDeleteUserImage} setOpen={setModalOpenDeleteUserImage} email={userInfo.email}/>
             <Card fluid className={classes.userCard__container}>
                 <Card.Content>
                     <Card.Header>
@@ -75,10 +90,14 @@ const UserProfile = () => {
                 <Card.Content>
                     <Grid stackable>
                         <Grid.Column width={6}>
-                            {userInfo.image != null
-                                ? <Image className={classes.profileImage} src={userInfo.image} rounded/>
-                                : <Image className={classes.profileImage} src={profile} rounded/>
+                            {userInfo.image
+                                ? (<div><Image className={classes.profileImage} src={userInfo.image} rounded/>
+                                    <Button size='tiny' onClick={updateUserImageHandler}>Zmień zdjęcie</Button>
+                                    <Button size='tiny' onClick={deleteUserImageHandler}>Usuń zdjęcie</Button></div>)
+                                : (<div><Image className={classes.profileImage} src={profile} rounded/>
+                                    <Button size='tiny' onClick={updateUserImageHandler}>Dodaj zdjęcie</Button></div>)
                             }
+
                         </Grid.Column>
                         <Grid.Column width={10}>
                             <Header as='h1'>
