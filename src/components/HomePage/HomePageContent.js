@@ -15,10 +15,11 @@ import MapTrickyComponent from "../NewTask/MapTrickyComponent";
 import {categories} from "../../utils/taskCategory";
 import "leaflet-control-geocoder/dist/Control.Geocoder.css";
 import "leaflet-control-geocoder/dist/Control.Geocoder.js";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 import {getCategoryLabel} from "../../utils/functions";
 import i18n from "../../i18n";
+import MapLeafletComponent from "../NewTask/MapTrickyComponent";
 
 const HomePageContent = () => {
     const {t} = useTranslation();
@@ -35,6 +36,7 @@ const HomePageContent = () => {
     const [category, setCategory] = useState('');
     const [status] = useState('AWAITING');
 
+    const overflowTaskListStyle = {overflow: "auto"};
 
     //leaflet icon issue
     let DefaultIcon = L.icon({
@@ -49,27 +51,9 @@ const HomePageContent = () => {
         }
     }, [token, category, dispatch, status]);
 
-    const listStyle = {overflow: "auto"};
 
-    const selectCurrentTask = (id) => {
+    const selectCurrentTask = (e, id) => {
         const task = tasks.find(t => t.id === id);
-        setCurrentTask(task);
-        setZoom(12);
-        setLatitude(task.latitude);
-        setLongitude(task.longitude);
-    }
-
-    // const selectTaskFromMap = (e, button) => {
-    //     const {content} = button;
-    //     const task = tasks.find(t => t.id === content);
-    //     setCurrentTask(task);
-    //     setZoom(12);
-    //     setLatitude(task.latitude);
-    //     setLongitude(task.longitude);
-    // }
-
-    const selectTaskFromMap = (e, taskId) => {
-        const task = tasks.find(t => t.id === taskId);
         setCurrentTask(task);
         setZoom(12);
         setLatitude(task.latitude);
@@ -89,7 +73,7 @@ const HomePageContent = () => {
         resetMapHandler();
     }
 
-    const componentDidMount = () => {
+    const localizationHandler = () => {
         navigator.geolocation.getCurrentPosition(function (position) {
             setLatitude(position.coords.latitude);
             setLongitude(position.coords.longitude);
@@ -97,29 +81,31 @@ const HomePageContent = () => {
         });
     }
 
-    const categoriesBar = Object.entries(categories).map((arr) => {
-        const [categoryId, categoryObj] = arr
+    const categoriesBar = Object.entries(categories).map((array) => {
+        const [categoryId, categoryObj] = array
         const label = getCategoryLabel(categoryId, language);
         return <Button color={categoryObj.colors} onClick={filterCategory}
                        content={categoryId}>{label}</Button>
     })
 
     return (
-        <section className={classes.section}>
+        <section>
             <Grid>
                 <Grid.Row>
                     <Grid.Column width={1}/>
                     <Grid.Column width={15}>
-                        <div className={classes.locationButtons}>
-                            <Button floated='left' onClick={componentDidMount}><Icon
-                                name='compass'/>{t("detectLocation")}</Button>
-                            <Button onClick={resetMapHandler} className={classes.refreshMap__button}
-                                    floated='left'>{t("defaultMap")}</Button>
+                        <div className={classes.localization__buttons}>
+                            <Button floated='left' onClick={localizationHandler}>
+                                <Icon name='compass'/>{t("detectLocation")}
+                            </Button>
+                            <Button floated='left' onClick={resetMapHandler} className={classes.resetMap__button}>
+                                {t("defaultMap")}
+                            </Button>
                         </div>
                         <div>
-                            <Button className={classes.categoryButtons} content='' floated='left'
+                            <Button className={classes.category__buttons} content='' floated='left'
                                     onClick={filterCategory}>{t("all")}</Button>
-                            <Button.Group className={classes.categoryButtons} floated='left'>
+                            <Button.Group className={classes.category__buttons} floated='left'>
                                 {categoriesBar}
                             </Button.Group>
                         </div>
@@ -127,9 +113,9 @@ const HomePageContent = () => {
                 </Grid.Row>
                 <Grid.Row>
                     <Grid.Column only={"computer tablet"} widescreen={10} largeScreen={9} computer={8} tablet={7}>
-                        <MapContainer className={classes.taskMap__container} center={center} zoom={zoom}
+                        <MapContainer className={classes.map__container} center={center} zoom={zoom}
                                       scrollWheelZoom={true}>
-                            <MapTrickyComponent zoom={zoom} center={center}/>
+                            <MapLeafletComponent zoom={zoom} center={center}/>
                             <TileLayer
                                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -138,7 +124,7 @@ const HomePageContent = () => {
                                 <Marker position={[task.latitude, task.longitude]}
                                         eventHandlers={{
                                             click: (e) => {
-                                                selectTaskFromMap(e, task.id)
+                                                selectCurrentTask(e, task.id)
                                             }
                                         }}>
                                 </Marker>
@@ -149,9 +135,9 @@ const HomePageContent = () => {
                         {tasks?.length > 0 && tasks
                             ?
                             <TaskList tasks={tasks} onClick={selectCurrentTask} isUserTasks={false}
-                                      listStyle={listStyle} currentTask={currentTask}/>
+                                      overflowTaskListStyle={overflowTaskListStyle} currentTask={currentTask}/>
                             :
-                            (<div className={classes.noTask__button}>
+                            (<div className={classes.noTasks__button}>
                                 <Button><Link to="/newTask">{t("noTasksAddNew")}</Link></Button>
                             </div>)
                         }
@@ -161,5 +147,4 @@ const HomePageContent = () => {
         </section>
     );
 };
-
 export default HomePageContent;

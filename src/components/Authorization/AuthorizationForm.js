@@ -68,13 +68,13 @@ const AuthorizationForm = () => {
                 <form onSubmit={FormHandler}>
                     {isLogin ? (
                             <div>
-                                <div className={classes.auth__input}>
+                                <div className={classes.auth__control}>
                                     <label htmlFor='email'>E-mail</label>
-                                    <input type='email' id='email' maxLength='255' required ref={emailInput}/>
+                                    <input type='email' id='email' defaultValue='test1@test.com' maxLength='255' required ref={emailInput}/>
                                 </div>
-                                <div className={classes.auth__input}>
+                                <div className={classes.auth__control}>
                                     <label htmlFor='password'>{t("password")}</label>
-                                    <input type='password' id='password' required ref={passwordInput}/>
+                                    <input type='password' id='password'  defaultValue='test1234' required ref={passwordInput}/>
                                 </div>
                             </div>
                         )

@@ -35,7 +35,7 @@ const UserTasks = () => {
     const [status, setStatus] = useState('');
     const [showCompletedTasks, setShowCompletedTasks] = useState(false);
 
-    const listStyle = {overflow: "inherit"};
+    const overflowTaskListStyle = {overflow: "inherit"};
 
     useEffect(() => {
         if (token) {
@@ -90,7 +90,7 @@ const UserTasks = () => {
             ?
             <Segment basic>
                 <TaskList tasks={tasks} onClick={selectCurrentTask} isUserTasks={true}
-                          listStyle={listStyle}/>
+                          overflowTaskListStyle={overflowTaskListStyle}/>
             </Segment>
             :
             (!showCompletedTasks &&

@@ -1,18 +1,8 @@
-.home {
-  margin: 3rem auto;
-  text-align: center;
-}
-
-.section {
+section {
   margin: 2.5rem auto;
 }
 
-h2 {
-  text-align: center;
-  margin: 3rem;
-}
-
-.taskMap__container {
+.map__container {
   height: 778px;
   width: 100%;
   margin: 4px 30px;
@@ -20,36 +10,31 @@ h2 {
 
 }
 
-.refreshMap__button {
+.resetMap__button {
   margin:30px;
 }
 
-.noTask__button {
+.noTasks__button {
   justify-content: center;
   margin: 2rem;
   display: flex;
 }
 
-.popupInfo {
-  font-size: 1.1rem;
-  padding: 0.2rem;
-}
-
 
 @media (max-width: 768px) {
-  .locationButtons {
+  .localization__buttons {
 display: none;
   }
-  .categoryButtons {
+  .category__buttons {
     padding-left: 10px;
   }
 }
 
 @media (max-width: 425px) {
-  .locationButtons {
+  .localization__buttons {
     display: none;
   }
-  .categoryButtons {
+  .category__buttons {
     padding-left: 10px;
     display: grid !important;
   }
