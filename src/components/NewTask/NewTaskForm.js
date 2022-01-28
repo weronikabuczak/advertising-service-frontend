@@ -6,7 +6,7 @@ import {useSelector} from "react-redux";
 import {getUserToken} from "../../store/auth";
 import LocationPicker from "react-leaflet-location-picker";
 import {categories} from "../../utils/taskCategory";
-import {Button, Checkbox, Radio} from "semantic-ui-react";
+import {Button, Checkbox, Form, Radio} from "semantic-ui-react";
 import {useTranslation} from "react-i18next";
 import {getCategoryLabel} from "../../utils/functions";
 import i18n from "../../i18n";
@@ -28,7 +28,7 @@ const NewTaskForm = () => {
     const [startDate, setStartDate] = useState(new Date());
     const [latitude, setLatitude] = useState(0);
     const [longitude, setLongitude] = useState(0);
-    const [category, setCategory] = useState();
+    const [category, setCategory] = useState('Housework');
     console.log(category)
     const token = useSelector(getUserToken);
 
@@ -110,11 +110,12 @@ const NewTaskForm = () => {
         const [categoryId, categoryObj] = arr
         const label = getCategoryLabel(categoryId, language);
         return <Button className={classes.categoryButton} compact size='medium' color={categoryObj.colors}>
-            <Checkbox radio label={label}
-                      category={categoryId}
-                      checked={category === categoryId}
-                      onChange={(e, data) => setCategory(data.category)}> </Checkbox>
-        </Button>
+                <Checkbox radio label={label}
+                          category={categoryId}
+                          defaultChecked={category}
+                          checked={category === categoryId}
+                          onChange={(e, data) => setCategory(data.category)}> </Checkbox>
+            </Button>
     })
 
     return (
