@@ -26,8 +26,8 @@ const NewTaskForm = () => {
     const [pickerValue, setPickerValue] = useState();
     registerLocale('pl', pl);
     const [startDate, setStartDate] = useState(new Date());
-    const [latitude, setLatitude] = useState(0);
-    const [longitude, setLongitude] = useState(0);
+    const [latitude, setLatitude] = useState(52);
+    const [longitude, setLongitude] = useState(20);
     const [category, setCategory] = useState('Housework');
     console.log(category)
     const token = useSelector(getUserToken);
@@ -166,7 +166,7 @@ const NewTaskForm = () => {
                     </div>
                 </div>
                 <div className={classes.control}>
-                    <LocationPicker startPort={startPort} pointMode={pointMode}/>
+                    <LocationPicker startPort={startPort} pointMode={pointMode} showControls={false} showInputs={false} />
                 </div>
                 <div className={classes.control}>
                     <label htmlFor='image'>{t("image")}</label>
