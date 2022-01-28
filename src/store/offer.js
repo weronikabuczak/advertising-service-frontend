@@ -48,7 +48,7 @@ export const updateOffer = createAsyncThunk(`${sliceName}/updateOffer`, async ({
         const data = await updateOfferApiCall({token, offerId, offerStatus});
         console.log(data)
         // Create action to getTaskById and replace task inside of it
-        // then you can replace it here mordo
+        // then replace it here
         dispatch(getTasks({isUserTasks: true, token}))
         return {
             ...data

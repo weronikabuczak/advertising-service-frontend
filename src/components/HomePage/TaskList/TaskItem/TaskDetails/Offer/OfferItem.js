@@ -2,6 +2,7 @@ import {useAppDispatch} from "../../../../../../root";
 import {Button, Card, Divider, Form, Header, Icon, Image, Rating, Segment} from "semantic-ui-react";
 import React, {useEffect, useRef, useState} from "react";
 import {
+    getCurrentOfferId,
     updateOffer
 } from "../../../../../../store/offer";
 import profile from '../../../../../../files/profile.jpg'
@@ -62,7 +63,8 @@ const OfferItem = ({offer, isUserTasks}) => {
     const createOpinionHandler = () => {
         const ratingContent = contentInput.current.value;
         if (token) {
-            dispatch(createOpinion({token, offerId: offer.id, rating, content: ratingContent}));
+            dispatch(createOpinion({token, offerId: offer.id, rating, content: ratingContent, taskId: offer.task.id
+            }));
         }
         setOpinionSent(true);
     }

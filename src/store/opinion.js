@@ -1,7 +1,6 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {createOpinionApiCall, getOpinionApiCall} from "./thunks/opinion-thunks";
-import {getTasks} from "./task";
-import {getOfferById, getOffers} from "./offer";
+import { getOffers} from "./offer";
 
 export const sliceName = 'opinion';
 
@@ -11,10 +10,11 @@ export const initialState = {
 };
 
 export const createOpinion = createAsyncThunk(`${sliceName}/createOpinion`, async ({
-                                                                                       token, offerId, rating, content
+                                                                                       token, offerId, rating, content, taskId
                                                                                    }, {dispatch}) => {
     try {
         const data = await createOpinionApiCall({token, offerId, rating, content});
+        dispatch(getOffers({token, taskId, offerStatus: 'COMPLETED'}))
         return {
             data
         };
@@ -53,8 +53,10 @@ const opinion = createSlice({
             state.isLoading = false;
 
         });
-        builder.addCase(createOpinion.rejected, (state) => {
+        builder.addCase(createOpinion.rejected, (state, {payload}) => {
+            const {id} = payload;
             state.isLoading = false;
+            state.opinion = [...state.opinion.filter( opinion => opinion.id === id), {...payload}]
         });
         builder.addCase(getOpinion.pending, (state) => {
             state.isLoading = true;
