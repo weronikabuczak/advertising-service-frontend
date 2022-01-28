@@ -1,11 +1,12 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import {createOfferApiCall, getOffersApiCall, updateOfferApiCall} from "./thunks/offer-thunks";
+import {createOfferApiCall, getOfferByIdApiCall, getOffersApiCall, updateOfferApiCall} from "./thunks/offer-thunks";
+import {getTasks} from "./task";
 
 export const sliceName = 'offer';
 
 export const initialState = {
     offers: [],
-    // currentOfferId: '',
+    currentOffer: {},
     isLoading: false,
 };
 
@@ -38,13 +39,19 @@ export const getOffers = createAsyncThunk(`${sliceName}/getOffers`, async ({
     }
 });
 
+
+
 export const updateOffer = createAsyncThunk(`${sliceName}/updateOffer`, async ({
                                                                                    token, offerId, offerStatus
                                                                                }, {dispatch}) => {
     try {
         const data = await updateOfferApiCall({token, offerId, offerStatus});
+        console.log(data)
+        // Create action to getTaskById and replace task inside of it
+        // then you can replace it here mordo
+        dispatch(getTasks({isUserTasks: true, token}))
         return {
-            data
+            ...data
         };
     } catch (error) {
         alert('Cannot update offers');
@@ -92,8 +99,16 @@ const offer = createSlice({
         });
 
         builder.addCase(updateOffer.fulfilled, (state, {payload}) => {
-            const {offers} = payload;
-            state.offers = offers;
+            const {id} = payload;
+            // state.offers = offers;
+            console.log(state.offers)
+            console.log(payload)
+
+            state.offers = [...state.offers.filter( offer => offer.id === id), {...payload}]
+
+           //  state.offers = []
+
+
             state.isLoading = false;
         });
         builder.addCase(updateOffer.rejected, (state) => {

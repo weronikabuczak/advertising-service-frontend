@@ -26,6 +26,8 @@ import {
     getStatusColorClass,
     getStatusLabel
 } from "../../../../../utils/functions";
+import {TaskCreatedBy} from "./TaskCreatedBy";
+import TaskDetailsCard from "./TaskDetailsCard";
 
 const TaskDetails = () => {
     const {t, i18n} = useTranslation();
@@ -49,6 +51,25 @@ const TaskDetails = () => {
     const [isCurrentUserTask, setIsCurrentUserTask] = useState(false);
     const [offerSent, setOfferSent] = useState(false);
 
+    //leaflet icon issue
+    let DefaultIcon = L.icon({
+        iconUrl: icon,
+        shadowUrl: iconShadow
+    });
+    L.Marker.prototype.options.icon = DefaultIcon;
+
+    const taskStatus = getStatusLabel(task.status, currentLanguage);
+
+    const statusColor = {
+        'backgroundColor': getStatusColorClass(task.status)
+    };
+
+    const taskCategory = getCategoryLabel(task.category, currentLanguage);
+
+    const categoryColor = {
+        'backgroundColor': getCategoryColorClass(task.category)
+    };
+
     useEffect(() => {
             setIsCurrentUserTask(currentUser === task.user.email)
             if (location.state.isUserTasks !== null) {
@@ -66,18 +87,11 @@ const TaskDetails = () => {
                     break;
             }
         },
-        [dispatch, location.state.isUserTasks, taskId, token, task, offerSent, isCurrentUserTask, currentUser, modalOpenDelete, modalOpenEdit]);
+        [dispatch, task.status, location.state.isUserTasks, taskId, token, task, offerSent, isCurrentUserTask, currentUser, modalOpenDelete, modalOpenEdit]);
 
     if (task.user.image) {
         avatar = "data:image/jpeg;base64," + task.user.image;
     }
-
-    //leaflet icon issue
-    let DefaultIcon = L.icon({
-        iconUrl: icon,
-        shadowUrl: iconShadow
-    });
-    L.Marker.prototype.options.icon = DefaultIcon;
 
     const deleteTaskHandler = () => {
         setModalOpenDelete(true);
@@ -94,26 +108,12 @@ const TaskDetails = () => {
         setOfferSent(true);
     }
 
-
-    const taskStatus = getStatusLabel(task.status, currentLanguage);
-
-    const statusColor = {
-        'backgroundColor': getStatusColorClass(task.status)
-    };
-
-    const taskCategory = getCategoryLabel(task.category, currentLanguage);
-
-    const categoryColor = {
-        'backgroundColor': getCategoryColorClass(task.category)
-    };
-
     return (<Container className={classes.task__container}>
         <DeleteTask open={modalOpenDelete} setOpen={setModalOpenDelete} id={task.id}/>
         <EditTask open={modalOpenEdit} setOpen={setModalOpenEdit} id={task.id} task={task}/>
         <Grid stackable>
             <Grid.Row>
                 <Grid.Column width={8}>
-
                     <MapContainer className={classes.taskMap__container} center={position} zoom={17}
                                   scrollWheelZoom={true}>
                         <TileLayer
@@ -128,91 +128,11 @@ const TaskDetails = () => {
                     </MapContainer>
                 </Grid.Column>
                 <Grid.Column width={8}>
-                    {isUserTasks &&
-                        <Button negative animated onClick={deleteTaskHandler} className={classes.taskButtons}>
-                            <Button.Content visible>{t("delete")}</Button.Content>
-                            <Button.Content hidden>
-                                <Icon size='large' name='delete'/>
-                            </Button.Content>
-                        </Button>
-                    }
-                    {isUserTasks && task.status === 'AWAITING' &&
-                        <Button animated onClick={editTaskHandler} className={classes.taskButtons}>
-                            <Button.Content visible>{t("edit")}</Button.Content>
-                            <Button.Content hidden>
-                                <Icon size='large' name='edit'/>
-                            </Button.Content>
-                        </Button>
-                    }
-                    <Card fluid>
-                        <Card.Content className={classes.category__container}>
-                            <Message style={categoryColor} className={classes.category__chip}>{taskCategory}</Message>
-                            <Message style={statusColor} className={classes.status__chip}>{taskStatus}</Message>
-                        </Card.Content>
+                    <TaskDetailsCard isUserTasks={isUserTasks} deleteTaskHandler={deleteTaskHandler}
+                    editTaskHandler={editTaskHandler} categoryColor={categoryColor} statusColor={statusColor}
+                    taskCategory={taskCategory} taskStatus = {taskStatus} task={task}/>
+                  <TaskCreatedBy avatar={avatar} task={task}/>
 
-                        <Card.Content>
-                            <Grid>
-                                <Grid.Column width={10}>
-                                    <Header as='h2'>{task.title}</Header>
-                                </Grid.Column>
-                                <Grid.Column width={6}>
-                                    {task.image != null ?
-                                        <Image src={task.image} rounded floated='right' size='medium'/>
-                                        : <Image src={taskIcon} rounded floated='right' size='medium'/>}
-                                </Grid.Column>
-                            </Grid>
-                        </Card.Content>
-
-                        <Table>
-                            <Table.Body>
-                                <Table.Row>
-                                    <Table.Cell>
-                                        <Header as='h4'>
-                                            <Header.Content>{t("address")}</Header.Content>
-                                        </Header>
-                                    </Table.Cell>
-                                    <Table.Cell>{task.address}</Table.Cell>
-                                </Table.Row>
-                                <Table.Row>
-                                    <Table.Cell>
-                                        <Header as='h4'>
-                                            <Header.Content>{t("pay")}</Header.Content>
-                                        </Header>
-                                    </Table.Cell>
-                                    <Table.Cell>{task.pay} zł</Table.Cell>
-                                </Table.Row>
-                                <Table.Row>
-                                    <Table.Cell>
-                                        <Header as='h4'>
-                                            <Header.Content>{t("estimatedTime")}</Header.Content>
-                                        </Header>
-                                    </Table.Cell>
-                                    <Table.Cell>{task.estimatedTime} h</Table.Cell>
-                                </Table.Row>
-                                <Table.Row>
-                                    <Table.Cell>
-                                        <Header as='h4'>
-                                            <Header.Content>{t("expDate")}</Header.Content>
-                                        </Header>
-                                    </Table.Cell>
-                                    <Table.Cell>{task.expirationDate}</Table.Cell>
-                                </Table.Row>
-                            </Table.Body>
-                        </Table>
-                    </Card>
-                    <Card fluid>
-                        <Card.Content>
-                            {avatar != null
-                                ? <Image src={avatar} rounded size='tiny' floated='right'/>
-                                : <Image src={taskIcon} rounded size='tiny' floated='right'/>
-                            }
-                            <Card.Header>{t("createdBy")}</Card.Header>
-                            <Card.Content>{task.user.name}</Card.Content>
-                            <Card.Content><Icon name='home'/>{task.user.location}</Card.Content>
-                            <Card.Content><Icon name='phone'/>{task.user.phoneNumber}</Card.Content>
-                            <Card.Content><Icon name='mail'/>{task.user.email}</Card.Content>
-                        </Card.Content>
-                    </Card>
                     {!isUserTasks && !offerSent && !isCurrentUserTask && (
                         <Button animated onClick={offerHandler}>
                             <Button.Content visible>{t("makeAnOffer")}</Button.Content>

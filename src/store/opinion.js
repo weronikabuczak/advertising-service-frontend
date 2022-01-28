@@ -1,5 +1,7 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {createOpinionApiCall, getOpinionApiCall} from "./thunks/opinion-thunks";
+import {getTasks} from "./task";
+import {getOfferById, getOffers} from "./offer";
 
 export const sliceName = 'opinion';
 
@@ -27,6 +29,7 @@ export const getOpinion = createAsyncThunk(`${sliceName}/getOpinion`, async ({
                                                                            }, {dispatch}) => {
     try {
         const data = await getOpinionApiCall({token, offerId});
+        console.log(offerId)
         return {
            opinion: data.data
         };
@@ -59,7 +62,6 @@ const opinion = createSlice({
         });
         builder.addCase(getOpinion.fulfilled, (state, {payload}) => {
             state.isLoading = false;
-            console.log(payload)
             const {opinion} = payload;
             state.opinion = opinion;
 

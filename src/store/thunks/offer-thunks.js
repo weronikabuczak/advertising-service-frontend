@@ -64,8 +64,7 @@ export const updateOfferApiCall = async ({token, offerId, offerStatus}) => {
             if (response.ok) {
                 return response.json().then(data => {
                     return {
-                        id: data.id,
-                        status: data.status
+                        ...data
                     }
                 })
             } else {

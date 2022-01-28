@@ -3,6 +3,18 @@
     margin: 4rem auto;
 }
 
+.taskMap__container {
+    height: 450px;
+    width:90%;
+    margin: 4rem auto;
+    z-index: 0;
+}
+
+.task__buttons {
+    z-index: 0 !important;
+}
+
+
 .category__container {
     display: flex;
     justify-content: center;
@@ -18,12 +30,7 @@
     border-top: 4px;
 }
 
-.taskMap__container {
-    height: 450px;
-    width:90%;
-    margin: 4rem auto;
-    z-index: 0;
-}
+
 
 .taskDetails__main__info {
     padding: 2px 8px;
@@ -40,9 +47,7 @@
     border-radius: 5px;
 }
 
-.taskButtons {
-    z-index: 0 !important;
-}
+
 
 @keyframes slide-out-blurred-right {
     0% {

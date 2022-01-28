@@ -1,0 +1,15 @@
+.task__buttons {
+    z-index: 0 !important;
+}
+
+
+.category__container {
+    display: flex;
+    justify-content: center;
+}
+
+.category__chip, .status__chip {
+    border-radius: 5px !important;
+    color: white !important;
+    margin: 0 0.3rem !important;
+}
