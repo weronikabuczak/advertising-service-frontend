@@ -170,7 +170,7 @@ const NewTaskForm = () => {
                 </div>
                 <div className={classes.control}>
                     <label htmlFor='image'>{t("image")}</label>
-                    <input type='file' onChange={handleFileInput} id='image'/>
+                    <input type='file' onChange={handleFileInput}/>
                 </div>
                 <div className={classes.actions}>
                     <button>{t("addAdvert")}</button>

@@ -159,11 +159,11 @@ export const updatePasswordApiCall = async ({token, email, currentPassword, newP
     }
 };
 
-export const updateUserApiCall = async ({token, id, title, content, address, pay, expirationDate, estimatedTime, longitude, latitude}) => {
+export const updateUserApiCall = async ({token, email, name, phoneNumber, location}) => {
     try {
-        const body = JSON.stringify({token, id, title, content, address, pay, expirationDate, estimatedTime, longitude, latitude});
-        let taskUpdateUrl = `http://localhost:8080/api/task/${id}`;
-        return fetch(taskUpdateUrl, {
+        const body = JSON.stringify({token, email, name, phoneNumber, location});
+        let userUpdateUrl = `http://localhost:8080/api/user/${email}`;
+        return fetch(userUpdateUrl, {
             method: 'PUT',
             body: body,
             headers: {
@@ -178,7 +178,7 @@ export const updateUserApiCall = async ({token, id, title, content, address, pay
                     }
                 })
             } else {
-                throw 'Task update failed!'
+                throw 'User update failed!'
             }
         })
     } catch (error) {
