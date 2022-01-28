@@ -9,23 +9,18 @@
     text-align: center;
 }
 
-.auth h1 {
-    text-align: center;
-    color: #1F1D36;
-}
-
-.control {
+.auth__control {
     margin-bottom: 0.5rem;
 }
 
-.control label {
+.auth__control label {
     display: block;
     color: #000000;
     font-weight: bold;
     margin-bottom: 0.5rem;
 }
 
-.control input {
+.auth__control input {
     font: inherit;
     background-color: #f5f5f5;
     color: #38015c;
@@ -36,18 +31,18 @@
     padding: 0.25rem;
 }
 
-.control input:focus {
+.auth__control input:focus {
     outline: 1px solid #ccc;
 }
 
-.actions {
+.auth__buttons {
     margin-top: 1.5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.actions button {
+.auth__buttons button {
     font: inherit;
     color: #fff;
     cursor: pointer;
@@ -57,24 +52,17 @@
     border: none;
     background-size: 300% 100%;
     border-radius: 10px;
-    moz-transition: all .4s ease-in-out;
-    -o-transition: all .4s ease-in-out;
-    -webkit-transition: all .4s ease-in-out;
     transition: all .4s ease-in-out;
-
     background-image: linear-gradient(to right, #617df8, #764ba2, #6B8DD6, #667eea);
     box-shadow: 0 4px 15px 0 rgba(116, 79, 168, 0.75);
 }
 
-.actions button:focus {
+.auth__buttons button:focus {
     outline: none;
 }
 
-.actions button:hover {
+.auth__buttons button:hover {
     background-position: 100% 0;
-    moz-transition: all .4s ease-in-out;
-    -o-transition: all .4s ease-in-out;
-    -webkit-transition: all .4s ease-in-out;
     transition: all .4s ease-in-out;
     background-image: linear-gradient(to right, #667eea, #764ba2, #6B8DD6, #667eea);
     box-shadow: 0 4px 15px 0 rgba(116, 79, 168, 0.75);

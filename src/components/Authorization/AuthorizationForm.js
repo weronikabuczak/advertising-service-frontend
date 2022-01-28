@@ -68,46 +68,46 @@ const AuthorizationForm = () => {
                 <form onSubmit={FormHandler}>
                     {isLogin ? (
                             <div>
-                                <div className={classes.control}>
+                                <div className={classes.auth__input}>
                                     <label htmlFor='email'>E-mail</label>
-                                    <input type='email' id='email' defaultValue='test1@test.com' required ref={emailInput}/>
+                                    <input type='email' id='email' maxLength='255' required ref={emailInput}/>
                                 </div>
-                                <div className={classes.control}>
+                                <div className={classes.auth__input}>
                                     <label htmlFor='password'>{t("password")}</label>
-                                    <input type='password' id='password' defaultValue='test1234' required ref={passwordInput}/>
+                                    <input type='password' id='password' required ref={passwordInput}/>
                                 </div>
                             </div>
                         )
                         : (
                             <div>
-                                <div className={classes.control}>
+                                <div className={classes.auth__control}>
                                     <label htmlFor='email'>E-mail</label>
-                                    <input type='email' id='email' required ref={emailInput}/>
+                                    <input type='email' id='email' maxLength='255' required ref={emailInput}/>
                                 </div>
-                                <div className={classes.control}>
+                                <div className={classes.auth__control}>
                                     <label htmlFor='password'>{t("password")}</label>
-                                    <input type='password' id='password' required minLength='8' ref={passwordInput}/>
+                                    <input type='password' id='password' required minLength='8' maxLength='100' ref={passwordInput}/>
                                 </div>
-                                <div className={classes.control}>
+                                <div className={classes.auth__control}>
                                     <label htmlFor='name'>{t("name")}</label>
-                                    <input type='text' id='name' required ref={nameInput}/>
+                                    <input type='text' id='name' required minLength='3' maxLength='100' ref={nameInput}/>
                                 </div>
-                                <div className={classes.control}>
+                                <div className={classes.auth__control}>
                                     <label htmlFor='location'>{t("location")}</label>
-                                    <input type='text' id='location' required ref={locationInput}/>
+                                    <input type='text' id='location' required maxLength='100' ref={locationInput}/>
                                 </div>
-                                <div className={classes.control}>
+                                <div className={classes.auth__control}>
                                     <label htmlFor='phone'>{t("phoneNumber")}</label>
                                     <input type='tel' id='phone' defaultValue='+48' maxLength='12' ref={phoneInput}/>
                                 </div>
-                                <div className={classes.control}>
+                                <div className={classes.auth__control}>
                                     <label htmlFor='image'>{t("image")}</label>
                                     <input type='file' onChange={handleFileInput}/>
                                 </div>
                             </div>
                         )
                     }
-                    <div className={classes.actions}>
+                    <div className={classes.auth__buttons}>
                             <button>{isLogin ? t("login") : t("createAccount")}</button>
                         <button type='button' onClick={switchAuthModeHandler}>
                             {isLogin ? t("createAccount") : t("alreadyHaveAnAccount")}
