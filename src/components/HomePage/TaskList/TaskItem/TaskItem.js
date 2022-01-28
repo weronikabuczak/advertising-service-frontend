@@ -16,6 +16,12 @@ const TaskItem = ({task, onClick, isUserTasks, currentTask}) => {
     const dispatch = useAppDispatch();
     const [taskBackgroundColor, setTaskBackgroundColor] = useState({});
 
+    const taskCategory = getCategoryLabel(task.category, currentLanguage);
+
+    const categoryColor = {
+        'backgroundColor': getCategoryColorClass(task.category)
+    };
+
     useEffect(() => {
             let color;
             if (currentTask) {
@@ -45,13 +51,6 @@ const TaskItem = ({task, onClick, isUserTasks, currentTask}) => {
 
     const onClickHandler = () => onClick(task.id);
 
-    const taskCategory = getCategoryLabel(task.category, currentLanguage);
-
-    const categoryColor = {
-        'backgroundColor': getCategoryColorClass(task.category)
-    };
-
-
     return (
         <Card style={taskBackgroundColor} fluid centered className={classes.taskCard} onClick={onClickHandler}>
             <Card.Content>
@@ -69,13 +68,13 @@ const TaskItem = ({task, onClick, isUserTasks, currentTask}) => {
                                     </Message>)}
                         </Grid.Column>
                         <Grid.Column computer={11} tablet={11}>
-                            <Grid.Row className={classes.category__container}>
+                            <Grid.Row className={classes.taskItem__firstRow}>
                                 <Grid.Column width={5}>
                                     <Message size="tiny" style={categoryColor}
-                                             className={classes.category__chip}>{taskCategory}</Message>
+                                             className={classes.taskItem__category}>{taskCategory}</Message>
                                 </Grid.Column>
                                 <Grid.Column width={11} floated='right'>
-                                    <Button className={classes.userButton} floated='right' fluid
+                                    <Button floated='right' fluid
                                             onClick={taskDetailsHandler}>
                                         <Button.Content>{t("taskDetails")}</Button.Content>
                                     </Button>
@@ -87,20 +86,20 @@ const TaskItem = ({task, onClick, isUserTasks, currentTask}) => {
                                     <Header as='h3' content={task.title}/>
                                 </Grid.Row>
                             </Grid.Row>
-                            <div className={classes.taskDetails__container}>
-                                <Grid.Column className={classes.taskDetails__column}>
-                                    <div className={classes.taskDetails__main__info}><Icon
+                            <div className={classes.taskItem__secondRow}>
+                                <Grid.Column className={classes.taskItem__column}>
+                                    <div className={classes.taskItem__details}><Icon
                                         name='location arrow'/>{task.address}
                                     </div>
-                                    <div className={classes.taskDetails__main__info}><Icon
+                                    <div className={classes.taskItem__details}><Icon
                                         name='calendar times'/>{task.expirationDate}</div>
 
                                 </Grid.Column>
                                 <Grid.Column width={7}>
-                                    <div className={classes.taskDetails__payment__details}><Icon
+                                    <div className={classes.taskItem__paymentDetails}><Icon
                                         name='money'/> {task.pay} PLN
                                     </div>
-                                    <div className={classes.taskDetails__payment__details}><Icon
+                                    <div className={classes.taskItem__paymentDetails}><Icon
                                         name='time'/> {task.estimatedTime} h
                                     </div>
                                 </Grid.Column>

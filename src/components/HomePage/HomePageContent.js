@@ -11,7 +11,6 @@ import {useAppDispatch} from "../../root";
 import {useSelector} from "react-redux";
 import {getUserToken} from "../../store/auth";
 import React from 'react'
-import MapTrickyComponent from "../NewTask/MapTrickyComponent";
 import {categories} from "../../utils/taskCategory";
 import "leaflet-control-geocoder/dist/Control.Geocoder.css";
 import "leaflet-control-geocoder/dist/Control.Geocoder.js";
@@ -52,8 +51,16 @@ const HomePageContent = () => {
     }, [token, category, dispatch, status]);
 
 
-    const selectCurrentTask = (e, id) => {
+    const selectCurrentTask = (id) => {
         const task = tasks.find(t => t.id === id);
+        setCurrentTask(task);
+        setZoom(12);
+        setLatitude(task.latitude);
+        setLongitude(task.longitude);
+    }
+
+    const selectTaskFromMap = (e, taskId) => {
+        const task = tasks.find(t => t.id === taskId);
         setCurrentTask(task);
         setZoom(12);
         setLatitude(task.latitude);
@@ -124,7 +131,7 @@ const HomePageContent = () => {
                                 <Marker position={[task.latitude, task.longitude]}
                                         eventHandlers={{
                                             click: (e) => {
-                                                selectCurrentTask(e, task.id)
+                                                selectTaskFromMap(e, task.id)
                                             }
                                         }}>
                                 </Marker>

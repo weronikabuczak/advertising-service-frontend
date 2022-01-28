@@ -1,10 +1,10 @@
-.category__container {
+.taskItem__firstRow {
     display: flex;
     justify-content: flex-start;
     margin: 0.5rem;
 }
 
-.category__chip {
+.taskItem__category {
     font-size: 0.9rem;
     padding: 0.5rem !important;
     color: white !important;
@@ -12,15 +12,14 @@
     box-shadow: rgba(149, 157, 165, 0.2) 0px 1px 4px !important;
 }
 
-.taskDetails__main__info {
+.taskItem__details {
     margin: 0.7rem 0;
     border-radius: 10px;
     font-size: 1.2rem;
     width: auto;
-
 }
 
-.taskDetails__payment__details {
+.taskItem__paymentDetails {
     padding: 5px;
     margin: 0.2rem 0;
     border-radius: 10px;
@@ -32,12 +31,12 @@
     box-shadow: rgba(149, 157, 165, 0.2) 0px 1px 6px;
 }
 
-.taskDetails__container {
+.taskItem__secondRow {
     display: flex;
     justify-content: space-between;
 }
 
-.taskDetails__column {
+.taskItem__column {
     width: 65%;
 }
 
@@ -53,12 +52,9 @@
 
 ul {
     width: 95%;
-    /*height: 778px;*/
     padding: 0.3rem;
     margin: 0 auto;
 }
-
-body{ max-height: 100vh; }
 
 .taskRow {
     padding-bottom: 5px !important;
@@ -80,22 +76,18 @@ a, a:hover {
 }
 
 @media (max-width: 768px) {
-    .category__chip {
+    .taskItem__category {
         font-size: 0.8rem;
         padding: 0.4rem;
     }
-    /*.status__chip {*/
-    /*    font-size: 0.7rem;*/
-    /*    padding: 0.3rem;*/
-    /*    margin: 1px;*/
-    /*}*/
-    .taskDetails__main__info {
+
+    .taskItem__details {
         padding: 1px;
         margin: 0.7rem 0;
         font-size: 0.9rem;
     }
 
-    .taskDetails__payment__details {
+    .taskItem__paymentDetails {
         padding: 1px;
         margin: 5px;
         font-size: 0.9rem;
@@ -107,17 +99,12 @@ a, a:hover {
 }
 
 @media (max-width: 425px) {
-    /*.status__chip {*/
-    /*    font-size: 0.7rem;*/
-    /*    padding: 0.3rem;*/
-    /*    margin: 0;*/
-    /*}*/
-    .taskDetails__main__info {
+    .taskItem__details {
         padding: 1px;
         margin: 1px;
     }
 
-    .taskDetails__payment__details {
+    .taskItem__paymentDetails {
         padding: 2px;
         margin: 6px;
         font-size: 0.9rem;
