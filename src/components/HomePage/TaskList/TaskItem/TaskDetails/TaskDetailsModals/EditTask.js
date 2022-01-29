@@ -1,15 +1,15 @@
 import {Button, Form, Modal} from "semantic-ui-react";
 import {useSelector} from "react-redux";
-import {useAppDispatch} from "../../../../../root";
-import {getUserToken} from "../../../../../store/auth";
+import {useAppDispatch} from "../../../../../../root";
+import {getUserToken} from "../../../../../../store/auth";
 import {QuantityPicker} from "react-qty-picker";
 import LocationPicker from "react-leaflet-location-picker";
 import React, {useEffect, useRef, useState} from "react";
 import {useTranslation} from "react-i18next";
-import {categories} from "../../../../../utils/taskCategory";
-import {getCategoryLabel} from "../../../../../utils/functions";
-import i18n from "../../../../../i18n";
-import {getSetOpenTask, updateTask} from "../../../../../store/task";
+import {categories} from "../../../../../../utils/taskCategory";
+import {getCategoryLabel} from "../../../../../../utils/functions";
+import i18n from "../../../../../../i18n";
+import {getSetOpenTask, updateTask} from "../../../../../../store/task";
 
 const EditTask = ({open, setOpen, id, task}) => {
     const {t} = useTranslation();

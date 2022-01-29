@@ -1,11 +1,13 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import {
     createTaskApiCall,
-    deleteTaskApiCall,
+    deleteTaskApiCall, deleteTaskImageApiCall,
     getAnotherUserCompletedTasksApiCall,
     getTasksApiCall,
-    updateTaskApiCall
+    updateTaskApiCall, updateTaskImageApiCall
 } from "./thunks/task-thunks";
+import {deleteUserImageApiCall, updateUserImageApiCall} from "./thunks/auth-thunks";
+import {getUser} from "./auth";
 
 export const sliceName = 'task';
 
@@ -14,6 +16,7 @@ export const initialState = {
     anotherUserTasks: [],
     currentTaskId: '',
     isLoading: false,
+    setOpen: false
 };
 
 export const createTask = createAsyncThunk(`${sliceName}/createTask`, async ({
@@ -138,6 +141,38 @@ export const updateTask = createAsyncThunk(`${sliceName}/updateTask`, async ({
     }
 });
 
+export const updateTaskImage = createAsyncThunk(`${sliceName}/updateTaskImage`, async ({
+                                                                                           token,
+                                                                                           image,
+                                                                                           id
+                                                                                       }, {dispatch}) => {
+    try {
+        const data = await updateTaskImageApiCall({token, image, id});
+        // dispatch(getUser({token}));
+        return {
+            data
+        };
+
+    } catch (error) {
+        alert('Cannot update task image');
+        throw error;
+    }
+});
+
+export const deleteTaskImage = createAsyncThunk(`${sliceName}/deleteTaskImage`, async ({
+                                                                                           token,
+                                                                                           id
+                                                                                       }, {dispatch}) => {
+    try {
+        await deleteTaskImageApiCall({token, id});
+        dispatch(({token}));
+
+    } catch (error) {
+        alert('Cannot delete user image');
+        throw error;
+    }
+});
+
 
 const task = createSlice({
     name: sliceName,
@@ -185,16 +220,16 @@ const task = createSlice({
         builder.addCase(deleteTask.rejected, (state) => {
             state.isLoading = false;
         });
-        builder.addCase(updateTask.pending, (state) => {
+        builder.addCase(updateTask.pending || updateTaskImage.pending || deleteTaskImage.pending, (state) => {
             state.isLoading = true;
             state.setOpen = true;
         });
 
-        builder.addCase(updateTask.fulfilled, (state, {payload}) => {
+        builder.addCase(updateTask.fulfilled || updateTaskImage.fulfilled || deleteTaskImage.fulfilled, (state, {payload}) => {
             state.isLoading = false;
             state.setOpen = false;
         });
-        builder.addCase(updateTask.rejected, (state) => {
+        builder.addCase(updateTask.rejected || updateTaskImage.rejected || deleteTaskImage.rejected, (state) => {
             state.isLoading = false;
             state.setOpen = false;
         });

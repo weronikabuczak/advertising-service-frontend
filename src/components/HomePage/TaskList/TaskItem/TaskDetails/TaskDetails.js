@@ -8,8 +8,8 @@ import L from 'leaflet';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import React, {useEffect, useState} from "react";
-import DeleteTask from "./DeleteTask";
-import EditTask from "./EditTask";
+import DeleteTask from "./TaskDetailsModals/DeleteTask";
+import EditTask from "./TaskDetailsModals/EditTask";
 import {getUserEmail, getUserToken} from "../../../../../store/auth";
 import {useAppDispatch} from "../../../../../root";
 import {
@@ -28,6 +28,8 @@ import {
 } from "../../../../../utils/functions";
 import {TaskCreatedBy} from "./TaskCreatedBy";
 import TaskDetailsCard from "./TaskDetailsCard";
+import DeleteTaskImage from "./TaskDetailsModals/DeleteTaskImage";
+import UpdateTaskImage from "./TaskDetailsModals/UpdateTaskImage";
 
 const TaskDetails = () => {
     const {t, i18n} = useTranslation();
@@ -43,6 +45,8 @@ const TaskDetails = () => {
     const position = [latitude, longitude];
     const [modalOpenDelete, setModalOpenDelete] = useState(false);
     const [modalOpenEdit, setModalOpenEdit] = useState(false);
+    const [modalOpenUpdateTaskImage, setModalOpenUpdateTaskImage] = useState(false);
+    const [modalOpenDeleteTaskImage, setModalOpenDeleteTaskImage] = useState(false);
     const [isUserTasks, setIsUserTasks] = useState(false);
 
     const token = useSelector(getUserToken);
@@ -108,9 +112,20 @@ const TaskDetails = () => {
         setOfferSent(true);
     }
 
+    const updateTaskImageHandler = () => {
+        setModalOpenUpdateTaskImage(true);
+    }
+
+    const deleteTaskImageHandler = () => {
+        setModalOpenDeleteTaskImage(true);
+    }
+
+
     return (<Container className={classes.task__container}>
         <DeleteTask open={modalOpenDelete} setOpen={setModalOpenDelete} id={task.id}/>
         <EditTask open={modalOpenEdit} setOpen={setModalOpenEdit} id={task.id} task={task}/>
+        <DeleteTaskImage open={modalOpenDeleteTaskImage} setOpen={setModalOpenDeleteTaskImage} id={task.id}/>
+        <UpdateTaskImage open={modalOpenUpdateTaskImage} setOpen={setModalOpenUpdateTaskImage} id={task.id}/>
         <Grid stackable>
             <Grid.Row>
                 <Grid.Column width={8}>
@@ -129,9 +144,12 @@ const TaskDetails = () => {
                 </Grid.Column>
                 <Grid.Column width={8}>
                     <TaskDetailsCard isUserTasks={isUserTasks} deleteTaskHandler={deleteTaskHandler}
-                    editTaskHandler={editTaskHandler} categoryColor={categoryColor} statusColor={statusColor}
-                    taskCategory={taskCategory} taskStatus = {taskStatus} task={task}/>
-                  <TaskCreatedBy avatar={avatar} task={task}/>
+                                     editTaskHandler={editTaskHandler} categoryColor={categoryColor}
+                                     statusColor={statusColor}
+                                     taskCategory={taskCategory} taskStatus={taskStatus} task={task}
+                                     updateTaskImageHandler={updateTaskImageHandler}
+                                     deleteTaskImageHandler={deleteTaskImageHandler}/>
+                    <TaskCreatedBy avatar={avatar} task={task}/>
 
                     {!isUserTasks && !offerSent && !isCurrentUserTask && (
                         <Button animated onClick={offerHandler}>

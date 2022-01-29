@@ -13,3 +13,7 @@
     color: white !important;
     margin: 0 0.3rem !important;
 }
+
+.taskImage__button {
+    margin: 2px !important;
+}

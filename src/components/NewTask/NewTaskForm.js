@@ -47,7 +47,7 @@ const NewTaskForm = () => {
         reader.readAsDataURL(file);
         let baseURL;
         let newBaseURL;
-        reader.onload = () => {
+        reader.onloadend = () => {
             baseURL = reader.result;
             newBaseURL = baseURL.split(',')[1];
             image = newBaseURL;

@@ -57,6 +57,10 @@ ul {
     float: none !important;
 }
 
+.userImage__button {
+    margin: 2px !important;
+}
+
 @media (max-width: 1024px) {
     .section, .taskSection {
         width: 70%;

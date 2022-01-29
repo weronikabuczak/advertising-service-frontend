@@ -1,8 +1,8 @@
 import {Button, Modal} from "semantic-ui-react";
 import {useSelector} from "react-redux";
-import {deleteTask} from "../../../../../store/task";
-import {useAppDispatch} from "../../../../../root";
-import {getUserToken} from "../../../../../store/auth";
+import {deleteTask} from "../../../../../../store/task";
+import {useAppDispatch} from "../../../../../../root";
+import {getUserToken} from "../../../../../../store/auth";
 import {useHistory} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 

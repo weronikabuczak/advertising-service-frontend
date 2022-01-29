@@ -153,3 +153,45 @@ export const updateTaskApiCall = async ({
         throw error;
     }
 };
+
+export const updateTaskImageApiCall = async ({token, image, id}) => {
+    try {
+        const body = JSON.stringify({image});
+        let taskUpdateUrl = `http://localhost:8080/api/task/image/${id}`;
+        return fetch(taskUpdateUrl, {
+            method: 'PUT',
+            body: body,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token,
+            },
+        }).then((response) => {
+            if (response.ok) {
+                return response.json().then(data => {
+                    return {
+                        data
+                    }
+                })
+            } else {
+                throw 'Task image update failed!'
+            }
+        })
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const deleteTaskImageApiCall = async ({token, id}) => {
+    try {
+        let taskDeleteImageUrl = `http://localhost:8080/api/task/image/${id}`;
+        return fetch(taskDeleteImageUrl, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token,
+            },
+        })
+    } catch (error) {
+        throw error;
+    }
+};

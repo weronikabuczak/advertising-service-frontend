@@ -1,11 +1,12 @@
-import {Button, Card, Grid, Header, Icon, Image, Message, Table} from "semantic-ui-react";
+import {Button, Card, Divider, Grid, Header, Icon, Image, Message, Table} from "semantic-ui-react";
 import classes from "./TaskDetailsCard.module.css";
 import taskIcon from "../../../../../files/task.png";
 import React from "react";
 import {useTranslation} from "react-i18next";
+import profile from "../../../../../files/profile.jpg";
 
 const TaskDetailsCard = ({isUserTasks, deleteTaskHandler, editTaskHandler, categoryColor, statusColor, taskCategory,
-                                taskStatus, task}) => {
+                                taskStatus, task, updateTaskImageHandler, deleteTaskImageHandler}) => {
     const {t} = useTranslation();
 
     return (
@@ -26,6 +27,8 @@ const TaskDetailsCard = ({isUserTasks, deleteTaskHandler, editTaskHandler, categ
                     </Button.Content>
                 </Button>
             }
+
+
             <Card fluid>
                 <Card.Content className={classes.category__container}>
                     <Message style={categoryColor} className={classes.category__chip}>{taskCategory}</Message>
@@ -38,9 +41,16 @@ const TaskDetailsCard = ({isUserTasks, deleteTaskHandler, editTaskHandler, categ
                             <Header as='h2'>{task.title}</Header>
                         </Grid.Column>
                         <Grid.Column width={6}>
-                            {task.image != null ?
-                                <Image src={task.image} rounded floated='right' size='medium'/>
-                                : <Image src={taskIcon} rounded floated='right' size='medium'/>}
+                            {task.image ?
+                                (<div><Image src={task.image} rounded floated='right' size='medium'/>
+                                    <Divider fitted/>
+                                    <Button size='mini' onClick={updateTaskImageHandler} className={classes.taskImage__button}>Zmień zdjęcie</Button>
+                                    <Button size='mini' onClick={deleteTaskImageHandler} className={classes.taskImage__button}>Usuń zdjęcie</Button></div>)
+                                : (<div><Image src={taskIcon} rounded floated='right' size='medium'/>
+                                    <Divider fitted/>
+                                    <Button size='mini' onClick={updateTaskImageHandler} className={classes.taskImage__button}>Dodaj zdjęcie</Button>
+                                </div>)
+                            }
                         </Grid.Column>
                     </Grid>
                 </Card.Content>

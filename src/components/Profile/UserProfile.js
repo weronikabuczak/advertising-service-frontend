@@ -1,5 +1,5 @@
 import classes from './UserProfile.module.css';
-import {Button, Card, Grid, Header, Icon, Image, Reveal, Table} from "semantic-ui-react";
+import {Button, Card, Divider, Grid, Header, Icon, Image, Reveal, Table} from "semantic-ui-react";
 import profile from '../../files/profile.jpg'
 import {useEffect, useState} from "react";
 import ChangePassword from "./UserTasks/UserProfileModals/ChangePassword";
@@ -90,12 +90,15 @@ const UserProfile = () => {
                 <Card.Content>
                     <Grid stackable>
                         <Grid.Column width={6}>
+
                             {userInfo.image
                                 ? (<div><Image className={classes.profileImage} src={userInfo.image} rounded/>
-                                    <Button size='tiny' onClick={updateUserImageHandler}>Zmień zdjęcie</Button>
-                                    <Button size='tiny' onClick={deleteUserImageHandler}>Usuń zdjęcie</Button></div>)
+                                    <Divider fitted/>
+                                    <Button size='mini' onClick={updateUserImageHandler} className={classes.userImage__button}>Zmień zdjęcie</Button>
+                                    <Button size='mini' onClick={deleteUserImageHandler} className={classes.userImage__button}>Usuń zdjęcie</Button></div>)
                                 : (<div><Image className={classes.profileImage} src={profile} rounded/>
-                                    <Button size='tiny' onClick={updateUserImageHandler}>Dodaj zdjęcie</Button></div>)
+                                    <Divider fitted/>
+                                    <Button size='mini' onClick={updateUserImageHandler} className={classes.userImage__button}>Dodaj zdjęcie</Button></div>)
                             }
 
                         </Grid.Column>
