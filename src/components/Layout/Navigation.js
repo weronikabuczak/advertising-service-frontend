@@ -4,11 +4,10 @@ import AppSidebar from "./AppSidebar";
 import {useEffect, useRef, useState} from "react";
 import {useAppDispatch} from "../../root";
 import {useSelector} from "react-redux";
-import {isUserLoggedIn, logoutUser} from "../../store/auth";
+import {getRole, isUserLoggedIn, logoutUser} from "../../store/auth";
 import {useTranslation} from "react-i18next";
 import LanguageSwitcher from './LanguageSwitcher';
 import {Icon} from "semantic-ui-react";
-
 
 
 const Navigation = () => {
@@ -18,12 +17,17 @@ const Navigation = () => {
     const isLoggedIn = useSelector(isUserLoggedIn);
     const history = useHistory();
     const [toggle, setToggle] = useState(false);
+    const role = useSelector(getRole);
+    console.log(role)
 
-    const logoutHandler = (event) => {
+    const logoutHandler = () => {
         dispatch(logoutUser({}));
         history.push('/auth')
     };
 
+    const adminPanelHandler = () => {
+        history.push('/admin')
+    }
     function toggleMenu() {
         setToggle(!toggle);
     }
@@ -48,10 +52,19 @@ const Navigation = () => {
                 </div>
             )}
             <nav>
+                <span>
+
+                    </span>
                 {isLoggedIn && (
                     <div>
                         <button onClick={logoutHandler}>{t("logout")}</button>
                         <LanguageSwitcher/>
+                    </div>
+                )}
+
+                {isLoggedIn && role === 'ADMIN' && (
+                    <div>
+                        <button onClick={adminPanelHandler}>{t("adminPanel")}</button>
                     </div>
                 )}
             </nav>

@@ -86,5 +86,6 @@
   "doneByMe": "Done by me",
   "noCompletedTasks": "No completed tasks yet",
   "chooseNewImage": "Choose your new image",
-  "areYouSureDeleteImage": "Are you sure that you want to delete your image?"
+  "areYouSureDeleteImage": "Are you sure that you want to delete your image?",
+  "adminPanel": "Admin panel"
 }

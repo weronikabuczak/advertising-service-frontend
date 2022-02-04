@@ -18,7 +18,8 @@ export const loginUserApiCall = async ({email, password}) => {
                     return {
                         token: data.token,
                         remainingTime: getExpirationTimeFromToken(data.token),
-                        receivedEmail: data.email
+                        receivedEmail: data.email,
+                        role: data.role
                     }
                 })
             } else {
@@ -52,8 +53,9 @@ export const registerUserApiCall = async ({
                 return response.json().then(data => {
                     return {
                         token: data.token,
-                        email: data.email,
-                        remainingTime: getExpirationTimeFromToken(data.token),
+                        receivedEmail: data.email,
+                        role: data.role,
+                        remainingTime: getExpirationTimeFromToken(data.token)
                     }
                 })
             } else {
@@ -125,6 +127,29 @@ export const getAnotherUserApiCall = async ({token, email}) => {
                 })
             } else {
                 throw 'Fetching user failed!'
+            }
+        })
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const getAllUsersEmailsApiCall = async ({token}) => {
+    try {
+        let url = 'http://localhost:8080/api/user/all';
+        return fetch(url, {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + token,
+                'Content-Type': 'application/json'
+            },
+        }).then((response) => {
+            if (response.ok) {
+                return response.json().then(data => {
+                    return data
+                })
+            } else {
+                throw 'Fetching emails failed!'
             }
         })
     } catch (error) {

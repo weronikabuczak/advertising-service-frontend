@@ -1,7 +1,7 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 
 import {
-    deleteUserImageApiCall,
+    deleteUserImageApiCall, getAllUsersEmailApiCall, getAllUsersEmailsApiCall,
     getAnotherUserApiCall,
     getUserApiCall,
     loginUserApiCall, registerUserApiCall, updatePasswordApiCall, updateUserApiCall, updateUserImageApiCall,
@@ -18,13 +18,15 @@ export const initialState = {
     user: {},
     anotherUser: {},
     email: '',
-    setOpen: false
+    setOpen: false,
+    role: '',
+    usersEmails: []
 };
 
 export const loginUser = createAsyncThunk(`${sliceName}/login`, async ({email, password}, {dispatch}) => {
     try {
         const data = await loginUserApiCall({email, password});
-        const {token, remainingTime} = data;
+        const {token, remainingTime, role} = data;
         const {receivedEmail} = data;
         setTimeout(() => {
             dispatch(logoutUser({}))
@@ -34,6 +36,7 @@ export const loginUser = createAsyncThunk(`${sliceName}/login`, async ({email, p
             email: receivedEmail,
             isLoggedIn: true,
             remainingTime: remainingTime,
+            role: role
         };
     } catch (error) {
         alert('Cannot fetch user');
@@ -60,14 +63,16 @@ export const registerUser = createAsyncThunk(`${sliceName}/register`, async ({
             phoneNumber,
             image
         });
-        const {token, remainingTime} = data;
+        const {token, remainingTime, receivedEmail, role} = data;
         setTimeout(() => {
             dispatch(logoutUser({}))
         }, remainingTime);
         return {
             token: token,
             isLoggedIn: true,
-            remainingTime: remainingTime
+            remainingTime: remainingTime,
+            email: receivedEmail,
+            role: role
         };
     } catch (error) {
         alert('Cannot fetch user');
@@ -117,6 +122,20 @@ export const getAnotherUser = createAsyncThunk(`${sliceName}/getAnotherUser`, as
 
     } catch (error) {
         alert('Cannot fetch user');
+        throw error;
+    }
+});
+
+export const getAllUsersEmails = createAsyncThunk(`${sliceName}/getAllUsersEmail`, async ({token}, {dispatch}) => {
+    try {
+        const data = await getAllUsersEmailsApiCall({token});
+        console.log(data);
+        return {
+            usersEmails: [...data]
+        };
+
+    } catch (error) {
+        alert('Cannot fetch emails');
         throw error;
     }
 });
@@ -200,12 +219,13 @@ const auth = createSlice({
         });
 
         builder.addCase(loginUser.fulfilled || registerUser.fulfilled, (state, {payload}) => {
-            const {email, token, remainingTime} = payload;
+            const {email, token, remainingTime, role} = payload;
             state.token = token;
             state.isLoggedIn = true;
             state.remainingTime = remainingTime;
             state.isLoading = false;
             state.email = email;
+            state.role = role;
         });
         builder.addCase(loginUser.rejected || registerUser.rejected, (state) => {
             state.isLoading = false;
@@ -228,7 +248,7 @@ const auth = createSlice({
             state.isLoggedIn = true;
         });
 
-        builder.addCase(getUser.pending || getAnotherUser.pending, (state) => {
+        builder.addCase(getUser.pending || getAnotherUser.pending || getAllUsersEmails.pending, (state) => {
             state.isLoading = true;
             state.isLoggedIn = true;
         });
@@ -247,7 +267,15 @@ const auth = createSlice({
             state.anotherUser = anotherUser;
         });
 
-        builder.addCase(getUser.rejected || getAnotherUser.rejected, (state) => {
+        builder.addCase(getAllUsersEmails.fulfilled, (state, {payload}) => {
+            state.isLoading = false;
+            state.isLoggedIn = true;
+            const {usersEmails} = payload;
+            state.usersEmails = usersEmails;
+            console.log(state.usersEmails);
+        });
+
+        builder.addCase(getUser.rejected || getAnotherUser.rejected || getAllUsersEmails.rejected, (state) => {
             state.isLoading = false;
             state.isLoggedIn = true;
         });
@@ -277,7 +305,9 @@ export const getUserToken = state => state[sliceName].token;
 export const getUserInfo = state => state[sliceName].user;
 export const getAnotherUserInfo = state => state[sliceName].anotherUser;
 export const getUserEmail = state => state[sliceName].email;
-export const getUserLoading = state => state[sliceName].isLoading;
+// export const getUserLoading = state => state[sliceName].isLoading;
 export const getSetOpen = state => state[sliceName].setOpen;
+export const getRole = state => state[sliceName].role;
+export const getUsersEmails = state => state[sliceName].usersEmails;
 
 export default auth.reducer;

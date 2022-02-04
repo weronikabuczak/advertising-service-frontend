@@ -7,13 +7,15 @@ import NewTaskPage from "./pages/NewTaskPage";
 import TaskAdded from "./components/NewTask/TaskAdded";
 import UserTasks from "./components/Profile/UserTasks/UserTasks";
 import {useSelector} from "react-redux";
-import {isUserLoggedIn} from "./store/auth";
+import {getRole, isUserLoggedIn} from "./store/auth";
 import ProfilePage from "./pages/ProfilePage";
 import TaskDetails from "./components/HomePage/TaskList/TaskItem/TaskDetails/TaskDetails";
 import UserDetails from "./components/HomePage/TaskList/TaskItem/TaskDetails/UserDetails/UserDetails";
+import AdminPanel from "./components/Administration/AdminPanel";
 
 function App() {
     const isLoggedIn = useSelector(isUserLoggedIn);
+    const role = useSelector(getRole);
     return (
         <Layout>
             <Switch>
@@ -42,13 +44,6 @@ function App() {
                     {isLoggedIn && <UserTasks/>}
                     {!isLoggedIn && <Redirect to='/auth'/>}
                 </Route>
-                {/*<Route path='/taskDetails'>*/}
-                {/*    {isLoggedIn && <TaskDetails/>}*/}
-                {/*    {!isLoggedIn && <Redirect to='/auth'/>}*/}
-                {/*</Route>*/}
-                {/*<Route path='/taskDetails'>*/}
-                {/*   <TaskDetails/>*/}
-                {/*</Route>*/}
                 <Route path='/taskDetails:id?'>
                     {isLoggedIn && <TaskDetails/>}
                     {!isLoggedIn && <Redirect to='/auth'/>}
@@ -56,6 +51,10 @@ function App() {
                 <Route path='/user:id?'>
                     {isLoggedIn && <UserDetails/>}
                     {!isLoggedIn && <Redirect to='/auth'/>}
+                </Route>
+                <Route path='/admin'>
+                    {isLoggedIn && role === 'ADMIN' && <AdminPanel/>}
+                    {!isLoggedIn && role !== 'ADMIN' && <Redirect to='/auth'/>}
                 </Route>
                 <Route path='*'>
                     <Redirect to='/'/>
