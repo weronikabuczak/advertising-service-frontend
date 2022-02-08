@@ -1,9 +1,9 @@
-import {Button, Card, Container, Grid, Header, Icon, Image, Message, Table} from "semantic-ui-react";
+import {Button, Card, Container, Divider, Grid, Header, Icon, Image, Message, Table} from "semantic-ui-react";
 import taskIcon from "../../../../../files/task.png";
 import classes from './TaskDetails.module.css';
 import {MapContainer, TileLayer, Marker, Popup} from 'react-leaflet'
 import {useSelector} from "react-redux";
-import {getCurrentTask} from "../../../../../store/task";
+import {getCurrentTask, getTask, setCurrentTaskId} from "../../../../../store/task";
 import L from 'leaflet';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
@@ -55,6 +55,10 @@ const TaskDetails = () => {
     const [isCurrentUserTask, setIsCurrentUserTask] = useState(false);
     const [offerSent, setOfferSent] = useState(false);
 
+    console.log(isUserTasks)
+    console.log(offerSent)
+    console.log(isCurrentUserTask)
+
     //leaflet icon issue
     let DefaultIcon = L.icon({
         iconUrl: icon,
@@ -75,7 +79,7 @@ const TaskDetails = () => {
     };
 
     useEffect(() => {
-            setIsCurrentUserTask(currentUser === task.user.email)
+            setIsCurrentUserTask(currentUser === task.user.email);
             if (location.state.isUserTasks !== null) {
                 setIsUserTasks(location.state.isUserTasks === true);
             }
@@ -143,7 +147,8 @@ const TaskDetails = () => {
                     </MapContainer>
                 </Grid.Column>
                 <Grid.Column width={8}>
-                    <TaskDetailsCard isUserTasks={isUserTasks} deleteTaskHandler={deleteTaskHandler}
+                    <TaskDetailsCard isUserTasks={isUserTasks} isCurrentUserTask={isCurrentUserTask}
+                                     deleteTaskHandler={deleteTaskHandler}
                                      editTaskHandler={editTaskHandler} categoryColor={categoryColor}
                                      statusColor={statusColor}
                                      taskCategory={taskCategory} taskStatus={taskStatus} task={task}
@@ -167,6 +172,7 @@ const TaskDetails = () => {
                     {offers?.length > 0 && offers.map((offer) => (
                         <OfferItem offer={offer} isUserTasks={isUserTasks}/>
                     ))}
+                    <Divider/>
                     <Grid.Row>
                         <Container textAlign='justified'>
                             <Header>{t("details")}:</Header>

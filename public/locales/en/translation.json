@@ -88,5 +88,9 @@
   "chooseNewImage": "Choose your new image",
   "areYouSureDeleteImage": "Are you sure that you want to delete your image?",
   "adminPanel": "Admin panel",
-  "emailExists": "The email is already in the database."
+  "emailExists": "The email is already in the database.",
+  "usersList": "Users list",
+  "tasksList": "Tasks list",
+  "noUsers": "No users",
+  "noTasks": "No tasks"
 }

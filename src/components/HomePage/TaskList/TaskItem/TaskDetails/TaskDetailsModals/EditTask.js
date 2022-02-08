@@ -9,7 +9,7 @@ import {useTranslation} from "react-i18next";
 import {categories} from "../../../../../../utils/taskCategory";
 import {getCategoryLabel} from "../../../../../../utils/functions";
 import i18n from "../../../../../../i18n";
-import {getSetOpenTask, updateTask} from "../../../../../../store/task";
+import {getSetOpenTask, getTask, setCurrentTaskId, updateTask} from "../../../../../../store/task";
 
 const EditTask = ({open, setOpen, id, task}) => {
     const {t} = useTranslation();
@@ -28,10 +28,6 @@ const EditTask = ({open, setOpen, id, task}) => {
     const payInput = useRef();
     const expirationDateInput = useRef();
     const openModal = useSelector(getSetOpenTask);
-
-    useEffect(() => {
-        },
-        [task]);
 
     const onClose = () => {
         setOpen(false);

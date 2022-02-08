@@ -2,7 +2,7 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import {
     createTaskApiCall,
     deleteTaskApiCall, deleteTaskImageApiCall, getAllTasksIdApiCall,
-    getAnotherUserCompletedTasksApiCall,
+    getAnotherUserCompletedTasksApiCall, getTaskApiCall,
     getTasksApiCall,
     updateTaskApiCall, updateTaskImageApiCall
 } from "./thunks/task-thunks";
@@ -13,6 +13,7 @@ export const sliceName = 'task';
 
 export const initialState = {
     tasks: [],
+    task: {},
     anotherUserTasks: [],
     currentTaskId: '',
     isLoading: false,
@@ -79,10 +80,26 @@ export const getTasks = createAsyncThunk(`${sliceName}/getTasks`, async ({
     }
 });
 
+// export const getTask = createAsyncThunk(`${sliceName}/getTask`, async ({
+//                                                                            token, id
+//                                                                        }, {dispatch}) => {
+//     try {
+//         const data = await getTaskApiCall({token, id});
+//
+//         return {
+//             task: data
+//         };
+//
+//     } catch (error) {
+//         alert('Cannot fetch task');
+//         throw error;
+//     }
+// });
+
 export const getAnotherUserCompletedTasks = createAsyncThunk(`${sliceName}/getAnotherUserCompletedTasks`, async ({
-                                                                                                                                     token,
-                                                                                                                                     email
-                                                                                                                                 }, {dispatch}) => {
+                                                                                                                     token,
+                                                                                                                     email
+                                                                                                                 }, {dispatch}) => {
     try {
         const data = await getAnotherUserCompletedTasksApiCall({token, email});
         return {
@@ -142,14 +159,17 @@ export const updateTask = createAsyncThunk(`${sliceName}/updateTask`, async ({
             pay,
             expirationDate,
             estimatedTime,
+
+
             longitude,
             latitude
         });
+        dispatch(getTasks({token, isUserTasks: true}))
         return {
             data
         };
     } catch (error) {
-        alert('Cannot update user');
+        // alert('Cannot update user');
         throw error;
     }
 });
@@ -161,7 +181,6 @@ export const updateTaskImage = createAsyncThunk(`${sliceName}/updateTaskImage`, 
                                                                                        }, {dispatch}) => {
     try {
         const data = await updateTaskImageApiCall({token, image, id});
-        // dispatch(getUser({token}));
         return {
             data
         };
@@ -181,7 +200,6 @@ export const deleteTaskImage = createAsyncThunk(`${sliceName}/deleteTaskImage`, 
         dispatch(({token}));
 
     } catch (error) {
-        alert('Cannot delete user image');
         throw error;
     }
 });

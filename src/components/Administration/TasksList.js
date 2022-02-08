@@ -5,8 +5,10 @@ import {useSelector} from "react-redux";
 import {useEffect} from "react";
 import {getAllTasks, getAllTasksId, getCurrentTask, getTasks, getTasksId, setCurrentTaskId} from "../../store/task";
 import {useHistory} from "react-router-dom";
+import {useTranslation} from "react-i18next";
 
 const TasksList = () => {
+    const {t} = useTranslation();
     const dispatch = useAppDispatch();
     const token = useSelector(getUserToken);
     const tasks = useSelector(getAllTasks);
@@ -25,9 +27,9 @@ const TasksList = () => {
 
     return (
         <List selection divided verticalAlign='center'>
-            <List.Header as='h2'>tasks</List.Header>
+            <List.Header as='h2'>{t("tasksList")}</List.Header>
             {tasks?.length === 0 &&
-            <Message>Brak zleceń</Message>}
+            <Message>{t("noTasks")}</Message>}
             {tasks?.length > 0 && tasks.map((task) => {
                 const showUserHandler = () => {
                     dispatch(setCurrentTaskId(task.id))

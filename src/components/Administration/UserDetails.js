@@ -1,7 +1,6 @@
 import {useSelector} from "react-redux";
-import {getCurrentTask} from "../../store/task";
 import {getCurrentUserEmail, getUser, getUserInfo, getUserToken} from "../../store/auth";
-import {Button, Card, Divider, Grid, Header, Image, Table} from "semantic-ui-react";
+import {Button, Divider, Grid, Header, Image, Table} from "semantic-ui-react";
 import classes from "../Profile/UserProfile.module.css";
 import profile from "../../files/profile.jpg";
 import {useTranslation} from "react-i18next";
@@ -45,64 +44,70 @@ const UserDetails = () => {
     }
 
     return (
-                <Grid stackable>
+        <section className={classes.section}>
+            <Grid centered>
+                <Grid.Row>
                     <ChangePassword open={modalOpenPassword} setOpen={setModalOpenPassword} email={email}/>
                     <ChangeUserData open={modalOpenUserInfo} setOpen={setModalOpenUserInfo} email={email}
                                     user={user}/>
                     <UpdateUserImage open={modalOpenUserImage} setOpen={setModalOpenUserImage} email={email}/>
                     <DeleteUserImage open={modalOpenDeleteUserImage} setOpen={setModalOpenDeleteUserImage}
                                      email={email}/>
+
                     <Grid.Column width={6}>
                         {user.image
                             ? (<div><Image className={classes.profileImage} src={user.image} rounded/>
-                                <Divider fitted/>
                                 <Button size='mini' onClick={updateUserImageHandler}
                                         className={classes.userImage__button}>Zmień zdjęcie</Button>
                                 <Button size='mini' onClick={deleteUserImageHandler}
                                         className={classes.userImage__button}>Usuń zdjęcie</Button></div>)
                             : (<div><Image className={classes.profileImage} src={profile} rounded/>
-                                <Divider fitted/>
                                 <Button size='mini' onClick={updateUserImageHandler}
                                         className={classes.userImage__button}>Dodaj zdjęcie</Button></div>)
                         }
                     </Grid.Column>
-                    <Header as='h1'>
-                        {user.name}
-                        <Header.Subheader>{user.location}</Header.Subheader>
-                    </Header>
-                    <Button onClick={changePasswordHandler}>Haslo</Button>
-                    <Button onClick={changeUserInfoHandler}>info</Button>
+                    <Grid.Column width={10}>
+                        <Header as='h1'>
+                            {user.name}
+                            <Header.Subheader>{user.location}</Header.Subheader>
+                        </Header>
+                        <Button onClick={changePasswordHandler}>{t("changePassword")}</Button>
+                        <Button onClick={changeUserInfoHandler}>{t("editData")}</Button>
 
-                    <Table className={classes.userInfo__container}>
-                        <Table.Body>
-                            <Table.Row>
-                                <Table.Cell>
-                                    <Header as='h4' image>
-                                        <Header.Content>E-mail</Header.Content>
-                                    </Header>
-                                </Table.Cell>
-                                <Table.Cell>{user.email}</Table.Cell>
-                            </Table.Row>
-                            <Table.Row>
-                                <Table.Cell>
-                                    <Header as='h4' image>
-                                        <Header.Content>{t("phoneNumber")}</Header.Content>
-                                    </Header>
-                                </Table.Cell>
-                                <Table.Cell>{user.phoneNumber}</Table.Cell>
-                            </Table.Row>
-                            <Table.Row>
-                                <Table.Cell>
-                                    <Header as='h4' image>
-                                        <Header.Content>{t("accountCreationDate")}</Header.Content>
-                                    </Header>
-                                </Table.Cell>
-                                <Table.Cell>{user.createDate}</Table.Cell>
-                            </Table.Row>
-                        </Table.Body>
-                    </Table>
-                </Grid>
+                        <Table className={classes.userInfo__container}>
+                            <Table.Body>
+                                <Table.Row>
+                                    <Table.Cell>
+                                        <Header as='h4' image>
+                                            <Header.Content>E-mail</Header.Content>
+                                        </Header>
+                                    </Table.Cell>
+                                    <Table.Cell>{user.email}</Table.Cell>
+                                </Table.Row>
+                                <Table.Row>
+                                    <Table.Cell>
+                                        <Header as='h4' image>
+                                            <Header.Content>{t("phoneNumber")}</Header.Content>
+                                        </Header>
+                                    </Table.Cell>
+                                    <Table.Cell>{user.phoneNumber}</Table.Cell>
+                                </Table.Row>
+                                <Table.Row>
+                                    <Table.Cell>
+                                        <Header as='h4' image>
+                                            <Header.Content>{t("accountCreationDate")}</Header.Content>
+                                        </Header>
+                                    </Table.Cell>
+                                    <Table.Cell>{user.createDate}</Table.Cell>
+                                </Table.Row>
+                            </Table.Body>
+                        </Table>
+                    </Grid.Column>
+                </Grid.Row>
+            </Grid>
+        </section>
     )
 }
+
 
 export default UserDetails;

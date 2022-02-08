@@ -68,6 +68,29 @@ export const getTasksApiCall = async ({isUserTasks, token, category, status}) =>
     }
 };
 
+// export const getTaskApiCall = async ({token, id}) => {
+//     try {
+//         let url = `http://localhost:8080/api/task/${id}`;
+//         return fetch(url, {
+//             method: 'GET',
+//             headers: {
+//                 'Authorization': 'Bearer ' + token,
+//                 'Content-Type': 'application/json'
+//             },
+//         }).then((response) => {
+//             if (response.ok) {
+//                 return response.json().then(data => {
+//                     return [...data]
+//                 })
+//             } else {
+//                 throw 'Fetching task failed!'
+//             }
+//         })
+//     } catch (error) {
+//         throw error;
+//     }
+// };
+
 export const getAnotherUserCompletedTasksApiCall = async ({token, email}) => {
     try {
         let url = `http://localhost:8080/api/task/complete-by-user/${email}`;
@@ -164,9 +187,7 @@ export const updateTaskApiCall = async ({
         }).then((response) => {
             if (response.ok) {
                 return response.json().then(data => {
-                    return {
-                        data
-                    }
+                    return data
                 })
             } else {
                 throw 'Task update failed!'

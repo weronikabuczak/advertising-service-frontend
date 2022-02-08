@@ -222,7 +222,6 @@ export const deleteUserImage = createAsyncThunk(`${sliceName}/deleteUserImage`, 
         dispatch(getUser({token, email}));
 
     } catch (error) {
-        alert('Cannot delete user image');
         throw error;
     }
 });
