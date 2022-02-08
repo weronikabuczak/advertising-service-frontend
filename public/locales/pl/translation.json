@@ -93,5 +93,8 @@
   "usersList": "Lista użytkowników systemu",
   "tasksList": "Lista ogłoszeń",
   "noUsers": "Brak użytkowników",
-  "noTasks": "Brak ogłoszeń"
+  "noTasks": "Brak ogłoszeń",
+  "changeImage": "Zmień zdjęcie",
+  "addImage": "Dodaj zdjęcie",
+  "deleteImage": "Usuń zdjęcie"
 }

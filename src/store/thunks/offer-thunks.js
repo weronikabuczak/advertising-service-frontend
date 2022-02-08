@@ -38,7 +38,7 @@ export const getOffersApiCall = async ({token, taskId, offerStatus}) => {
         }).then((response) => {
             if (response.ok) {
                 return response.json().then(data => {
-                    return [...data]
+                    return data
                 })
             } else {
                 throw 'Fetching offers failed!'

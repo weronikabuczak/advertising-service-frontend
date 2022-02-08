@@ -30,15 +30,19 @@ export const getOffers = createAsyncThunk(`${sliceName}/getOffers`, async ({
                                                                            }, {dispatch}) => {
     try {
         const data = await getOffersApiCall({token, taskId, offerStatus});
-        return {
-            offers: data
-        };
+               return {
+            offers: data.map(offer => {
+                    if (offer.user.image) {
+                        let avatar = "data:image/jpeg;base64," + offer.user.image;
+                        offer.user.image = avatar;
+                    }
+                    return offer
+                })};
     } catch (error) {
         alert('Cannot get offers');
         throw error;
     }
 });
-
 
 
 export const updateOffer = createAsyncThunk(`${sliceName}/updateOffer`, async ({
@@ -104,9 +108,9 @@ const offer = createSlice({
             console.log(state.offers)
             console.log(payload)
 
-            state.offers = [...state.offers.filter( offer => offer.id === id), {...payload}]
+            state.offers = [...state.offers.filter(offer => offer.id === id), {...payload}]
 
-           //  state.offers = []
+            //  state.offers = []
 
 
             state.isLoading = false;

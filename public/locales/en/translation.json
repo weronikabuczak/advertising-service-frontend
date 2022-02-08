@@ -22,7 +22,7 @@
   "edit": "Edit",
   "address": "Address",
   "pay": "Pay",
-  "estimatedTime": "Estimated time of completion",
+  "estimatedTime": "Estimated time",
   "expDate": "Expiration date",
   "createdBy": "Created by: ",
   "makeAnOffer": "Make an offer",
@@ -92,5 +92,8 @@
   "usersList": "Users list",
   "tasksList": "Tasks list",
   "noUsers": "No users",
-  "noTasks": "No tasks"
+  "noTasks": "No tasks",
+  "changeImage": "Change image",
+  "addImage": "Add image",
+  "deleteImage": "Delete image"
 }

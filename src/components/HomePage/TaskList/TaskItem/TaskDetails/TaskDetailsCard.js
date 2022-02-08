@@ -44,11 +44,11 @@ const TaskDetailsCard = ({isUserTasks, deleteTaskHandler, editTaskHandler, categ
                             {task.image ?
                                 (<div><Image src={task.image} rounded floated='right' size='medium'/>
                                     <Divider fitted/>
-                                    <Button size='mini' onClick={updateTaskImageHandler} className={classes.taskImage__button}>Zmień zdjęcie</Button>
-                                    <Button size='mini' onClick={deleteTaskImageHandler} className={classes.taskImage__button}>Usuń zdjęcie</Button></div>)
+                                    <Button size='mini' onClick={updateTaskImageHandler} className={classes.taskImage__button}>{t("changeImage")}</Button>
+                                    <Button size='mini' onClick={deleteTaskImageHandler} className={classes.taskImage__button}>{t("deleteImage")}</Button></div>)
                                 : (<div><Image src={taskIcon} rounded floated='right' size='medium'/>
                                     <Divider fitted/>
-                                    <Button size='mini' onClick={updateTaskImageHandler} className={classes.taskImage__button}>Dodaj zdjęcie</Button>
+                                    <Button size='mini' onClick={updateTaskImageHandler} className={classes.taskImage__button}>{t("addImage")}</Button>
                                 </div>)
                             }
                         </Grid.Column>
