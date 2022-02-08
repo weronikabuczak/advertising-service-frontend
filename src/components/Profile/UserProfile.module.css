@@ -31,6 +31,7 @@
 
 .userInfo__container {
     border: none !important;
+    word-break: break-word;
 }
 
 .noTask__button {

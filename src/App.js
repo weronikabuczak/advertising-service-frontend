@@ -10,8 +10,8 @@ import {useSelector} from "react-redux";
 import {getRole, isUserLoggedIn} from "./store/auth";
 import ProfilePage from "./pages/ProfilePage";
 import TaskDetails from "./components/HomePage/TaskList/TaskItem/TaskDetails/TaskDetails";
-import UserDetails from "./components/HomePage/TaskList/TaskItem/TaskDetails/UserDetails/UserDetails";
 import AdminPanel from "./components/Administration/AdminPanel";
+import UserDetails from "./components/Administration/UserDetails";
 
 function App() {
     const isLoggedIn = useSelector(isUserLoggedIn);

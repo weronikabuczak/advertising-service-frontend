@@ -87,5 +87,6 @@
   "noCompletedTasks": "No completed tasks yet",
   "chooseNewImage": "Choose your new image",
   "areYouSureDeleteImage": "Are you sure that you want to delete your image?",
-  "adminPanel": "Admin panel"
+  "adminPanel": "Admin panel",
+  "emailExists": "The email is already in the database."
 }

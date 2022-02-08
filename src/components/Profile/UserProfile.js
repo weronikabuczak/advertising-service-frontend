@@ -4,9 +4,9 @@ import profile from '../../files/profile.jpg'
 import {useEffect, useState} from "react";
 import ChangePassword from "./UserTasks/UserProfileModals/ChangePassword";
 import ChangeUserData from "./UserTasks/UserProfileModals/ChangeUserData";
-import {useHistory} from "react-router-dom";
+import {useHistory, useLocation} from "react-router-dom";
 import {useSelector} from "react-redux";
-import {getUser, getUserInfo, getUserToken} from "../../store/auth";
+import {getMe, getUser, getUserInfo, getUserToken} from "../../store/auth";
 import {useAppDispatch} from "../../root";
 import {useTranslation} from "react-i18next";
 import UpdateUserImage from "./UserTasks/UserProfileModals/UpdateUserImage";
@@ -24,14 +24,12 @@ const UserProfile = () => {
     const [modalOpenDeleteUserImage, setModalOpenDeleteUserImage] = useState(false);
     const token = useSelector(getUserToken);
 
-
-
     useEffect(() => {
         if (token) {
-            dispatch(getUser({token}));
+            dispatch(getMe({token}))
         }
 
-    }, []);
+    }, [modalOpenDeleteUserImage, modalOpenUserInfo, modalOpenPassword]);
 
 
     const userInfoHandler = () => {
@@ -50,7 +48,7 @@ const UserProfile = () => {
     }
 
     const updateUserImageHandler = () => {
-      setModalOpenUserImage(true);
+        setModalOpenUserImage(true);
     }
 
     const deleteUserImageHandler = () => {
@@ -75,16 +73,15 @@ const UserProfile = () => {
             <ChangeUserData open={modalOpenUserInfo} setOpen={setModalOpenUserInfo} email={userInfo.email}
                             user={userInfo}/>
             <UpdateUserImage open={modalOpenUserImage} setOpen={setModalOpenUserImage} email={userInfo.email}/>
-            <DeleteUserImage open={modalOpenDeleteUserImage} setOpen={setModalOpenDeleteUserImage} email={userInfo.email}/>
+            <DeleteUserImage open={modalOpenDeleteUserImage} setOpen={setModalOpenDeleteUserImage}
+                             email={userInfo.email}/>
             <Card fluid className={classes.userCard__container}>
                 <Card.Content>
                     <Card.Header>
                         <Header as='h5' icon textAlign='center'>
                             <Icon name='users'/>
                             {t("myAccount")}
-
                         </Header>
-
                     </Card.Header>
                 </Card.Content>
                 <Card.Content>
@@ -94,11 +91,14 @@ const UserProfile = () => {
                             {userInfo.image
                                 ? (<div><Image className={classes.profileImage} src={userInfo.image} rounded/>
                                     <Divider fitted/>
-                                    <Button size='mini' onClick={updateUserImageHandler} className={classes.userImage__button}>Zmień zdjęcie</Button>
-                                    <Button size='mini' onClick={deleteUserImageHandler} className={classes.userImage__button}>Usuń zdjęcie</Button></div>)
+                                    <Button size='mini' onClick={updateUserImageHandler}
+                                            className={classes.userImage__button}>Zmień zdjęcie</Button>
+                                    <Button size='mini' onClick={deleteUserImageHandler}
+                                            className={classes.userImage__button}>Usuń zdjęcie</Button></div>)
                                 : (<div><Image className={classes.profileImage} src={profile} rounded/>
                                     <Divider fitted/>
-                                    <Button size='mini' onClick={updateUserImageHandler} className={classes.userImage__button}>Dodaj zdjęcie</Button></div>)
+                                    <Button size='mini' onClick={updateUserImageHandler}
+                                            className={classes.userImage__button}>Dodaj zdjęcie</Button></div>)
                             }
 
                         </Grid.Column>
@@ -109,14 +109,14 @@ const UserProfile = () => {
                             </Header>
 
                             <Table className={classes.userInfo__container}>
-                                <Table.Body className={classes.userInfo__container}>
-                                    <Table.Row>
+                                <Table.Body>
+                                    <Table.Row >
                                         <Table.Cell>
                                             <Header as='h4' image>
                                                 <Header.Content>E-mail</Header.Content>
                                             </Header>
                                         </Table.Cell>
-                                        <Table.Cell>{userInfo.email}</Table.Cell>
+                                        <Table.Cell >{userInfo.email}</Table.Cell>
                                     </Table.Row>
                                     <Table.Row>
                                         <Table.Cell>

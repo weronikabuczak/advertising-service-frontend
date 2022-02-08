@@ -2,7 +2,7 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 
 import {
     deleteUserImageApiCall, getAllUsersEmailApiCall, getAllUsersEmailsApiCall,
-    getAnotherUserApiCall,
+    getAnotherUserApiCall, getMeApiCall,
     getUserApiCall,
     loginUserApiCall, registerUserApiCall, updatePasswordApiCall, updateUserApiCall, updateUserImageApiCall,
 } from './thunks/auth-thunks';
@@ -20,13 +20,16 @@ export const initialState = {
     email: '',
     setOpen: false,
     role: '',
-    usersEmails: []
+    usersEmails: [],
+    isLoginError: false,
+    isRegistrationError: false,
+    currentUserEmail: ''
 };
 
 export const loginUser = createAsyncThunk(`${sliceName}/login`, async ({email, password}, {dispatch}) => {
     try {
         const data = await loginUserApiCall({email, password});
-        const {token, remainingTime, role} = data;
+        const {token, remainingTime, role, hasError} = data;
         const {receivedEmail} = data;
         setTimeout(() => {
             dispatch(logoutUser({}))
@@ -39,7 +42,6 @@ export const loginUser = createAsyncThunk(`${sliceName}/login`, async ({email, p
             role: role
         };
     } catch (error) {
-        alert('Cannot fetch user');
         throw error;
     }
 });
@@ -75,7 +77,7 @@ export const registerUser = createAsyncThunk(`${sliceName}/register`, async ({
             role: role
         };
     } catch (error) {
-        alert('Cannot fetch user');
+        // alert('Cannot fetch user');
         throw error;
     }
 });
@@ -89,14 +91,32 @@ export const logoutUser = createAsyncThunk(`${sliceName}/logout`, async ({dispat
     };
 });
 
-export const getUser = createAsyncThunk(`${sliceName}/getUser`, async ({token}, {dispatch}) => {
+export const getMe = createAsyncThunk(`${sliceName}/getMe`, async ({token}, {dispatch}) => {
     try {
-        const data = await getUserApiCall({token});
+        const data = await getMeApiCall({token});
         const createDate = new Date(data.createDate);
         data.createDate = createDate.toLocaleDateString();
         if (data.image) {
             let avatar = "data:image/jpeg;base64," + data.image;
-            console.log("avatar" + avatar)
+            data.image = avatar;
+        }
+        return {
+            user: data
+        };
+
+    } catch (error) {
+        alert('Cannot fetch user');
+        throw error;
+    }
+});
+
+export const getUser = createAsyncThunk(`${sliceName}/getUser`, async ({token, email}, {dispatch}) => {
+    try {
+        const data = await getUserApiCall({token, email});
+        const createDate = new Date(data.createDate);
+        data.createDate = createDate.toLocaleDateString();
+        if (data.image) {
+            let avatar = "data:image/jpeg;base64," + data.image;
             data.image = avatar;
         }
         return {
@@ -129,7 +149,6 @@ export const getAnotherUser = createAsyncThunk(`${sliceName}/getAnotherUser`, as
 export const getAllUsersEmails = createAsyncThunk(`${sliceName}/getAllUsersEmail`, async ({token}, {dispatch}) => {
     try {
         const data = await getAllUsersEmailsApiCall({token});
-        console.log(data);
         return {
             usersEmails: [...data]
         };
@@ -166,7 +185,7 @@ export const updateUser = createAsyncThunk(`${sliceName}/updateUser`, async ({
                                                                              }, {dispatch}) => {
     try {
         const data = await updateUserApiCall({token, email, phoneNumber, name, location});
-        dispatch(getUser({token}));
+        dispatch(getUser({token, email}));
         return {
             data
         };
@@ -183,7 +202,7 @@ export const updateUserImage = createAsyncThunk(`${sliceName}/updateUserImage`, 
                                                                                        }, {dispatch}) => {
     try {
         const data = await updateUserImageApiCall({token, image, email});
-        dispatch(getUser({token}));
+        dispatch(getUser({token, email}));
         return {
             data
         };
@@ -200,7 +219,7 @@ export const deleteUserImage = createAsyncThunk(`${sliceName}/deleteUserImage`, 
                                                                                        }, {dispatch}) => {
     try {
         await deleteUserImageApiCall({token, email});
-        dispatch(getUser({token}));
+        dispatch(getUser({token, email}));
 
     } catch (error) {
         alert('Cannot delete user image');
@@ -209,27 +228,52 @@ export const deleteUserImage = createAsyncThunk(`${sliceName}/deleteUserImage`, 
 });
 
 
+
+const loginOrRegisterBuilderHandler = (state, {payload}) => {
+    const {email, token, remainingTime, role} = payload;
+    state.token = token;
+    state.isLoggedIn = true;
+    state.remainingTime = remainingTime;
+    state.isLoading = false;
+    state.email = email;
+    state.role = role;
+    state.isLoginError = false;
+    state.isRegistrationError = false;
+};
+
 const auth = createSlice({
     name: sliceName,
     initialState,
-    reducers: {},
+    reducers: {
+        setCurrentUserEmail: (state, {payload}) => {
+            state.currentUserEmail = payload
+        }
+    },
     extraReducers: (builder) => {
         builder.addCase(loginUser.pending || registerUser.pending, (state) => {
             state.isLoading = true;
+            state.isLoggedIn = false;
+            state.isLoginError = false;
+            state.isRegistrationError = false;
         });
 
-        builder.addCase(loginUser.fulfilled || registerUser.fulfilled, (state, {payload}) => {
-            const {email, token, remainingTime, role} = payload;
-            state.token = token;
-            state.isLoggedIn = true;
-            state.remainingTime = remainingTime;
-            state.isLoading = false;
-            state.email = email;
-            state.role = role;
-        });
-        builder.addCase(loginUser.rejected || registerUser.rejected, (state) => {
+        builder.addCase(loginUser.fulfilled, loginOrRegisterBuilderHandler);
+
+        builder.addCase(registerUser.fulfilled, loginOrRegisterBuilderHandler);
+
+
+        builder.addCase(loginUser.rejected, (state) => {
             state.isLoading = false;
             state.isLoggedIn = false;
+            state.isLoginError = true;
+            state.isRegistrationError = false;
+        });
+
+        builder.addCase(registerUser.rejected, (state) => {
+            state.isLoading = false;
+            state.isLoggedIn = false;
+            state.isRegistrationError = true;
+            state.isLoginError = false;
         });
 
         builder.addCase(logoutUser.pending, (state) => {
@@ -248,9 +292,16 @@ const auth = createSlice({
             state.isLoggedIn = true;
         });
 
-        builder.addCase(getUser.pending || getAnotherUser.pending || getAllUsersEmails.pending, (state) => {
+        builder.addCase(getMe.pending || getAnotherUser.pending || getAllUsersEmails.pending || getUser.pending, (state) => {
             state.isLoading = true;
             state.isLoggedIn = true;
+        });
+
+        builder.addCase(getMe.fulfilled || getUser.fulfilled, (state, {payload}) => {
+            state.isLoading = false;
+            state.isLoggedIn = true;
+            const {user} = payload;
+            state.user = user;
         });
 
         builder.addCase(getUser.fulfilled, (state, {payload}) => {
@@ -272,10 +323,9 @@ const auth = createSlice({
             state.isLoggedIn = true;
             const {usersEmails} = payload;
             state.usersEmails = usersEmails;
-            console.log(state.usersEmails);
         });
 
-        builder.addCase(getUser.rejected || getAnotherUser.rejected || getAllUsersEmails.rejected, (state) => {
+        builder.addCase(getMe.rejected || getAnotherUser.rejected || getAllUsersEmails.rejected, (state) => {
             state.isLoading = false;
             state.isLoggedIn = true;
         });
@@ -299,7 +349,9 @@ const auth = createSlice({
     }
 });
 
-
+export const {setCurrentUserEmail} = auth.actions
+// export const getCurrentUserEmail = (state) => state[sliceName].auth.find(user => user.email === state[sliceName].currentUserEmail);
+export const getCurrentUserEmail = (state) => state[sliceName].currentUserEmail;
 export const isUserLoggedIn = state => state[sliceName].isLoggedIn;
 export const getUserToken = state => state[sliceName].token;
 export const getUserInfo = state => state[sliceName].user;
@@ -309,5 +361,7 @@ export const getUserEmail = state => state[sliceName].email;
 export const getSetOpen = state => state[sliceName].setOpen;
 export const getRole = state => state[sliceName].role;
 export const getUsersEmails = state => state[sliceName].usersEmails;
+export const getLoginError = state => state[sliceName].isLoginError;
+export const getRegistrationError = state => state[sliceName].isRegistrationError;
 
 export default auth.reducer;

@@ -18,7 +18,7 @@ import {Link} from "react-router-dom";
 import {statuses} from "../../../utils/taskStatus";
 import {useTranslation} from "react-i18next";
 import {getStatusLabel} from "../../../utils/functions";
-import UserCompletedTasks from "../../HomePage/TaskList/TaskItem/TaskDetails/UserDetails/UserCompletedTasks";
+import UserCompletedTasks from "../../HomePage/TaskList/TaskItem/TaskDetails/AnotherUserDetails/UserCompletedTasks";
 
 
 const UserTasks = () => {

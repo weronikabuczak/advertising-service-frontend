@@ -9,7 +9,7 @@ import {useTranslation} from "react-i18next";
 import UserCompletedTasks from "./UserCompletedTasks";
 import {getAnotherUserCompletedTasks, getAnotherUserTasks} from "../../../../../../store/task";
 
-const UserDetails = ({open, setOpen, email}) => {
+const AnotherUserDetails = ({open, setOpen, email}) => {
     const {t} = useTranslation();
     const token = useSelector(getUserToken);
     const dispatch = useAppDispatch();
@@ -88,4 +88,4 @@ const UserDetails = ({open, setOpen, email}) => {
     );
 }
 
-export default UserDetails;
+export default AnotherUserDetails;

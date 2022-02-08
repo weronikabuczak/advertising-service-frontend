@@ -1,13 +1,13 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import {
     createTaskApiCall,
-    deleteTaskApiCall, deleteTaskImageApiCall,
+    deleteTaskApiCall, deleteTaskImageApiCall, getAllTasksIdApiCall,
     getAnotherUserCompletedTasksApiCall,
     getTasksApiCall,
     updateTaskApiCall, updateTaskImageApiCall
 } from "./thunks/task-thunks";
-import {deleteUserImageApiCall, updateUserImageApiCall} from "./thunks/auth-thunks";
-import {getUser} from "./auth";
+import {deleteUserImageApiCall, getAllUsersEmailsApiCall, updateUserImageApiCall} from "./thunks/auth-thunks";
+import {getAllUsersEmails, getUser} from "./auth";
 
 export const sliceName = 'task';
 
@@ -16,7 +16,8 @@ export const initialState = {
     anotherUserTasks: [],
     currentTaskId: '',
     isLoading: false,
-    setOpen: false
+    setOpen: false,
+    allTasksId: []
 };
 
 export const createTask = createAsyncThunk(`${sliceName}/createTask`, async ({
@@ -79,18 +80,30 @@ export const getTasks = createAsyncThunk(`${sliceName}/getTasks`, async ({
 });
 
 export const getAnotherUserCompletedTasks = createAsyncThunk(`${sliceName}/getAnotherUserCompletedTasks`, async ({
-                                                                                                                     token,
-                                                                                                                     email
-                                                                                                                 }, {dispatch}) => {
+                                                                                                                                     token,
+                                                                                                                                     email
+                                                                                                                                 }, {dispatch}) => {
     try {
         const data = await getAnotherUserCompletedTasksApiCall({token, email});
-        console.log(data)
         return {
             anotherUserTasks: data
         };
 
     } catch (error) {
         alert('Cannot fetch tasks');
+        throw error;
+    }
+});
+
+export const getAllTasksId = createAsyncThunk(`${sliceName}/getAllTasksId`, async ({token}, {dispatch}) => {
+    try {
+        const data = await getAllTasksIdApiCall({token});
+        return {
+            allTasksId: [...data]
+        };
+
+    } catch (error) {
+        alert('Cannot fetch tasks id');
         throw error;
     }
 });
@@ -183,7 +196,7 @@ const task = createSlice({
         }
     },
     extraReducers: (builder) => {
-        builder.addCase(createTask.pending || getTasks.pending || getAnotherUserCompletedTasks.pending, (state) => {
+        builder.addCase(createTask.pending || getTasks.pending || getAnotherUserCompletedTasks.pending || getAllTasksId.pending, (state) => {
             state.isLoading = true;
         });
 
@@ -191,7 +204,7 @@ const task = createSlice({
             state.isLoading = false;
         });
 
-        builder.addCase(createTask.rejected, (state, {payload}) => {
+        builder.addCase(createTask.rejected || getAllTasksId.rejected, (state, {payload}) => {
             state.isLoading = false;
         });
 
@@ -199,6 +212,14 @@ const task = createSlice({
             const {tasks} = payload;
             state.tasks = tasks;
             state.isLoading = false;
+        });
+
+        builder.addCase(getAllTasksId.fulfilled, (state, {payload}) => {
+            state.isLoading = false;
+            state.isLoggedIn = true;
+            const {allTasksId} = payload;
+            state.allTasksId = allTasksId;
+            console.log(state.allTasksId);
         });
 
         builder.addCase(getAnotherUserCompletedTasks.fulfilled, (state, {payload}) => {
@@ -241,5 +262,5 @@ export const getAllTasks = state => state[sliceName].tasks;
 export const getAnotherUserTasks = state => state[sliceName].anotherUserTasks;
 export const getCurrentTask = (state) => state[sliceName].tasks.find(task => task.id === state[sliceName].currentTaskId);
 export const getSetOpenTask = state => state[sliceName].setOpen;
-
+export const getTasksId = state => state[sliceName].allTasksId;
 export default task.reducer;

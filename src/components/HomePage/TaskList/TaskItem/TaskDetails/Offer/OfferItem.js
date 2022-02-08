@@ -11,7 +11,7 @@ import {getUserToken} from "../../../../../../store/auth";
 import classes from './OfferItem.module.css';
 import {useTranslation} from "react-i18next";
 import {createOpinion, getOpinion, getOpinionForOffer} from "../../../../../../store/opinion";
-import UserDetails from "../UserDetails/UserDetails";
+import AnotherUserDetails from "../AnotherUserDetails/AnotherUserDetails";
 
 const OfferItem = ({offer, isUserTasks}) => {
     const {t} = useTranslation();
@@ -74,7 +74,7 @@ const OfferItem = ({offer, isUserTasks}) => {
     }
 
     return (<section>
-        <UserDetails open={modalShowUser} setOpen={setModalShowUser} email={offer.user.email}/>
+        <AnotherUserDetails open={modalShowUser} setOpen={setModalShowUser} email={offer.user.email}/>
 
         {isUserTasks && offer.status === 'ACTIVE' && <Card fluid>
             <Card.Content>

@@ -52,15 +52,10 @@ const Navigation = () => {
                 </div>
             )}
             <nav>
-                <span>
-
-                    </span>
                 {isLoggedIn && (
-                    <div>
                         <button onClick={logoutHandler}>{t("logout")}</button>
-                        <LanguageSwitcher/>
-                    </div>
                 )}
+                <LanguageSwitcher/>
 
                 {isLoggedIn && role === 'ADMIN' && (
                     <div>

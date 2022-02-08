@@ -88,5 +88,6 @@
   "noCompletedTasks": "Brak wykonanych zleceń",
   "chooseNewImage": "Wybierz twoje nowe zdjęcie",
   "areYouSureDeleteImage": "Czy na pewno chcesz usunąć zdjęcie?",
-  "adminPanel": "Panel administratora"
+  "adminPanel": "Panel administratora",
+  "emailExists": "Ten email znajduje się już w bazie."
 }

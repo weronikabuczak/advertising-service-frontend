@@ -88,7 +88,7 @@ export const getRemainingTimeFromToken = (expirationTime) => {
     return remainingTime;
 };
 
-export const getUserApiCall = async ({token}) => {
+export const getMeApiCall = async ({token}) => {
     try {
         let url = 'http://localhost:8080/api/user/me';
         return fetch(url, {
@@ -110,6 +110,29 @@ export const getUserApiCall = async ({token}) => {
         throw error;
     }
 };
+export const getUserApiCall = async ({token,email}) => {
+    try {
+        let url = `http://localhost:8080/api/user/${email}`;
+        return fetch(url, {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + token,
+                'Content-Type': 'application/json'
+            },
+        }).then((response) => {
+            if (response.ok) {
+                return response.json().then(data => {
+                    return data
+                })
+            } else {
+                throw 'Fetching user failed!'
+            }
+        })
+    } catch (error) {
+        throw error;
+    }
+};
+
 
 export const getAnotherUserApiCall = async ({token, email}) => {
     try {
