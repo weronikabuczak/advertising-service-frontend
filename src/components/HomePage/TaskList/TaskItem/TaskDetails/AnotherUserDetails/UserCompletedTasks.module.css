@@ -3,9 +3,19 @@
     font-size: 1.2rem;
 }
 
+.opinion__content {
+    margin-bottom: 1rem;
+}
+
+.completedTasksItem {
+    font-size: 1.1rem;
+    text-align: center;
+}
+
 .completedTasksItem:hover {
     background-color: #f6f8f8;
     animation: content-hover 0.1s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+    font-size: 1.1rem;
 }
 
 @keyframes content-hover {

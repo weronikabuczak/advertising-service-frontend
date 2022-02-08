@@ -6,6 +6,11 @@
     border-radius: 5px;
 }
 
+.offer__button {
+    margin-top: 1rem !important;
+    display: block !important;
+}
+
 @keyframes slide-out-blurred-right {
     0% {
         transform: translateX(0) scaleY(1) scaleX(1);

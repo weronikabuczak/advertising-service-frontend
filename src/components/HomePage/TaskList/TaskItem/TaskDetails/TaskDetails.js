@@ -145,6 +145,10 @@ const TaskDetails = () => {
                             </Popup>
                         </Marker>
                     </MapContainer>
+                    <Divider/>
+                    <Container textAlign='justified'>
+                        <Header>{t("details")}:</Header>
+                        {task.content}</Container>
                 </Grid.Column>
                 <Grid.Column width={8}>
                     <TaskDetailsCard isUserTasks={isUserTasks} isCurrentUserTask={isCurrentUserTask}
@@ -172,12 +176,6 @@ const TaskDetails = () => {
                     {offers?.length > 0 && offers.map((offer) => (
                         <OfferItem offer={offer} isUserTasks={isUserTasks}/>
                     ))}
-                    <Divider/>
-                    <Grid.Row>
-                        <Container textAlign='justified'>
-                            <Header>{t("details")}:</Header>
-                            {task.content}</Container>
-                    </Grid.Row>
                 </Grid.Column>
             </Grid.Row>
 

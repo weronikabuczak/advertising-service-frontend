@@ -132,10 +132,10 @@ export const getUser = createAsyncThunk(`${sliceName}/getUser`, async ({token, e
 export const getAnotherUser = createAsyncThunk(`${sliceName}/getAnotherUser`, async ({token, email}, {dispatch}) => {
     try {
         const data = await getAnotherUserApiCall({token, email});
-        // if (data.image) {
-        //     let avatar = "data:image/jpeg;base64," + data.image;
-        //     data.image = avatar;
-        // }
+        if (data.image) {
+            let avatar = "data:image/jpeg;base64," + data.image;
+            data.image = avatar;
+        }
         return {
             anotherUser: data
         };
