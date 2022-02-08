@@ -61,17 +61,19 @@ const TaskItem = ({task, onClick, isUserTasks, currentTask}) => {
                                 <Image floated='left' className={classes.image} src={task.image} rounded
                                        size='large'/>
                                 : <Image src={taskIcon} rounded size='large'/>}
-                            {(isUserTasks && task.hasOffer) &&
-                                (
-                                    <Message color='green' size='tiny'>
-                                        <Message.Header>{t("newOffer")}</Message.Header>
-                                    </Message>)}
+
                         </Grid.Column>
                         <Grid.Column computer={11} tablet={11}>
                             <Grid.Row className={classes.taskItem__firstRow}>
+                                {(isUserTasks && task.hasOffer) &&
+                                    (
+                                        <Message className={classes.taskItem__category} color='red' size='tiny' compact>
+                                            <Message.Header>{t("newOffer")}</Message.Header>
+                                        </Message>)}
                                 <Grid.Column width={5}>
                                     <Message size="tiny" style={categoryColor}
                                              className={classes.taskItem__category}>{taskCategory}</Message>
+
                                 </Grid.Column>
                                 <Grid.Column width={11} floated='right'>
                                     <Button floated='right' fluid

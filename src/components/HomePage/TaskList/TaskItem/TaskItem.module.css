@@ -7,6 +7,7 @@
 .taskItem__category {
     font-size: 0.9rem;
     padding: 0.5rem !important;
+    margin-right: 4px !important;
     color: white !important;
     border-radius: 10px !important;
     box-shadow: rgba(149, 157, 165, 0.2) 0px 1px 4px !important;
