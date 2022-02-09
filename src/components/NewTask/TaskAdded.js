@@ -1,4 +1,4 @@
-import classes from "../NewTask/NewTaskForm.module.css";
+import classes from "./TaskAdded.module.css";
 import {Button, Divider, Grid, Header, Icon, Segment} from "semantic-ui-react";
 import {useHistory} from "react-router-dom";
 import {useTranslation} from "react-i18next";
@@ -19,7 +19,7 @@ return (
     <section className={classes.section}>
         <Header>{t("adWasAddedSuccessfully")}</Header>
         <Segment placeholder >
-            <Grid columns={2} textAlign='center' className={classes.choiceSegment}>
+            <Grid columns={2} textAlign='center' className={classes.choice__segment}>
                 <Divider vertical> {t("or")}</Divider>
                 <Grid.Row verticalAlign='middle'>
                     <Grid.Column>

@@ -2,7 +2,7 @@ import {useTranslation} from "react-i18next";
 import {useSelector} from "react-redux";
 import {deleteUserImage, getSetOpen, getUserToken} from "../../../../store/auth";
 import {useAppDispatch} from "../../../../root";
-import {Button, Form, Modal} from "semantic-ui-react";
+import {Button, Modal} from "semantic-ui-react";
 
 const DeleteUserImage = ({open, setOpen, email}) => {
     const {t} = useTranslation();

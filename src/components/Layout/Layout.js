@@ -11,7 +11,7 @@ const Layout = (props) => {
             <Navigation/>
             <main>{props.children}</main>
             {isLoggedIn &&
-                <footer>
+                <footer className={classes.app__footer}>
                     <h4>Services App 2022</h4>
                     <p>
                         <a href="mailto:weronika.kurczyna@gmail.com">weronika.kurczyna@gmail.com</a>

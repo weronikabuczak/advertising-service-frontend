@@ -1,7 +1,7 @@
 import {useEffect, useRef, useState} from 'react';
 import classes from './AuthorizationForm.module.css';
-import {Redirect, useHistory} from "react-router-dom";
-import {getError, getLoginError, getRegistrationError, isUserLoggedIn, loginUser, registerUser} from "../../store/auth";
+import {useHistory} from "react-router-dom";
+import {getLoginError, getRegistrationError, isUserLoggedIn, loginUser, registerUser} from "../../store/auth";
 import {useSelector} from "react-redux";
 import {useAppDispatch} from "../../root";
 import {Icon, Message} from "semantic-ui-react";
@@ -23,11 +23,6 @@ const AuthorizationForm = () => {
     const [isLogin, setIsLogin] = useState(true);
     const isLoggedIn = useSelector(isUserLoggedIn);
 
-    console.log(isRegistrationError)
-    console.log(isLoggedIn)
-    console.log(isLoginError)
-
-
     useEffect(() => {
     if (isLoggedIn) {
         history.push('/')
@@ -42,7 +37,6 @@ const AuthorizationForm = () => {
             const password = passwordInput.current.value;
             dispatch(loginUser({email, password}));
             console.log(isLoginError)
-                // history.push('/')
         } else if (!isLogin) {
             const email = emailInput.current.value;
             const currentPassword = passwordInput.current.value;
@@ -89,7 +83,7 @@ const AuthorizationForm = () => {
                                 <label htmlFor='password'>{t("password")}</label>
                                 <input type='password' id='password' defaultValue='test1234' required ref={passwordInput}/>
                             </div>
-                            {isLoginError && <Message color='blue'>Nieprawidłowy e-mail lub hasło</Message>}
+                            {isLoginError && <Message color='blue'> {t("invalidUsernameOrPassword")}</Message>}
                         </div>
                     )
                     : (

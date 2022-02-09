@@ -4,14 +4,12 @@ import {Button, Modal} from "semantic-ui-react";
 import {deleteTaskImage, getSetOpenTask} from "../../../../../../store/task";
 import {useAppDispatch} from "../../../../../../root";
 import { getUserToken} from "../../../../../../store/auth";
-import {useHistory} from "react-router-dom";
 
 const DeleteTaskImage = ({open, setOpen, id}) => {
     const {t} = useTranslation();
     const token = useSelector(getUserToken);
     const dispatch = useAppDispatch();
     const openModal = useSelector(getSetOpenTask);
-    const history = useHistory();
 
     const onClose = (event) => {
         event.preventDefault()
@@ -21,7 +19,6 @@ const DeleteTaskImage = ({open, setOpen, id}) => {
     const submitHandler = (event) => {
         event.preventDefault();
         dispatch(deleteTaskImage({token, id}));
-        // history.replace(`/taskDetails/${id}`)
         setOpen(openModal);
     }
 

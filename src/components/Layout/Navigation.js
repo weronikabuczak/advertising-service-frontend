@@ -1,7 +1,7 @@
 import {Link, useHistory} from 'react-router-dom';
 import classes from './Navigation.module.css';
 import AppSidebar from "./AppSidebar";
-import {useEffect, useRef, useState} from "react";
+import {useState} from "react";
 import {useAppDispatch} from "../../root";
 import {useSelector} from "react-redux";
 import {getRole, isUserLoggedIn, logoutUser} from "../../store/auth";
@@ -18,7 +18,6 @@ const Navigation = () => {
     const history = useHistory();
     const [toggle, setToggle] = useState(false);
     const role = useSelector(getRole);
-    console.log(role)
 
     const logoutHandler = () => {
         dispatch(logoutUser({}));

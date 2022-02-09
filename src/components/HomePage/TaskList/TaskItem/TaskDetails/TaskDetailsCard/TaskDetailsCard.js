@@ -1,9 +1,8 @@
 import {Button, Card, Divider, Grid, Header, Icon, Image, Message, Table} from "semantic-ui-react";
 import classes from "./TaskDetailsCard.module.css";
-import taskIcon from "../../../../../files/task.png";
+import taskIcon from "../../../../../../files/task.png";
 import React from "react";
 import {useTranslation} from "react-i18next";
-import profile from "../../../../../files/profile.jpg";
 
 const TaskDetailsCard = ({isUserTasks, deleteTaskHandler, editTaskHandler, categoryColor, statusColor, taskCategory,
                                 taskStatus, task, updateTaskImageHandler, deleteTaskImageHandler}) => {

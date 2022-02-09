@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react'
+import React from 'react'
 import {
     Icon,
     Menu, MenuItem,
@@ -7,11 +7,9 @@ import {
 import {Link} from "react-router-dom";
 import classes from './Navigation.module.css';
 import {useTranslation} from "react-i18next";
-import Redirect from "react-router-dom/es/Redirect";
 
 const AppSidebar = ({toggleFn, toggleMenu}) => {
     const {t} = useTranslation();
-
 
     return (
         <Sidebar
@@ -30,14 +28,7 @@ const AppSidebar = ({toggleFn, toggleMenu}) => {
             <MenuItem onClick={toggleFn}>
                 <Link to={{
                     pathname: "/profile",
-                    // search: "?utm=your+face",
-                    state: { me: true, email: null }}}><Icon name='user'/>{t("myAccount")}</Link>
-                {/*<Redirect*/}
-                {/*    to={{*/}
-                {/*        pathname: "/profile",*/}
-                {/*        // search: "?utm=your+face",*/}
-                {/*        state: { me: true, email: null }*/}
-                {/*    }}><Icon name='home' className={classes.paddingClasses}/>sdfsdfsd</Redirect>*/}
+                }}><Icon name='user'/>{t("myAccount")}</Link>
             </MenuItem>
             <MenuItem onClick={toggleFn}>
                 <Link to='/newTask'><Icon name='add'/>{t("newTask")}</Link>

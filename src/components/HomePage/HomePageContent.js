@@ -18,7 +18,7 @@ import {Link} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 import {getCategoryLabel} from "../../utils/functions";
 import i18n from "../../i18n";
-import MapLeafletComponent from "../NewTask/MapTrickyComponent";
+import MapLeafletComponent from "../NewTask/MapLeafletComponent";
 
 const HomePageContent = () => {
     const {t} = useTranslation();

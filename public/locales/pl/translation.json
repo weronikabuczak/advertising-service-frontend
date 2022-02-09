@@ -89,6 +89,7 @@
   "chooseNewImage": "Wybierz twoje nowe zdjęcie",
   "areYouSureDeleteImage": "Czy na pewno chcesz usunąć zdjęcie?",
   "adminPanel": "Panel administratora",
+  "invalidUsernameOrPassword": "Nieprawidłowa nazwa użytkownika lub hasło.",
   "emailExists": "Ten email znajduje się już w bazie.",
   "usersList": "Lista użytkowników systemu",
   "tasksList": "Lista ogłoszeń",

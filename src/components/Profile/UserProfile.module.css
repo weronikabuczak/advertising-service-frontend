@@ -5,10 +5,9 @@
     flex-wrap: wrap;
 }
 
-.taskSection {
-    width: 60%;
-    margin: 4rem auto;
-    flex-wrap: wrap;
+.userCard__container {
+    border: white;
+    padding: 1rem;
 }
 
 .userCard__container:hover {
@@ -24,31 +23,9 @@
     }
 }
 
-.userCard__container {
-    border: white;
-    padding: 1rem;
-}
-
 .userInfo__container {
     border: none !important;
     word-break: break-word;
-}
-
-.noTask__button {
-    justify-content: center;
-    margin: 2rem;
-    display: flex;
-    color: black !important;
-}
-
-.noCompletedTasks__message {
-    display: table !important;
-    margin: 1rem auto !important;
-    font-size: 1.1rem !important;
-    padding: 0.5rem !important;
-    border-radius: 10px !important;
-    background-color: #ccc !important;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 1px 4px !important;
 }
 
 ul {
@@ -56,7 +33,7 @@ ul {
     width: 90%;
 }
 
-.userButtons {
+.user__buttons {
     margin-bottom: 7px !important;
     margin-right: 7px !important;
     float: none !important;
@@ -74,25 +51,15 @@ ul {
 
 
 @media (max-width: 768px) {
-    .section, .taskSection {
+    .section {
         width: 95%;
     }
 
-    .profileImage {
+    .profile__image {
         padding: 0 40px;
     }
 }
 
-@media (max-width: 425px) {
-    .taskButtons {
-        display: grid !important;
-    }
-}
 
-@media (max-width: 320px) {
-    .taskSection {
-        width: 100%;
-    }
-}
 
 

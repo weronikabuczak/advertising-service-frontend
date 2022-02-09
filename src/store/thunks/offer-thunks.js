@@ -1,8 +1,8 @@
 export const createOfferApiCall = async ({token, taskId}) => {
-    const offerUrl = `http://localhost:8080/api/offer?taskId=${taskId}`;
+    const url = `http://localhost:8080/api/offer?taskId=${taskId}`;
     try {
         const body = JSON.stringify({token, taskId});
-        return fetch(offerUrl, {
+        return fetch(url, {
             method: 'POST',
             body: body,
             headers: {
@@ -17,8 +17,6 @@ export const createOfferApiCall = async ({token, taskId}) => {
                         status: data.status
                     }
                 })
-            } else {
-                throw 'Cannot create offer'
             }
         })
     } catch (err) {
@@ -28,8 +26,8 @@ export const createOfferApiCall = async ({token, taskId}) => {
 
 export const getOffersApiCall = async ({token, taskId, offerStatus}) => {
     try {
-        const offerUrl = `http://localhost:8080/api/offer?taskId=${taskId}&offerStatus=${offerStatus}`;
-        return fetch(offerUrl, {
+        const url = `http://localhost:8080/api/offer?taskId=${taskId}&offerStatus=${offerStatus}`;
+        return fetch(url, {
             method: 'GET',
             headers: {
                 'Authorization': 'Bearer ' + token,
@@ -40,8 +38,6 @@ export const getOffersApiCall = async ({token, taskId, offerStatus}) => {
                 return response.json().then(data => {
                     return data
                 })
-            } else {
-                throw 'Fetching offers failed!'
             }
         })
     } catch (error) {
@@ -50,10 +46,10 @@ export const getOffersApiCall = async ({token, taskId, offerStatus}) => {
 };
 
 export const updateOfferApiCall = async ({token, offerId, offerStatus}) => {
-    const offerUrl = `http://localhost:8080/api/offer?id=${offerId}&offerStatus=${offerStatus}`;
+    const url = `http://localhost:8080/api/offer?id=${offerId}&offerStatus=${offerStatus}`;
     try {
         const body = JSON.stringify({offerId, offerStatus});
-        return fetch(offerUrl, {
+        return fetch(url, {
             method: 'PUT',
             body: body,
             headers: {
@@ -67,8 +63,6 @@ export const updateOfferApiCall = async ({token, offerId, offerStatus}) => {
                         ...data
                     }
                 })
-            } else {
-                throw 'Cannot update offer';
             }
         })
     } catch (err) {

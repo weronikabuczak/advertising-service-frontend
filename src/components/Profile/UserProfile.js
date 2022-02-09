@@ -1,12 +1,12 @@
 import classes from './UserProfile.module.css';
-import {Button, Card, Divider, Grid, Header, Icon, Image, Reveal, Table} from "semantic-ui-react";
+import {Button, Card, Divider, Grid, Header, Icon, Image, Table} from "semantic-ui-react";
 import profile from '../../files/profile.jpg'
 import {useEffect, useState} from "react";
 import ChangePassword from "./UserTasks/UserProfileModals/ChangePassword";
 import ChangeUserData from "./UserTasks/UserProfileModals/ChangeUserData";
-import {useHistory, useLocation} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 import {useSelector} from "react-redux";
-import {getMe, getUser, getUserInfo, getUserToken} from "../../store/auth";
+import {getMe, getUserInfo, getUserToken} from "../../store/auth";
 import {useAppDispatch} from "../../root";
 import {useTranslation} from "react-i18next";
 import UpdateUserImage from "./UserTasks/UserProfileModals/UpdateUserImage";
@@ -28,7 +28,6 @@ const UserProfile = () => {
         if (token) {
             dispatch(getMe({token}))
         }
-
     }, [modalOpenDeleteUserImage, modalOpenUserInfo, modalOpenPassword]);
 
 
@@ -57,11 +56,11 @@ const UserProfile = () => {
 
     return (
         <section className={classes.section}>
-            <Button.Group className={classes.userButtons}>
+            <Button.Group className={classes.user__buttons}>
                 <Button primary onClick={userInfoHandler}>{t("userData")}</Button>
                 <Button secondary onClick={userTasksHandler}>{t("myAdverts")}</Button>
             </Button.Group>
-            <Button.Group className={classes.userButtons} floated='right'>
+            <Button.Group className={classes.user__buttons} floated='right'>
                 <Button positive floated='right' onClick={changeUserInfoHandler}>
                     <Button.Content>{t("edit")}</Button.Content>
                 </Button>
@@ -89,16 +88,16 @@ const UserProfile = () => {
                         <Grid.Column width={6}>
 
                             {userInfo.image
-                                ? (<div><Image className={classes.profileImage} src={userInfo.image} rounded/>
+                                ? (<div><Image className={classes.profile__image} src={userInfo.image} rounded/>
                                     <Divider fitted/>
                                     <Button size='mini' onClick={updateUserImageHandler}
-                                            className={classes.userImage__button}>Zmień zdjęcie</Button>
+                                            className={classes.userImage__button}>{t("changeImage")}</Button>
                                     <Button size='mini' onClick={deleteUserImageHandler}
-                                            className={classes.userImage__button}>Usuń zdjęcie</Button></div>)
-                                : (<div><Image className={classes.profileImage} src={profile} rounded/>
+                                            className={classes.userImage__button}>{t("deleteImage")}</Button></div>)
+                                : (<div><Image className={classes.profile__image} src={profile} rounded/>
                                     <Divider fitted/>
                                     <Button size='mini' onClick={updateUserImageHandler}
-                                            className={classes.userImage__button}>Dodaj zdjęcie</Button></div>)
+                                            className={classes.userImage__button}>{t("addImage")}</Button></div>)
                             }
 
                         </Grid.Column>
@@ -110,13 +109,13 @@ const UserProfile = () => {
 
                             <Table className={classes.userInfo__container}>
                                 <Table.Body>
-                                    <Table.Row >
+                                    <Table.Row>
                                         <Table.Cell>
                                             <Header as='h4' image>
                                                 <Header.Content>E-mail</Header.Content>
                                             </Header>
                                         </Table.Cell>
-                                        <Table.Cell >{userInfo.email}</Table.Cell>
+                                        <Table.Cell>{userInfo.email}</Table.Cell>
                                     </Table.Row>
                                     <Table.Row>
                                         <Table.Cell>

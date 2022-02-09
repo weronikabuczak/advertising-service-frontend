@@ -1,9 +1,8 @@
-import {Button, Card, Container, Divider, Grid, Header, Icon, Image, Message, Table} from "semantic-ui-react";
-import taskIcon from "../../../../../files/task.png";
+import {Button, Container, Divider, Grid, Header, Icon} from "semantic-ui-react";
 import classes from './TaskDetails.module.css';
 import {MapContainer, TileLayer, Marker, Popup} from 'react-leaflet'
 import {useSelector} from "react-redux";
-import {getCurrentTask, getTask, setCurrentTaskId} from "../../../../../store/task";
+import {getCurrentTask} from "../../../../../store/task";
 import L from 'leaflet';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
@@ -26,15 +25,18 @@ import {
     getStatusColorClass,
     getStatusLabel
 } from "../../../../../utils/functions";
-import {TaskCreatedBy} from "./TaskCreatedBy";
-import TaskDetailsCard from "./TaskDetailsCard";
+import {TaskCreatedBy} from "./TaskDetailsCard/TaskCreatedBy";
+import TaskDetailsCard from "./TaskDetailsCard/TaskDetailsCard";
 import DeleteTaskImage from "./TaskDetailsModals/DeleteTaskImage";
 import UpdateTaskImage from "./TaskDetailsModals/UpdateTaskImage";
 
 const TaskDetails = () => {
     const {t, i18n} = useTranslation();
-    const {language: currentLanguage} = i18n
+    const {language: currentLanguage} = i18n;
+    const dispatch = useAppDispatch();
+    const location = useLocation();
 
+    const token = useSelector(getUserToken);
     const task = useSelector(getCurrentTask);
     const currentUser = useSelector(getUserEmail);
     const offers = useSelector(getAllOffers);
@@ -43,21 +45,14 @@ const TaskDetails = () => {
     const latitude = task.latitude;
     const longitude = task.longitude;
     const position = [latitude, longitude];
+
     const [modalOpenDelete, setModalOpenDelete] = useState(false);
     const [modalOpenEdit, setModalOpenEdit] = useState(false);
     const [modalOpenUpdateTaskImage, setModalOpenUpdateTaskImage] = useState(false);
     const [modalOpenDeleteTaskImage, setModalOpenDeleteTaskImage] = useState(false);
     const [isUserTasks, setIsUserTasks] = useState(false);
-
-    const token = useSelector(getUserToken);
-    const dispatch = useAppDispatch();
-    const location = useLocation();
     const [isCurrentUserTask, setIsCurrentUserTask] = useState(false);
     const [offerSent, setOfferSent] = useState(false);
-
-    console.log(isUserTasks)
-    console.log(offerSent)
-    console.log(isCurrentUserTask)
 
     //leaflet icon issue
     let DefaultIcon = L.icon({
@@ -65,6 +60,8 @@ const TaskDetails = () => {
         shadowUrl: iconShadow
     });
     L.Marker.prototype.options.icon = DefaultIcon;
+
+    //status and category
 
     const taskStatus = getStatusLabel(task.status, currentLanguage);
 
@@ -178,8 +175,6 @@ const TaskDetails = () => {
                     ))}
                 </Grid.Column>
             </Grid.Row>
-
-
         </Grid>
     </Container>)
 }

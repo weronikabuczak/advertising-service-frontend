@@ -11,7 +11,7 @@ import {getRole, isUserLoggedIn} from "./store/auth";
 import ProfilePage from "./pages/ProfilePage";
 import TaskDetails from "./components/HomePage/TaskList/TaskItem/TaskDetails/TaskDetails";
 import AdminPanel from "./components/Administration/AdminPanel";
-import UserDetails from "./components/Administration/UserDetails";
+import UserDetails from "./components/Administration/users/UserDetails";
 
 function App() {
     const isLoggedIn = useSelector(isUserLoggedIn);

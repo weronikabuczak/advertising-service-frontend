@@ -1,11 +1,8 @@
 import {Grid} from "semantic-ui-react";
-import {useTranslation} from "react-i18next";
-import UsersList from "./UsersList";
-import TasksList from "./TasksList";
+import UsersList from "./users/UsersList";
+import TasksList from "./tasks/TasksList";
 
 const AdminPanel = () => {
-    const {t} = useTranslation();
-
     return (
         <section>
             <Grid centered>

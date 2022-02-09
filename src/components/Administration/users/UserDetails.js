@@ -1,15 +1,15 @@
 import {useSelector} from "react-redux";
-import {getCurrentUserEmail, getUser, getUserInfo, getUserToken} from "../../store/auth";
-import {Button, Divider, Grid, Header, Image, Table} from "semantic-ui-react";
-import classes from "../Profile/UserProfile.module.css";
-import profile from "../../files/profile.jpg";
+import {getCurrentUserEmail, getUser, getUserInfo, getUserToken} from "../../../store/auth";
+import {Button, Grid, Header, Image, Table} from "semantic-ui-react";
+import classes from "../../Profile/UserProfile.module.css";
+import profile from "../../../files/profile.jpg";
 import {useTranslation} from "react-i18next";
 import {useEffect, useState} from "react";
-import {useAppDispatch} from "../../root";
-import ChangePassword from "../Profile/UserTasks/UserProfileModals/ChangePassword";
-import ChangeUserData from "../Profile/UserTasks/UserProfileModals/ChangeUserData";
-import UpdateUserImage from "../Profile/UserTasks/UserProfileModals/UpdateUserImage";
-import DeleteUserImage from "../Profile/UserTasks/UserProfileModals/DeleteUserImage";
+import {useAppDispatch} from "../../../root";
+import ChangePassword from "../../Profile/UserTasks/UserProfileModals/ChangePassword";
+import ChangeUserData from "../../Profile/UserTasks/UserProfileModals/ChangeUserData";
+import UpdateUserImage from "../../Profile/UserTasks/UserProfileModals/UpdateUserImage";
+import DeleteUserImage from "../../Profile/UserTasks/UserProfileModals/DeleteUserImage";
 
 const UserDetails = () => {
     const email = useSelector(getCurrentUserEmail);
@@ -58,12 +58,12 @@ const UserDetails = () => {
                         {user.image
                             ? (<div><Image className={classes.profileImage} src={user.image} rounded/>
                                 <Button size='mini' onClick={updateUserImageHandler}
-                                        className={classes.userImage__button}>Zmień zdjęcie</Button>
+                                        className={classes.userImage__button}>{t("changeImage")}</Button>
                                 <Button size='mini' onClick={deleteUserImageHandler}
-                                        className={classes.userImage__button}>Usuń zdjęcie</Button></div>)
+                                        className={classes.userImage__button}>{t("deleteImage")}</Button></div>)
                             : (<div><Image className={classes.profileImage} src={profile} rounded/>
                                 <Button size='mini' onClick={updateUserImageHandler}
-                                        className={classes.userImage__button}>Dodaj zdjęcie</Button></div>)
+                                        className={classes.userImage__button}>{t("addImage")}</Button></div>)
                         }
                     </Grid.Column>
                     <Grid.Column width={10}>
@@ -106,8 +106,7 @@ const UserDetails = () => {
                 </Grid.Row>
             </Grid>
         </section>
-    )
-}
+    )}
 
 
 export default UserDetails;

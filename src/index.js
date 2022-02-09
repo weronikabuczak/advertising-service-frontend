@@ -9,12 +9,12 @@ import store from "./root";
 import './i18n';
 
 ReactDOM.render(
-        <React.Suspense fallback="Loading...">
-            <Provider store={store}>
-                <BrowserRouter>
-                    <App/>
-                </BrowserRouter>
-            </Provider>
-        </React.Suspense>,
+    <React.Suspense fallback="Loading...">
+        <Provider store={store}>
+            <BrowserRouter>
+                <App/>
+            </BrowserRouter>
+        </Provider>
+    </React.Suspense>,
     document.getElementById('root')
 );

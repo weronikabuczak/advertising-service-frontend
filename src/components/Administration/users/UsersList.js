@@ -1,6 +1,6 @@
 import {List, Message} from "semantic-ui-react";
-import {getAllUsersEmails, getUsersEmails, getUserToken, setCurrentUserEmail,} from "../../store/auth";
-import {useAppDispatch} from "../../root";
+import {getAllUsersEmails, getUsersEmails, getUserToken, setCurrentUserEmail,} from "../../../store/auth";
+import {useAppDispatch} from "../../../root";
 import {useSelector} from "react-redux";
 import {useEffect} from "react";
 import {useHistory} from "react-router-dom";

@@ -14,7 +14,6 @@ export const initialState = {
     expirationTime: 0,
     remainingTime: 0,
     isLoggedIn: false,
-    isLoading: false,
     user: {},
     anotherUser: {},
     email: '',
@@ -29,8 +28,7 @@ export const initialState = {
 export const loginUser = createAsyncThunk(`${sliceName}/login`, async ({email, password}, {dispatch}) => {
     try {
         const data = await loginUserApiCall({email, password});
-        const {token, remainingTime, role, hasError} = data;
-        const {receivedEmail} = data;
+        const {token, remainingTime, role, receivedEmail} = data;
         setTimeout(() => {
             dispatch(logoutUser({}))
         }, remainingTime);
@@ -77,7 +75,6 @@ export const registerUser = createAsyncThunk(`${sliceName}/register`, async ({
             role: role
         };
     } catch (error) {
-        // alert('Cannot fetch user');
         throw error;
     }
 });
@@ -227,8 +224,7 @@ export const deleteUserImage = createAsyncThunk(`${sliceName}/deleteUserImage`, 
 });
 
 
-
-const loginOrRegisterBuilderHandler = (state, {payload}) => {
+const loginOrRegisterUserFulfilled = (state, {payload}) => {
     const {email, token, remainingTime, role} = payload;
     state.token = token;
     state.isLoggedIn = true;
@@ -240,6 +236,14 @@ const loginOrRegisterBuilderHandler = (state, {payload}) => {
     state.isRegistrationError = false;
 };
 
+const setOpenModalsTrue = (state, {payload}) => {
+    state.setOpen = true;
+}
+
+const setOpenModalsFalse = (state, {payload}) => {
+    state.setOpen = false;
+}
+
 const auth = createSlice({
     name: sliceName,
     initialState,
@@ -249,114 +253,126 @@ const auth = createSlice({
         }
     },
     extraReducers: (builder) => {
-        builder.addCase(loginUser.pending || registerUser.pending, (state) => {
-            state.isLoading = true;
+        builder.addCase(loginUser.pending, (state) => {
             state.isLoggedIn = false;
             state.isLoginError = false;
             state.isRegistrationError = false;
         });
 
-        builder.addCase(loginUser.fulfilled, loginOrRegisterBuilderHandler);
-
-        builder.addCase(registerUser.fulfilled, loginOrRegisterBuilderHandler);
-
+        builder.addCase(loginUser.fulfilled, loginOrRegisterUserFulfilled);
 
         builder.addCase(loginUser.rejected, (state) => {
-            state.isLoading = false;
             state.isLoggedIn = false;
             state.isLoginError = true;
             state.isRegistrationError = false;
         });
 
+        builder.addCase(registerUser.pending, (state) => {
+            state.isLoggedIn = false;
+            state.isLoginError = false;
+            state.isRegistrationError = false;
+        });
+
+        builder.addCase(registerUser.fulfilled, loginOrRegisterUserFulfilled);
+
         builder.addCase(registerUser.rejected, (state) => {
-            state.isLoading = false;
             state.isLoggedIn = false;
             state.isRegistrationError = true;
             state.isLoginError = false;
-        });
-
-        builder.addCase(logoutUser.pending, (state) => {
-            state.isLoading = true;
         });
 
         builder.addCase(logoutUser.fulfilled, (state, {payload}) => {
             state.token = null;
             state.isLoggedIn = false;
             state.remainingTime = null;
-            state.isLoading = false;
         });
 
-        builder.addCase(logoutUser.rejected, (state) => {
-            state.isLoading = false;
-            state.isLoggedIn = true;
-        });
+        // builder.addCase(logoutUser.pending, (state) => {
+        //     state.isLoggedIn = true;
+        // });
+        //
+        // builder.addCase(logoutUser.rejected, (state) => {
+        //     state.isLoggedIn = true;
+        // });
+        //
+        // builder.addCase(getMe.pending, (state) => {
+        //     state.isLoggedIn = true;
+        // });
 
-        builder.addCase(getMe.pending || getAnotherUser.pending || getAllUsersEmails.pending || getUser.pending, (state) => {
-            state.isLoading = true;
-            state.isLoggedIn = true;
-        });
-
-        builder.addCase(getMe.fulfilled || getUser.fulfilled, (state, {payload}) => {
-            state.isLoading = false;
-            state.isLoggedIn = true;
-            const {user} = payload;
-            state.user = user;
-        });
-
-        builder.addCase(getUser.fulfilled, (state, {payload}) => {
-            state.isLoading = false;
+        builder.addCase(getMe.fulfilled, (state, {payload}) => {
             state.isLoggedIn = true;
             const {user} = payload;
             state.user = user;
         });
+
+        // builder.addCase(getMe.rejected, (state) => {
+        //     state.isLoggedIn = true;
+        // });
+        //
+        // builder.addCase( getAnotherUser.pending, (state) => {
+        //     state.isLoggedIn = true;
+        // });
 
         builder.addCase(getAnotherUser.fulfilled, (state, {payload}) => {
-            state.isLoading = false;
             state.isLoggedIn = true;
             const {anotherUser} = payload;
             state.anotherUser = anotherUser;
         });
 
+        // builder.addCase(getAnotherUser.rejected, (state) => {
+        //     state.isLoggedIn = true;
+        // });
+        //
+        // builder.addCase(getAllUsersEmails.pending, (state) => {
+        //     state.isLoggedIn = true;
+        // });
+
         builder.addCase(getAllUsersEmails.fulfilled, (state, {payload}) => {
-            state.isLoading = false;
             state.isLoggedIn = true;
             const {usersEmails} = payload;
             state.usersEmails = usersEmails;
         });
 
-        builder.addCase(getMe.rejected || getAnotherUser.rejected || getAllUsersEmails.rejected, (state) => {
-            state.isLoading = false;
+        // builder.addCase(getAllUsersEmails.rejected, (state) => {
+        //     state.isLoggedIn = true;
+        // });
+
+        // builder.addCase(getUser.pending, (state) => {
+        //     state.isLoggedIn = true;
+        // });
+
+        builder.addCase(getUser.fulfilled, (state, {payload}) => {
             state.isLoggedIn = true;
+            const {user} = payload;
+            state.user = user;
         });
 
+        // builder.addCase(getUser.rejected, (state) => {
+        //     state.isLoggedIn = true;
+        // });
 
-        builder.addCase(updatePassword.pending || updateUser.pending || updateUserImage.pending || deleteUserImage.pending, (state) => {
-            state.isLoading = true;
-            state.setOpen = true;
-        });
-
-        builder.addCase(updatePassword.fulfilled || updateUser.fulfilled || updateUserImage.fulfilled || deleteUserImage.fulfilled, (state) => {
-            state.isLoading = false;
-            state.setOpen = false;
-        });
-
-        builder.addCase(updatePassword.rejected || updateUser.rejected || updateUserImage.rejected || deleteUserImage.rejected, (state) => {
-            state.isLoading = false;
-            state.setOpen = true;
-        });
-
+        builder.addCase(updatePassword.pending, setOpenModalsTrue);
+        builder.addCase(updatePassword.rejected, setOpenModalsTrue);
+        builder.addCase(updateUser.pending, setOpenModalsTrue);
+        builder.addCase(updateUser.rejected, setOpenModalsTrue);
+        builder.addCase(updateUserImage.pending, setOpenModalsTrue);
+        builder.addCase(updateUserImage.rejected, setOpenModalsTrue);
+        builder.addCase(deleteUserImage.pending, setOpenModalsTrue);
+        builder.addCase(deleteUserImage.rejected, setOpenModalsTrue);
+        builder.addCase(updatePassword.fulfilled, setOpenModalsFalse);
+        builder.addCase(updateUser.fulfilled, setOpenModalsFalse);
+        builder.addCase(updateUserImage.fulfilled, setOpenModalsFalse);
+        builder.addCase(deleteUserImage.fulfilled, setOpenModalsFalse);
     }
 });
 
 export const {setCurrentUserEmail} = auth.actions
-// export const getCurrentUserEmail = (state) => state[sliceName].auth.find(user => user.email === state[sliceName].currentUserEmail);
 export const getCurrentUserEmail = (state) => state[sliceName].currentUserEmail;
 export const isUserLoggedIn = state => state[sliceName].isLoggedIn;
 export const getUserToken = state => state[sliceName].token;
 export const getUserInfo = state => state[sliceName].user;
 export const getAnotherUserInfo = state => state[sliceName].anotherUser;
 export const getUserEmail = state => state[sliceName].email;
-// export const getUserLoading = state => state[sliceName].isLoading;
 export const getSetOpen = state => state[sliceName].setOpen;
 export const getRole = state => state[sliceName].role;
 export const getUsersEmails = state => state[sliceName].usersEmails;

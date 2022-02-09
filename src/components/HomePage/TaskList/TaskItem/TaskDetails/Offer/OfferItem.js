@@ -11,6 +11,8 @@ import classes from './OfferItem.module.css';
 import {useTranslation} from "react-i18next";
 import {createOpinion, getOpinion, getOpinionForOffer} from "../../../../../../store/opinion";
 import AnotherUserDetails from "../AnotherUserDetails/AnotherUserDetails";
+import EditOpinion from "./EditOpinion";
+import DeleteOpinion from "./DeleteOpinion";
 
 const OfferItem = ({offer, isUserTasks}) => {
     const {t} = useTranslation();
@@ -23,6 +25,8 @@ const OfferItem = ({offer, isUserTasks}) => {
     const [rating, setRating] = useState();
     const contentInput = useRef();
     const opinion = useSelector(getOpinionForOffer);
+    // const [modalOpenEditOpinion, setModalOpenEditOpinion] = useState(false);
+    const [modalOpenDeleteOpinion, setModalOpenDeleteOpinion] = useState(false);
 
     const [modalShowUser, setModalShowUser] = useState(false);
 
@@ -71,6 +75,10 @@ const OfferItem = ({offer, isUserTasks}) => {
 
     const showUser = () => {
         setModalShowUser(true);
+    }
+
+    const deleteOpinionHandler = () => {
+        setModalOpenDeleteOpinion(true);
     }
 
     return (<section>
@@ -159,6 +167,8 @@ const OfferItem = ({offer, isUserTasks}) => {
         </div>}
 
         {offer.hasOpinion && opinion && (<Card fluid>
+            {/*<EditOpinion open={modalOpenEditOpinion} setOpen={setModalOpenEditOpinion} opinion={opinion}/>*/}
+            <DeleteOpinion open={modalOpenDeleteOpinion} setOpen={setModalOpenDeleteOpinion} id={offer.task.id}/>
             <Card.Content>
                 <Card.Header>{t("feedbackFor")}
                     <Button className={classes.offer__button} animated onClick={showUser}>
@@ -166,11 +176,14 @@ const OfferItem = ({offer, isUserTasks}) => {
                         <Button.Content hidden>
                             {t("seeDetails")}
                         </Button.Content>
-                    </Button></Card.Header>
+                    </Button>
+                    <Button onClick={deleteOpinionHandler}>Usuń opinię</Button>
+                </Card.Header>
                 <Segment>
                     {opinion.rating &&
                         <Rating maxRating={5} defaultRating={opinion.rating} icon='star' size='huge'
-                                disabled/>}
+                                     disabled/>
+                            }
                     <Divider/>
                     {opinion.content &&
                         <Card.Content> <strong>{t("content")}: </strong>{opinion.content}</Card.Content>}

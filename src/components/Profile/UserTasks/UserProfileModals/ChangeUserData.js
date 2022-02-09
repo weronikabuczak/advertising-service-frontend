@@ -4,7 +4,6 @@ import {useSelector} from "react-redux";
 import {getSetOpen, getUserToken, updateUser} from "../../../../store/auth";
 import {useTranslation} from "react-i18next";
 import {useAppDispatch} from "../../../../root";
-import classes from "../../../Authorization/AuthorizationForm.module.css";
 
 const ChangeUserData = ({open, setOpen, email, user}) => {
     const {t} = useTranslation();

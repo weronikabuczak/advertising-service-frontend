@@ -1,0 +1,9 @@
+.language__dropdown {
+    position: relative;
+    font-family: inherit;
+    background-color: black;
+    color: white;
+    margin-left: 10px;
+    padding: 2px;
+    border-radius: 5px;
+}

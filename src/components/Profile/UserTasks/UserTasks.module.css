@@ -1,0 +1,49 @@
+.task__section {
+    width: 60%;
+    margin: 4rem auto;
+    flex-wrap: wrap;
+}
+
+.user__buttons {
+    margin-bottom: 7px !important;
+    margin-right: 7px !important;
+    float: none !important;
+}
+
+
+.noTask__button {
+    justify-content: center;
+    margin: 2rem;
+    display: flex;
+    color: black !important;
+}
+
+.noCompletedTasks__message {
+    display: table !important;
+    margin: 1rem auto !important;
+    font-size: 1.1rem !important;
+    padding: 0.5rem !important;
+    border-radius: 10px !important;
+    background-color: #ccc !important;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 1px 4px !important;
+}
+
+@media (max-width: 1024px) {
+    .section, .task__section {
+        width: 70%;
+    }
+}
+
+@media (max-width: 425px) {
+    .task__buttons {
+        display: grid !important;
+    }
+}
+
+
+@media (max-width: 320px) {
+    .task__section {
+        width: 100%;
+    }
+}
+

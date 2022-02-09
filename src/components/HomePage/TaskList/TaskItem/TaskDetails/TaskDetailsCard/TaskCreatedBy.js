@@ -1,5 +1,5 @@
 import {Card, Icon, Image} from "semantic-ui-react";
-import taskIcon from "../../../../../files/task.png";
+import taskIcon from "../../../../../../files/task.png";
 import React from "react";
 import {useTranslation} from "react-i18next";
 

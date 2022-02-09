@@ -18,7 +18,6 @@ const UpdateUserImage = ({open, setOpen, email}) => {
 
     const submitHandler = (event) => {
         event.preventDefault();
-        // console.log(image)
         dispatch(updateUserImage({token, image, email}));
         setOpen(openModal);
     }

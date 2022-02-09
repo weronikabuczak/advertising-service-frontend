@@ -1,89 +1,43 @@
 import classes from "../NewTask/NewTaskForm.module.css";
-import React, {useEffect, useRef, useState} from "react";
+import React, {useRef, useState} from "react";
 import {useHistory} from "react-router-dom";
 import {QuantityPicker} from 'react-qty-picker';
 import {useSelector} from "react-redux";
 import {getUserToken} from "../../store/auth";
 import LocationPicker from "react-leaflet-location-picker";
 import {categories} from "../../utils/taskCategory";
-import {Button, Checkbox, Form, Radio} from "semantic-ui-react";
+import {Button, Checkbox} from "semantic-ui-react";
 import {useTranslation} from "react-i18next";
 import {getCategoryLabel} from "../../utils/functions";
 import i18n from "../../i18n";
 import {useAppDispatch} from "../../root";
-import {createTask, getTasks} from "../../store/task";
+import {createTask} from "../../store/task";
 import DatePicker, {registerLocale} from "react-datepicker";
 import pl from 'date-fns/locale/pl';
 import "react-datepicker/dist/react-datepicker.css";
-import {preventDefault} from "leaflet/src/dom/DomEvent";
 
 
 const NewTaskForm = () => {
     const {t} = useTranslation();
+    const token = useSelector(getUserToken);
     const {language} = i18n;
     const dispatch = useAppDispatch();
+    const history = useHistory();
 
     const [pickerValue, setPickerValue] = useState();
+    const [img, setImg] = useState();
     registerLocale('pl', pl);
     const [startDate, setStartDate] = useState(new Date());
     const [latitude, setLatitude] = useState(52);
     const [longitude, setLongitude] = useState(20);
     const [category, setCategory] = useState('Housework');
-    console.log(category)
-    const token = useSelector(getUserToken);
 
     const titleInput = useRef();
     const contentInput = useRef();
     const addressInput = useRef();
     const payInput = useRef();
-    const history = useHistory();
 
-    let image = null;
-
-
-    const handleFileInput = (e) => {
-        const file = e.target.files[0];
-        let reader = new FileReader();
-        reader.readAsDataURL(file);
-        let baseURL;
-        let newBaseURL;
-        reader.onloadend = () => {
-            baseURL = reader.result;
-            newBaseURL = baseURL.split(',')[1];
-            image = newBaseURL;
-            console.log(image);
-        };
-    }
-
-    const submitHandler = async (event) => {
-        event.preventDefault();
-
-        const title = titleInput.current.value;
-        const content = contentInput.current.value;
-        const address = addressInput.current.value;
-        const pay = payInput.current.value;
-        const estimatedTime = pickerValue;
-        const expirationDate = startDate;
-
-        dispatch(createTask({
-            token,
-            title,
-            content,
-            category,
-            address,
-            pay,
-            expirationDate,
-            estimatedTime,
-            image,
-            longitude,
-            latitude
-        }))
-        history.replace('/taskAdded');
-    }
-
-    const getPickerValue = (value) => {
-        setPickerValue(value);
-    }
+    //map details
 
     const points = [[latitude, longitude]];
 
@@ -106,16 +60,61 @@ const NewTaskForm = () => {
         zoom: 5,
     }
 
+    const submitHandler = async (event) => {
+        event.preventDefault();
+
+        const title = titleInput.current.value;
+        const content = contentInput.current.value;
+        const address = addressInput.current.value;
+        const pay = payInput.current.value;
+        const estimatedTime = pickerValue;
+        const expirationDate = startDate;
+        const image = img;
+        dispatch(createTask({
+            token,
+            title,
+            content,
+            category,
+            address,
+            pay,
+            expirationDate,
+            estimatedTime,
+            image,
+            longitude,
+            latitude
+        }))
+        history.replace('/taskAdded');
+    }
+
+    const getPickerValue = (value) => {
+        setPickerValue(value);
+    }
+
+    const handleFileInput = (e) => {
+        const file = e.target.files[0];
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        let baseURL;
+        let newBaseURL;
+        reader.onload = () => {
+            baseURL = reader.result;
+            newBaseURL = baseURL.split(',')[1];
+            // image = newBaseURL;
+            setImg(newBaseURL);
+        };
+    }
+
+
     const categoriesBar = Object.entries(categories).map((arr) => {
         const [categoryId, categoryObj] = arr
         const label = getCategoryLabel(categoryId, language);
         return <Button className={classes.categoryButton} compact size='medium' color={categoryObj.colors}>
-                <Checkbox radio label={label}
-                          category={categoryId}
-                          defaultChecked={category}
-                          checked={category === categoryId}
-                          onChange={(e, data) => setCategory(data.category)}> </Checkbox>
-            </Button>
+            <Checkbox radio label={label}
+                      category={categoryId}
+                      defaultChecked={category}
+                      checked={category === categoryId}
+                      onChange={(e, data) => setCategory(data.category)}> </Checkbox>
+        </Button>
     })
 
     return (
@@ -166,7 +165,8 @@ const NewTaskForm = () => {
                     </div>
                 </div>
                 <div className={classes.control}>
-                    <LocationPicker startPort={startPort} pointMode={pointMode} showControls={false} showInputs={false} />
+                    <LocationPicker startPort={startPort} pointMode={pointMode} showControls={false}
+                                    showInputs={false}/>
                 </div>
                 <div className={classes.control}>
                     <label htmlFor='image'>{t("image")}</label>

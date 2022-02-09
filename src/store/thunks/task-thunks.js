@@ -11,12 +11,14 @@ export const createTaskApiCall = async ({
                                             longitude,
                                             latitude
                                         }) => {
-    const taskUrl = 'http://localhost:8080/api/task';
+    const url = 'http://localhost:8080/api/task';
     try {
         const body = JSON.stringify({
             title, content, category, address, pay, expirationDate, estimatedTime, image, longitude, latitude
         });
-        return fetch(taskUrl, {
+        console.log(body)
+        console.log(image)
+        return fetch(url, {
             method: 'POST',
             body: body,
             headers: {
@@ -30,8 +32,6 @@ export const createTaskApiCall = async ({
                         data
                     }
                 })
-            } else {
-                throw 'Cannot create task'
             }
         })
     } catch (err) {
@@ -59,37 +59,12 @@ export const getTasksApiCall = async ({isUserTasks, token, category, status}) =>
                 return response.json().then(data => {
                     return [...data]
                 })
-            } else {
-                throw 'Fetching tasks failed!'
             }
         })
     } catch (error) {
         throw error;
     }
 };
-
-// export const getTaskApiCall = async ({token, id}) => {
-//     try {
-//         let url = `http://localhost:8080/api/task/${id}`;
-//         return fetch(url, {
-//             method: 'GET',
-//             headers: {
-//                 'Authorization': 'Bearer ' + token,
-//                 'Content-Type': 'application/json'
-//             },
-//         }).then((response) => {
-//             if (response.ok) {
-//                 return response.json().then(data => {
-//                     return [...data]
-//                 })
-//             } else {
-//                 throw 'Fetching task failed!'
-//             }
-//         })
-//     } catch (error) {
-//         throw error;
-//     }
-// };
 
 export const getAnotherUserCompletedTasksApiCall = async ({token, email}) => {
     try {
@@ -105,31 +80,6 @@ export const getAnotherUserCompletedTasksApiCall = async ({token, email}) => {
                 return response.json().then(data => {
                     return [...data]
                 })
-            } else {
-                throw 'Fetching tasks failed!'
-            }
-        })
-    } catch (error) {
-        throw error;
-    }
-};
-
-export const getAllTasksIdApiCall = async ({token}) => {
-    try {
-        let url = 'http://localhost:8080/api/task/all';
-        return fetch(url, {
-            method: 'GET',
-            headers: {
-                'Authorization': 'Bearer ' + token,
-                'Content-Type': 'application/json'
-            },
-        }).then((response) => {
-            if (response.ok) {
-                return response.json().then(data => {
-                    return data
-                })
-            } else {
-                throw 'Fetching tasks id failed!'
             }
         })
     } catch (error) {
@@ -139,20 +89,17 @@ export const getAllTasksIdApiCall = async ({token}) => {
 
 export const deleteTaskApiCall = async ({token, id}) => {
     try {
-        return fetch(`http://localhost:8080/api/task/${id}`, {
+        let url = `http://localhost:8080/api/task/${id}`;
+        return fetch(url, {
             method: 'DELETE',
             headers: {
                 'Authorization': 'Bearer ' + token,
                 'Content-Type': 'application/json'
             },
         }).then((response) => {
-            // if (response.ok) {
             return response.json().then(data => {
                 return data
             })
-            // } else {
-            //     throw 'Cannot delete task'
-            // }
         })
     } catch (error) {
         throw error;
@@ -176,8 +123,8 @@ export const updateTaskApiCall = async ({
         const body = JSON.stringify({
             title, content, category, address, pay, expirationDate, estimatedTime, longitude, latitude
         });
-        let taskUpdateUrl = `http://localhost:8080/api/task/${id}`;
-        return fetch(taskUpdateUrl, {
+        let url = `http://localhost:8080/api/task/${id}`;
+        return fetch(url, {
             method: 'PUT',
             body: body,
             headers: {
@@ -189,8 +136,6 @@ export const updateTaskApiCall = async ({
                 return response.json().then(data => {
                     return data
                 })
-            } else {
-                throw 'Task update failed!'
             }
         })
     } catch (error) {
@@ -201,8 +146,8 @@ export const updateTaskApiCall = async ({
 export const updateTaskImageApiCall = async ({token, image, id}) => {
     try {
         const body = JSON.stringify({image});
-        let taskUpdateUrl = `http://localhost:8080/api/task/image/${id}`;
-        return fetch(taskUpdateUrl, {
+        let url = `http://localhost:8080/api/task/image/${id}`;
+        return fetch(url, {
             method: 'PUT',
             body: body,
             headers: {
@@ -216,8 +161,6 @@ export const updateTaskImageApiCall = async ({token, image, id}) => {
                         data
                     }
                 })
-            } else {
-                throw 'Task image update failed!'
             }
         })
     } catch (error) {
@@ -227,8 +170,8 @@ export const updateTaskImageApiCall = async ({token, image, id}) => {
 
 export const deleteTaskImageApiCall = async ({token, id}) => {
     try {
-        let taskDeleteImageUrl = `http://localhost:8080/api/task/image/${id}`;
-        return fetch(taskDeleteImageUrl, {
+        let url = `http://localhost:8080/api/task/image/${id}`;
+        return fetch(url, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',

@@ -1,12 +1,11 @@
 import jwtDecode from "jwt-decode";
 
-const loginUrl = 'http://localhost:8080/api/user/login';
-const registerUrl = 'http://localhost:8080/api/user/register';
 
 export const loginUserApiCall = async ({email, password}) => {
     try {
+        const url = 'http://localhost:8080/api/user/login';
         const body = JSON.stringify({email, password});
-        return fetch(loginUrl, {
+        return fetch(url, {
             method: 'POST',
             body: body,
             headers: {
@@ -41,8 +40,9 @@ export const registerUserApiCall = async ({
                                               image
                                           }) => {
     try {
+        const url = 'http://localhost:8080/api/user/register';
         const body = JSON.stringify({email, currentPassword, newPassword, name, location, phoneNumber, image});
-        return fetch(registerUrl, {
+        return fetch(url, {
             method: 'POST',
             body: body,
             headers: {
@@ -62,8 +62,8 @@ export const registerUserApiCall = async ({
                 throw new Error('Authentication failed!');
             }
         })
-    } catch (err) {
-        throw err;
+    } catch (error) {
+        throw error;
     }
 };
 
@@ -102,15 +102,13 @@ export const getMeApiCall = async ({token}) => {
                 return response.json().then(data => {
                     return data
                 })
-            } else {
-                throw 'Fetching user failed!'
             }
         })
     } catch (error) {
         throw error;
     }
 };
-export const getUserApiCall = async ({token,email}) => {
+export const getUserApiCall = async ({token, email}) => {
     try {
         let url = `http://localhost:8080/api/user/${email}`;
         return fetch(url, {
@@ -124,8 +122,6 @@ export const getUserApiCall = async ({token,email}) => {
                 return response.json().then(data => {
                     return data
                 })
-            } else {
-                throw 'Fetching user failed!'
             }
         })
     } catch (error) {

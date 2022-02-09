@@ -1,8 +1,8 @@
 export const createOpinionApiCall = async ({token, offerId, rating, content}) => {
-    const opinionUrl = `http://localhost:8080/api/opinion?offerId=${offerId}`;
+    const url = `http://localhost:8080/api/opinion?offerId=${offerId}`;
     try {
         const body = JSON.stringify({rating, content});
-        return fetch(opinionUrl, {
+        return fetch(url, {
             method: 'POST',
             body: body,
             headers: {
@@ -18,8 +18,6 @@ export const createOpinionApiCall = async ({token, offerId, rating, content}) =>
                         content: data.content
                     }
                 })
-            } else {
-                throw 'Cannot create opinion'
             }
         })
     } catch (err) {
@@ -28,11 +26,10 @@ export const createOpinionApiCall = async ({token, offerId, rating, content}) =>
 };
 
 export const getOpinionApiCall = async ({token, offerId}) => {
-    const opinionUrl = `http://localhost:8080/api/opinion/${offerId}`;
+    const url = `http://localhost:8080/api/opinion/${offerId}`;
     try {
-        return fetch(opinionUrl, {
+        return fetch(url, {
             method: 'GET',
-            // body: body,
             headers: {
                 'Authorization': 'Bearer ' + token,
                 'Content-Type': 'application/json',
@@ -45,11 +42,28 @@ export const getOpinionApiCall = async ({token, offerId}) => {
                         data
                     }
                 })
-            } else {
-                throw 'Cannot get opinion'
             }
         })
     } catch (err) {
         throw err;
+    }
+};
+
+export const deleteOpinionApiCall = async ({token, id}) => {
+    try {
+        const url = `http://localhost:8080/api/opinion/${id}`;
+        return fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': 'Bearer ' + token,
+                'Content-Type': 'application/json'
+            },
+        }).then((response) => {
+            return response.json().then(data => {
+                return data
+            })
+        })
+    } catch (error) {
+        throw error;
     }
 };

@@ -88,6 +88,7 @@
   "chooseNewImage": "Choose your new image",
   "areYouSureDeleteImage": "Are you sure that you want to delete your image?",
   "adminPanel": "Admin panel",
+  "invalidUsernameOrPassword": "Invalid username or password.",
   "emailExists": "The email is already in the database.",
   "usersList": "Users list",
   "tasksList": "Tasks list",

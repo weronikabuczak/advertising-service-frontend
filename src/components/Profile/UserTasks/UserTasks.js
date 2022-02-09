@@ -1,19 +1,17 @@
 import TaskList from "../../HomePage/TaskList/TaskList";
-import {Button, Card, Divider, Grid, Message, Segment} from "semantic-ui-react";
+import {Button, Message, Segment} from "semantic-ui-react";
 import {useHistory} from "react-router-dom";
-import classes from "../UserProfile.module.css";
+import classes from "./UserTasks.module.css";
 import React, {useEffect, useState} from "react";
 import {
-    getAllTasks, getAllUserTasks,
+    getAllTasks,
     getAnotherUserCompletedTasks,
     getAnotherUserTasks,
-    getPage,
-    getTasks, getUserPage,
-    getUserTasks, resetTasks
+    getTasks
 } from "../../../store/task";
 import {useAppDispatch} from "../../../root";
 import {useSelector} from "react-redux";
-import {getUser, getUserEmail, getUserToken} from "../../../store/auth";
+import {getUserEmail, getUserToken} from "../../../store/auth";
 import {Link} from "react-router-dom";
 import {statuses} from "../../../utils/taskStatus";
 import {useTranslation} from "react-i18next";
@@ -76,12 +74,12 @@ const UserTasks = () => {
                        content={statusId}>{label}</Button>
     })
 
-    return <div className={classes.taskSection}>
-        <Button.Group className={classes.userButtons}>
+    return <div className={classes.task__section}>
+        <Button.Group className={classes.user__buttons}>
             <Button primary onClick={userInfoHandler}>{t("userData")}</Button>
             <Button secondary onClick={userTasksHandler}>{t("myAdverts")}</Button>
         </Button.Group>
-        <Button.Group className={classes.taskButtons}>
+        <Button.Group className={classes.task__buttons}>
             <Button content='' floated='left' onClick={filterTasks}>{t("all")}</Button>
             {statusesBar}
             <Button floated='left' onClick={getTaskCompletedByMe}>{t("doneByMe")}</Button>
@@ -107,11 +105,11 @@ const UserTasks = () => {
                 </ul>)}
             {myCompletedTasks <= 0 && showCompletedTasks &&
                 <ul>
-                    <Message className={classes.noCompletedTasks__message} size='medium' compact>{t("noCompletedTasks")}</Message>
+                    <Message className={classes.noCompletedTasks__message} size='medium'
+                             compact>{t("noCompletedTasks")}</Message>
                 </ul>
             }</div>
     </div>
 }
-
 
 export default UserTasks;

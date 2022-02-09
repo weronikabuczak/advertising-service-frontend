@@ -14,7 +14,7 @@ export const statuses = {
     'AWAITING': {
         pl: 'Oczekujące',
         en: 'Awaiting',
-        colorClass:  colorsClasses.RED,
+        colorClass: colorsClasses.RED,
         colors: colors.RED
     },
     'IN_PROGRESS': {

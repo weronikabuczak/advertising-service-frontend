@@ -1,9 +1,9 @@
-import {List, Message, Table} from "semantic-ui-react";
-import {getAllUsersEmails, getAnotherUser, getUsersEmails, getUserToken,} from "../../store/auth";
-import {useAppDispatch} from "../../root";
+import {List, Message} from "semantic-ui-react";
+import {getUserToken,} from "../../../store/auth";
+import {useAppDispatch} from "../../../root";
 import {useSelector} from "react-redux";
 import {useEffect} from "react";
-import {getAllTasks, getAllTasksId, getCurrentTask, getTasks, getTasksId, setCurrentTaskId} from "../../store/task";
+import {getAllTasks, getCurrentTask, getTasks, setCurrentTaskId} from "../../../store/task";
 import {useHistory} from "react-router-dom";
 import {useTranslation} from "react-i18next";
 
@@ -19,9 +19,6 @@ const TasksList = () => {
         if (token) {
             dispatch(getTasks({isUserTasks: false, token}));
         }
-        console.log(tasks)
-        console.log(task)
-        // };
     }, []);
 
 
@@ -29,9 +26,9 @@ const TasksList = () => {
         <List selection divided verticalAlign='center'>
             <List.Header as='h2'>{t("tasksList")}</List.Header>
             {tasks?.length === 0 &&
-            <Message>{t("noTasks")}</Message>}
+                <Message>{t("noTasks")}</Message>}
             {tasks?.length > 0 && tasks.map((task) => {
-                const showUserHandler = () => {
+                const showTaskHandler = () => {
                     dispatch(setCurrentTaskId(task.id))
                     history.push({
                         pathname: `/taskDetails/${task.id}`, state: {isUserTasks: true}
@@ -39,7 +36,7 @@ const TasksList = () => {
                 }
 
                 return (
-                    <List.Item onClick={showUserHandler}>
+                    <List.Item onClick={showTaskHandler}>
                         <List.Content>
                             <List.Header as='h5'>{task.id}</List.Header>
                         </List.Content>
