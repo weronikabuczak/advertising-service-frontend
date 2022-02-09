@@ -46,7 +46,6 @@ export const deleteOpinion = createAsyncThunk(`${sliceName}/deleteOpinion`, asyn
     try {
         await deleteOpinionApiCall({id, token});
     } catch (error) {
-        alert('Cannot delete opinion');
         throw error;
     }
 });

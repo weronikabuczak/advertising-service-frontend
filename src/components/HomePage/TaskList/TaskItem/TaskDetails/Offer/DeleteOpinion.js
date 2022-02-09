@@ -13,7 +13,6 @@ const DeleteOpinion = ({open, setOpen, id}) => {
     const dispatch = useAppDispatch();
     const history = useHistory();
 
-    // console.log(opinion)
 
     const onClose = (e) => {
         e.preventDefault()
@@ -23,7 +22,7 @@ const DeleteOpinion = ({open, setOpen, id}) => {
     const deleteOpinionHandler = () => {
         dispatch(deleteOpinion({id, token}));
         setOpen(false);
-        // history.replace('/userTasks')
+        // history.replace('/userTasks');
     }
 
     return (
