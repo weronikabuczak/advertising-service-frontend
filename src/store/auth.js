@@ -1,7 +1,7 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 
 import {
-    deleteUserImageApiCall, getAllUsersEmailApiCall, getAllUsersEmailsApiCall,
+    deleteUserImageApiCall, getAllUsersEmailsApiCall,
     getAnotherUserApiCall, getMeApiCall,
     getUserApiCall,
     loginUserApiCall, registerUserApiCall, updatePasswordApiCall, updateUserApiCall, updateUserImageApiCall,
