@@ -33,7 +33,6 @@ export const createTask = createAsyncThunk(`${sliceName}/createTask`, async ({
                                                                                  latitude
                                                                              }, {dispatch}) => {
     try {
-        console.log(image);
         const data = await createTaskApiCall({
             token, title, content, category, address, pay, expirationDate, estimatedTime, image, longitude, latitude
         });

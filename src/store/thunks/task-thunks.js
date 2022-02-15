@@ -16,8 +16,6 @@ export const createTaskApiCall = async ({
         const body = JSON.stringify({
             title, content, category, address, pay, expirationDate, estimatedTime, image, longitude, latitude
         });
-        console.log(body)
-        console.log(image)
         return fetch(url, {
             method: 'POST',
             body: body,
