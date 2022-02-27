@@ -55,43 +55,22 @@ const opinion = createSlice({
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        // builder.addCase(createOpinion.pending, (state) => {
-        //     state.isLoading = true;
-        //
-        // });
-        // builder.addCase(createOpinion.fulfilled, (state, {payload}) => {
-        //     state.isLoading = false;
-        //
-        // });
         builder.addCase(createOpinion.rejected, (state, {payload}) => {
             const {id} = payload;
             state.opinion = [...state.opinion.filter(opinion => opinion.id === id), {...payload}]
         });
-        // builder.addCase(getOpinion.pending, (state) => {
-        //     state.isLoading = true;
-        //
-        // });
         builder.addCase(getOpinion.fulfilled, (state, {payload}) => {
             const {opinion} = payload;
             state.opinion = opinion;
-
         });
-        // builder.addCase(getOpinion.rejected, (state) => {
-        //     state.isLoading = false;
-        // });
-        //
         builder.addCase(deleteOpinion.pending, (state) => {
             state.isLoading = true;
-            // state.setOpen = true;
         });
-
         builder.addCase(deleteOpinion.fulfilled, (state, {payload}) => {
             state.isLoading = false;
-            // state.setOpen = false;
         });
         builder.addCase(deleteOpinion.rejected, (state) => {
             state.isLoading = false;
-            // state.setOpen = true;
         });
     }
 });

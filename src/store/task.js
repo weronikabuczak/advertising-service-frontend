@@ -6,7 +6,7 @@ import {
     getTasksApiCall,
     updateTaskApiCall, updateTaskImageApiCall
 } from "./thunks/task-thunks";
-import {updatePassword} from "./auth";
+
 
 export const sliceName = 'task';
 
@@ -183,42 +183,15 @@ const task = createSlice({
         }
     },
     extraReducers: (builder) => {
-        // builder.addCase(createTask.pending || getTasks.pending || getAnotherUserCompletedTasks.pending, (state) => {
-        //     state.isLoading = true;
-        // });
-
-        // builder.addCase(createTask.fulfilled, (state, {payload}) => {
-        //     state.isLoading = false;
-        // });
-        //
-        // builder.addCase(createTask.rejected, (state, {payload}) => {
-        //     state.isLoading = false;
-        // });
-
         builder.addCase(getTasks.fulfilled, (state, {payload}) => {
             const {tasks} = payload;
             state.tasks = tasks;
         });
 
-
         builder.addCase(getAnotherUserCompletedTasks.fulfilled, (state, {payload}) => {
             const {anotherUserTasks} = payload;
             state.anotherUserTasks = anotherUserTasks;
         });
-
-        // builder.addCase(getTasks.rejected || getAnotherUserCompletedTasks.rejected, (state) => {
-        //     state.isLoading = false;
-        // });
-        // builder.addCase(deleteTask.pending, (state) => {
-        //     state.isLoading = true;
-        // });
-
-        // builder.addCase(deleteTask.fulfilled, (state, {payload}) => {
-        //     state.isLoading = false;
-        // });
-        // builder.addCase(deleteTask.rejected, (state) => {
-        //     state.isLoading = false;
-        // });
 
         builder.addCase(updateTask.pending, setOpenModalsTrue);
         builder.addCase(updateTaskImage.pending, setOpenModalsTrue);

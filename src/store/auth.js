@@ -287,31 +287,11 @@ const auth = createSlice({
             state.remainingTime = null;
         });
 
-        // builder.addCase(logoutUser.pending, (state) => {
-        //     state.isLoggedIn = true;
-        // });
-        //
-        // builder.addCase(logoutUser.rejected, (state) => {
-        //     state.isLoggedIn = true;
-        // });
-        //
-        // builder.addCase(getMe.pending, (state) => {
-        //     state.isLoggedIn = true;
-        // });
-
         builder.addCase(getMe.fulfilled, (state, {payload}) => {
             state.isLoggedIn = true;
             const {user} = payload;
             state.user = user;
         });
-
-        // builder.addCase(getMe.rejected, (state) => {
-        //     state.isLoggedIn = true;
-        // });
-        //
-        // builder.addCase( getAnotherUser.pending, (state) => {
-        //     state.isLoggedIn = true;
-        // });
 
         builder.addCase(getAnotherUser.fulfilled, (state, {payload}) => {
             state.isLoggedIn = true;
@@ -319,37 +299,17 @@ const auth = createSlice({
             state.anotherUser = anotherUser;
         });
 
-        // builder.addCase(getAnotherUser.rejected, (state) => {
-        //     state.isLoggedIn = true;
-        // });
-        //
-        // builder.addCase(getAllUsersEmails.pending, (state) => {
-        //     state.isLoggedIn = true;
-        // });
-
         builder.addCase(getAllUsersEmails.fulfilled, (state, {payload}) => {
             state.isLoggedIn = true;
             const {usersEmails} = payload;
             state.usersEmails = usersEmails;
         });
 
-        // builder.addCase(getAllUsersEmails.rejected, (state) => {
-        //     state.isLoggedIn = true;
-        // });
-
-        // builder.addCase(getUser.pending, (state) => {
-        //     state.isLoggedIn = true;
-        // });
-
         builder.addCase(getUser.fulfilled, (state, {payload}) => {
             state.isLoggedIn = true;
             const {user} = payload;
             state.user = user;
         });
-
-        // builder.addCase(getUser.rejected, (state) => {
-        //     state.isLoggedIn = true;
-        // });
 
         builder.addCase(updatePassword.pending, setOpenModalsTrue);
         builder.addCase(updatePassword.rejected, setOpenModalsTrue);

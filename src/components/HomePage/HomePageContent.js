@@ -35,7 +35,7 @@ const HomePageContent = () => {
     const [category, setCategory] = useState('');
     const [status] = useState('AWAITING');
 
-    const overflowTaskListStyle = {overflow: "auto"};
+    const overflowTaskListStyle = {overflow: "auto", height: "778px"};
 
     //leaflet icon issue
     let DefaultIcon = L.icon({

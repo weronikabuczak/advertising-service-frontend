@@ -76,33 +76,17 @@ const offer = createSlice({
             state.offerId = id;
 
         });
-        // builder.addCase(createOffer.rejected, (state) => {
-        //     state.isLoading = false;
-        // });
-        //
-        // builder.addCase(getOffers.pending, (state) => {
-        //     state.isLoading = true;
-        // });
 
         builder.addCase(getOffers.fulfilled, (state, {payload}) => {
             const {offers} = payload;
             state.offers = offers;
         });
-        // builder.addCase(getOffers.rejected, (state) => {
-        //     state.isLoading = false;
-        // });
-        // builder.addCase(updateOffer.pending, (state) => {
-        //     state.isLoading = true;
-        // });
 
         builder.addCase(updateOffer.fulfilled, (state, {payload}) => {
             const {id} = payload;
             state.offers = [...state.offers.filter(offer => offer.id === id), {...payload}]
         });
 
-        // builder.addCase(updateOffer.rejected, (state) => {
-        //     state.isLoading = false;
-        // });
     }
 });
 

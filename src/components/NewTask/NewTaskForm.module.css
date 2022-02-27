@@ -128,6 +128,7 @@
         margin-bottom: 15px;
         font-size: 1.5rem;
     }
+
     .control label {
         font-size: 0.9rem;
     }
@@ -135,4 +136,11 @@
     .categoryButtons {
         display: inline-grid !important;
     }
+}
+
+.map__container {
+    height: 300px;
+    /*margin: 4px 30px;*/
+    z-index: 0;
+
 }

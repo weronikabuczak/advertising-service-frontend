@@ -21,6 +21,7 @@
   "delete": "Delete",
   "edit": "Edit",
   "address": "Address",
+  "findAddress": "Find address",
   "pay": "Pay",
   "estimatedTime": "Estimated time",
   "expDate": "Expiration date",
