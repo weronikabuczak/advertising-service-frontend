@@ -22,6 +22,7 @@
   "edit": "Edytuj",
   "address": "Adres",
   "findAddress": "Wyszukaj adres",
+  "selectedAddress": "Wybrany adres: ",
   "pay": "Zapłata",
   "estimatedTime": "Przewidywany czas wykonania",
   "expDate": "Data wygaśnięcia",

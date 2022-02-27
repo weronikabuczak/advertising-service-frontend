@@ -7,12 +7,8 @@ const MapLeafletComponent = ({center, zoom, clickEventHandler}) => {
             clickEventHandler(e)
         },
     } : {};
-    console.log(clickEventHandler)
     const map = useMapEvents(handlers)
-
-    map.setView(center);
-    console.log(center)
-    console.log(zoom)
+    map.setView(center, zoom);
     return null;
 }
 export default MapLeafletComponent;

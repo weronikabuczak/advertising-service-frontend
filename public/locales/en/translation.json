@@ -22,6 +22,7 @@
   "edit": "Edit",
   "address": "Address",
   "findAddress": "Find address",
+  "selectedAddress": "Selected address: ",
   "pay": "Pay",
   "estimatedTime": "Estimated time",
   "expDate": "Expiration date",

@@ -4,21 +4,19 @@ import {useHistory} from "react-router-dom";
 import {QuantityPicker} from 'react-qty-picker';
 import {useSelector} from "react-redux";
 import {getUserToken} from "../../store/auth";
-import LocationPicker from "react-leaflet-location-picker";
 import {categories} from "../../utils/taskCategory";
 import {Button, Checkbox, Message} from "semantic-ui-react";
 import {useTranslation} from "react-i18next";
 import {getCategoryLabel} from "../../utils/functions";
 import i18n from "../../i18n";
 import {useAppDispatch} from "../../root";
-import {createTask, getTasks} from "../../store/task";
+import {createTask} from "../../store/task";
 import DatePicker, {registerLocale} from "react-datepicker";
 import pl from 'date-fns/locale/pl';
 import "react-datepicker/dist/react-datepicker.css";
 import {useDebouncedCallback} from "use-debounce";
 import {MapContainer, Marker, TileLayer} from "react-leaflet";
 import MapLeafletComponent from "./MapLeafletComponent";
-
 
 const NewTaskForm = () => {
     const {t} = useTranslation();
@@ -43,94 +41,58 @@ const NewTaskForm = () => {
     let addressInput = useRef();
     const payInput = useRef();
 
-    //map details
+    const [addressDebouncedValue, setAddressDebouncedValue] = useState();
 
-    const points = [[latitude, longitude]];
-
-    const getPoint = (point) => {
-        setLatitude(point[0]);
-        setLongitude(point[1]);
-    }
-
-    const pointMode = {
-        banner: false,
-        control: {
-            values: points,
-            onClick: point =>
-                getPoint(point)
-        }
-    };
-
-    const startPort = {
-        center: [latitude, longitude],
-        zoom,
-    }
-    const [value, setValue] = useState();
     useEffect(() => {
-        if (value) {
-            setGeneratedAddress(value);
+        if (addressDebouncedValue) {
+            setGeneratedAddress(addressDebouncedValue);
             try {
-                let url = `http://api.positionstack.com/v1/forward?access_key=ef70f7232d903256e72a4cda3ddb4ebd&query=${value}`;
+                let url = `http://api.positionstack.com/v1/forward?access_key=ef70f7232d903256e72a4cda3ddb4ebd&query=${addressDebouncedValue}`;
                 return fetch(url, {
                     method: 'GET'
                 }).then((response) => {
-                    response.json().then(rsp => {
-                        const {data} = rsp;
-                        const addressFromApi = data[0];
-                        if (addressFromApi) {
-                            const {latitude: newLatitude, longitude: newLongitude} = addressFromApi;
-                            setLatitude(newLatitude)
-                            setLongitude(newLongitude)
-                            setZoom(11)
+                    response.json().then(response => {
+                        const {data} = response;
+                        const locationFromApi = data[0];
+                        if (locationFromApi) {
+                            const {latitude: newLatitude, longitude: newLongitude} = locationFromApi;
+                            setLatitude(newLatitude);
+                            setLongitude(newLongitude);
+                            setZoom(16);
                         }
-
                     })
                 })
             } catch (error) {
                 throw error;
             }
         }
-    }, [value]);
+    }, [addressDebouncedValue]);
 
     const debounced = useDebouncedCallback(
         (value) => {
-            setValue(value);
+            setAddressDebouncedValue(value);
         },
         1000
     );
-    const eventHandler = (e) => {
+    const addressEventHandler = (e) => {
         const {latlng} = e;
         const {lat, lng} = latlng;
-        setLatitude(lat)
-        setLongitude(lng)
+        setLatitude(lat);
+        setLongitude(lng);
         try {
             const url = `http://api.positionstack.com/v1/reverse?access_key=ef70f7232d903256e72a4cda3ddb4ebd&query=${lat},${lng}`;
             return fetch(url, {
                 method: 'GET'
             }).then((response) => {
-                response.json().then(rsp => {
-                    const {data} = rsp;
+                response.json().then(response => {
+                    const {data} = response;
                     setGeneratedAddress(data[0].label)
-                    console.log(generatedAddress)
-                    // const addressFromApi = data[4];
-                    // const number = data[5];
-                    // console.log(data)
-                    // console.log(addressFromApi)
-                    // console.log(number)
-                    // if (addressFromApi) {
-                    //     const {latitude: newLatitude, longitude: newLongitude} = addressFromApi;
-                    //     setLatitude(newLatitude)
-                    //     setLongitude(newLongitude)
-                    //     setZoom(11)
-                    // }
-
                 })
             })
         } catch (error) {
             throw error;
         }
     }
-
 
     useEffect(() => {
     }, [generatedAddress])
@@ -145,8 +107,6 @@ const NewTaskForm = () => {
         const estimatedTime = pickerValue;
         const expirationDate = startDate;
         const image = img;
-
-        console.log(generatedAddress)
         dispatch(createTask({
             token,
             title,
@@ -176,7 +136,6 @@ const NewTaskForm = () => {
         reader.onload = () => {
             baseURL = reader.result;
             newBaseURL = baseURL.split(',')[1];
-            // image = newBaseURL;
             setImg(newBaseURL);
         };
     }
@@ -196,7 +155,7 @@ const NewTaskForm = () => {
     return (
         <section className={classes.section}>
             <h2>{t("addNewTask")}</h2>
-            <div className={classes.control}>
+            <div className={classes.control__main}>
                 <label className={classes.categoryButton__label} htmlFor='category'>{t("category")}</label>
                 <Button.Group className={classes.categoryButtons}>
                     {categoriesBar}
@@ -204,17 +163,17 @@ const NewTaskForm = () => {
             </div>
             <form onSubmit={submitHandler}>
                 <div>
-                    <div className={classes.control}>
+                    <div className={classes.control__main}>
                         <label htmlFor='title'>{t("title")}</label>
                         <input required type='text' id='title' minLength="10" maxLength="100" ref={titleInput}/>
                     </div>
 
-                    <div className={classes.control}>
+                    <div className={classes.control__main}>
                         <label htmlFor='content'>{t("content")}</label>
                         <textarea required ref={contentInput} minLength="20" maxLength="800"
                                   placeholder={t("enterTaskDetails")} className={classes.content__textarea}/>
                     </div>
-                    <div className={classes.control}>
+                    <div className={classes.control__secondary}>
                         <label htmlFor='expirationDate'>{t("expDate")}</label>
                         <DatePicker
                             selected={startDate}
@@ -223,11 +182,11 @@ const NewTaskForm = () => {
                             locale="pl"
                         />
                     </div>
-                    <div className={classes.control}>
+                    <div className={classes.control__secondary}>
                         <label htmlFor='pay'>{t("pay")} [PLN]</label>
                         <input required type='number' min='1' id='pay' max='100000' ref={payInput}/>
                     </div>
-                    <div className={classes.control}>
+                    <div className={classes.control__secondary}>
                         <label>{t("estimatedTime")} [h]</label>
                         <div className={classes.quantityPicker}>
                             <QuantityPicker onChange={getPickerValue} min={1} max={24} value={1}
@@ -235,19 +194,19 @@ const NewTaskForm = () => {
                         </div>
                     </div>
                 </div>
-                <div className={classes.control}>
+                <div className={classes.control__secondary}>
                     <label htmlFor='image'>{t("image")}</label>
                     <input type='file' onChange={handleFileInput}/>
                 </div>
-                <div className={classes.control}>
+                <div className={classes.control__main}>
                     <label htmlFor='address'>{t("findAddress")}</label>
-                    <input required type='text' id='address' minLength="5" maxLength="100" defaultValue={value}
+                    <input type='text' id='address' maxLength="100" defaultValue={addressDebouncedValue}
                            ref={addressInput} onChange={(e) => debounced(e.target.value)}/>
                 </div>
                 <div>
                     <MapContainer className={classes.map__container} center={center} zoom={zoom}
                                   scrollWheelZoom={true}>
-                        <MapLeafletComponent zoom={zoom} center={center} clickEventHandler={eventHandler}/>
+                        <MapLeafletComponent center={center} zoom={zoom} clickEventHandler={addressEventHandler}/>
                         <TileLayer
                             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -255,7 +214,7 @@ const NewTaskForm = () => {
                         />
                         <Marker position={[latitude, longitude]}/>
                     </MapContainer>
-                    {generatedAddress && <Message>Wybrany adres: {generatedAddress}</Message>}
+                    {generatedAddress && <Message>{t("selectedAddress")}{generatedAddress}</Message>}
 
                 </div>
                 <div className={classes.actions}>
