@@ -1,5 +1,5 @@
 import classes from './HomePageContent.module.css';
-import {Button, Grid, Icon} from "semantic-ui-react";
+import {Button, Checkbox, Grid, Icon} from "semantic-ui-react";
 import TaskList from "./TaskList/TaskList";
 import {MapContainer, Marker, TileLayer} from "react-leaflet";
 import L from 'leaflet';
@@ -87,12 +87,24 @@ const HomePageContent = () => {
             setZoom(13);
         });
     }
+    //
+    // const categoriesBar = Object.entries(categories).map((array) => {
+    //     const [categoryId, categoryObj] = array
+    //     const label = getCategoryLabel(categoryId, language);
+    //     return <Button color={categoryObj.colors} onClick={filterCategory}
+    //                    content={categoryId}>{label}</Button>
+    // })
 
-    const categoriesBar = Object.entries(categories).map((array) => {
-        const [categoryId, categoryObj] = array
+    const categoriesBar = Object.entries(categories).map((arr) => {
+        const [categoryId, categoryObj] = arr
         const label = getCategoryLabel(categoryId, language);
-        return <Button color={categoryObj.colors} onClick={filterCategory}
-                       content={categoryId}>{label}</Button>
+        return <Button  compact size='medium' color={categoryObj.colors}>
+            <Checkbox radio label={label}
+                      category={categoryId}
+                      defaultChecked={category}
+                      checked={category === categoryId}
+                      onChange={(e, data) => setCategory(data.category)}> </Checkbox>
+        </Button>
     })
 
     return (
