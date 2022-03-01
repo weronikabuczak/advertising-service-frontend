@@ -18,6 +18,7 @@ export const createOpinion = createAsyncThunk(`${sliceName}/createOpinion`, asyn
     try {
         const data = await createOpinionApiCall({token, offerId, rating, content});
         dispatch(getOffers({token, taskId, offerStatus: 'COMPLETED'}))
+        dispatch(getOpinion({token, offerId}))
         return {
             data
         };
@@ -32,7 +33,6 @@ export const getOpinion = createAsyncThunk(`${sliceName}/getOpinion`, async ({
                                                                              }, {dispatch}) => {
     try {
         const data = await getOpinionApiCall({token, offerId});
-        console.log(offerId)
         return {
             opinion: data.data
         };
@@ -45,7 +45,9 @@ export const getOpinion = createAsyncThunk(`${sliceName}/getOpinion`, async ({
 export const deleteOpinion = createAsyncThunk(`${sliceName}/deleteOpinion`, async ({id, token}, {dispatch}) => {
     try {
         await deleteOpinionApiCall({id, token});
+        dispatch(getOffers({token, taskId: id, offerStatus: 'COMPLETED'}));
     } catch (error) {
+        console.log(error)
         throw error;
     }
 });
@@ -63,15 +65,16 @@ const opinion = createSlice({
             const {opinion} = payload;
             state.opinion = opinion;
         });
-        builder.addCase(deleteOpinion.pending, (state) => {
-            state.isLoading = true;
-        });
+
+        // builder.addCase(deleteOpinion.pending, (state) => {
+        //     state.isLoading = true;
+        // });
         builder.addCase(deleteOpinion.fulfilled, (state, {payload}) => {
-            state.isLoading = false;
+            state.opinion = {};
         });
-        builder.addCase(deleteOpinion.rejected, (state) => {
-            state.isLoading = false;
-        });
+        // builder.addCase(deleteOpinion.rejected, (state) => {
+        //     state.isLoading = false;
+        // });
     }
 });
 

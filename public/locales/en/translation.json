@@ -99,5 +99,7 @@
   "changeImage": "Change image",
   "addImage": "Add image",
   "deleteImage": "Delete image",
-  "userHasNotPerformedAnyTasks": "The user hasn't performed any tasks."
+  "userHasNotPerformedAnyTasks": "The user hasn't performed any tasks.",
+  "selectOpinionBeforeSending": "Select rating from 1 to 5 before sending",
+  "areYouSureDeleteOpinion": "Are you sure that you want to delete the opinion?"
 }

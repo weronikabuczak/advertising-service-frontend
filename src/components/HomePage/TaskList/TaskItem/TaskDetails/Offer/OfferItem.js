@@ -2,7 +2,7 @@ import {useAppDispatch} from "../../../../../../root";
 import {Button, Card, Divider, Form, Header, Icon, Image, Rating, Segment} from "semantic-ui-react";
 import React, {useEffect, useRef, useState} from "react";
 import {
-    updateOffer
+    getCurrentOffer, setCurrentOfferId, updateOffer
 } from "../../../../../../store/offer";
 import profile from '../../../../../../files/profile.jpg'
 import {useSelector} from "react-redux";
@@ -11,13 +11,14 @@ import classes from './OfferItem.module.css';
 import {useTranslation} from "react-i18next";
 import {createOpinion, getOpinion, getOpinionForOffer} from "../../../../../../store/opinion";
 import AnotherUserDetails from "../AnotherUserDetails/AnotherUserDetails";
-import EditOpinion from "./EditOpinion";
 import DeleteOpinion from "./DeleteOpinion";
 
-const OfferItem = ({offer, isUserTasks}) => {
+const OfferItem = ({offer, isUserTasks, currentOffId}) => {
     const {t} = useTranslation();
     const dispatch = useAppDispatch();
     const token = useSelector(getUserToken);
+    // const currentOffer = useSelector(getCurrentOffer);
+    // let offerId = currentOffer.id;
     const [offerAccepted, setOfferAccepted] = useState(false);
     const [offerRejected, setOfferRejected] = useState(false);
     const [taskCompleted, setTaskCompleted] = useState(false);
@@ -25,16 +26,26 @@ const OfferItem = ({offer, isUserTasks}) => {
     const [rating, setRating] = useState();
     const contentInput = useRef();
     const opinion = useSelector(getOpinionForOffer);
-    // const [modalOpenEditOpinion, setModalOpenEditOpinion] = useState(false);
     const [modalOpenDeleteOpinion, setModalOpenDeleteOpinion] = useState(false);
 
     const [modalShowUser, setModalShowUser] = useState(false);
 
+    // console.log(currentOffer)
     useEffect(() => {
-        if (token && offer.hasOpinion) {
-            dispatch(getOpinion({token, offerId: offer.id}))
+        if (token && !opinion && offer.hasOpinion && !opinionSent) {
+            dispatch(getOpinion({token, offerId: currentOffId}))
         }
-    }, [offerAccepted, offerRejected, taskCompleted, offer, modalShowUser, opinionSent, offer.hasOpinion, dispatch, token]);
+    }, [offerAccepted, offerRejected, taskCompleted, modalShowUser, opinionSent, offer.hasOpinion, dispatch, token]);
+
+
+    useEffect(() => {
+        dispatch(setCurrentOfferId(currentOffId));
+        console.log("current" + currentOffId)
+        // console.log("current store " + offerId)
+        if (token && offer.hasOpinion) {
+            dispatch(getOpinion({token, offerId: currentOffId}))
+        }
+    }, [currentOffId]);
 
 
     const acceptOffer = () => {
@@ -65,29 +76,31 @@ const OfferItem = ({offer, isUserTasks}) => {
 
     const createOpinionHandler = () => {
         const ratingContent = contentInput.current.value;
-        if (token) {
+        if (token && rating) {
             dispatch(createOpinion({
                 token, offerId: offer.id, rating, content: ratingContent, taskId: offer.task.id
             }));
+            setOpinionSent(true);
+        } else {
+            alert(t("selectOpinionBeforeSending"))
         }
-        setOpinionSent(true);
     }
 
     const showUser = () => {
         setModalShowUser(true);
     }
-
+    console.log(opinion)
     const deleteOpinionHandler = () => {
         setModalOpenDeleteOpinion(true);
     }
-
+const ratin333g = opinion.rating;
     return (<section>
         <AnotherUserDetails open={modalShowUser} setOpen={setModalShowUser} email={offer.user.email}/>
 
         {isUserTasks && offer.status === 'ACTIVE' && <Card fluid>
             <Card.Content>
-                {offer.user.image != null ? <Image src={offer.user.image} rounded size='tiny' floated='right'/>
-                    : <Image src={profile} rounded size='tiny' floated='right'/>}
+                {offer.user.image != null ? <Image src={offer.user.image} rounded size='tiny' floated='right'/> :
+                    <Image src={profile} rounded size='tiny' floated='right'/>}
 
                 <Card.Header>{t("offerFrom")}</Card.Header>
                 <Card.Content>{offer.user.name}</Card.Content>
@@ -136,8 +149,8 @@ const OfferItem = ({offer, isUserTasks}) => {
         </Card>}
         {isUserTasks && offer.status === 'COMPLETED' && !offer.hasOpinion && !opinionSent && <Card fluid>
             <Card.Content>
-                {offer.user.image != null ? <Image src={offer.user.image} rounded size='tiny' floated='right'/>
-                    : <Image src={profile} rounded size='tiny' floated='right'/>}
+                {offer.user.image != null ? <Image src={offer.user.image} rounded size='tiny' floated='right'/> :
+                    <Image src={profile} rounded size='tiny' floated='right'/>}
                 <Card.Header>{t("taskCompletedBy")}</Card.Header>
                 <Card.Content>{offer.user.name}</Card.Content>
                 <Card.Content><Icon name='home'/>{offer.user.location}</Card.Content>
@@ -167,8 +180,8 @@ const OfferItem = ({offer, isUserTasks}) => {
         </div>}
 
         {offer.hasOpinion && opinion && (<Card fluid>
-            {/*<EditOpinion open={modalOpenEditOpinion} setOpen={setModalOpenEditOpinion} opinion={opinion}/>*/}
-            <DeleteOpinion open={modalOpenDeleteOpinion} setOpen={setModalOpenDeleteOpinion} id={offer.task.id}/>
+            <DeleteOpinion open={modalOpenDeleteOpinion} setOpen={setModalOpenDeleteOpinion} id={offer.task.id}
+                           setOpinionSent={setOpinionSent}/>
             <Card.Content>
                 <Card.Header>{t("feedbackFor")}
                     <Button className={classes.offer__button} animated onClick={showUser}>
@@ -179,15 +192,15 @@ const OfferItem = ({offer, isUserTasks}) => {
                     </Button>
                     <Button onClick={deleteOpinionHandler}>Usuń opinię</Button>
                 </Card.Header>
-                <Segment>
-                    {opinion.rating &&
-                        <Rating maxRating={5} defaultRating={opinion.rating} icon='star' size='huge'
-                                     disabled/>
-                            }
-                    <Divider/>
-                    {opinion.content &&
-                        <Card.Content> <strong>{t("content")}: </strong>{opinion.content}</Card.Content>}
-                </Segment>
+                {opinion &&
+                    <Segment>
+                        <Rating maxRating={5} icon='star' size='huge' rating={opinion.rating}
+                                disabled />
+                        {opinion.content &&
+                            <Card.Content> <strong>{t("content")}: </strong>{opinion.content}</Card.Content>}
+                    </Segment>
+                }
+
             </Card.Content>
         </Card>)}
     </section>);

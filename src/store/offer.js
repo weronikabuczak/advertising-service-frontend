@@ -6,7 +6,7 @@ export const sliceName = 'offer';
 
 export const initialState = {
     offers: [],
-    currentOffer: {},
+    currentOfferId: '',
 };
 
 export const createOffer = createAsyncThunk(`${sliceName}/createOffer`, async ({
@@ -64,7 +64,7 @@ const offer = createSlice({
     initialState,
     reducers: {
         setCurrentOfferId: (state, {payload}) => {
-            state.currentOfferId = payload
+            state.currentOfferId = payload;
         }
     },
     extraReducers: (builder) => {
@@ -90,7 +90,8 @@ const offer = createSlice({
     }
 });
 
+export const {setCurrentOfferId} = offer.actions;
+export const getCurrentOffer = (state) => state[sliceName].offers.find(offer => offer.id === state[sliceName].currentOfferId);
 export const getAllOffers = state => state[sliceName].offers;
-
 export default offer.reducer;
 

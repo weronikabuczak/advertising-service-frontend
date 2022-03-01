@@ -37,7 +37,6 @@ export const getOpinionApiCall = async ({token, offerId}) => {
         }).then((response) => {
             if (response.ok) {
                 return response.json().then(data => {
-                    console.log(data)
                     return {
                         data
                     }
@@ -59,10 +58,11 @@ export const deleteOpinionApiCall = async ({token, id}) => {
                 'Content-Type': 'application/json'
             },
         }).then((response) => {
+            if (response.ok) {
             return response.json().then(data => {
                 return data
             })
-        })
+        }})
     } catch (error) {
         throw error;
     }

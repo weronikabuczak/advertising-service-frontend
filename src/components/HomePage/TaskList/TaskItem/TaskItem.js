@@ -43,6 +43,7 @@ const TaskItem = ({task, onClick, isUserTasks, currentTask}) => {
 
 
     const taskDetailsHandler = () => {
+        console.log(task.id)
         dispatch(setCurrentTaskId(task.id));
         history.push({
             pathname: `/taskDetails/${task.id}`, state: {isUserTasks: isUserTasks}

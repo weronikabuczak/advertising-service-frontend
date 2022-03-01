@@ -5,13 +5,13 @@ import {useAppDispatch} from "../../../../../../root";
 import {getUserToken} from "../../../../../../store/auth";
 import {useHistory} from "react-router-dom";
 import {useTranslation} from "react-i18next";
-import {deleteOpinion} from "../../../../../../store/opinion";
+import {deleteOpinion, getOpinion} from "../../../../../../store/opinion";
+import {useEffect} from "react";
 
-const DeleteOpinion = ({open, setOpen, id}) => {
+const DeleteOpinion = ({open, setOpen, id, setOpinionSent}) => {
     const {t} = useTranslation();
     const token = useSelector(getUserToken);
     const dispatch = useAppDispatch();
-    const history = useHistory();
 
 
     const onClose = (e) => {
@@ -21,8 +21,8 @@ const DeleteOpinion = ({open, setOpen, id}) => {
 
     const deleteOpinionHandler = () => {
         dispatch(deleteOpinion({id, token}));
+        setOpinionSent(false);
         setOpen(false);
-        // history.replace('/userTasks');
     }
 
     return (
@@ -35,7 +35,7 @@ const DeleteOpinion = ({open, setOpen, id}) => {
 
             <Modal.Header>{t("deleteAdvert")}</Modal.Header>
             <Modal.Content>
-                <p>{t("areYouSureDeleteAd")}</p>
+                <p>{t("areYouSureDeleteOpinion")}</p>
             </Modal.Content>
             <Modal.Actions>
                 <Button positive onClick={deleteOpinionHandler}>{t("submit")}</Button>

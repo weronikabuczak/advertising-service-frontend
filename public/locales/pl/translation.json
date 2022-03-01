@@ -100,5 +100,7 @@
   "changeImage": "Zmień zdjęcie",
   "addImage": "Dodaj zdjęcie",
   "deleteImage": "Usuń zdjęcie",
-  "userHasNotPerformedAnyTasks": "Użytkownik nie wykonał jeszcze żadnych zleceń."
+  "userHasNotPerformedAnyTasks": "Użytkownik nie wykonał jeszcze żadnych zleceń.",
+  "selectOpinionBeforeSending": "Wybierz ocenę od 1 do 5 przed wysłaniem",
+  "areYouSureDeleteOpinion": "Czy jesteś pewny, że chcesz usunąć opinię?"
 }

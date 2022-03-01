@@ -14,7 +14,7 @@ import {useAppDispatch} from "../../../../../root";
 import {
     createOffer,
     getAllOffers,
-    getOffers,
+    getOffers, setCurrentOfferId,
 } from "../../../../../store/offer";
 import {useLocation} from "react-router-dom";
 import OfferItem from "./Offer/OfferItem";
@@ -120,8 +120,7 @@ const TaskDetails = () => {
     const deleteTaskImageHandler = () => {
         setModalOpenDeleteTaskImage(true);
     }
-
-
+    console.log(offers)
     return (<Container className={classes.task__container}>
         <DeleteTask open={modalOpenDelete} setOpen={setModalOpenDelete} id={task.id}/>
         <EditTask open={modalOpenEdit} setOpen={setModalOpenEdit} id={task.id} task={task}/>
@@ -171,7 +170,7 @@ const TaskDetails = () => {
                         </div>
                     }
                     {offers?.length > 0 && offers.map((offer) => (
-                        <OfferItem offer={offer} isUserTasks={isUserTasks}/>
+                        <OfferItem offer={offer} isUserTasks={isUserTasks} currentOffId={offer.id}/>
                     ))}
                 </Grid.Column>
             </Grid.Row>
