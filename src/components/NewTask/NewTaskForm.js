@@ -25,7 +25,7 @@ const NewTaskForm = () => {
     const dispatch = useAppDispatch();
     const history = useHistory();
 
-    const [pickerValue, setPickerValue] = useState();
+    const [pickerValue, setPickerValue] = useState(1);
     const [img, setImg] = useState();
     registerLocale('pl', pl);
     const [startDate, setStartDate] = useState(new Date());

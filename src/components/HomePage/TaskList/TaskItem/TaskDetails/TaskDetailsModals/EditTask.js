@@ -180,11 +180,6 @@ const EditTask = ({open, setOpen, id, task}) => {
                             />
                         </div>
                     </Form.Field>
-                    {/*<Form.Field>*/}
-                    {/*    <label>{t("newAddress")}</label>*/}
-                    {/*    <input type='text' id='address' maxLength="100" defaultValue={addressDebouncedValue}*/}
-                    {/*           ref={addressInput} onChange={(e) => debounced(e.target.value)}/>*/}
-                    {/*</Form.Field>*/}
                     <Form.Field>
                         <label>{t("newPay")}</label>
                         <input type='number' id='pay' maxLength="10" ref={payInput} defaultValue={task.pay}/>
@@ -192,7 +187,7 @@ const EditTask = ({open, setOpen, id, task}) => {
                     <Form.Field>
                         <label>{t("newEstTime")}</label>
                         <QuantityPicker onChange={getPickerValue} e min={1} max={24}
-                                        defaultValue={task.estimatedTime}
+                                        value={task.estimatedTime}
                                         smooth/>
                     </Form.Field>
                     <Form.Field>
