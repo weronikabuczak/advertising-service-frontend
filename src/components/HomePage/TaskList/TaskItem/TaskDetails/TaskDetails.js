@@ -14,7 +14,7 @@ import {useAppDispatch} from "../../../../../root";
 import {
     createOffer,
     getAllOffers,
-    getOffers, setCurrentOfferId,
+    getOffers,
 } from "../../../../../store/offer";
 import {useLocation} from "react-router-dom";
 import OfferItem from "./Offer/OfferItem";
@@ -29,6 +29,9 @@ import {TaskCreatedBy} from "./TaskDetailsCard/TaskCreatedBy";
 import TaskDetailsCard from "./TaskDetailsCard/TaskDetailsCard";
 import DeleteTaskImage from "./TaskDetailsModals/DeleteTaskImage";
 import UpdateTaskImage from "./TaskDetailsModals/UpdateTaskImage";
+import {setPosition} from "leaflet/src/dom/DomUtil";
+import mapLeafletComponent from "../../../../NewTask/MapLeafletComponent";
+import MapLeafletComponent from "../../../../NewTask/MapLeafletComponent";
 
 const TaskDetails = () => {
     const {t, i18n} = useTranslation();
@@ -44,7 +47,8 @@ const TaskDetails = () => {
     let taskId = task.id;
     const latitude = task.latitude;
     const longitude = task.longitude;
-    const position = [latitude, longitude];
+    const [zoom, setZoom] = useState();
+    let position = [latitude, longitude];
 
     const [modalOpenDelete, setModalOpenDelete] = useState(false);
     const [modalOpenEdit, setModalOpenEdit] = useState(false);
@@ -61,19 +65,6 @@ const TaskDetails = () => {
     });
     L.Marker.prototype.options.icon = DefaultIcon;
 
-    //status and category
-
-    const taskStatus = getStatusLabel(task.status, currentLanguage);
-
-    const statusColor = {
-        'backgroundColor': getStatusColorClass(task.status)
-    };
-
-    const taskCategory = getCategoryLabel(task.category, currentLanguage);
-
-    const categoryColor = {
-        'backgroundColor': getCategoryColorClass(task.category)
-    };
 
     useEffect(() => {
             setIsCurrentUserTask(currentUser === task.user.email);
@@ -93,6 +84,19 @@ const TaskDetails = () => {
             }
         },
         [dispatch, task.status, location.state.isUserTasks, taskId, token, task, offerSent, isCurrentUserTask, currentUser, modalOpenDelete, modalOpenEdit]);
+
+
+    const taskStatus = getStatusLabel(task.status, currentLanguage);
+
+    const statusColor = {
+        'backgroundColor': getStatusColorClass(task.status)
+    };
+
+    const taskCategory = getCategoryLabel(task.category, currentLanguage);
+
+    const categoryColor = {
+        'backgroundColor': getCategoryColorClass(task.category)
+    };
 
     if (task.user.image) {
         avatar = "data:image/jpeg;base64," + task.user.image;
@@ -120,17 +124,17 @@ const TaskDetails = () => {
     const deleteTaskImageHandler = () => {
         setModalOpenDeleteTaskImage(true);
     }
-    console.log(offers)
     return (<Container className={classes.task__container}>
         <DeleteTask open={modalOpenDelete} setOpen={setModalOpenDelete} id={task.id}/>
-        <EditTask open={modalOpenEdit} setOpen={setModalOpenEdit} id={task.id} task={task}/>
+        <EditTask open={modalOpenEdit} setOpen={setModalOpenEdit} id={task.id} task={task} zoom={zoom}/>
         <DeleteTaskImage open={modalOpenDeleteTaskImage} setOpen={setModalOpenDeleteTaskImage} id={task.id}/>
         <UpdateTaskImage open={modalOpenUpdateTaskImage} setOpen={setModalOpenUpdateTaskImage} id={task.id}/>
         <Grid stackable>
             <Grid.Row>
                 <Grid.Column width={8}>
-                    <MapContainer className={classes.taskMap__container} center={position} zoom={17}
+                    <MapContainer className={classes.taskMap__container} center={position} zoom={13}
                                   scrollWheelZoom={true}>
+                        <MapLeafletComponent center={position}/>
                         <TileLayer
                             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

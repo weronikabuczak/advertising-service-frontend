@@ -1,7 +1,6 @@
-import {useMap, useMapEvents} from "react-leaflet";
+import {useMapEvents} from "react-leaflet";
 
 const MapLeafletComponent = ({center, zoom, clickEventHandler}) => {
-    //const map = useMap();
     const handlers = clickEventHandler ? {
         click(e) {
             clickEventHandler(e)

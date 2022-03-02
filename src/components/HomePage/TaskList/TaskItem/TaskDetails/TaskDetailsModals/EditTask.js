@@ -1,10 +1,10 @@
-import {Button, Checkbox, Form, Modal} from "semantic-ui-react";
+import {Button, Checkbox, Form, Message, Modal} from "semantic-ui-react";
 import {useSelector} from "react-redux";
 import {useAppDispatch} from "../../../../../../root";
 import {getUserToken} from "../../../../../../store/auth";
 import {QuantityPicker} from "react-qty-picker";
 import LocationPicker from "react-leaflet-location-picker";
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {useTranslation} from "react-i18next";
 import {categories} from "../../../../../../utils/taskCategory";
 import {getCategoryLabel} from "../../../../../../utils/functions";
@@ -13,6 +13,9 @@ import {getSetOpenTask, updateTask} from "../../../../../../store/task";
 import classes from "../../../../../NewTask/NewTaskForm.module.css";
 import DatePicker, {registerLocale} from "react-datepicker";
 import pl from 'date-fns/locale/pl';
+import {MapContainer, Marker, TileLayer} from "react-leaflet";
+import MapLeafletComponent from "../../../../../NewTask/MapLeafletComponent";
+import {useDebouncedCallback} from "use-debounce";
 
 const EditTask = ({open, setOpen, id, task}) => {
     const {t} = useTranslation();
@@ -26,6 +29,9 @@ const EditTask = ({open, setOpen, id, task}) => {
     const [category, setCategory] = useState(task.category);
     const [longitude, setLongitude] = useState(task.longitude);
     const [latitude, setLatitude] = useState(task.latitude);
+    const center = [latitude, longitude];
+    const [zoom, setZoom] = useState(5);
+    const [generatedAddress, setGeneratedAddress] = useState();
 
     const titleInput = useRef();
     const contentInput = useRef();
@@ -41,7 +47,8 @@ const EditTask = ({open, setOpen, id, task}) => {
         event.preventDefault();
         const title = titleInput.current.value;
         const content = contentInput.current.value;
-        const address = addressInput.current.value;
+        // const address = addressInput.current.value;
+        const address = generatedAddress;
         const pay = payInput.current.value;
         const estimatedTime = pickerValue;
         const expirationDate = startDate;
@@ -66,26 +73,63 @@ const EditTask = ({open, setOpen, id, task}) => {
         setPickerValue(value);
     }
 
-    const points = [[latitude, longitude]];
 
-    const getPoint = (point) => {
-        setLatitude(point[0]);
-        setLongitude(point[1]);
-    }
+    const [addressDebouncedValue, setAddressDebouncedValue] = useState();
 
-    const pointMode = {
-        banner: false,
-        control: {
-            values: points,
-            onClick: point =>
-                getPoint(point)
+    useEffect(() => {
+        if (addressDebouncedValue) {
+            setGeneratedAddress(addressDebouncedValue);
+            try {
+                let url = `http://api.positionstack.com/v1/forward?access_key=ef70f7232d903256e72a4cda3ddb4ebd&query=${addressDebouncedValue}`;
+                return fetch(url, {
+                    method: 'GET'
+                }).then((response) => {
+                    response.json().then(response => {
+                        const {data} = response;
+                        const locationFromApi = data[0];
+                        if (locationFromApi) {
+                            const {latitude: newLatitude, longitude: newLongitude} = locationFromApi;
+                            setLatitude(newLatitude);
+                            setLongitude(newLongitude);
+                            setZoom(16);
+                        }
+                    })
+                })
+            } catch (error) {
+                throw error;
+            }
+        }
+    }, [addressDebouncedValue]);
+
+    const debounced = useDebouncedCallback(
+        (value) => {
+            setAddressDebouncedValue(value);
+        },
+        1000
+    );
+
+    const addressEventHandler = (e) => {
+        const {latlng} = e;
+        const {lat, lng} = latlng;
+        setLatitude(lat);
+        setLongitude(lng);
+        try {
+            const url = `http://api.positionstack.com/v1/reverse?access_key=ef70f7232d903256e72a4cda3ddb4ebd&query=${lat},${lng}`;
+            return fetch(url, {
+                method: 'GET'
+            }).then((response) => {
+                response.json().then(response => {
+                    const {data} = response;
+                    setGeneratedAddress(data[0].label)
+                })
+            })
+        } catch (error) {
+            throw error;
         }
     }
 
-    const startPort = {
-        center: [52, 19],
-        zoom: 5,
-    }
+    useEffect(() => {
+    }, [generatedAddress])
 
     const categoriesBar = Object.entries(categories).map((arr) => {
         const [categoryId, categoryObj] = arr
@@ -136,11 +180,11 @@ const EditTask = ({open, setOpen, id, task}) => {
                             />
                         </div>
                     </Form.Field>
-                    <Form.Field>
-                        <label>{t("newAddress")}</label>
-                        <input type='text' id='address' minLength="5" maxLength="100" defaultValue={task.address}
-                               ref={addressInput}/>
-                    </Form.Field>
+                    {/*<Form.Field>*/}
+                    {/*    <label>{t("newAddress")}</label>*/}
+                    {/*    <input type='text' id='address' maxLength="100" defaultValue={addressDebouncedValue}*/}
+                    {/*           ref={addressInput} onChange={(e) => debounced(e.target.value)}/>*/}
+                    {/*</Form.Field>*/}
                     <Form.Field>
                         <label>{t("newPay")}</label>
                         <input type='number' id='pay' maxLength="10" ref={payInput} defaultValue={task.pay}/>
@@ -151,7 +195,24 @@ const EditTask = ({open, setOpen, id, task}) => {
                                         defaultValue={task.estimatedTime}
                                         smooth/>
                     </Form.Field>
-                    <LocationPicker startPort={startPort} pointMode={pointMode} showControls={false}/>
+                    <Form.Field>
+                        <label htmlFor='address'>{t("findAddress")}</label>
+                        <input type='text' id='address' maxLength="100" defaultValue={addressDebouncedValue}
+                               ref={addressInput} onChange={(e) => debounced(e.target.value)}/>
+                    </Form.Field>
+                    {/*<LocationPicker startPort={startPort} pointMode={pointMode} showControls={false}/>*/}
+                    <div>
+                        <MapContainer className={classes.map__container} center={center} zoom={zoom}
+                                      scrollWheelZoom={true}>
+                            <MapLeafletComponent center={center} zoom={zoom} clickEventHandler={addressEventHandler}/>
+                            <TileLayer
+                                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                            />
+                            <Marker position={[latitude, longitude]}/>
+                        </MapContainer>
+                        {generatedAddress && <Message>{t("selectedAddress")}{generatedAddress}</Message>}
+                    </div>
                     <Button positive type='submit'>{t("submit")}</Button>
                     <Button negative onClick={onClose}>
                         {t("cancel")}

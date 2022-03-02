@@ -31,7 +31,7 @@ const NewTaskForm = () => {
     const [startDate, setStartDate] = useState(new Date());
     const [latitude, setLatitude] = useState(65);
     const [longitude, setLongitude] = useState(20);
-    const center = [latitude, longitude]
+    const center = [latitude, longitude];
     const [zoom, setZoom] = useState(5);
     const [generatedAddress, setGeneratedAddress] = useState();
     const [category, setCategory] = useState('Housework');
@@ -74,6 +74,7 @@ const NewTaskForm = () => {
         },
         1000
     );
+
     const addressEventHandler = (e) => {
         const {latlng} = e;
         const {lat, lng} = latlng;
