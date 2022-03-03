@@ -17,3 +17,7 @@
 .taskImage__button {
     margin: 2px !important;
 }
+
+.task__card {
+    box-shadow: 1px -1px 5px 3px #ccc !important;
+}

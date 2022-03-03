@@ -31,7 +31,7 @@ const TaskDetailsCard = ({
             }
 
 
-            <Card fluid>
+            <Card fluid className={classes.task__card}>
                 <Card.Content className={classes.category__container}>
                     <Message style={categoryColor} className={classes.category__chip}>{taskCategory}</Message>
                     <Message style={statusColor} className={classes.status__chip}>{taskStatus}</Message>

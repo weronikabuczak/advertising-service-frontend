@@ -1,13 +1,14 @@
 import {Card, Icon, Image} from "semantic-ui-react";
 import taskIcon from "../../../../../../files/task.png";
 import React from "react";
+import classes from "./TaskDetailsCard.module.css";
 import {useTranslation} from "react-i18next";
 
 export const TaskCreatedBy = ({task, avatar}) => {
     const {t} = useTranslation();
 
     return(
-        <Card fluid>
+        <Card fluid className={classes.task__card}>
             <Card.Content>
                 {avatar != null
                     ? <Image src={avatar} rounded size='tiny' floated='right'/>
