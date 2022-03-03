@@ -29,8 +29,6 @@ import {TaskCreatedBy} from "./TaskDetailsCard/TaskCreatedBy";
 import TaskDetailsCard from "./TaskDetailsCard/TaskDetailsCard";
 import DeleteTaskImage from "./TaskDetailsModals/DeleteTaskImage";
 import UpdateTaskImage from "./TaskDetailsModals/UpdateTaskImage";
-import {setPosition} from "leaflet/src/dom/DomUtil";
-import mapLeafletComponent from "../../../../NewTask/MapLeafletComponent";
 import MapLeafletComponent from "../../../../NewTask/MapLeafletComponent";
 
 const TaskDetails = () => {
