@@ -21,3 +21,17 @@
 .task__card {
     box-shadow: 1px -1px 5px 3px #ccc !important;
 }
+
+.card__content {
+    padding: 3px;
+    font-size: 1.1rem;
+}
+
+.card__username {
+    font-size: 1.3rem;
+    padding: 6px;
+}
+
+.card__header {
+    font-size: 1.4rem !important;
+}

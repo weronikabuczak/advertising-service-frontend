@@ -76,7 +76,7 @@ const AnotherUserDetails = ({open, setOpen, email}) => {
             <section className={classes.section}>
                 {anotherUserTasks.length > 0 ? (
                         <div>
-                            <h2>{t("completedTasks")}:</h2>
+                            <h2>{t("completedTasks")}</h2>
                             <ul>
                                 <Grid centered>
                                     <Grid.Column width={14}>

@@ -1,15 +1,17 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@700&family=Open+Sans:wght@400;700&display=swap');
+/*@import url('https://fonts.googleapis.com/css2?family=Lato:wght@700&family=Open+Sans:wght@400;700&display=swap');*/
 
 :root {
   --blue: #1e90ff;
   --white: #ffffff;
 }
 
-* {
-  font-family: 'Open Sans', 'Lato', sans-serif;
-}
+/** {*/
+/*  font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif;*/
+/*}*/
 
 body {
   background-color: #eee;
+  /*font-family: "Helvetica", serif !important;*/
+  font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif;
 }
 

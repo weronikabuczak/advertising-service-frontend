@@ -93,20 +93,21 @@ const OfferItem = ({offer, isUserTasks, currentOffId}) => {
     const deleteOpinionHandler = () => {
         setModalOpenDeleteOpinion(true);
     }
-const ratin333g = opinion.rating;
+// const rating = opinion.rating;
     return (<section>
         <AnotherUserDetails open={modalShowUser} setOpen={setModalShowUser} email={offer.user.email}/>
 
-        {isUserTasks && offer.status === 'ACTIVE' && <Card fluid>
+        {isUserTasks && offer.status === 'ACTIVE' &&
+            <Card fluid className={classes.task__card}>
             <Card.Content>
                 {offer.user.image != null ? <Image src={offer.user.image} rounded size='tiny' floated='right'/> :
                     <Image src={profile} rounded size='tiny' floated='right'/>}
 
-                <Card.Header>{t("offerFrom")}</Card.Header>
-                <Card.Content>{offer.user.name}</Card.Content>
-                <Card.Content><Icon name='home'/>{offer.user.location}</Card.Content>
-                <Card.Content><Icon name='phone'/>{offer.user.phoneNumber}</Card.Content>
-                <Card.Content><Icon name='mail'/>{offer.user.email}</Card.Content>
+                <Card.Header className={classes.card__header}>{t("offerFrom")}</Card.Header>
+                <Card.Content className={classes.card__username}>{offer.user.name}</Card.Content>
+                <Card.Content className={classes.card__content}><Icon name='home'/>{offer.user.location}</Card.Content>
+                <Card.Content className={classes.card__content}><Icon name='phone'/>{offer.user.phoneNumber}</Card.Content>
+                <Card.Content className={classes.card__content}><Icon name='mail'/>{offer.user.email}</Card.Content>
                 <Button animated circular onClick={showUser} className={classes.offer__button}>
                     <Button.Content visible>{offer.user.email}</Button.Content>
                     <Button.Content hidden>
@@ -116,10 +117,10 @@ const ratin333g = opinion.rating;
             </Card.Content>
             <Card.Content extra>
                 <div className='ui two buttons'>
-                    <Button circular basic color='green' onClick={acceptOffer}>
+                    <Button circular  color='teal' onClick={acceptOffer}>
                         {t("accept")}
                     </Button>
-                    <Button circular basic color='red' onClick={rejectOffer}>
+                    <Button circular  color='google plus' onClick={rejectOffer}>
                         {t("reject")}
                     </Button>
                 </div>
@@ -129,7 +130,6 @@ const ratin333g = opinion.rating;
         {isUserTasks && offer.status === 'ACCEPTED' && <Card fluid>
             <Card.Content>
                 {offer.user.image != null ? <Image src={offer.user.image} rounded size='tiny' floated='right'/>
-                    //todo get image
                     : <Image src={profile} rounded size='tiny' floated='right'/>}
                 <Card.Header>{t("jobIsPerformedBy")}</Card.Header>
                 <Card.Content>{offer.user.name}</Card.Content>
@@ -142,20 +142,20 @@ const ratin333g = opinion.rating;
                         <Icon size='large' name='calendar outline'/>
                     </Button.Content>
                 </Button>
-                {taskCompleted && <div className={classes.offerInfo__card}>
-                    {t("jobCompleted")}
-                </div>}
+                {/*{taskCompleted && <div className={classes.offerInfo__card}>*/}
+                {/*    {t("jobCompleted")}*/}
+                {/*</div>}*/}
             </Card.Content>
         </Card>}
-        {isUserTasks && offer.status === 'COMPLETED' && !offer.hasOpinion && !opinionSent && <Card fluid>
+        {isUserTasks && offer.status === 'COMPLETED' && !offer.hasOpinion && !opinionSent && <Card fluid className={classes.task__card}>
             <Card.Content>
                 {offer.user.image != null ? <Image src={offer.user.image} rounded size='tiny' floated='right'/> :
                     <Image src={profile} rounded size='tiny' floated='right'/>}
-                <Card.Header>{t("taskCompletedBy")}</Card.Header>
-                <Card.Content>{offer.user.name}</Card.Content>
-                <Card.Content><Icon name='home'/>{offer.user.location}</Card.Content>
-                <Card.Content><Icon name='phone'/>{offer.user.phoneNumber}</Card.Content>
-                <Card.Content><Icon name='mail'/>{offer.user.email}</Card.Content>
+                <Card.Header className={classes.card__header}>{t("taskCompletedBy")}</Card.Header>
+                <Card.Content className={classes.card__username}>{offer.user.name}</Card.Content>
+                <Card.Content className={classes.card__content}><Icon name='home'/>{offer.user.location}</Card.Content>
+                <Card.Content className={classes.card__content}><Icon name='phone'/>{offer.user.phoneNumber}</Card.Content>
+                <Card.Content className={classes.card__content}><Icon name='mail'/>{offer.user.email}</Card.Content>
                 <Divider/>
                 {!offer.hasOpinion && <Form onSubmit={createOpinionHandler}>
                     <Header as='h4'>{t("sendOpinion")}</Header>
@@ -179,28 +179,31 @@ const ratin333g = opinion.rating;
             {offerRejected && <p>{t("offerRejected")}</p>}
         </div>}
 
-        {offer.hasOpinion && opinion && (<Card fluid>
+        {offer.hasOpinion && opinion && (<Card fluid className={classes.task__card}>
             <DeleteOpinion open={modalOpenDeleteOpinion} setOpen={setModalOpenDeleteOpinion} id={offer.task.id}
                            setOpinionSent={setOpinionSent}/>
             <Card.Content>
                 <Card.Header>{t("feedbackFor")}
+                    {offer.user.image != null ? <Image src={offer.user.image} rounded size='tiny' floated='right'/> :
+                        <Image src={profile} rounded size='tiny' floated='right'/>}
                     <Button className={classes.offer__button} animated onClick={showUser}>
                         <Button.Content visible>{offer.user.email}</Button.Content>
                         <Button.Content hidden>
                             {t("seeDetails")}
                         </Button.Content>
                     </Button>
-                    <Button onClick={deleteOpinionHandler}>Usuń opinię</Button>
+
+
                 </Card.Header>
                 {opinion &&
-                    <Segment>
+                    <Segment className={classes.rating__segment}>
                         <Rating maxRating={5} icon='star' size='huge' rating={opinion.rating}
                                 disabled />
                         {opinion.content &&
-                            <Card.Content> <strong>{t("content")}: </strong>{opinion.content}</Card.Content>}
+                            <Card.Content className={classes.opinion__content}>{opinion.content}</Card.Content>}
                     </Segment>
                 }
-
+                <Button onClick={deleteOpinionHandler} className={classes.offer__button}>Usuń opinię</Button>
             </Card.Content>
         </Card>)}
     </section>);

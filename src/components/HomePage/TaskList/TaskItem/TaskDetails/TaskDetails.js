@@ -144,8 +144,8 @@ const TaskDetails = () => {
                         </Marker>
                     </MapContainer>
                     <Divider/>
-                    <Container textAlign='justified'>
-                        <Header>{t("details")}:</Header>
+                    <Container className={classes.task__detailsContainer} textAlign='justified'>
+                        <Header className={classes.taskDetails__header}>{t("details")}</Header>
                         {task.content}</Container>
                 </Grid.Column>
                 <Grid.Column width={8}>

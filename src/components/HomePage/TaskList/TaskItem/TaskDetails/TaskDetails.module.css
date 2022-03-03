@@ -18,6 +18,17 @@
     border-radius: 5px;
 }
 
+.task__detailsContainer {
+    border: 1px solid #ccc;
+    padding: 15px;
+    border-radius: 12px;
+    background-color: #fbfbfb;
+}
+
+.taskDetails__header {
+    padding-bottom: 8px !important;
+}
+
 
 @keyframes slide-out-blurred-right {
     0% {

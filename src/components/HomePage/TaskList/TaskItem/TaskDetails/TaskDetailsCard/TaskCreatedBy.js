@@ -14,11 +14,11 @@ export const TaskCreatedBy = ({task, avatar}) => {
                     ? <Image src={avatar} rounded size='tiny' floated='right'/>
                     : <Image src={taskIcon} rounded size='tiny' floated='right'/>
                 }
-                <Card.Header>{t("createdBy")}</Card.Header>
-                <Card.Content>{task.user.name}</Card.Content>
-                <Card.Content><Icon name='home'/>{task.user.location}</Card.Content>
-                <Card.Content><Icon name='phone'/>{task.user.phoneNumber}</Card.Content>
-                <Card.Content><Icon name='mail'/>{task.user.email}</Card.Content>
+                <Card.Header className={classes.card__header}>{t("createdBy")}</Card.Header>
+                <Card.Content className={classes.card__username}>{task.user.name}</Card.Content>
+                <Card.Content className={classes.card__content}><Icon name='home'/>{task.user.location}</Card.Content>
+                <Card.Content className={classes.card__content}><Icon name='phone'/>{task.user.phoneNumber}</Card.Content>
+                <Card.Content className={classes.card__content}><Icon name='mail'/>{task.user.email}</Card.Content>
             </Card.Content>
         </Card>
     )

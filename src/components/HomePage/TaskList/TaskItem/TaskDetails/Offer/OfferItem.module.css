@@ -11,6 +11,33 @@
     display: block !important;
 }
 
+.task__card {
+    box-shadow: 1px -1px 5px 3px #ccc !important;
+}
+
+.card__content {
+    padding: 3px;
+    font-size: 1.1rem;
+}
+
+.card__username {
+    font-size: 1.3rem;
+    padding: 6px;
+}
+
+.card__header {
+    font-size: 1.4rem !important;
+}
+
+.rating__segment {
+    font-size: 1.1rem !important;
+    box-shadow: 1px 1px 1px 0px #ccc !important;
+}
+
+.opinion__content {
+    padding-top: 15px;
+}
+
 @keyframes slide-out-blurred-right {
     0% {
         transform: translateX(0) scaleY(1) scaleX(1);
