@@ -173,6 +173,7 @@ const EditTask = ({open, setOpen, id, task}) => {
                         <div className={classes.control}>
                             <label htmlFor='expirationDate'>{t("expDate")}</label>
                             <DatePicker
+                                dateFormat='dd.MM.yyyy'
                                 selected={startDate}
                                 onChange={date => setStartDate(date)}
                                 minDate={new Date()}

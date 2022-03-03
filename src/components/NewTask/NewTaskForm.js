@@ -177,6 +177,7 @@ const NewTaskForm = () => {
                     <div className={classes.control__secondary}>
                         <label htmlFor='expirationDate'>{t("expDate")}</label>
                         <DatePicker
+                            dateFormat='dd.MM.yyyy'
                             selected={startDate}
                             onChange={date => setStartDate(date)}
                             minDate={new Date()}

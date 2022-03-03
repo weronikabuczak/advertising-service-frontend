@@ -20,6 +20,10 @@ section {
   display: flex;
 }
 
+.localization__buttons {
+  margin-bottom: 12px;
+}
+
 
 @media (max-width: 768px) {
   .localization__buttons {

@@ -1,5 +1,5 @@
 import classes from './HomePageContent.module.css';
-import {Button, Checkbox, Grid, Icon} from "semantic-ui-react";
+import {Button, Checkbox, Grid, Icon, Input} from "semantic-ui-react";
 import TaskList from "./TaskList/TaskList";
 import {MapContainer, Marker, TileLayer} from "react-leaflet";
 import L from 'leaflet';
@@ -19,6 +19,7 @@ import {useTranslation} from "react-i18next";
 import {getCategoryLabel} from "../../utils/functions";
 import i18n from "../../i18n";
 import MapLeafletComponent from "../NewTask/MapLeafletComponent";
+import {useDebouncedCallback} from "use-debounce";
 
 const HomePageContent = () => {
     const {t} = useTranslation();
@@ -34,6 +35,31 @@ const HomePageContent = () => {
     const [zoom, setZoom] = useState(6);
     const [category, setCategory] = useState('');
     const [status] = useState('AWAITING');
+    const [addressDebouncedValue, setAddressDebouncedValue] = useState();
+
+    useEffect(() => {
+        if (addressDebouncedValue) {
+            try {
+                let url = `http://api.positionstack.com/v1/forward?access_key=ef70f7232d903256e72a4cda3ddb4ebd&query=${addressDebouncedValue}`;
+                return fetch(url, {
+                    method: 'GET'
+                }).then((response) => {
+                    response.json().then(response => {
+                        const {data} = response;
+                        const locationFromApi = data[0];
+                        if (locationFromApi) {
+                            const {latitude: newLatitude, longitude: newLongitude} = locationFromApi;
+                            setLatitude(newLatitude);
+                            setLongitude(newLongitude);
+                            setZoom(16);
+                        }
+                    })
+                })
+            } catch (error) {
+                throw error;
+            }
+        }
+    }, [addressDebouncedValue]);
 
     const overflowTaskListStyle = {overflow: "auto", height: "778px"};
 
@@ -98,7 +124,7 @@ const HomePageContent = () => {
     const categoriesBar = Object.entries(categories).map((arr) => {
         const [categoryId, categoryObj] = arr
         const label = getCategoryLabel(categoryId, language);
-        return <Button  compact size='medium' color={categoryObj.colors}>
+        return <Button compact size='medium' color={categoryObj.colors}>
             <Checkbox radio label={label}
                       category={categoryId}
                       defaultChecked={category}
@@ -107,6 +133,13 @@ const HomePageContent = () => {
         </Button>
     })
 
+    const debounced = useDebouncedCallback(
+        (value) => {
+            setAddressDebouncedValue(value);
+        },
+        1000
+    );
+
     return (
         <section>
             <Grid>
@@ -114,12 +147,14 @@ const HomePageContent = () => {
                     <Grid.Column width={1}/>
                     <Grid.Column width={15}>
                         <div className={classes.localization__buttons}>
-                            <Button floated='left' onClick={localizationHandler}>
-                                <Icon name='compass'/>{t("detectLocation")}
-                            </Button>
+                            <Input placeholder={t("enterAddress")} onChange={(e) => debounced(e.target.value)}/>
                             <Button floated='left' onClick={resetMapHandler} className={classes.resetMap__button}>
                                 {t("defaultMap")}
                             </Button>
+                            <Button floated='left' onClick={localizationHandler}>
+                                <Icon name='compass'/>{t("detectLocation")}
+                            </Button>
+
                         </div>
                         <div>
                             <Button className={classes.category__buttons} content='' floated='left'
