@@ -1,0 +1,29 @@
+.label {
+    font-weight: bold;
+    margin-bottom: 1rem !important;
+}
+
+.categoryButtons {
+    display: block !important;
+    padding-top: 0.8rem;
+    padding-bottom: 0.9rem;
+}
+
+.datePicker {
+    margin-top: 1rem !important;
+}
+
+.map__container {
+    height: 300px;
+    z-index: 0;
+    margin-bottom: 1rem;
+}
+
+.addressMessage {
+    margin-bottom: 1rem !important;
+}
+
+.quantityPicker {
+    display: flex;
+    justify-content: center;
+}

@@ -82,7 +82,7 @@ const UserTasks = () => {
         <Button.Group className={classes.task__buttons}>
             <Button content='' floated='left' onClick={filterTasks}>{t("all")}</Button>
             {statusesBar}
-            <Button floated='left' onClick={getTaskCompletedByMe}>{t("doneByMe")}</Button>
+            {/*<Button floated='left' onClick={getTaskCompletedByMe}>{t("doneByMe")}</Button>*/}
         </Button.Group>
         {tasks?.length > 0 && tasks && !showCompletedTasks
             ?

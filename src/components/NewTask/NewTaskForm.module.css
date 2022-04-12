@@ -9,32 +9,32 @@
     animation: content 0.1s cubic-bezier(0.39, 0.575, 0.565, 1) both;
 }
 
-.section:hover {
-    animation: content-hover 0.1s cubic-bezier(0.39, 0.575, 0.565, 1) both;
-}
+/*.section:hover {*/
+/*    animation: content-hover 0.1s cubic-bezier(0.39, 0.575, 0.565, 1) both;*/
+/*}*/
 
 .section h2 {
     text-align: center;
     color: #1F1D36;
 }
 
-@keyframes content {
-    0% {
-        transform: scale(1.005);
-    }
-    100% {
-        transform: scale(1);
-    }
-}
+/*@keyframes content {*/
+/*    0% {*/
+/*        transform: scale(1.005);*/
+/*    }*/
+/*    100% {*/
+/*        transform: scale(1);*/
+/*    }*/
+/*}*/
 
-@keyframes content-hover {
-    0% {
-        transform: scale(1);
-    }
-    100% {
-        transform: scale(1.005);
-    }
-}
+/*@keyframes content-hover {*/
+/*    0% {*/
+/*        transform: scale(1);*/
+/*    }*/
+/*    100% {*/
+/*        transform: scale(1.005);*/
+/*    }*/
+/*}*/
 
 
 .control__main {
