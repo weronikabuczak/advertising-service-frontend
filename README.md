@@ -8,15 +8,15 @@ The application is focusing on creating advertisements regarding small services.
 
 Use Case Diagram:
 
-![image](https://ibb.co/M2sBHRb)
+![image](https://i.ibb.co/h7yYNKk/use-case.png)
 
 Home page of the application (in polish language):
 
-![image](https://ibb.co/kQG3H4s)
+![image](https://i.ibb.co/Rzghv3k/Screenshot-4.png)
 
 Sign in/Sign up view (with alert regarding bad credentials):
 
-![image](https://ibb.co/KrMn7Vp)
+![image](https://i.ibb.co/kSRZ0qs/Screenshot-5.png)
 
 The form which allows user to create new advertisement/task. The user should specify the:
 - category,
@@ -29,11 +29,11 @@ The form which allows user to create new advertisement/task. The user should spe
 - precise address, which is bound to the map below the address field. 
 User can also specify the location by clicking on desired place on the map, then the address field should be filled automatically.
 
-![image](https://ibb.co/QK0VhdG)
+![image](https://i.ibb.co/MCdHK6L/Screenshot-1.png)
 
 Detailed view of task with pending proposal from other user.
 
-![image](https://ibb.co/BCjVTqs)
+![image](https://i.ibb.co/P64Z1wC/Screenshot-2.png)
 
 
 
