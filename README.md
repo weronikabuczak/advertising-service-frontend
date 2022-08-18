@@ -6,11 +6,13 @@ The aim of the project was to design and implement a web application which could
 
 The application is focusing on creating advertisements regarding small services. It could also help people who are interested in part-time job opportunities in their neighbourhood.
 
+The service is available in Polish and English (the switch is placed on the right side of the navigation bar).
+
 Use Case Diagram:
 
 ![image](https://i.ibb.co/h7yYNKk/use-case.png)
 
-Home page of the application (in polish language):
+Home page of the application (in Polish):
 
 ![image](https://i.ibb.co/Rzghv3k/Screenshot-4.png)
 
