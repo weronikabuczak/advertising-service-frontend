@@ -1,70 +1,40 @@
-# Getting Started with Create React App
+The aim of the project was to design and implement a web application which could act as a advertising service. The application should allow the users to:
+- Create and modify advertisements (tasks) for additional work (odd-jobs)
+- Browse the already added ads
+- Ability to send a proposal for the execution of a task to the user who created the ad and the ability to approve the proposal
+- Possibility of creating and deleting an opinion related to the accomplished tasks.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The application is focusing on creating advertisements regarding small services. It could also help people who are interested in part-time job opportunities in their neighbourhood.
 
-## Available Scripts
+Use Case Diagram:
 
-In the project directory, you can run:
+![image](https://ibb.co/M2sBHRb)
 
-### `npm start`
+Home page of the application (in polish language):
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+![image](https://ibb.co/kQG3H4s)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Sign in/Sign up view (with alert regarding bad credentials):
 
-### `npm test`
+![image](https://ibb.co/KrMn7Vp)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The form which allows user to create new advertisement/task. The user should specify the:
+- category,
+- title, 
+- task details,
+- expiration date,
+- pay, 
+- estimated time, 
+- image (optional),
+- precise address, which is bound to the map below the address field. 
+User can also specify the location by clicking on desired place on the map, then the address field should be filled automatically.
 
-### `npm run build`
+![image](https://ibb.co/QK0VhdG)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Detailed view of task with pending proposal from other user.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+![image](https://ibb.co/BCjVTqs)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
